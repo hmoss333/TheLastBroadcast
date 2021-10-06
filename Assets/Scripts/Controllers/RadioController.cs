@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RadioController : MonoBehaviour
+public class RadioController : InteractObject
 {
     public static RadioController instance;
 
-
+    [SerializeField] GameObject radioPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -18,5 +18,12 @@ public class RadioController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public override void Interact()
+    {
+        base.Interact();
+
+        radioPrefab.SetActive(interacting);
     }
 }

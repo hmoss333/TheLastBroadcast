@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AntennaController : MonoBehaviour
+public class AntennaController : InteractObject
 {
     public static AntennaController instance;
 

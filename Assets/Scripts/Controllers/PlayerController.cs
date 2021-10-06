@@ -9,77 +9,83 @@ public class PlayerController : MonoBehaviour
 
     //Player Movement Controls
     Rigidbody rb;
-    float horizontal;
-    float vertical;
+    float horizontal, vertical;
     [SerializeField] float speed;
-    public enum Direction { left, right, up, down, idle };
-    public Direction direction;
+    float storedSpeed;
+    [SerializeField] Vector3 lastDir = new Vector3();
 
 
-    [SerializeField]
-    bool interacting;
+    public bool interacting;
+    [SerializeField] LayerMask layer;
+    [SerializeField] float checkDist;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        storedSpeed = speed;
         rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Interact") && !interacting)
+        if (Input.GetButtonDown("Interact"))
         {
-            StartCoroutine(Interact());
+            Interact();
         }
-
-
-        //Convert input to local value
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-
-
-        //Movement Controller
-        if (interacting)
-        {
-            //Force Player to Idle
-            horizontal = 0;
-            vertical = 0;
-
-            direction = Direction.idle;
-        }
-        else
-        {
-            //Direction Controls for Animation
-            if (horizontal > 0)
-                direction = Direction.right;
-            else if (horizontal < 0)
-                direction = Direction.left;
-            else if (vertical > 0)
-                direction = Direction.up;
-            else if (vertical < 0)
-                direction = Direction.down;
-            else
-                direction = Direction.idle;
-        }
-        
     }
 
     private void FixedUpdate()
     {
+        //Convert input to local value
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
+
+        //Movement Controller
+        if (interacting)
+        {
+            speed = 0; //stop all player movement
+        }
+        else
+        {
+            speed = storedSpeed; //restore default player movement
+
+            //Save last input vector for interact raycast
+            if (horizontal != 0 || vertical != 0)
+            {
+                lastDir.x = horizontal;
+                lastDir.z = vertical;
+            }
+        }
+
         //Move player in FixedUpdate for consistent performance
         rb.velocity = new Vector3(horizontal * speed, 0, vertical * speed);
     }
 
-    IEnumerator Interact()
+    void Interact()
     {
-        interacting = true;
+        GameObject interactObj;
+        Vector3 rayDir = lastDir.normalized;
+        Ray ray = new Ray(transform.position, rayDir);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, layer))
+        {
+            interactObj = hit.transform.gameObject;
+            float dist = Vector3.Distance(transform.position, interactObj.transform.position);
+            if (dist <= checkDist)
+            {
+                interacting = !interacting;
 
-        Debug.Log("Interacting");
-
-        yield return new WaitForSeconds(0.5f);
-
-        interacting = false;
+                try
+                {
+                    interactObj.GetComponent<InteractObject>().Interact();
+                }
+                catch
+                {
+                    Debug.Log("Object is missing interactable script: " + interactObj.name);
+                }
+            }
+        }
     }
 }
