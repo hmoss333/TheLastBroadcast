@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Convert input to local value
+        ////Convert input to local value
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
@@ -57,10 +57,26 @@ public class PlayerController : MonoBehaviour
                 lastDir.x = horizontal;
                 lastDir.z = vertical;
             }
-        }
+            //}
 
-        //Move player in FixedUpdate for consistent performance
-        rb.velocity = new Vector3(horizontal * speed, 0, vertical * speed);
+            //Move player in FixedUpdate for consistent performance
+            rb.velocity = new Vector3(horizontal * speed, 0, vertical * speed);
+
+            // Determine which direction to rotate towards
+            Vector3 targetDirection = lastDir;// - transform.position;
+
+            // The step size is equal to speed times frame time.
+            float singleStep = speed * Time.deltaTime;
+
+            // Rotate the forward vector towards the target direction by one step
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+
+            // Draw a ray pointing at our target in
+            Debug.DrawRay(transform.position, newDirection, Color.red);
+
+            // Calculate a rotation a step closer to the target and applies rotation to this object
+            transform.rotation = Quaternion.LookRotation(newDirection);
+        }
     }
 
     void Interact()
