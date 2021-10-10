@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController instance;
+
     public Transform target;
     public float smoothTime = 0.3F;
     public float camYOffset;
     public float camZOffset;
-    private Vector3 velocity = Vector3.zero;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -24,4 +34,9 @@ public class CameraController : MonoBehaviour
         pos.y += camYOffset;
         transform.position = pos;
     }
+
+    public void SetTarget(GameObject newTargetObj)
+    {
+        target = newTargetObj.transform;
+    } 
 }

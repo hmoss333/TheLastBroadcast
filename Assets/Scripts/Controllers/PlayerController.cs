@@ -20,6 +20,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float checkDist;
 
 
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {

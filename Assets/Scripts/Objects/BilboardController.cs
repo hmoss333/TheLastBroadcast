@@ -8,6 +8,15 @@ public class BilboardController : InteractObject
 
     [SerializeField] GameObject bilboardPrefab;
 
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {

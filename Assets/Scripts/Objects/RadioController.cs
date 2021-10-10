@@ -8,6 +8,20 @@ public class RadioController : InteractObject
 
     [SerializeField] GameObject radioPrefab;
 
+    public float powerLevel;
+    public float antennaLevel;
+    public float station;
+    public int channel;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +31,7 @@ public class RadioController : InteractObject
     // Update is called once per frame
     void Update()
     {
-        
+        //TODO put radio controls here
     }
 
     public override void Interact()
