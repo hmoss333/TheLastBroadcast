@@ -34,7 +34,7 @@ public class TriggerObject : InteractObject
 
     IEnumerator TriggerEvent()
     {
-        yield return new WaitForSeconds(delayTime);
+        yield return new WaitForSeconds(0.5f);
 
         for (int i = 0; i < objectsToTrigger.Count; i++)
         {
@@ -44,6 +44,8 @@ public class TriggerObject : InteractObject
 
             yield return new WaitForSeconds(delayTime);
         }
+
+        //yield return new WaitForSeconds(delayTime);
 
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         PlayerController.instance.interacting = false;
