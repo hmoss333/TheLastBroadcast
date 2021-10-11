@@ -8,6 +8,7 @@ public class FadeController : MonoBehaviour
     public static FadeController instance;
 
     [SerializeField] Image objectToFade;
+    public bool isFading;
 
 
     private void Awake()
@@ -18,18 +19,6 @@ public class FadeController : MonoBehaviour
             Destroy(this.gameObject);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void StartFade(float aValue, float aTime)
     {
         StartCoroutine(FadeTo(aValue, aTime));
@@ -37,6 +26,8 @@ public class FadeController : MonoBehaviour
 
     IEnumerator FadeTo(float aValue, float aTime)
     {
+        isFading = true;
+
         float alpha = objectToFade.color.a;
         for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
         {
@@ -44,5 +35,7 @@ public class FadeController : MonoBehaviour
             objectToFade.color = newColor;
             yield return null;
         }
+
+        isFading = false;
     }
 }

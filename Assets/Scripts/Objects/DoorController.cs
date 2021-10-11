@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class DoorController : InteractObject
 {
-    [SerializeField] GameObject nextRoom;
+    [SerializeField] DoorController targetDoor;
+    [SerializeField] Transform exitPoint;
 
 
     // Start is called before the first frame update
@@ -33,9 +34,21 @@ public class DoorController : InteractObject
         FadeController.instance.StartFade(1.0f, 1f);
         //load next room
 
-        //Testing for now
-        yield return new WaitForSeconds(2f);
+        while (FadeController.instance.isFading)
+            yield return null;
+
+        if (!targetDoor.transform.parent.gameObject.activeSelf)
+            targetDoor.transform.parent.gameObject.SetActive(true);
+
+        PlayerController.instance.gameObject.transform.position = targetDoor.exitPoint.position;
+
+        transform.parent.gameObject.SetActive(false);
 
         FadeController.instance.StartFade(0.0f, 1f);
+
+        //while (FadeController.instance.isFading)
+        //    yield return null;
+
+        PlayerController.instance.interacting = false;
     }
 }
