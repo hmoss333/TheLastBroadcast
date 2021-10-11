@@ -8,16 +8,20 @@ public class TriggerObject : InteractObject
     [SerializeField] List<GameObject> objectsToTrigger;
     [SerializeField] float delayTime;
 
+
+    [SerializeField] GameObject buttonObj;
+    [SerializeField] Material buttonMat;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        buttonMat = buttonObj.GetComponent<MeshRenderer>().material;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        buttonMat.color = interacted ? Color.green : Color.red;
     }
 
     public override void Interact()
@@ -38,11 +42,14 @@ public class TriggerObject : InteractObject
 
         for (int i = 0; i < objectsToTrigger.Count; i++)
         {
-            CameraController.instance.SetTarget(objectsToTrigger[i]);
-
             objectsToTrigger[i].SetActive(!objectsToTrigger[i].activeSelf);
 
-            yield return new WaitForSeconds(delayTime);
+            if (objectsToTrigger[i].transform.parent.gameObject.activeSelf)
+            {
+                CameraController.instance.SetTarget(objectsToTrigger[i]);
+
+                yield return new WaitForSeconds(delayTime);
+            }
         }
 
         //yield return new WaitForSeconds(delayTime);

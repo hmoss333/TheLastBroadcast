@@ -93,16 +93,15 @@ public class PlayerController : MonoBehaviour
         Vector3 rayDir = lastDir.normalized;
         Ray ray = new Ray(transform.position, rayDir);
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, layer))
+        if(Physics.Raycast(ray, out hit, 8))
         {
             interactObj = hit.transform.gameObject;
             float dist = Vector3.Distance(transform.position, interactObj.transform.position);
             if (dist <= checkDist)
             {
-                interacting = !interacting;
-
                 try
                 {
+                    interacting = !interacting;
                     interactObj.GetComponent<InteractObject>().Interact();
                 }
                 catch
