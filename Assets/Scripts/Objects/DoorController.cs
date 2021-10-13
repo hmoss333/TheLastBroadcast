@@ -46,9 +46,6 @@ public class DoorController : InteractObject
 
         FadeController.instance.StartFade(0.0f, 1f);
 
-        //while (FadeController.instance.isFading)
-        //    yield return null;
-
         PlayerController.instance.interacting = false;
     }
 }

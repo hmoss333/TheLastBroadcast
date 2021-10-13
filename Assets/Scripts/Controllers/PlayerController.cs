@@ -11,9 +11,9 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     float horizontal, vertical;
     [SerializeField] float speed;
+    [SerializeField] float rotSpeed;
     float storedSpeed;
-    [SerializeField] Vector3 lastDir = new Vector3();
-
+    Vector3 lastDir, lastDir1, lastDir2;
 
     public bool interacting;
     [SerializeField] LayerMask layer;
@@ -46,10 +46,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        ////Convert input to local value
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-
         //Movement Controller
         if (interacting)
         {
@@ -57,6 +53,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            horizontal = Input.GetAxisRaw("Horizontal");
+            vertical = Input.GetAxisRaw("Vertical");
+
             speed = storedSpeed; //restore default player movement
 
             //Save last input vector for interact raycast
@@ -65,22 +64,25 @@ public class PlayerController : MonoBehaviour
                 lastDir.x = horizontal;
                 lastDir.z = vertical;
             }
-            //}
 
             //Move player in FixedUpdate for consistent performance
             rb.velocity = new Vector3(horizontal * speed, 0, vertical * speed);
 
             // Determine which direction to rotate towards
-            Vector3 targetDirection = lastDir;// - transform.position;
+            Vector3 targetDirection = lastDir;
 
             // The step size is equal to speed times frame time.
-            float singleStep = speed * Time.deltaTime;
+            float singleStep = rotSpeed * Time.deltaTime;
 
             // Rotate the forward vector towards the target direction by one step
             Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+            lastDir1 = (transform.forward - transform.right).normalized;
+            lastDir2 = (transform.forward + transform.right).normalized;
 
-            // Draw a ray pointing at our target in
-            Debug.DrawRay(transform.position, newDirection, Color.red);
+            // Draw rays pointing in all interact directions
+            Debug.DrawRay(transform.position, newDirection, Color.white);
+            Debug.DrawRay(transform.position, lastDir1, Color.white);
+            Debug.DrawRay(transform.position, lastDir2, Color.white);
 
             // Calculate a rotation a step closer to the target and applies rotation to this object
             transform.rotation = Quaternion.LookRotation(newDirection);
@@ -89,25 +91,47 @@ public class PlayerController : MonoBehaviour
 
     void Interact()
     {
-        GameObject interactObj;
+        GameObject interactObj = null;
         Vector3 rayDir = lastDir.normalized;
         Ray ray = new Ray(transform.position, rayDir);
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, 8))
+        Ray ray1 = new Ray(transform.position, lastDir1);
+        Ray ray2 = new Ray(transform.position, lastDir2);
+        RaycastHit hit, hit1, hit2;
+
+        if(Physics.Raycast(ray, out hit, checkDist, layer))
         {
+            Debug.Log("Hit Mid");
             interactObj = hit.transform.gameObject;
-            float dist = Vector3.Distance(transform.position, interactObj.transform.position);
-            if (dist <= checkDist)
+
+            if (lastDir.magnitude <= checkDist)
             {
-                try
-                {
-                    interacting = !interacting;
-                    interactObj.GetComponent<InteractObject>().Interact();
-                }
-                catch
-                {
-                    Debug.Log("Object is missing interactable script: " + interactObj.name);
-                }
+                interacting = !interacting;
+
+                interactObj.GetComponent<InteractObject>().Interact();
+            }
+        }
+        else if (Physics.Raycast(ray1, out hit1, checkDist, layer))
+        {
+            Debug.Log("Hit Left");
+            interactObj = hit1.transform.gameObject;
+
+            if (lastDir1.magnitude <= checkDist)
+            {
+                interacting = !interacting;
+
+                interactObj.GetComponent<InteractObject>().Interact();
+            }
+        }
+        else if (Physics.Raycast(ray2, out hit2, checkDist, layer))
+        {
+            Debug.Log("Hit Right");
+            interactObj = hit2.transform.gameObject;
+
+            if (lastDir2.magnitude <= checkDist)
+            {
+                interacting = !interacting;
+
+                interactObj.GetComponent<InteractObject>().Interact();
             }
         }
     }
