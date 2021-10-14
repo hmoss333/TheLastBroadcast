@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class InteractObject : MonoBehaviour
 {
-    public bool interacting, singleUse;
+    public bool interacting, singleUse, triggered;
+
+    public Material triggerMaterial;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +23,7 @@ public class InteractObject : MonoBehaviour
     public virtual void Interact()
     {
         interacting = !interacting;
+        PlayerController.instance.interacting = interacting;
 
         if (interacting)
         {
@@ -30,5 +33,12 @@ public class InteractObject : MonoBehaviour
         {
             Debug.Log("Finished interacting with " + name);
         }
+    }
+
+    public virtual void Trigger()
+    {
+        triggered = true;
+
+        Debug.Log("Triggered object " + name);
     }
 }

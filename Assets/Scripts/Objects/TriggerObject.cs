@@ -42,7 +42,14 @@ public class TriggerObject : InteractObject
 
         for (int i = 0; i < objectsToTrigger.Count; i++)
         {
-            objectsToTrigger[i].SetActive(!objectsToTrigger[i].activeSelf);
+            try
+            {
+                objectsToTrigger[i].GetComponent<InteractObject>().Trigger();
+            }
+            catch
+            {
+                Debug.Log("Object " + objectsToTrigger[i] + " does not have an attached InteractObject script");
+            }
 
             if (objectsToTrigger[i].transform.parent.gameObject.activeSelf)
             {

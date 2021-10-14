@@ -289,6 +289,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interacting: 0
   singleUse: 0
+  triggered: 0
+  triggerMaterial: {fileID: 0}
   bilboardPrefab: {fileID: 2052725336}
 --- !u!65 &342732572
 BoxCollider:
@@ -721,7 +723,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -1295,8 +1297,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 939297810612899282, guid: 344ef06408ad547b3abb6715ff8dd6f0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 939297810612899284, guid: 344ef06408ad547b3abb6715ff8dd6f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: fdb95a21c7c5c4723854c5dada70c663, type: 2}
     - target: {fileID: 939297810612899286, guid: 344ef06408ad547b3abb6715ff8dd6f0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.5
@@ -1341,6 +1347,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 939297810612899287, guid: 344ef06408ad547b3abb6715ff8dd6f0, type: 3}
+      propertyPath: triggerMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: d73f54d5768ee40ebb1668842ded6fc8, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 344ef06408ad547b3abb6715ff8dd6f0, type: 3}
 --- !u!23 &1105563066399517742
@@ -1507,8 +1517,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2366006170436149529, guid: fb352e5f92453429caf65976cac6137e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2366006170436149531, guid: fb352e5f92453429caf65976cac6137e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: fdb95a21c7c5c4723854c5dada70c663, type: 2}
+    - target: {fileID: 2366006170436149532, guid: fb352e5f92453429caf65976cac6137e, type: 3}
+      propertyPath: triggerMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 8f4d4bdabab0542a0b25e7b4bf1540e1, type: 2}
     - target: {fileID: 2366006170436149533, guid: fb352e5f92453429caf65976cac6137e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4
@@ -1621,6 +1639,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interacting: 0
   singleUse: 0
+  triggered: 0
+  triggerMaterial: {fileID: 0}
   interacted: 0
   objectsToTrigger:
   - {fileID: 1204570025}
@@ -1706,12 +1726,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3412513304071608443, guid: 56505548bb2a744afa9e0c5e2e10c94a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3412513304071608445, guid: 56505548bb2a744afa9e0c5e2e10c94a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: fdb95a21c7c5c4723854c5dada70c663, type: 2}
     - target: {fileID: 3412513304071608446, guid: 56505548bb2a744afa9e0c5e2e10c94a, type: 3}
       propertyPath: radioPrefab
       value: 
       objectReference: {fileID: 1473822697}
+    - target: {fileID: 3412513304071608446, guid: 56505548bb2a744afa9e0c5e2e10c94a, type: 3}
+      propertyPath: triggerMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 9b854782d18ea43fcb319da90e469c98, type: 2}
     - target: {fileID: 3412513304071608447, guid: 56505548bb2a744afa9e0c5e2e10c94a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2140,7 +2168,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8146545691968974866, guid: f59be91db065842498db7d03db095daf, type: 3}
       propertyPath: checkDist
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8146545691968974867, guid: f59be91db065842498db7d03db095daf, type: 3}
       propertyPath: m_Name

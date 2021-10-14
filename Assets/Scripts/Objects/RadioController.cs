@@ -36,8 +36,18 @@ public class RadioController : InteractObject
 
     public override void Interact()
     {
-        base.Interact();
+        if (triggered)
+        {
+            base.Interact();
 
-        radioPrefab.SetActive(interacting);
+            radioPrefab.SetActive(interacting);
+        }
+    }
+
+    public override void Trigger()
+    {
+        base.Trigger();
+
+        gameObject.GetComponent<Renderer>().material = triggerMaterial; 
     }
 }

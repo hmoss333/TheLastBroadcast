@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
 
             if (lastDir.magnitude <= checkDist)
             {
-                interacting = !interacting;
+                //interacting = !interacting;
 
                 interactObj.GetComponent<InteractObject>().Interact();
             }
@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
 
             if (lastDir1.magnitude <= checkDist)
             {
-                interacting = !interacting;
+                //interacting = !interacting;
 
                 interactObj.GetComponent<InteractObject>().Interact();
             }
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
             if (lastDir2.magnitude <= checkDist)
             {
-                interacting = !interacting;
+                //interacting = !interacting;
 
                 interactObj.GetComponent<InteractObject>().Interact();
             }

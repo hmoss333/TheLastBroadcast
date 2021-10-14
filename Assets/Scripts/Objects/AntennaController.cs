@@ -19,4 +19,17 @@ public class AntennaController : InteractObject
     {
         
     }
+
+    public override void Interact()
+    {
+        if (triggered)
+            base.Interact();
+    }
+
+    public override void Trigger()
+    {
+        base.Trigger();
+
+        gameObject.GetComponent<Renderer>().material = triggerMaterial;
+    }
 }
