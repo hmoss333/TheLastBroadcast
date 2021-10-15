@@ -289,8 +289,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interacting: 0
   singleUse: 0
-  triggered: 0
-  triggerMaterial: {fileID: 0}
+  activated: 0
+  defaultMat: {fileID: 0}
+  activatedMat: {fileID: 0}
+  station: 0
   bilboardPrefab: {fileID: 2052725336}
 --- !u!65 &342732572
 BoxCollider:
@@ -1302,7 +1304,7 @@ PrefabInstance:
     - target: {fileID: 939297810612899284, guid: 344ef06408ad547b3abb6715ff8dd6f0, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: fdb95a21c7c5c4723854c5dada70c663, type: 2}
+      objectReference: {fileID: 2100000, guid: c3122f5db9e2c45a4bfaa0692578bcbb, type: 2}
     - target: {fileID: 939297810612899286, guid: 344ef06408ad547b3abb6715ff8dd6f0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.5
@@ -1351,6 +1353,18 @@ PrefabInstance:
       propertyPath: triggerMaterial
       value: 
       objectReference: {fileID: 2100000, guid: d73f54d5768ee40ebb1668842ded6fc8, type: 2}
+    - target: {fileID: 939297810612899287, guid: 344ef06408ad547b3abb6715ff8dd6f0, type: 3}
+      propertyPath: defaultMat
+      value: 
+      objectReference: {fileID: 2100000, guid: c3122f5db9e2c45a4bfaa0692578bcbb, type: 2}
+    - target: {fileID: 939297810612899287, guid: 344ef06408ad547b3abb6715ff8dd6f0, type: 3}
+      propertyPath: activatedMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 7296c09d764d3450ca30cfcf2671f4fd, type: 2}
+    - target: {fileID: 939297810612899287, guid: 344ef06408ad547b3abb6715ff8dd6f0, type: 3}
+      propertyPath: station
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 344ef06408ad547b3abb6715ff8dd6f0, type: 3}
 --- !u!23 &1105563066399517742
@@ -1522,11 +1536,23 @@ PrefabInstance:
     - target: {fileID: 2366006170436149531, guid: fb352e5f92453429caf65976cac6137e, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: fdb95a21c7c5c4723854c5dada70c663, type: 2}
+      objectReference: {fileID: 2100000, guid: c3122f5db9e2c45a4bfaa0692578bcbb, type: 2}
     - target: {fileID: 2366006170436149532, guid: fb352e5f92453429caf65976cac6137e, type: 3}
       propertyPath: triggerMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 8f4d4bdabab0542a0b25e7b4bf1540e1, type: 2}
+    - target: {fileID: 2366006170436149532, guid: fb352e5f92453429caf65976cac6137e, type: 3}
+      propertyPath: defaultMat
+      value: 
+      objectReference: {fileID: 2100000, guid: c3122f5db9e2c45a4bfaa0692578bcbb, type: 2}
+    - target: {fileID: 2366006170436149532, guid: fb352e5f92453429caf65976cac6137e, type: 3}
+      propertyPath: activatedMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 7296c09d764d3450ca30cfcf2671f4fd, type: 2}
+    - target: {fileID: 2366006170436149532, guid: fb352e5f92453429caf65976cac6137e, type: 3}
+      propertyPath: station
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2366006170436149533, guid: fb352e5f92453429caf65976cac6137e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4
@@ -1639,8 +1665,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interacting: 0
   singleUse: 0
-  triggered: 0
-  triggerMaterial: {fileID: 0}
+  activated: 0
+  defaultMat: {fileID: 0}
+  activatedMat: {fileID: 0}
+  station: 0
   interacted: 0
   objectsToTrigger:
   - {fileID: 1204570025}
@@ -1731,7 +1759,7 @@ PrefabInstance:
     - target: {fileID: 3412513304071608445, guid: 56505548bb2a744afa9e0c5e2e10c94a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: fdb95a21c7c5c4723854c5dada70c663, type: 2}
+      objectReference: {fileID: 2100000, guid: c3122f5db9e2c45a4bfaa0692578bcbb, type: 2}
     - target: {fileID: 3412513304071608446, guid: 56505548bb2a744afa9e0c5e2e10c94a, type: 3}
       propertyPath: radioPrefab
       value: 
@@ -1740,6 +1768,14 @@ PrefabInstance:
       propertyPath: triggerMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 9b854782d18ea43fcb319da90e469c98, type: 2}
+    - target: {fileID: 3412513304071608446, guid: 56505548bb2a744afa9e0c5e2e10c94a, type: 3}
+      propertyPath: defaultMat
+      value: 
+      objectReference: {fileID: 2100000, guid: c3122f5db9e2c45a4bfaa0692578bcbb, type: 2}
+    - target: {fileID: 3412513304071608446, guid: 56505548bb2a744afa9e0c5e2e10c94a, type: 3}
+      propertyPath: activatedMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 7296c09d764d3450ca30cfcf2671f4fd, type: 2}
     - target: {fileID: 3412513304071608447, guid: 56505548bb2a744afa9e0c5e2e10c94a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

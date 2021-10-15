@@ -15,21 +15,15 @@ public class PSController : InteractObject
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        
+        //TODO put radio controls here
+        base.Update();
     }
 
     public override void Interact()
     {
-        if (triggered)
+        if (activated)
             base.Interact();
-    }
-
-    public override void Trigger()
-    {
-        base.Trigger();
-
-        gameObject.GetComponent<Renderer>().material = triggerMaterial;
     }
 }

@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class InteractObject : MonoBehaviour
 {
-    public bool interacting, singleUse, triggered;
+    public bool interacting, singleUse, activated;
+    public Material defaultMat, activatedMat;
 
-    public Material triggerMaterial;
+    public enum Station { preset1, preset2, preset3 };
+    public Station station;
+    string currentRadioStation;
+
 
     // Start is called before the first frame update
     void Start()
@@ -15,9 +19,13 @@ public class InteractObject : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
-        
+        currentRadioStation = RadioController.instance.station.ToString();
+
+        activated = currentRadioStation == station.ToString() ? true : false;
+
+        GetComponent<Renderer>().material = activated ? activatedMat : defaultMat;
     }
 
     public virtual void Interact()
@@ -33,12 +41,5 @@ public class InteractObject : MonoBehaviour
         {
             Debug.Log("Finished interacting with " + name);
         }
-    }
-
-    public virtual void Trigger()
-    {
-        triggered = true;
-
-        Debug.Log("Triggered object " + name);
     }
 }

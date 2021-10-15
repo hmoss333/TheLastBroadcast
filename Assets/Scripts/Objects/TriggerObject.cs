@@ -44,7 +44,7 @@ public class TriggerObject : InteractObject
         {
             try
             {
-                objectsToTrigger[i].GetComponent<InteractObject>().Trigger();
+                Debug.Log("Put trigger activation here");
             }
             catch
             {

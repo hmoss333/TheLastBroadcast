@@ -10,7 +10,7 @@ public class RadioController : InteractObject
 
     public float powerLevel;
     public float antennaLevel;
-    public float station;
+    public int stationSetting;
     public int channel;
 
 
@@ -29,25 +29,16 @@ public class RadioController : InteractObject
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
         //TODO put radio controls here
+        base.Update();
     }
 
     public override void Interact()
     {
-        if (triggered)
-        {
-            base.Interact();
+        base.Interact();
 
-            radioPrefab.SetActive(interacting);
-        }
-    }
-
-    public override void Trigger()
-    {
-        base.Trigger();
-
-        gameObject.GetComponent<Renderer>().material = triggerMaterial; 
+        radioPrefab.SetActive(interacting);
     }
 }
