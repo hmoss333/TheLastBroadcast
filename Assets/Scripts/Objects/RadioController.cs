@@ -32,13 +32,17 @@ public class RadioController : InteractObject
     public override void Update()
     {
         //TODO put radio controls here
-        base.Update();
+        //base.Update();
+        GetComponent<Renderer>().material = activated ? activatedMat : defaultMat;
     }
 
     public override void Interact()
     {
-        base.Interact();
+        if (activated)
+        {
+            base.Interact();
 
-        radioPrefab.SetActive(interacting);
+            radioPrefab.SetActive(interacting);
+        }
     }
 }
