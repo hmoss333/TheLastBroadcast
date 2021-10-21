@@ -6,6 +6,8 @@ public class InteractObject : MonoBehaviour
 {
     public bool interacting, singleUse, activated;
     public Material defaultMat, activatedMat;
+    public GameObject activatedLight;
+    public Renderer alRenderer;
 
     public enum Station { preset1, preset2, preset3 };
     public Station station;
@@ -15,7 +17,8 @@ public class InteractObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (!activatedLight)
+            activatedLight = this.gameObject;
     }
 
     // Update is called once per frame
@@ -25,7 +28,14 @@ public class InteractObject : MonoBehaviour
 
         activated = currentRadioStation == station.ToString() ? true : false;
 
-        GetComponent<Renderer>().material = activated ? activatedMat : defaultMat;
+        if (!alRenderer)
+        {
+            alRenderer = activatedLight.GetComponent<Renderer>();
+        }
+        else
+        {
+            alRenderer.material = activated ? activatedMat : defaultMat;
+        }
     }
 
     public virtual void Interact()
