@@ -8,17 +8,6 @@ public class DoorController : InteractObject
     [SerializeField] Transform exitPoint;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public override void Interact()
     {
@@ -37,8 +26,10 @@ public class DoorController : InteractObject
         while (FadeController.instance.isFading)
             yield return null;
 
-        if (!targetDoor.transform.parent.gameObject.activeSelf)
-            targetDoor.transform.parent.gameObject.SetActive(true);
+        //if (!targetDoor.transform.parent.gameObject.activeSelf)
+        //    targetDoor.transform.parent.gameObject.SetActive(true);
+        NavigationController.instance.SetActiveRoom(targetDoor.transform.parent.GetComponent<RoomController>());
+        NavigationController.instance.UpdateRooms();
 
         PlayerController.instance.gameObject.transform.position = targetDoor.exitPoint.position;
 

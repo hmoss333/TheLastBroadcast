@@ -33,7 +33,8 @@ public class RadioController : InteractObject
     {
         //TODO put radio controls here
         //base.Update();
-        alRenderer.material = activated ? activatedMat : defaultMat;
+        if (alRenderer)
+            alRenderer.material = activated ? activatedMat : defaultMat;
     }
 
     public override void Interact()
