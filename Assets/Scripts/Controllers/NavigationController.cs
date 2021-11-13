@@ -6,8 +6,12 @@ public class NavigationController : MonoBehaviour
 {
     public static NavigationController instance;
 
-    public RoomController[] rooms;
-    public RoomController activeRoom;
+    public List<RoomController> rooms;
+    RoomController[] roomOptions;
+    public RoomController startRoom;
+    public RoomController exitRoom;
+    public RoomController currentRoom;
+    [SerializeField] int mapDepth;
 
 
     private void Awake()
@@ -21,21 +25,54 @@ public class NavigationController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rooms = FindObjectsOfType<RoomController>();
+        rooms = new List<RoomController>();
 
-        UpdateRooms();
+        GenerateRooms();
     }
 
-    public void UpdateRooms()
+    void GenerateRooms()
     {
-        for (int i = 0; i < rooms.Length; i++)
+        RoomController newRoom = new RoomController();
+        rooms.Add(startRoom);
+
+        for (int i = 0; i < mapDepth; i++)
         {
-            rooms[i].gameObject.SetActive(rooms[i] == activeRoom ? true : false);
+            if (i == 0)
+            {
+                newRoom = GetRoom(startRoom.doors[0]);
+                //Instantiate room object
+                rooms.Add(newRoom);
+                //link room doors
+            }
+            else
+            {
+                newRoom = GetRoom(rooms[i + 1].doors[1]);
+                //link room doors
+            }
         }
+
+        //Once mapDepth has been reached, instantiate exit room
+        rooms.Add(exitRoom);
     }
 
-    public void SetActiveRoom(RoomController roomObj)
+    public RoomController GetRoom(DoorController room)
     {
-        activeRoom = roomObj;
+        RoomController returnRoom = new RoomController();
+
+        switch (room.direction)
+        {
+            case DoorController.Direction.left:
+                break;
+            case DoorController.Direction.right:
+                break;
+            case DoorController.Direction.top:
+                break;
+            case DoorController.Direction.bottom:
+                break;
+            default:
+                break;
+        }
+
+        return returnRoom;
     }
 }

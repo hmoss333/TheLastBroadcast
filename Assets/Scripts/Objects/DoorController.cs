@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class DoorController : InteractObject
 {
-    [SerializeField] DoorController targetDoor;
-    [SerializeField] Transform exitPoint;
+    public DoorController exitPoint;
+
+    public enum Direction { left, right, top, bottom }
+    public Direction direction;
+
 
 
 
@@ -26,12 +29,10 @@ public class DoorController : InteractObject
         while (FadeController.instance.isFading)
             yield return null;
 
-        //if (!targetDoor.transform.parent.gameObject.activeSelf)
-        //    targetDoor.transform.parent.gameObject.SetActive(true);
-        NavigationController.instance.SetActiveRoom(targetDoor.transform.parent.GetComponent<RoomController>());
-        NavigationController.instance.UpdateRooms();
+        //NavigationController.instance.SetActiveRoom(exitPoint.parent.parent.GetComponent<RoomController>()); //targetDoor.transform.parent.GetComponent<RoomController>());
+        //NavigationController.instance.UpdateRooms();
 
-        PlayerController.instance.gameObject.transform.position = targetDoor.exitPoint.position;
+        //PlayerController.instance.gameObject.transform.position = exitPoint.position; //targetDoor.exitPoint.position;
 
         transform.parent.gameObject.SetActive(false);
 
