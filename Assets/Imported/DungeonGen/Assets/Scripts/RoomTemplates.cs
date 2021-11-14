@@ -9,7 +9,7 @@ public class RoomTemplates : MonoBehaviour {
 	public GameObject[] leftRooms;
 	public GameObject[] rightRooms;
 
-	public GameObject closedRoom;
+	//public GameObject closedRoom;
 
 	public List<GameObject> rooms;
 	public int dungeonDepth;
@@ -19,8 +19,8 @@ public class RoomTemplates : MonoBehaviour {
 	public GameObject boss;
 
 
-	void Update(){
-
+	void Update()
+	{
 		if(waitTime <= 0 && spawnedBoss == false){
 			for (int i = 0; i < rooms.Count; i++) {
 				if(i == rooms.Count-1){
