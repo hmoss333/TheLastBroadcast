@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
 
     public Transform target;
     public float smoothTime = 0.3F;
+    public float camXOffset;
     public float camYOffset;
     public float camZOffset;
 
@@ -30,8 +31,9 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         Vector3 pos = target.transform.position;
-        pos.z += camZOffset;
+        pos.x += camXOffset;
         pos.y += camYOffset;
+        pos.z += camZOffset;
         transform.position = pos;
     }
 
