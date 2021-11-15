@@ -28,73 +28,38 @@ public class RoomSpawner : MonoBehaviour {
 		//Destroy(gameObject, waitTime);
 		//templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 		Invoke("Spawn", 0.1f);
-		//Spawn();
 	}
 
 
-	void Spawn()
+	public void Spawn()
 	{
 		if (spawned == false)
 		{
-			if (templates.dungeonDepth > 0)
+			switch (openingDirection)
 			{
-				if (openingDirection == 1)
-				{
-					// Need to spawn a room with a BOTTOM door.
-					rand = Random.Range(0, templates.bottomRooms.Length);
-					Instantiate(templates.bottomRooms[rand], transform.position, templates.bottomRooms[rand].transform.rotation);
-					spawnedRoom = templates.bottomRooms[rand];
-				}
-				else if (openingDirection == 2)
-				{
-					// Need to spawn a room with a TOP door.
-					rand = Random.Range(0, templates.topRooms.Length);
-					Instantiate(templates.topRooms[rand], transform.position, templates.topRooms[rand].transform.rotation);
-					spawnedRoom = templates.topRooms[rand];
-				}
-				else if (openingDirection == 3)
-				{
-					// Need to spawn a room with a LEFT door.
-					rand = Random.Range(0, templates.leftRooms.Length);
-					Instantiate(templates.leftRooms[rand], transform.position, templates.leftRooms[rand].transform.rotation);
-					spawnedRoom = templates.leftRooms[rand];
-				}
-				else if (openingDirection == 4)
-				{
-					// Need to spawn a room with a RIGHT door.
-					rand = Random.Range(0, templates.rightRooms.Length);
-					Instantiate(templates.rightRooms[rand], transform.position, templates.rightRooms[rand].transform.rotation);
-					spawnedRoom = templates.rightRooms[rand];
-				}
-			}
-			else
-			{
-				if (openingDirection == 1)
-				{
-					// Need to spawn a room with a BOTTOM door.
-					Instantiate(templates.bottomRooms[0], transform.position, templates.bottomRooms[0].transform.rotation);
-					spawnedRoom = templates.bottomRooms[rand];
-				}
-				else if (openingDirection == 2)
-				{
-					// Need to spawn a room with a TOP door.
-					Instantiate(templates.topRooms[0], transform.position, templates.topRooms[0].transform.rotation);
-					spawnedRoom = templates.topRooms[rand];
-				}
-				else if (openingDirection == 3)
-				{
-					// Need to spawn a room with a LEFT door.
-					Instantiate(templates.leftRooms[0], transform.position, templates.leftRooms[0].transform.rotation);
-					spawnedRoom = templates.leftRooms[rand];
-				}
-				else if (openingDirection == 4)
-				{
-					// Need to spawn a room with a RIGHT door.
-					Instantiate(templates.rightRooms[0], transform.position, templates.rightRooms[0].transform.rotation);
-					spawnedRoom = templates.rightRooms[rand];
-				}
+				case 1:
+					spawnedRoom = templates.dungeonDepth > 0
+						? templates.bottomRooms[Random.Range(0, templates.bottomRooms.Length)]
+						: templates.bottomRooms[0];
+					break;
+				case 2:
+					spawnedRoom = templates.dungeonDepth > 0
+						? templates.topRooms[Random.Range(0, templates.topRooms.Length)]
+						: templates.topRooms[0];
+					break;
+				case 3:
+					spawnedRoom = templates.dungeonDepth > 0
+						? templates.leftRooms[Random.Range(0, templates.leftRooms.Length)]
+						: templates.leftRooms[0];
+					break;
+				case 4:
+					spawnedRoom = templates.dungeonDepth > 0
+						? templates.rightRooms[Random.Range(0, templates.rightRooms.Length)]
+						: templates.rightRooms[0];
+					break;
 			}
 
+			Instantiate(spawnedRoom, transform.position, spawnedRoom.transform.rotation);
 			spawned = true;
 		}
 	}
@@ -103,29 +68,8 @@ public class RoomSpawner : MonoBehaviour {
     {
         if (other.CompareTag("SpawnPoint"))
         {
-            ////TODO add logic here on how to handle two room exits overlapping
-            //if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
-            //{
-                //other.GetComponent<RoomSpawner>().spawned = true;
-                //Spawn();
-                //Destroy(gameObject);
-				//switch (openingDirection)
-    //            {
-				//	case 1:
-						
-				//		break;
-				//	case 2:
-				//		break;
-				//	case 3:
-				//		break;
-				//	case 4:
-				//		break;
-				//	default:
-				//		break;
-    //            }
-
-    //            spawned = true;
-    //        }
+            ///TODO add logic here on how to handle two room exits overlapping
+            ///Should only handle cases where an opening occurs at the edge of a generated map and ignore generation for centralized rooms
             spawned = true;
         }
     }
