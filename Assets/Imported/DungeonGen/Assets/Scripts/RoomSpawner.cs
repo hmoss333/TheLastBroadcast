@@ -12,11 +12,8 @@ public class RoomSpawner : MonoBehaviour {
 
 
 	private RoomTemplates templates;
-	private int rand;
 	public bool spawned = false;
-
-	//public float waitTime = 4f;
-	public GameObject spawnedRoom;
+	private GameObject spawnedRoom;
 
 
     private void Awake()
@@ -25,8 +22,6 @@ public class RoomSpawner : MonoBehaviour {
 	}
 
     void Start(){
-		//Destroy(gameObject, waitTime);
-		//templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 		Invoke("Spawn", 0.1f);
 	}
 
@@ -39,23 +34,27 @@ public class RoomSpawner : MonoBehaviour {
 			{
 				case 1:
 					spawnedRoom = templates.dungeonDepth > 0
-						? templates.bottomRooms[Random.Range(0, templates.bottomRooms.Length)]
+						? templates.bottomRooms[Random.Range(1, templates.bottomRooms.Length)]
 						: templates.bottomRooms[0];
 					break;
 				case 2:
 					spawnedRoom = templates.dungeonDepth > 0
-						? templates.topRooms[Random.Range(0, templates.topRooms.Length)]
+						? templates.topRooms[Random.Range(1, templates.topRooms.Length)]
 						: templates.topRooms[0];
 					break;
 				case 3:
 					spawnedRoom = templates.dungeonDepth > 0
-						? templates.leftRooms[Random.Range(0, templates.leftRooms.Length)]
+						? templates.leftRooms[Random.Range(1, templates.leftRooms.Length)]
 						: templates.leftRooms[0];
 					break;
 				case 4:
 					spawnedRoom = templates.dungeonDepth > 0
-						? templates.rightRooms[Random.Range(0, templates.rightRooms.Length)]
+						? templates.rightRooms[Random.Range(1, templates.rightRooms.Length)]
 						: templates.rightRooms[0];
+					break;
+				default:
+					spawnedRoom = null;
+					Debug.Log("OpeningDirection not found: " + openingDirection);
 					break;
 			}
 
@@ -66,11 +65,19 @@ public class RoomSpawner : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("SpawnPoint"))
-        {
-            ///TODO add logic here on how to handle two room exits overlapping
-            ///Should only handle cases where an opening occurs at the edge of a generated map and ignore generation for centralized rooms
+		if (other.CompareTag("SpawnPoint"))
+		{
+			if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
+			{
+				Instantiate(templates.intersectRoom, transform.position, templates.intersectRoom.transform.rotation);
+			}
+    //        else if (transform.parent.parent.gameObject.tag == "Intersect Room")
+    //        {
+				////templates.rooms.Remove(transform.parent.parent.gameObject);
+				////Destroy(transform.parent.parent.gameObject);
+				//Destroy(gameObject);
+    //        }
             spawned = true;
-        }
-    }
+		}
+	}
 }

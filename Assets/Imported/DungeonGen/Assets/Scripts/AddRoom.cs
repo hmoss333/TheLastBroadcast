@@ -5,6 +5,7 @@ using UnityEngine;
 public class AddRoom : MonoBehaviour {
 
 	private RoomTemplates templates;
+	public string special;
 
 	void Start(){
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();

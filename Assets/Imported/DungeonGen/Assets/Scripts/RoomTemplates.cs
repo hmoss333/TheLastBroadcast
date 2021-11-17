@@ -10,6 +10,7 @@ public class RoomTemplates : MonoBehaviour {
 	public GameObject[] rightRooms;
 
 	//public GameObject closedRoom;
+	public GameObject intersectRoom;
 
 	public List<GameObject> rooms;
 	public int dungeonDepth;
@@ -21,15 +22,20 @@ public class RoomTemplates : MonoBehaviour {
 
 	void Update()
 	{
-		if(waitTime <= 0 && spawnedBoss == false){
-			for (int i = 0; i < rooms.Count; i++) {
-				if(i == rooms.Count-1){
-					Instantiate(boss, rooms[i].transform.position, boss.transform.rotation);
-					spawnedBoss = true;
-				}
-			}
-		} else {
-			waitTime -= Time.deltaTime;
-		}
-	}
+        if (waitTime <= 0 && spawnedBoss == false)
+        {
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                if (i == rooms.Count - 1)
+                {
+                    Instantiate(boss, rooms[i].transform.position, boss.transform.rotation);
+                    spawnedBoss = true;
+                }
+            }
+        }
+        else
+        {
+            waitTime -= Time.deltaTime;
+        }
+    }
 }
