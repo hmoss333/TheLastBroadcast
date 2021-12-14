@@ -67,10 +67,10 @@ public class RoomSpawner : MonoBehaviour {
     {
 		if (other.CompareTag("SpawnPoint"))
 		{
-			if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
-			{
-				Instantiate(templates.intersectRoom, transform.position, templates.intersectRoom.transform.rotation);
-			}
+			//if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false)
+			//{
+			//	Instantiate(templates.intersectRoom, transform.position, templates.intersectRoom.transform.rotation);
+			//}
     //        else if (transform.parent.parent.gameObject.tag == "Intersect Room")
     //        {
 				////templates.rooms.Remove(transform.parent.parent.gameObject);
