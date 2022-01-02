@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class DoorController : InteractObject
 {
-    public DoorController exitPoint;
+    public Transform exitPoint;
 
-    public enum Direction { left, right, top, bottom }
-    public Direction direction;
+    //public enum Direction { left, right, top, bottom }
+    //public Direction direction;
 
 
 
@@ -31,8 +31,9 @@ public class DoorController : InteractObject
 
         //NavigationController.instance.SetActiveRoom(exitPoint.parent.parent.GetComponent<RoomController>()); //targetDoor.transform.parent.GetComponent<RoomController>());
         //NavigationController.instance.UpdateRooms();
+        exitPoint.parent.parent.gameObject.SetActive(true);
 
-        //PlayerController.instance.gameObject.transform.position = exitPoint.position; //targetDoor.exitPoint.position;
+        PlayerController.instance.gameObject.transform.position = exitPoint.position; //targetDoor.exitPoint.position;
 
         transform.parent.gameObject.SetActive(false);
 

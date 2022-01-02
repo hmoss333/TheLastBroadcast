@@ -6,7 +6,8 @@ public class RadioController : InteractObject
 {
     public static RadioController instance;
 
-    [SerializeField] GameObject radioPrefab;
+    //[SerializeField] GameObject radioPrefab;
+    [SerializeField] GameObject focusPoint;
 
     public float powerLevel;
     public float antennaLevel;
@@ -43,7 +44,9 @@ public class RadioController : InteractObject
         {
             base.Interact();
 
-            radioPrefab.SetActive(interacting);
+            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            CameraController.instance.FocusTarget();
+            //radioPrefab.SetActive(interacting);
         }
     }
 }

@@ -17,6 +17,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
     [SerializeField] float focusRate;
+    [SerializeField] float focusRotRate;
+
+    private Quaternion _lookRotation;
+    private Vector3 _direction;
 
 
     private void Awake()
@@ -54,18 +58,20 @@ public class CameraController : MonoBehaviour
 
         if (focus)
         {
-            Vector3 newRot = Vector3.RotateTowards(transform.position, target.position, smoothTime * Time.deltaTime, 0.0f);
-            transform.rotation = target.localRotation;
+            _direction = (target.position - transform.position).normalized;
+            _lookRotation = Quaternion.LookRotation(_direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * focusRotRate);
+
 
             if (Camera.main.orthographicSize > camFocusSize)
-                Camera.main.orthographicSize -= focusRate * Time.deltaTime; //= Mathf.Lerp(camDefaultSize, camFocusSize, Time.deltaTime);//0.5f;
+                Camera.main.orthographicSize -= focusRate * Time.deltaTime;
         }
         else
         {
             transform.rotation = baseRot;
 
             if (Camera.main.orthographicSize < camDefaultSize)
-                Camera.main.orthographicSize += focusRate * Time.deltaTime; //= Mathf.Lerp(camFocusSize, camDefaultSize, Time.deltaTime); //Camera.main.orthographicSize = 4f;
+                Camera.main.orthographicSize += focusRate * Time.deltaTime;
         }
 
 
@@ -74,5 +80,11 @@ public class CameraController : MonoBehaviour
     public void SetTarget(GameObject newTargetObj)
     {
         target = newTargetObj.transform;
+    }
+
+    public void FocusTarget()
+    {
+        focus = !focus;
+        PlayerController.instance.gameObject.GetComponent<MeshRenderer>().enabled = !focus;
     }
 }

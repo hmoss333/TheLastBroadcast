@@ -6,7 +6,7 @@ public class BilboardController : InteractObject
 {
     public static BilboardController instance;
 
-    [SerializeField] GameObject bilboardPrefab;
+    [SerializeField] GameObject focusPoint;
 
 
     private void Awake()
@@ -17,22 +17,12 @@ public class BilboardController : InteractObject
             Destroy(this.gameObject);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public override void Interact()
     {
         base.Interact();
 
-        bilboardPrefab.SetActive(interacting);
+        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+        CameraController.instance.FocusTarget();
+        //bilboardPrefab.SetActive(interacting);
     }
 }

@@ -59,19 +59,19 @@ public class NavigationController : MonoBehaviour
     {
         RoomController returnRoom = new RoomController();
 
-        switch (room.direction)
-        {
-            case DoorController.Direction.left:
-                break;
-            case DoorController.Direction.right:
-                break;
-            case DoorController.Direction.top:
-                break;
-            case DoorController.Direction.bottom:
-                break;
-            default:
-                break;
-        }
+        //switch (room.direction)
+        //{
+        //    case DoorController.Direction.left:
+        //        break;
+        //    case DoorController.Direction.right:
+        //        break;
+        //    case DoorController.Direction.top:
+        //        break;
+        //    case DoorController.Direction.bottom:
+        //        break;
+        //    default:
+        //        break;
+        //}
 
         return returnRoom;
     }
