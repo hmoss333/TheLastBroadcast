@@ -19,9 +19,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] float focusRate;
     [SerializeField] float focusRotRate;
 
-    private Quaternion _lookRotation;
-    private Vector3 _direction;
-
 
     private void Awake()
     {
@@ -58,13 +55,13 @@ public class CameraController : MonoBehaviour
 
         if (focus)
         {
-            _direction = (target.position - transform.position).normalized;
-            _lookRotation = Quaternion.LookRotation(_direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * focusRotRate);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target.rotation, Time.deltaTime * focusRotRate);
 
 
             if (Camera.main.orthographicSize > camFocusSize)
                 Camera.main.orthographicSize -= focusRate * Time.deltaTime;
+            else
+                Camera.main.orthographic = false; //Set camera to perspective when in focus mode
         }
         else
         {
@@ -86,5 +83,8 @@ public class CameraController : MonoBehaviour
     {
         focus = !focus;
         PlayerController.instance.gameObject.GetComponent<MeshRenderer>().enabled = !focus;
+
+        if (!focus)
+            Camera.main.orthographic = true; //Set camera to ortho when exiting focus mode
     }
 }
