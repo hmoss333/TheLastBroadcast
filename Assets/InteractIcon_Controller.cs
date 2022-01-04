@@ -46,6 +46,6 @@ public class InteractIcon_Controller : MonoBehaviour
         else
             isActive = false;
 
-        this.gameObject.SetActive(isActive);
+        icon.enabled = isActive;
     }
 }
