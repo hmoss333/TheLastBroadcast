@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask layer;
     [SerializeField] float checkDist;
 
+    public GameObject interactObj;
+
 
     private void Awake()
     {
@@ -38,9 +40,36 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Interact"))
+        Vector3 rayDir = lastDir.normalized;
+        Ray ray = new Ray(transform.position, rayDir);
+        Ray ray1 = new Ray(transform.position, lastDir1);
+        Ray ray2 = new Ray(transform.position, lastDir2);
+        RaycastHit hit, hit1, hit2;
+
+        if (Physics.Raycast(ray, out hit, checkDist, layer))
         {
-            Interact();
+            interactObj = hit.transform.gameObject;
+        }
+        else if (Physics.Raycast(ray1, out hit1, checkDist, layer))
+        {
+            interactObj = hit1.transform.gameObject;
+        }
+        else if (Physics.Raycast(ray2, out hit2, checkDist, layer))
+        {
+            interactObj = hit2.transform.gameObject;
+        }
+        else
+        {
+            interactObj = null;
+        }
+
+        InteractIcon_Controller.instance.UpdateIcon(interacting, interactObj);
+
+
+        if (Input.GetButtonDown("Interact") && interactObj != null)
+        {
+            //Interact(interactObj.GetComponent<InteractObject>());
+            interactObj.GetComponent<InteractObject>().Interact();
         }
     }
 
@@ -80,59 +109,61 @@ public class PlayerController : MonoBehaviour
             lastDir2 = (transform.forward + transform.right).normalized;
 
             // Draw rays pointing in all interact directions
-            Debug.DrawRay(transform.position, newDirection, Color.white);
-            Debug.DrawRay(transform.position, lastDir1, Color.white);
-            Debug.DrawRay(transform.position, lastDir2, Color.white);
+            Debug.DrawRay(transform.position, newDirection, Color.green);
+            Debug.DrawRay(transform.position, lastDir1, Color.green);
+            Debug.DrawRay(transform.position, lastDir2, Color.green);
 
             // Calculate a rotation a step closer to the target and applies rotation to this object
             transform.rotation = Quaternion.LookRotation(newDirection);
         }
     }
 
-    void Interact()
+    void Interact(InteractObject interactObject)
     {
-        GameObject interactObj = null;
-        Vector3 rayDir = lastDir.normalized;
-        Ray ray = new Ray(transform.position, rayDir);
-        Ray ray1 = new Ray(transform.position, lastDir1);
-        Ray ray2 = new Ray(transform.position, lastDir2);
-        RaycastHit hit, hit1, hit2;
+        interactObject.Interact();
 
-        if(Physics.Raycast(ray, out hit, checkDist, layer))
-        {
-            Debug.Log("Hit Mid");
-            interactObj = hit.transform.gameObject;
+        //GameObject interactObj = null;
+        //Vector3 rayDir = lastDir.normalized;
+        //Ray ray = new Ray(transform.position, rayDir);
+        //Ray ray1 = new Ray(transform.position, lastDir1);
+        //Ray ray2 = new Ray(transform.position, lastDir2);
+        //RaycastHit hit, hit1, hit2;
 
-            if (lastDir.magnitude <= checkDist)
-            {
-                //interacting = !interacting;
+        //if(Physics.Raycast(ray, out hit, checkDist, layer))
+        //{
+        //    Debug.Log("Hit Mid");
+        //    interactObj = hit.transform.gameObject;
 
-                interactObj.GetComponent<InteractObject>().Interact();
-            }
-        }
-        else if (Physics.Raycast(ray1, out hit1, checkDist, layer))
-        {
-            Debug.Log("Hit Left");
-            interactObj = hit1.transform.gameObject;
+        //    if (lastDir.magnitude <= checkDist)
+        //    {
+        //        //interacting = !interacting;
 
-            if (lastDir1.magnitude <= checkDist)
-            {
-                //interacting = !interacting;
+        //        interactObj.GetComponent<InteractObject>().Interact();
+        //    }
+        //}
+        //else if (Physics.Raycast(ray1, out hit1, checkDist, layer))
+        //{
+        //    Debug.Log("Hit Left");
+        //    interactObj = hit1.transform.gameObject;
 
-                interactObj.GetComponent<InteractObject>().Interact();
-            }
-        }
-        else if (Physics.Raycast(ray2, out hit2, checkDist, layer))
-        {
-            Debug.Log("Hit Right");
-            interactObj = hit2.transform.gameObject;
+        //    if (lastDir1.magnitude <= checkDist)
+        //    {
+        //        //interacting = !interacting;
 
-            if (lastDir2.magnitude <= checkDist)
-            {
-                //interacting = !interacting;
+        //        interactObj.GetComponent<InteractObject>().Interact();
+        //    }
+        //}
+        //else if (Physics.Raycast(ray2, out hit2, checkDist, layer))
+        //{
+        //    Debug.Log("Hit Right");
+        //    interactObj = hit2.transform.gameObject;
 
-                interactObj.GetComponent<InteractObject>().Interact();
-            }
-        }
+        //    if (lastDir2.magnitude <= checkDist)
+        //    {
+        //        //interacting = !interacting;
+
+        //        interactObj.GetComponent<InteractObject>().Interact();
+        //    }
+        //}
     }
 }
