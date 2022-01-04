@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask layer;
     [SerializeField] float checkDist;
 
-    public GameObject interactObj;
+    [SerializeField] GameObject interactObj;
+    [SerializeField] Animation playerAnimation;
 
 
     private void Awake()
@@ -125,54 +126,5 @@ public class PlayerController : MonoBehaviour
             // Calculate a rotation a step closer to the target and applies rotation to this object
             transform.rotation = Quaternion.LookRotation(newDirection);
         }
-    }
-
-    void Interact(InteractObject interactObject)
-    {
-        interactObject.Interact();
-
-        //GameObject interactObj = null;
-        //Vector3 rayDir = lastDir.normalized;
-        //Ray ray = new Ray(transform.position, rayDir);
-        //Ray ray1 = new Ray(transform.position, lastDir1);
-        //Ray ray2 = new Ray(transform.position, lastDir2);
-        //RaycastHit hit, hit1, hit2;
-
-        //if(Physics.Raycast(ray, out hit, checkDist, layer))
-        //{
-        //    Debug.Log("Hit Mid");
-        //    interactObj = hit.transform.gameObject;
-
-        //    if (lastDir.magnitude <= checkDist)
-        //    {
-        //        //interacting = !interacting;
-
-        //        interactObj.GetComponent<InteractObject>().Interact();
-        //    }
-        //}
-        //else if (Physics.Raycast(ray1, out hit1, checkDist, layer))
-        //{
-        //    Debug.Log("Hit Left");
-        //    interactObj = hit1.transform.gameObject;
-
-        //    if (lastDir1.magnitude <= checkDist)
-        //    {
-        //        //interacting = !interacting;
-
-        //        interactObj.GetComponent<InteractObject>().Interact();
-        //    }
-        //}
-        //else if (Physics.Raycast(ray2, out hit2, checkDist, layer))
-        //{
-        //    Debug.Log("Hit Right");
-        //    interactObj = hit2.transform.gameObject;
-
-        //    if (lastDir2.magnitude <= checkDist)
-        //    {
-        //        //interacting = !interacting;
-
-        //        interactObj.GetComponent<InteractObject>().Interact();
-        //    }
-        //}
     }
 }
