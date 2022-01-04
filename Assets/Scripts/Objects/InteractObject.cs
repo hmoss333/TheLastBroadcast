@@ -41,7 +41,6 @@ public class InteractObject : MonoBehaviour
     public virtual void Interact()
     {
         interacting = !interacting;
-        PlayerController.instance.interacting = interacting;
 
         if (interacting)
         {

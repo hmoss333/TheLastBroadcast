@@ -8,9 +8,9 @@ public class RadioOverlay_Controller : MonoBehaviour
     public static RadioOverlay_Controller instance;
 
     [SerializeField] float yOffSet;
-    [SerializeField] bool isActive;
+    public bool isActive;
 
-    [SerializeField] Image overlayPanel;
+    [SerializeField] GameObject overlayPanel;
     [SerializeField] RawImage stationScroll;
     float xInput;
 
@@ -32,14 +32,15 @@ public class RadioOverlay_Controller : MonoBehaviour
         {
             xInput = Input.GetAxis("Horizontal");
 
-            //Use horizontal input to offset stationScroll UI element
+            float xPos = stationScroll.uvRect.x;
+            stationScroll.uvRect = new Rect(xPos += xInput * Time.deltaTime, 0, 1, 1);
         }
+
+        overlayPanel.SetActive(isActive);
     }
 
     public void ToggleOn()
     {
         isActive = !isActive;
-
-        overlayPanel.color = new Color(overlayPanel.color.r, overlayPanel.color.g, overlayPanel.color.b, isActive ? 1f : 0f);
     }
 }

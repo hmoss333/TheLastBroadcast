@@ -68,8 +68,17 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Interact") && interactObj != null)
         {
-            //Interact(interactObj.GetComponent<InteractObject>());
+            interacting = !interacting;
             interactObj.GetComponent<InteractObject>().Interact();
+        }
+
+        if (Input.GetButtonDown("Radio"))
+        {
+            if (!interacting || (interacting && RadioOverlay_Controller.instance.isActive))
+            {
+                interacting = !interacting;
+                RadioOverlay_Controller.instance.ToggleOn();
+            }
         }
     }
 
