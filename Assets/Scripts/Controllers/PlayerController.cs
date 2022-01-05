@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] GameObject interactObj;
     [SerializeField] GameObject playerAvatar;
+    [SerializeField] Animator animator;
 
 
     private void Awake()
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour
         }
 
         InteractIcon_Controller.instance.UpdateIcon(interacting, interactObj);
+        animator.SetBool("isInteracting", interacting);
 
 
         if (Input.GetButtonDown("Interact") && interactObj != null)
@@ -79,6 +81,7 @@ public class PlayerController : MonoBehaviour
             {
                 interacting = !interacting;
                 RadioOverlay_Controller.instance.ToggleOn();
+                animator.SetBool("isRadio", interacting);
             }
         }
     }
@@ -102,6 +105,11 @@ public class PlayerController : MonoBehaviour
             {
                 lastDir.x = horizontal;
                 lastDir.z = vertical;
+                animator.SetBool("isMoving", true);
+            }
+            else
+            {
+                animator.SetBool("isMoving", false);
             }
 
             //Move player in FixedUpdate for consistent performance

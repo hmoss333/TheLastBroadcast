@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class RadioOverlay_Controller : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class RadioOverlay_Controller : MonoBehaviour
     //UI Elements
     [SerializeField] GameObject overlayPanel;
     [SerializeField] RawImage stationScroll;
+    [SerializeField] TextMeshProUGUI frequencyText;
     float xInput;
 
     //Audio Elements
@@ -70,8 +72,6 @@ public class RadioOverlay_Controller : MonoBehaviour
         }
 
 
-
-
         if (isActive)
         {
             if (stationSource.clip)
@@ -89,12 +89,22 @@ public class RadioOverlay_Controller : MonoBehaviour
                     staticSource.Play();
             }
 
+            //Display the current frequency
+            float displayFrequency = currentFrequency * 10f;
+            frequencyText.text = displayFrequency.ToString("F1");
+
+
+            //Get input values
             xInput = Input.GetAxis("Horizontal");
             currentFrequency += (float)(xInput * Time.deltaTime);
 
+
+            //Offset station strip element
             float xPos = stationScroll.uvRect.x;
             stationScroll.uvRect = new Rect(xPos += tempSpeed * xInput * Time.deltaTime, 0, 1, 1);
 
+
+            //Play station as radio approaches set station
             for (int i = 0; i < stationNums.Count; i++)
             {
                 if (currentFrequency >= (stationNums[i] - stationOffset) && currentFrequency <= (stationNums[i] + stationOffset))
