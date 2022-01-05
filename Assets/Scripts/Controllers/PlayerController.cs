@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float checkDist;
 
     [SerializeField] GameObject interactObj;
-    [SerializeField] Animation playerAnimation;
+    [SerializeField] GameObject playerAvatar;
 
 
     private void Awake()
@@ -126,5 +126,10 @@ public class PlayerController : MonoBehaviour
             // Calculate a rotation a step closer to the target and applies rotation to this object
             transform.rotation = Quaternion.LookRotation(newDirection);
         }
+    }
+
+    public void ToggleAvatar()
+    {
+        playerAvatar.SetActive(!playerAvatar.activeSelf);
     }
 }
