@@ -16,12 +16,17 @@ public class PlayerController : MonoBehaviour
     Vector3 lastDir, lastDir1, lastDir2;
 
     public bool interacting;
+    [SerializeField] bool dashing;
+    [SerializeField] float dashSpeed;
+    [SerializeField] float dashDist;
     [SerializeField] LayerMask layer;
     [SerializeField] float checkDist;
+    [SerializeField] ParticleSystem dashEffect;
 
     [SerializeField] GameObject interactObj;
     [SerializeField] GameObject playerAvatar;
     [SerializeField] Animator animator;
+
 
 
     private void Awake()
@@ -66,13 +71,13 @@ public class PlayerController : MonoBehaviour
         }
 
         InteractIcon_Controller.instance.UpdateIcon(interacting, interactObj);
-        animator.SetBool("isInteracting", interacting);
 
 
-        if (Input.GetButtonDown("Interact") && interactObj != null)
+        if (Input.GetButtonDown("Interact") && interactObj != null && !RadioOverlay_Controller.instance.isActive)
         {
             interacting = !interacting;
             interactObj.GetComponent<InteractObject>().Interact();
+            animator.SetBool("isInteracting", interacting);
         }
 
         if (Input.GetButtonDown("Radio"))
@@ -84,6 +89,18 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("isRadio", interacting);
             }
         }
+
+        //if (Input.GetButtonDown("Melee") && !interacting)
+        //{
+        //    interacting = !interacting;
+        //    animator.SetTrigger("isMelee");
+        //    //Need to add a way to reset the interacting trigger once the animation has ended
+        //}
+
+        if (Input.GetButtonDown("Dash") && !interacting && !dashing)
+        {
+            dashing = true;
+        }
     }
 
     private void FixedUpdate()
@@ -93,7 +110,28 @@ public class PlayerController : MonoBehaviour
         {
             speed = 0; //stop all player movement
         }
-        else
+        if (dashing && !interacting)
+        {
+            animator.SetTrigger("isDashing");
+            StartCoroutine(PlayDashParticles());
+
+            for (float i = 0; i < dashDist; i += dashSpeed * Time.deltaTime)
+            {
+                rb.velocity += transform.forward * i;
+
+                Ray ray = new Ray(transform.position, transform.forward);
+                RaycastHit hit;
+                if(Physics.Raycast(ray, out hit, dashDist))
+                {
+                    rb.velocity = Vector3.zero;
+                    transform.position = new Vector3(hit.transform.position.x - transform.position.normalized.x, transform.position.y, hit.transform.position.z - transform.position.normalized.z);
+                    break;
+                }     
+            }
+
+            dashing = false;
+        }
+        else if (!interacting)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Vertical");
@@ -113,7 +151,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //Move player in FixedUpdate for consistent performance
-            rb.velocity = new Vector3(horizontal * speed, 0, vertical * speed);
+            rb.velocity = new Vector3(horizontal * speed, rb.velocity.y, vertical * speed);
 
             // Determine which direction to rotate towards
             Vector3 targetDirection = lastDir;
@@ -139,5 +177,14 @@ public class PlayerController : MonoBehaviour
     public void ToggleAvatar()
     {
         playerAvatar.SetActive(!playerAvatar.activeSelf);
+    }
+
+    IEnumerator PlayDashParticles()
+    {
+        dashEffect.Play();
+
+        yield return new WaitForSeconds(0.1f);
+
+        dashEffect.Stop();
     }
 }
