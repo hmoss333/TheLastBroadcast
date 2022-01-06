@@ -75,9 +75,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Interact") && interactObj != null && !RadioOverlay_Controller.instance.isActive)
         {
-            interacting = !interacting;
+            InteractToggle();
+            //interacting = !interacting;
             interactObj.GetComponent<InteractObject>().Interact();
-            animator.SetBool("isInteracting", interacting);
+            //animator.SetBool("isInteracting", interacting);
         }
 
         if (Input.GetButtonDown("Radio"))
@@ -186,5 +187,11 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         dashEffect.Stop();
+    }
+
+    public void InteractToggle()
+    {
+        interacting = !interacting;
+        animator.SetBool("isInteracting", interacting);
     }
 }

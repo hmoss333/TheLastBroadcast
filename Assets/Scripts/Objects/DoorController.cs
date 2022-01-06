@@ -24,14 +24,13 @@ public class DoorController : InteractObject
         yield return new WaitForSeconds(0.5f);
 
         FadeController.instance.StartFade(1.0f, 1f);
-        //load next room
 
         while (FadeController.instance.isFading)
             yield return null;
 
         //NavigationController.instance.SetActiveRoom(exitPoint.parent.parent.GetComponent<RoomController>()); //targetDoor.transform.parent.GetComponent<RoomController>());
         //NavigationController.instance.UpdateRooms();
-        exitPoint.parent.parent.gameObject.SetActive(true);
+        exitPoint.parent.parent.gameObject.SetActive(true); //gross...
 
         PlayerController.instance.gameObject.transform.position = exitPoint.position; //targetDoor.exitPoint.position;
 
@@ -39,6 +38,6 @@ public class DoorController : InteractObject
 
         FadeController.instance.StartFade(0.0f, 1f);
 
-        PlayerController.instance.interacting = false;
+        PlayerController.instance.InteractToggle();
     }
 }
