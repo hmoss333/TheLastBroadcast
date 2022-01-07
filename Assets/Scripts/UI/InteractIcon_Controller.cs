@@ -41,7 +41,11 @@ public class InteractIcon_Controller : MonoBehaviour
         interacting = isInteracting;
         targetObj = interactObject;
 
-        if (targetObj != null && !interacting)
+        bool canDisplay = false;
+        if (interactObject != null)
+            canDisplay = interactObject.GetComponent<InteractObject>().activated;
+
+        if (targetObj != null && !interacting && canDisplay)
             isActive = true;
         else
             isActive = false;
