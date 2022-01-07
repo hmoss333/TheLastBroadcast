@@ -6,11 +6,13 @@ public class CameraController : MonoBehaviour
 {
     public static CameraController instance;
 
-    public Transform target;
-    public float smoothTime = 0.3F;
-    [SerializeField] float camXOffset;
-    [SerializeField] float camYOffset;
-    [SerializeField] float camZOffset;
+    [SerializeField] Transform target;
+    [SerializeField] float smoothTime;
+    [SerializeField] float focusSmoothTime;
+    [SerializeField] float normalSmoothTime;
+    private float camXOffset;
+    private float camYOffset;
+    private float camZOffset;
     Quaternion baseRot;
 
     [SerializeField] bool focus;
@@ -70,6 +72,8 @@ public class CameraController : MonoBehaviour
             if (Camera.main.orthographicSize < camDefaultSize)
                 Camera.main.orthographicSize += focusRate * Time.deltaTime;
         }
+
+        smoothTime = focus ? focusSmoothTime : normalSmoothTime;
 
 
     }

@@ -26,7 +26,7 @@ public class RadioController : InteractObject
     // Start is called before the first frame update
     void Start()
     {
-        alRenderer = activatedLight.GetComponent<Renderer>();
+        //alRenderer = activatedLight.GetComponent<Renderer>();
     }
 
     // Update is called once per frame
@@ -34,8 +34,8 @@ public class RadioController : InteractObject
     {
         //TODO put radio controls here
         //base.Update();
-        if (alRenderer)
-            alRenderer.material = activated ? activatedMat : defaultMat;
+        //if (alRenderer)
+        //    alRenderer.material = activated ? activatedMat : defaultMat;
     }
 
     public override void Interact()

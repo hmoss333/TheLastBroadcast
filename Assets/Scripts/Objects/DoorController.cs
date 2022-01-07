@@ -14,9 +14,12 @@ public class DoorController : InteractObject
 
     public override void Interact()
     {
-        base.Interact();
+        if (activated)
+        {
+            base.Interact();
 
-        StartCoroutine(DoorTrigger());
+            StartCoroutine(DoorTrigger());
+        }
     }
 
     IEnumerator DoorTrigger()

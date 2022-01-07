@@ -73,22 +73,21 @@ public class PlayerController : MonoBehaviour
         InteractIcon_Controller.instance.UpdateIcon(interacting, interactObj);
 
 
-        if (Input.GetButtonDown("Interact") && interactObj != null && !RadioOverlay_Controller.instance.isActive)
+        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.GetComponent<InteractObject>().activated && !RadioOverlay_Controller.instance.isActive)
         {
             InteractToggle();
-            //interacting = !interacting;
             interactObj.GetComponent<InteractObject>().Interact();
-            //animator.SetBool("isInteracting", interacting);
         }
 
         if (Input.GetButtonDown("Radio"))
         {
-            if (!interacting || (interacting && RadioOverlay_Controller.instance.isActive))
-            {
-                interacting = !interacting;
-                RadioOverlay_Controller.instance.ToggleOn();
-                animator.SetBool("isRadio", interacting);
-            }
+            RadioToggle();
+            //if (!interacting || (interacting && RadioOverlay_Controller.instance.isActive))
+            //{
+            //    interacting = !interacting;
+            //    RadioOverlay_Controller.instance.ToggleOn();
+            //    animator.SetBool("isRadio", interacting);
+            //}
         }
 
         //if (Input.GetButtonDown("Melee") && !interacting)
@@ -193,5 +192,15 @@ public class PlayerController : MonoBehaviour
     {
         interacting = !interacting;
         animator.SetBool("isInteracting", interacting);
+    }
+
+    public void RadioToggle()
+    {
+        if (!interacting || (interacting && RadioOverlay_Controller.instance.isActive))
+        {
+            interacting = !interacting;
+            RadioOverlay_Controller.instance.ToggleOn();
+            animator.SetBool("isRadio", interacting);
+        }
     }
 }
