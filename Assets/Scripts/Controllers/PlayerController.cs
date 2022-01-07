@@ -82,12 +82,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Radio"))
         {
             RadioToggle();
-            //if (!interacting || (interacting && RadioOverlay_Controller.instance.isActive))
-            //{
-            //    interacting = !interacting;
-            //    RadioOverlay_Controller.instance.ToggleOn();
-            //    animator.SetBool("isRadio", interacting);
-            //}
         }
 
         //if (Input.GetButtonDown("Melee") && !interacting)

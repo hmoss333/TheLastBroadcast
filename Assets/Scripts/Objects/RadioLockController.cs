@@ -62,6 +62,10 @@ public class RadioLockController : InteractObject
 
     IEnumerator ActivateObjects()
     {
+        PlayerController.instance.interacting = true;
+
+        yield return new WaitForSeconds(0.5f);
+
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             objectsToActivate[i].Activate();
@@ -71,5 +75,6 @@ public class RadioLockController : InteractObject
         }
 
         CameraController.instance.SetTarget(player.gameObject);
+        PlayerController.instance.interacting = false;
     }
 }

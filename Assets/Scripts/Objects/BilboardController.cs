@@ -23,6 +23,6 @@ public class BilboardController : InteractObject
 
         CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
         CameraController.instance.FocusTarget();
-        //bilboardPrefab.SetActive(interacting);
+        PlayerController.instance.ToggleAvatar();
     }
 }

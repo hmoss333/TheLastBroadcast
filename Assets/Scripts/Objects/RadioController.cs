@@ -46,7 +46,7 @@ public class RadioController : InteractObject
 
             CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
             CameraController.instance.FocusTarget();
-            //radioPrefab.SetActive(interacting);
+            PlayerController.instance.ToggleAvatar();
         }
     }
 }

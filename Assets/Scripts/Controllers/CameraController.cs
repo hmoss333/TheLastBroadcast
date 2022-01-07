@@ -86,7 +86,7 @@ public class CameraController : MonoBehaviour
     public void FocusTarget()
     {
         focus = !focus;
-        PlayerController.instance.ToggleAvatar();
+        //PlayerController.instance.ToggleAvatar();
 
         if (!focus)
             Camera.main.orthographic = true; //Set camera to ortho when exiting focus mode
