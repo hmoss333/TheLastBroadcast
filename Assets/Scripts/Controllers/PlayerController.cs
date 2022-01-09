@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
         InteractIcon_Controller.instance.UpdateIcon(interacting, interactObj);
 
 
+        //Change these statements into a state machine
         if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.activated && !RadioOverlay_Controller.instance.isActive)
         {
             InteractToggle();
@@ -82,12 +83,10 @@ public class PlayerController : MonoBehaviour
             RadioToggle();
         }
 
-        //if (Input.GetButtonDown("Melee") && !interacting)
-        //{
-        //    interacting = !interacting;
-        //    animator.SetTrigger("isMelee");
-        //    //Need to add a way to reset the interacting trigger once the animation has ended
-        //}
+        if (Input.GetButtonDown("Melee") && !interacting && !dashing)
+        {
+            animator.SetTrigger("isMelee");
+        }
 
         if (Input.GetButtonDown("Dash") && !interacting && !dashing)
         {
