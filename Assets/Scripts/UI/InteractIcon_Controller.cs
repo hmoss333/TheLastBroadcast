@@ -8,9 +8,9 @@ public class InteractIcon_Controller : MonoBehaviour
     public static InteractIcon_Controller instance;
 
     [SerializeField] bool isActive;
-    [SerializeField] float yOffSet;
+    //[SerializeField] float yOffSet;
     bool interacting;
-    GameObject targetObj;
+    InteractObject targetObj;
     Image icon;
     [SerializeField] float fadeTime;
 
@@ -31,19 +31,17 @@ public class InteractIcon_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.localPosition = new Vector3(PlayerController.instance.transform.position.x, PlayerController.instance.transform.position.y + yOffSet);
-
         icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, Mathf.PingPong(Time.time, fadeTime)/fadeTime);
     }
 
-    public void UpdateIcon(bool isInteracting, GameObject interactObject)
+    public void UpdateIcon(bool isInteracting, InteractObject interactObject)
     {
         interacting = isInteracting;
         targetObj = interactObject;
 
         bool canDisplay = false;
         if (interactObject != null)
-            canDisplay = interactObject.GetComponent<InteractObject>().activated;
+            canDisplay = interactObject.activated;
 
         if (targetObj != null && !interacting && canDisplay)
             isActive = true;

@@ -74,8 +74,6 @@ public class CameraController : MonoBehaviour
         }
 
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
-
-
     }
 
     public void SetTarget(GameObject newTargetObj)
@@ -86,7 +84,6 @@ public class CameraController : MonoBehaviour
     public void FocusTarget()
     {
         focus = !focus;
-        //PlayerController.instance.ToggleAvatar();
 
         if (!focus)
             Camera.main.orthographic = true; //Set camera to ortho when exiting focus mode

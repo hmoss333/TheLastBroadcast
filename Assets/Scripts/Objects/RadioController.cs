@@ -14,6 +14,8 @@ public class RadioController : InteractObject
     public int stationSetting;
     public int channel;
 
+    [SerializeField] AudioSource staticSource;
+
 
     private void Awake()
     {
@@ -21,21 +23,6 @@ public class RadioController : InteractObject
             instance = this;
         else
             Destroy(this.gameObject);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //alRenderer = activatedLight.GetComponent<Renderer>();
-    }
-
-    // Update is called once per frame
-    public override void Update()
-    {
-        //TODO put radio controls here
-        //base.Update();
-        //if (alRenderer)
-        //    alRenderer.material = activated ? activatedMat : defaultMat;
     }
 
     public override void Interact()
@@ -48,5 +35,7 @@ public class RadioController : InteractObject
             CameraController.instance.FocusTarget();
             PlayerController.instance.ToggleAvatar();
         }
+
+        staticSource.mute = !interacting;
     }
 }

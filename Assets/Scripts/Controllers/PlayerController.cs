@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float checkDist;
     [SerializeField] ParticleSystem dashEffect;
 
-    [SerializeField] GameObject interactObj;
+    [SerializeField] InteractObject interactObj;
     [SerializeField] GameObject playerAvatar;
     [SerializeField] Animator animator;
 
@@ -37,14 +37,12 @@ public class PlayerController : MonoBehaviour
             Destroy(this.gameObject);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         storedSpeed = speed;
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 rayDir = lastDir.normalized;
@@ -55,15 +53,15 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, checkDist, layer))
         {
-            interactObj = hit.transform.gameObject;
+            interactObj = hit.transform.gameObject.GetComponent<InteractObject>();
         }
         else if (Physics.Raycast(ray1, out hit1, checkDist, layer))
         {
-            interactObj = hit1.transform.gameObject;
+            interactObj = hit1.transform.gameObject.GetComponent<InteractObject>();
         }
         else if (Physics.Raycast(ray2, out hit2, checkDist, layer))
         {
-            interactObj = hit2.transform.gameObject;
+            interactObj = hit2.transform.gameObject.GetComponent<InteractObject>();
         }
         else
         {
@@ -73,10 +71,10 @@ public class PlayerController : MonoBehaviour
         InteractIcon_Controller.instance.UpdateIcon(interacting, interactObj);
 
 
-        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.GetComponent<InteractObject>().activated && !RadioOverlay_Controller.instance.isActive)
+        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.activated && !RadioOverlay_Controller.instance.isActive)
         {
             InteractToggle();
-            interactObj.GetComponent<InteractObject>().Interact();
+            interactObj.Interact();
         }
 
         if (Input.GetButtonDown("Radio"))

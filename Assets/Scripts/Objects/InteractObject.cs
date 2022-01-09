@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractObject : MonoBehaviour
 {
-    public bool interacting, singleUse, activated;
+    public bool interacting, singleUse, activated = true;
 
     // Start is called before the first frame update
     void Start()
