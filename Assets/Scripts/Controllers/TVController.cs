@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class TVController : InteractObject
 {
-    [SerializeField] GameObject activeContainer;
-    //[SerializeField] GameObject focusPoint;
+    [SerializeField] Material tvMat;
+    [SerializeField] Shader defaultShader;
+    [SerializeField] Shader staticShader;
+    [SerializeField] GameObject tvLight;
+    [SerializeField] GameObject focusPoint;
     [SerializeField] AudioSource staticSource;
     [SerializeField] float audioDist;
+
+
+    private void Start()
+    {
+        //tvRenderer = GetComponent<Renderer>();
+    }
 
     private void Update()
     {
@@ -18,7 +27,8 @@ public class TVController : InteractObject
         else
             staticSource.mute = true; //If TV is not active, keep audio muted
 
-        activeContainer.SetActive(activated); //Toggle container based on activation state
+        tvMat.shader = activated ? staticShader : defaultShader;
+        tvLight.SetActive(activated);
     }
 
     public override void Interact()
@@ -26,6 +36,10 @@ public class TVController : InteractObject
         if (activated)
         {
             base.Interact();
+
+            //CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            //CameraController.instance.FocusTarget();
+            //PlayerController.instance.ToggleAvatar();
 
             if (interacting)
                 SaveGame();
