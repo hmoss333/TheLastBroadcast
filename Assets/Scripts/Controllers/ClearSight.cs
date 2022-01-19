@@ -11,13 +11,13 @@ public class ClearSight : MonoBehaviour
         RaycastHit[] hits;
         Vector3 forwardDir = PlayerController.instance.transform.position - transform.position;
         hits = Physics.RaycastAll(transform.position, forwardDir, DistanceToPlayer, layerToFade);
-        Debug.DrawRay(transform.position, forwardDir, Color.green);
+
 
         foreach (RaycastHit hit in hits)
         {
             Renderer R = hit.collider.GetComponent<Renderer>();
 
-            if (R == null)
+            if (R == null || CameraController.instance.isFocused())
                 continue; // no renderer attached? go to next hit
                           // TODO: maybe implement here a check for GOs that should not be affected like the player
 

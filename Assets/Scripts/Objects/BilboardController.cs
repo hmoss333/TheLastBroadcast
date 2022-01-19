@@ -21,8 +21,8 @@ public class BilboardController : InteractObject
     {
         base.Interact();
 
+        PlayerController.instance.ToggleAvatar();
         CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
         CameraController.instance.FocusTarget();
-        PlayerController.instance.ToggleAvatar();
     }
 }

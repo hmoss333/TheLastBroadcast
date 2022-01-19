@@ -37,9 +37,9 @@ public class TVController : InteractObject
         {
             base.Interact();
 
-            //CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
-            //CameraController.instance.FocusTarget();
-            //PlayerController.instance.ToggleAvatar();
+            PlayerController.instance.ToggleAvatar();
+            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            CameraController.instance.FocusTarget();
 
             if (interacting)
                 SaveGame();

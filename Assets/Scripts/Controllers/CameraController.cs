@@ -63,7 +63,10 @@ public class CameraController : MonoBehaviour
             if (Camera.main.orthographicSize > camFocusSize)
                 Camera.main.orthographicSize -= focusRate * Time.deltaTime;
             else
+            {
                 Camera.main.orthographic = false; //Set camera to perspective when in focus mode
+                Camera.main.fieldOfView = 60f;
+            }
         }
         else
         {
@@ -87,5 +90,10 @@ public class CameraController : MonoBehaviour
 
         if (!focus)
             Camera.main.orthographic = true; //Set camera to ortho when exiting focus mode
+    }
+
+    public bool isFocused()
+    {
+        return focus;
     }
 }
