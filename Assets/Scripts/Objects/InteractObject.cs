@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class InteractObject : MonoBehaviour
 {
-    public bool interacting, singleUse, activated = true;
+    public bool interacting, activated = true;
 
     public virtual void Interact()
     {
         interacting = !interacting;
+        PlayerController.instance.InteractToggle(interacting);
 
         if (interacting)
         {

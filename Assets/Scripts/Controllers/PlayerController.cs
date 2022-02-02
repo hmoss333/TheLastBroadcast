@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     Vector3 lastDir, lastDir1, lastDir2;
 
     public bool interacting;
-    [SerializeField] bool dashing;
+    public bool dashing, onLadder;
     [SerializeField] float dashSpeed;
     [SerializeField] float dashDist;
     [SerializeField] LayerMask layer;
@@ -74,7 +74,6 @@ public class PlayerController : MonoBehaviour
         //Change these statements into a state machine
         if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.activated && !RadioOverlay_Controller.instance.isActive)
         {
-            InteractToggle();
             interactObj.Interact();
         }
 
@@ -121,6 +120,12 @@ public class PlayerController : MonoBehaviour
             }
 
             dashing = false;
+        }
+        else if (onLadder)
+        {
+            float vertInput = Input.GetAxis("Vertical");
+
+            rb.velocity = new Vector3(0, vertInput * speed / 2f, 0);
         }
         else if (!interacting)
         {
@@ -179,9 +184,9 @@ public class PlayerController : MonoBehaviour
         dashEffect.Stop();
     }
 
-    public void InteractToggle()
+    public void InteractToggle(bool interactState)
     {
-        interacting = !interacting;
+        interacting = interactState; //!interacting;
         animator.SetBool("isInteracting", interacting);
     }
 
@@ -193,5 +198,21 @@ public class PlayerController : MonoBehaviour
             RadioOverlay_Controller.instance.ToggleOn();
             animator.SetBool("isRadio", interacting);
         }
+    }
+
+    public void OnLadder(Vector3 position, LadderController currentLadder)
+    {
+        rb.useGravity = false;
+        animator.SetBool("onLadder", true);
+        Vector3 newPos = new Vector3(position.x, transform.position.y, position.z);
+        transform.position = newPos;
+
+        Vector3 averageRot = currentLadder.transform.localRotation.eulerAngles - currentLadder.transform.parent.rotation.eulerAngles;
+        Debug.Log($"Ladder rot: {currentLadder.transform.localRotation.eulerAngles}");
+        Debug.Log($"Parent rot: {currentLadder.transform.parent.rotation.eulerAngles}");
+        Debug.Log(averageRot.y);
+        Quaternion newRot = Quaternion.Euler(averageRot);
+        transform.rotation = Quaternion.Inverse(newRot);//currentLadder.transform.localRotation);
+        onLadder = true;
     }
 }

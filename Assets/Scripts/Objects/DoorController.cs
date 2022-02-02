@@ -6,11 +6,6 @@ public class DoorController : InteractObject
 {
     public Transform exitPoint;
 
-    //public enum Direction { left, right, top, bottom }
-    //public Direction direction;
-
-
-
 
     public override void Interact()
     {
@@ -31,16 +26,14 @@ public class DoorController : InteractObject
         while (FadeController.instance.isFading)
             yield return null;
 
-        //NavigationController.instance.SetActiveRoom(exitPoint.parent.parent.GetComponent<RoomController>()); //targetDoor.transform.parent.GetComponent<RoomController>());
-        //NavigationController.instance.UpdateRooms();
         exitPoint.parent.parent.gameObject.SetActive(true); //gross...
 
-        PlayerController.instance.gameObject.transform.position = exitPoint.position; //targetDoor.exitPoint.position;
+        PlayerController.instance.gameObject.transform.position = exitPoint.position;
 
         transform.parent.gameObject.SetActive(false);
 
         FadeController.instance.StartFade(0.0f, 1f);
 
-        PlayerController.instance.InteractToggle();
+        PlayerController.instance.InteractToggle(false);
     }
 }

@@ -32,7 +32,10 @@ public class RadioLockController : InteractObject
             StartScan(currentFrequency);
         }
 
-        activeMat.material.color = isActive ? Color.green : Color.red;
+        if (!activated)
+            activeMat.material.color = Color.black;
+        else
+            activeMat.material.color = isActive ? Color.green : Color.red;
     }
 
     bool PlayerInRange()
@@ -71,10 +74,14 @@ public class RadioLockController : InteractObject
         //Activate all interact objects in list
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            objectsToActivate[i].Activate();
             CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
 
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
+
+            objectsToActivate[i].Activate();
+            
+
+            yield return new WaitForSeconds(1f);
         }
 
         //Reset camera to player
