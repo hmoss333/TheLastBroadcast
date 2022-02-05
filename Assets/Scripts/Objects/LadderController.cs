@@ -18,6 +18,6 @@ public class LadderController : InteractObject
 
     public override void Interact()
     {
-        PlayerController.instance.OnLadder(transform.position, this);
+        //PlayerController.instance.OnLadder(transform.position, this);
     }
 }

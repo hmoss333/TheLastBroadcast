@@ -11,6 +11,7 @@ public class ClearSight : MonoBehaviour
         RaycastHit[] hits;
         Vector3 forwardDir = PlayerController.instance.transform.position - transform.position;
         hits = Physics.RaycastAll(transform.position, forwardDir, DistanceToPlayer, layerToFade);
+        Debug.DrawRay(transform.position, forwardDir);
 
 
         foreach (RaycastHit hit in hits)

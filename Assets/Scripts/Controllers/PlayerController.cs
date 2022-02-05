@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     Vector3 lastDir, lastDir1, lastDir2;
 
     public bool interacting;
-    public bool dashing, onLadder;
+    public bool dashing;
     [SerializeField] float dashSpeed;
     [SerializeField] float dashDist;
     [SerializeField] LayerMask layer;
@@ -82,10 +82,10 @@ public class PlayerController : MonoBehaviour
             RadioToggle();
         }
 
-        if (Input.GetButtonDown("Melee") && !interacting && !dashing)
-        {
-            animator.SetTrigger("isMelee");
-        }
+        //if (Input.GetButtonDown("Melee") && !interacting && !dashing)
+        //{
+        //    animator.SetTrigger("isMelee");
+        //}
 
         if (Input.GetButtonDown("Dash") && !interacting && !dashing)
         {
@@ -121,12 +121,6 @@ public class PlayerController : MonoBehaviour
 
             dashing = false;
         }
-        else if (onLadder)
-        {
-            float vertInput = Input.GetAxis("Vertical");
-
-            rb.velocity = new Vector3(0, vertInput * speed / 2f, 0);
-        }
         else if (!interacting)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
@@ -157,8 +151,8 @@ public class PlayerController : MonoBehaviour
 
             // Rotate the forward vector towards the target direction by one step
             Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
-            lastDir1 = (transform.forward - transform.right).normalized;
-            lastDir2 = (transform.forward + transform.right).normalized;
+            lastDir1 = (2 * transform.forward - transform.right).normalized; //Left ray
+            lastDir2 = (2 * transform.forward + transform.right).normalized; //Right ray
 
             // Draw rays pointing in all interact directions
             Debug.DrawRay(transform.position, newDirection, Color.green);
@@ -200,19 +194,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnLadder(Vector3 position, LadderController currentLadder)
-    {
-        rb.useGravity = false;
-        animator.SetBool("onLadder", true);
-        Vector3 newPos = new Vector3(position.x, transform.position.y, position.z);
-        transform.position = newPos;
+    //public void OnLadder(Vector3 position, LadderController currentLadder)
+    //{
+    //    rb.useGravity = false;
+    //    animator.SetBool("onLadder", true);
+    //    Vector3 newPos = new Vector3(position.x, transform.position.y, position.z);
+    //    transform.position = newPos;
 
-        Vector3 averageRot = currentLadder.transform.localRotation.eulerAngles - currentLadder.transform.parent.rotation.eulerAngles;
-        Debug.Log($"Ladder rot: {currentLadder.transform.localRotation.eulerAngles}");
-        Debug.Log($"Parent rot: {currentLadder.transform.parent.rotation.eulerAngles}");
-        Debug.Log(averageRot.y);
-        Quaternion newRot = Quaternion.Euler(averageRot);
-        transform.rotation = Quaternion.Inverse(newRot);//currentLadder.transform.localRotation);
-        onLadder = true;
-    }
+    //    Vector3 averageRot = currentLadder.transform.localRotation.eulerAngles - currentLadder.transform.parent.rotation.eulerAngles;
+    //    Debug.Log($"Ladder rot: {currentLadder.transform.localRotation.eulerAngles}");
+    //    Debug.Log($"Parent rot: {currentLadder.transform.parent.rotation.eulerAngles}");
+    //    Debug.Log(averageRot.y);
+    //    Quaternion newRot = Quaternion.Euler(averageRot);
+    //    transform.rotation = Quaternion.Inverse(newRot);
+    //}
 }
