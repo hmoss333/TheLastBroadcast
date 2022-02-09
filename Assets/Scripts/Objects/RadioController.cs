@@ -7,6 +7,8 @@ public class RadioController : InteractObject
     public static RadioController instance;
 
     //[SerializeField] GameObject radioPrefab;
+    [SerializeField] GameObject activeModel;
+    [SerializeField] GameObject deactivatedModel;
     [SerializeField] GameObject focusPoint;
 
     public float powerLevel;
@@ -23,6 +25,12 @@ public class RadioController : InteractObject
             instance = this;
         else
             Destroy(this.gameObject);
+    }
+
+    private void Update()
+    {
+        activeModel.SetActive(activated);
+        deactivatedModel.SetActive(!activated);
     }
 
     public override void Interact()

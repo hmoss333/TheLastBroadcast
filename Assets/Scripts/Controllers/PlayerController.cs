@@ -10,13 +10,11 @@ public class PlayerController : MonoBehaviour
     //Player Movement Controls
     Rigidbody rb;
     float horizontal, vertical;
-    [SerializeField] float speed;
-    [SerializeField] float rotSpeed;
+    [SerializeField] float speed, rotSpeed, attackTimer;
     float storedSpeed;
     Vector3 lastDir, lastDir1, lastDir2;
 
-    public bool interacting;
-    public bool dashing;
+    public bool interacting, dashing, attacking;
     [SerializeField] float dashSpeed;
     [SerializeField] float dashDist;
     [SerializeField] LayerMask layer;
@@ -26,6 +24,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] InteractObject interactObj;
     [SerializeField] GameObject playerAvatar;
     [SerializeField] Animator animator;
+
+    [SerializeField] GameObject meleeObject;
+
 
 
 
@@ -72,20 +73,21 @@ public class PlayerController : MonoBehaviour
 
 
         //Change these statements into a state machine
-        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.activated && !RadioOverlay_Controller.instance.isActive)
+        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.activated && !RadioOverlay_Controller.instance.isActive && !attacking && !dashing)
         {
             interactObj.Interact();
         }
 
-        if (Input.GetButtonDown("Radio"))
+        if (Input.GetButtonDown("Radio") && !attacking && !dashing)
         {
             RadioToggle();
         }
 
-        //if (Input.GetButtonDown("Melee") && !interacting && !dashing)
-        //{
-        //    animator.SetTrigger("isMelee");
-        //}
+        if (Input.GetButtonDown("Melee") && !interacting && !attacking)
+        {
+            attacking = true;
+            animator.SetTrigger("isMelee");
+        }
 
         if (Input.GetButtonDown("Dash") && !interacting && !dashing)
         {
@@ -100,6 +102,10 @@ public class PlayerController : MonoBehaviour
         {
             speed = 0; //stop all player movement
         }
+
+        meleeObject.SetActive(attacking);
+
+
         if (dashing && !interacting)
         {
             animator.SetTrigger("isDashing");
@@ -111,17 +117,22 @@ public class PlayerController : MonoBehaviour
 
                 Ray ray = new Ray(transform.position, transform.forward);
                 RaycastHit hit;
-                if(Physics.Raycast(ray, out hit, dashDist))
+                if (Physics.Raycast(ray, out hit, dashDist))
                 {
                     rb.velocity = Vector3.zero;
                     transform.position = new Vector3(hit.transform.position.x - transform.position.normalized.x, transform.position.y, hit.transform.position.z - transform.position.normalized.z);
                     break;
-                }     
+                }
             }
 
             dashing = false;
         }
-        else if (!interacting)
+        else if (attacking)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > attackTimer)// && !animator.IsInTransition(0))
+                attacking = false;
+        }
+        else if (!interacting && !attacking)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Vertical");
@@ -192,6 +203,12 @@ public class PlayerController : MonoBehaviour
             RadioOverlay_Controller.instance.ToggleOn();
             animator.SetBool("isRadio", interacting);
         }
+    }
+
+    void Melee()
+    {
+        animator.SetTrigger("isMelee");
+
     }
 
     //public void OnLadder(Vector3 position, LadderController currentLadder)
