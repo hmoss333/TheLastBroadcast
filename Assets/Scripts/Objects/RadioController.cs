@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class RadioController : InteractObject
 {
@@ -10,13 +12,15 @@ public class RadioController : InteractObject
     [SerializeField] GameObject activeModel;
     [SerializeField] GameObject deactivatedModel;
     [SerializeField] GameObject focusPoint;
-
-    public float powerLevel;
-    public float antennaLevel;
-    public int stationSetting;
-    public int channel;
-
     [SerializeField] AudioSource staticSource;
+
+    [SerializeField] float currentFrequency;
+    [SerializeField] float maxFrequency;
+    [SerializeField] TextMeshPro frequencyText;
+
+    [SerializeField] GameObject dialObj;
+    [SerializeField] float rotSpeed;
+    private float xInput;
 
 
     private void Awake()
@@ -31,6 +35,33 @@ public class RadioController : InteractObject
     {
         activeModel.SetActive(activated);
         deactivatedModel.SetActive(!activated);
+
+        float tempSpeed = rotSpeed;
+        if (currentFrequency < 0.0f)
+        {
+            tempSpeed = 0.0f;
+            currentFrequency = 0.0f;
+        }
+        else if (currentFrequency > maxFrequency)
+        {
+            tempSpeed = 0.0f;
+            currentFrequency = maxFrequency;
+        }
+        else
+        {
+            tempSpeed = rotSpeed;
+        }
+
+
+        if (interacting)
+        {
+            xInput = Input.GetAxis("Horizontal");
+            dialObj.transform.Rotate(0.0f, xInput * tempSpeed, 0.0f);
+            currentFrequency += (float)(xInput * Time.deltaTime);
+
+            float displayFrequency = currentFrequency * 10f;
+            frequencyText.text = displayFrequency.ToString("F1");
+        }
     }
 
     public override void Interact()

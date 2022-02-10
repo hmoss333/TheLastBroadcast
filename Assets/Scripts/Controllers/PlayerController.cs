@@ -10,13 +10,13 @@ public class PlayerController : MonoBehaviour
     //Player Movement Controls
     Rigidbody rb;
     float horizontal, vertical;
-    [SerializeField] float speed, rotSpeed, attackTimer;
+    [SerializeField] float speed, rotSpeed;//, attackTimer;
     float storedSpeed;
     Vector3 lastDir, lastDir1, lastDir2;
 
-    public bool interacting, dashing, attacking;
-    [SerializeField] float dashSpeed;
-    [SerializeField] float dashDist;
+    public bool interacting;//, dashing, attacking;
+    //[SerializeField] float dashSpeed;
+    //[SerializeField] float dashDist;
     [SerializeField] LayerMask layer;
     [SerializeField] float checkDist;
     [SerializeField] ParticleSystem dashEffect;
@@ -73,26 +73,26 @@ public class PlayerController : MonoBehaviour
 
 
         //Change these statements into a state machine
-        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.activated && !RadioOverlay_Controller.instance.isActive && !attacking && !dashing)
+        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.activated)// && !RadioOverlay_Controller.instance.isActive && !attacking && !dashing)
         {
             interactObj.Interact();
         }
 
-        if (Input.GetButtonDown("Radio") && !attacking && !dashing)
-        {
-            RadioToggle();
-        }
+        //if (Input.GetButtonDown("Radio") && !attacking && !dashing)
+        //{
+        //    RadioToggle();
+        //}
 
-        if (Input.GetButtonDown("Melee") && !interacting && !attacking)
-        {
-            attacking = true;
-            animator.SetTrigger("isMelee");
-        }
+        //if (Input.GetButtonDown("Melee") && !interacting && !attacking)
+        //{
+        //    attacking = true;
+        //    animator.SetTrigger("isMelee");
+        //}
 
-        if (Input.GetButtonDown("Dash") && !interacting && !dashing)
-        {
-            dashing = true;
-        }
+        //if (Input.GetButtonDown("Dash") && !interacting && !dashing)
+        //{
+        //    dashing = true;
+        //}
     }
 
     private void FixedUpdate()
@@ -103,36 +103,37 @@ public class PlayerController : MonoBehaviour
             speed = 0; //stop all player movement
         }
 
-        meleeObject.SetActive(attacking);
+        //meleeObject.SetActive(attacking);
 
 
-        if (dashing && !interacting)
-        {
-            animator.SetTrigger("isDashing");
-            StartCoroutine(PlayDashParticles());
+        //if (dashing && !interacting)
+        //{
+        //    animator.SetTrigger("isDashing");
+        //    StartCoroutine(PlayDashParticles());
 
-            for (float i = 0; i < dashDist; i += dashSpeed * Time.deltaTime)
-            {
-                rb.velocity += transform.forward * i;
+        //    for (float i = 0; i < dashDist; i += dashSpeed * Time.deltaTime)
+        //    {
+        //        rb.velocity += transform.forward * i;
 
-                Ray ray = new Ray(transform.position, transform.forward);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, dashDist))
-                {
-                    rb.velocity = Vector3.zero;
-                    transform.position = new Vector3(hit.transform.position.x - transform.position.normalized.x, transform.position.y, hit.transform.position.z - transform.position.normalized.z);
-                    break;
-                }
-            }
+        //        Ray ray = new Ray(transform.position, transform.forward);
+        //        RaycastHit hit;
+        //        if (Physics.Raycast(ray, out hit, dashDist))
+        //        {
+        //            rb.velocity = Vector3.zero;
+        //            transform.position = new Vector3(hit.transform.position.x - transform.position.normalized.x, transform.position.y, hit.transform.position.z - transform.position.normalized.z);
+        //            break;
+        //        }
+        //    }
 
-            dashing = false;
-        }
-        else if (attacking)
-        {
-            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > attackTimer)// && !animator.IsInTransition(0))
-                attacking = false;
-        }
-        else if (!interacting && !attacking)
+        //    dashing = false;
+        //}
+        //else if (attacking)
+        //{
+        //    if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > attackTimer)// && !animator.IsInTransition(0))
+        //        attacking = false;
+        //}
+        //else
+        if (!interacting)// && !attacking)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Vertical");
@@ -180,14 +181,14 @@ public class PlayerController : MonoBehaviour
         playerAvatar.SetActive(!playerAvatar.activeSelf);
     }
 
-    IEnumerator PlayDashParticles()
-    {
-        dashEffect.Play();
+    //IEnumerator PlayDashParticles()
+    //{
+    //    dashEffect.Play();
 
-        yield return new WaitForSeconds(0.1f);
+    //    yield return new WaitForSeconds(0.1f);
 
-        dashEffect.Stop();
-    }
+    //    dashEffect.Stop();
+    //}
 
     public void InteractToggle(bool interactState)
     {
@@ -195,34 +196,18 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isInteracting", interacting);
     }
 
-    public void RadioToggle()
-    {
-        if (!interacting || (interacting && RadioOverlay_Controller.instance.isActive))
-        {
-            interacting = !interacting;
-            RadioOverlay_Controller.instance.ToggleOn();
-            animator.SetBool("isRadio", interacting);
-        }
-    }
-
-    void Melee()
-    {
-        animator.SetTrigger("isMelee");
-
-    }
-
-    //public void OnLadder(Vector3 position, LadderController currentLadder)
+    //public void RadioToggle()
     //{
-    //    rb.useGravity = false;
-    //    animator.SetBool("onLadder", true);
-    //    Vector3 newPos = new Vector3(position.x, transform.position.y, position.z);
-    //    transform.position = newPos;
+    //    if (!interacting || (interacting && RadioOverlay_Controller.instance.isActive))
+    //    {
+    //        interacting = !interacting;
+    //        RadioOverlay_Controller.instance.ToggleOn();
+    //        animator.SetBool("isRadio", interacting);
+    //    }
+    //}
 
-    //    Vector3 averageRot = currentLadder.transform.localRotation.eulerAngles - currentLadder.transform.parent.rotation.eulerAngles;
-    //    Debug.Log($"Ladder rot: {currentLadder.transform.localRotation.eulerAngles}");
-    //    Debug.Log($"Parent rot: {currentLadder.transform.parent.rotation.eulerAngles}");
-    //    Debug.Log(averageRot.y);
-    //    Quaternion newRot = Quaternion.Euler(averageRot);
-    //    transform.rotation = Quaternion.Inverse(newRot);
+    //void Melee()
+    //{
+    //    animator.SetTrigger("isMelee");
     //}
 }

@@ -54,7 +54,7 @@ public class RadioLockController : InteractObject
         if (currentFrequency >= stationVal - stationOffset && currentFrequency <= stationVal + stationOffset)
         {
             isActive = true;
-            PlayerController.instance.RadioToggle();
+            //PlayerController.instance.RadioToggle();
             StartCoroutine(ActivateObjects());
         }
         else
