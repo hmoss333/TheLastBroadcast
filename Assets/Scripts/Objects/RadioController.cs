@@ -62,6 +62,7 @@ public class RadioController : InteractObject
         {
             if (Input.GetKey("right shift"))
             {
+                frequencyText.color = Color.cyan;
                 if (Input.GetKeyDown("left"))
                 {
                     stationIndex--;
@@ -83,6 +84,7 @@ public class RadioController : InteractObject
             }
             else
             {
+                frequencyText.color = Color.green;
                 xInput = Input.GetAxis("Horizontal");
                 dialObj.transform.Rotate(0.0f, xInput * tempSpeed, 0.0f);
                 currentFrequency += (float)(xInput * Time.deltaTime);
