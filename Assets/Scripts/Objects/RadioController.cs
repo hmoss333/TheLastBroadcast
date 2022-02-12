@@ -13,6 +13,7 @@ public class RadioController : InteractObject
     [SerializeField] GameObject deactivatedModel;
     [SerializeField] GameObject focusPoint;
     [SerializeField] AudioSource staticSource;
+    [SerializeField] GameObject instructionText;
 
     [SerializeField][Range(0f, 10f)] float currentFrequency;
     [SerializeField] TextMeshPro frequencyText;
@@ -21,8 +22,11 @@ public class RadioController : InteractObject
     [SerializeField] float rotSpeed;
     private float xInput;
     [SerializeField] float[] stationNums;
-    //[SerializeField] float activeStation;
     int stationIndex;
+
+
+    [SerializeField] Color stationColor;
+    [SerializeField] Color presetColor;
 
 
     private void Awake()
@@ -40,6 +44,7 @@ public class RadioController : InteractObject
     {
         activeModel.SetActive(activated);
         deactivatedModel.SetActive(!activated);
+        instructionText.SetActive(interacting);
 
         float tempSpeed = rotSpeed;
         if (currentFrequency < 0.0f)
@@ -62,7 +67,7 @@ public class RadioController : InteractObject
         {
             if (Input.GetKey("right shift"))
             {
-                frequencyText.color = Color.cyan;
+                frequencyText.color = presetColor;
                 if (Input.GetKeyDown("left"))
                 {
                     stationIndex--;
@@ -84,14 +89,43 @@ public class RadioController : InteractObject
             }
             else
             {
-                frequencyText.color = Color.green;
+                frequencyText.color = stationColor;
                 xInput = Input.GetAxis("Horizontal");
                 dialObj.transform.Rotate(0.0f, xInput * tempSpeed, 0.0f);
                 currentFrequency += (float)(xInput * Time.deltaTime);
             }
 
+            if (Input.GetKeyDown("x"))
+            {
+                SelectStation(currentFrequency);
+            }
+
             float displayFrequency = currentFrequency * 10f;
             frequencyText.text = displayFrequency.ToString("F1");
+        }
+    }
+
+    void SelectStation(float stationVal)
+    {
+        if (stationVal == stationNums[0])
+        {
+            Debug.Log("Load scene 1");
+        }
+        else if (stationVal == stationNums[1])
+        {
+            Debug.Log("Load scene 2");
+        }
+        else if (stationVal == stationNums[2])
+        {
+            Debug.Log("Load scene 3");
+        }
+        else if (stationVal == stationNums[3])
+        {
+            Debug.Log("Load scene 4");
+        }
+        else
+        {
+            Debug.Log("Station not found in presets");
         }
     }
 
