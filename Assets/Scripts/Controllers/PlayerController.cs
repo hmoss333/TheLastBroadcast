@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float checkDist;
     //[SerializeField] ParticleSystem dashEffect;
 
+    private InteractIcon_Controller interactIconController;
     [SerializeField] InteractObject interactObj;
     [SerializeField] GameObject playerAvatar;
     [SerializeField] Animator animator;
@@ -36,12 +37,15 @@ public class PlayerController : MonoBehaviour
             instance = this;
         else
             Destroy(this.gameObject);
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     void Start()
     {
         storedSpeed = speed;
         rb = GetComponent<Rigidbody>();
+        interactIconController = GetComponentInChildren<InteractIcon_Controller>();
     }
 
     void Update()
@@ -69,7 +73,7 @@ public class PlayerController : MonoBehaviour
             interactObj = null;
         }
 
-        InteractIcon_Controller.instance.UpdateIcon(interacting, interactObj);
+        interactIconController.UpdateIcon(interacting, interactObj);
 
 
         //Change these statements into a state machine

@@ -112,21 +112,29 @@ public class RadioController : InteractObject
         if (stationVal == stationNums[0] && !loadScene)
         {
             loadScene = true;
+            SaveDataController.instance.SetSavePoint("Apartment", 0);
+            SaveDataController.instance.SaveFile();
             StartCoroutine(LoadStation("Apartment"));
         }
         else if (stationVal == stationNums[1] && !loadScene)
         {
             loadScene = true;
+            SaveDataController.instance.SetSavePoint("House", 0);
+            SaveDataController.instance.SaveFile();
             StartCoroutine(LoadStation("House"));
         }
         else if (stationVal == stationNums[2] && !loadScene)
         {
             loadScene = true;
+            SaveDataController.instance.SetSavePoint("Facility", 0);
+            SaveDataController.instance.SaveFile();
             StartCoroutine(LoadStation("Facility"));
         }
         else if (stationVal == stationNums[3] && !loadScene)
         {
             loadScene = true;
+            SaveDataController.instance.SetSavePoint("Other", 0);
+            SaveDataController.instance.SaveFile();
             StartCoroutine(LoadStation("Other"));
         }
         else
@@ -142,6 +150,7 @@ public class RadioController : InteractObject
         while (FadeController.instance.isFading)
             yield return null;
 
+        PlayerController.instance.ToggleAvatar();
         SceneManager.LoadSceneAsync(sceneToLoad);
     }
 

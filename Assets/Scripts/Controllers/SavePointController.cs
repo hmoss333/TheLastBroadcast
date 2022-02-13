@@ -8,6 +8,7 @@ public class SavePointController : InteractObject
     public int ID;
     public Transform initPoint;
 
+
     public override void Interact()
     {
         SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);

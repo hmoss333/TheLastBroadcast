@@ -20,6 +20,8 @@ public class SaveDataController : MonoBehaviour
         else
             Destroy(this);
 
+        DontDestroyOnLoad(this.gameObject);
+
         destination = Application.persistentDataPath + "/save.json";
         saveData = new SaveData();
         saveData.currentScene = SceneManager.GetActiveScene().name;
@@ -35,7 +37,6 @@ public class SaveDataController : MonoBehaviour
             //saveData = JsonUtility.FromJson<SaveData>(destination);
 
             string jsonData = "";
-
             jsonData = File.ReadAllText(Application.persistentDataPath + "/save.json");
             saveData = JsonConvert.DeserializeObject<SaveData>(jsonData);
         }
@@ -43,6 +44,7 @@ public class SaveDataController : MonoBehaviour
         {
             //Create a new file
             saveData = new SaveData();
+            saveData.currentScene = "RadioRoom"; //Set RadioRoom as default for new save files
             SaveFile();
         }
     }
