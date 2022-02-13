@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class RadioController : InteractObject
 {
@@ -23,6 +24,7 @@ public class RadioController : InteractObject
     private float xInput;
     [SerializeField] float[] stationNums;
     int stationIndex;
+    bool loadScene = false;
 
 
     [SerializeField] Color stationColor;
@@ -107,26 +109,40 @@ public class RadioController : InteractObject
 
     void SelectStation(float stationVal)
     {
-        if (stationVal == stationNums[0])
+        if (stationVal == stationNums[0] && !loadScene)
         {
-            Debug.Log("Load scene 1");
+            loadScene = true;
+            StartCoroutine(LoadStation("Apartment"));
         }
-        else if (stationVal == stationNums[1])
+        else if (stationVal == stationNums[1] && !loadScene)
         {
-            Debug.Log("Load scene 2");
+            loadScene = true;
+            StartCoroutine(LoadStation("House"));
         }
-        else if (stationVal == stationNums[2])
+        else if (stationVal == stationNums[2] && !loadScene)
         {
-            Debug.Log("Load scene 3");
+            loadScene = true;
+            StartCoroutine(LoadStation("Facility"));
         }
-        else if (stationVal == stationNums[3])
+        else if (stationVal == stationNums[3] && !loadScene)
         {
-            Debug.Log("Load scene 4");
+            loadScene = true;
+            StartCoroutine(LoadStation("Other"));
         }
         else
         {
             Debug.Log("Station not found in presets");
         }
+    }
+
+    IEnumerator LoadStation(string sceneToLoad)
+    {
+        FadeController.instance.StartFade(1.0f, 1f);
+
+        while (FadeController.instance.isFading)
+            yield return null;
+
+        SceneManager.LoadSceneAsync(sceneToLoad);
     }
 
     public override void Interact()

@@ -19,13 +19,13 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] float dashDist;
     [SerializeField] LayerMask layer;
     [SerializeField] float checkDist;
-    [SerializeField] ParticleSystem dashEffect;
+    //[SerializeField] ParticleSystem dashEffect;
 
     [SerializeField] InteractObject interactObj;
     [SerializeField] GameObject playerAvatar;
     [SerializeField] Animator animator;
 
-    [SerializeField] GameObject meleeObject;
+    //[SerializeField] GameObject meleeObject;
 
 
 
