@@ -6,6 +6,7 @@ public class ClearSight : MonoBehaviour
     public float DistanceToPlayer = 5.0f;
     [SerializeField] LayerMask layerToFade;
 
+
     void Update()
     {
         RaycastHit[] hits;
