@@ -22,7 +22,7 @@ public class RadioController : InteractObject
     [SerializeField] GameObject dialObj;
     [SerializeField] float rotSpeed;
     private float xInput;
-    [SerializeField] float[] stationNums;
+    [SerializeField] List<float> stationNums;
     int stationIndex;
     bool loadScene = false;
 
@@ -40,6 +40,12 @@ public class RadioController : InteractObject
 
 
         stationIndex = 0;
+    }
+
+    private void Start()
+    {
+        stationNums = new List<float>();
+        stationNums = SaveDataController.instance.saveData.radioStations;
     }
 
     private void Update()
@@ -74,17 +80,13 @@ public class RadioController : InteractObject
                 {
                     stationIndex--;
                     if (stationIndex < 0)
-                        stationIndex = stationNums.Length - 1;
-
-                    dialObj.transform.Rotate(0.0f, dialObj.transform.localEulerAngles.y - 25f, 0.0f);
+                        stationIndex = stationNums.Count - 1;
                 }
                 if (Input.GetKeyDown("right"))
                 {
                     stationIndex++;
-                    if (stationIndex > stationNums.Length - 1)
+                    if (stationIndex > stationNums.Count - 1)
                         stationIndex = 0;
-
-                    dialObj.transform.Rotate(0.0f, dialObj.transform.localEulerAngles.y + 25f, 0.0f);
                 }
 
                 currentFrequency = stationNums[stationIndex];

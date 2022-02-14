@@ -79,6 +79,13 @@ public class SaveDataController : MonoBehaviour
         scenario3.powerLevel = false;
         scenario3.antenna = false;
         saveData.scenarios.Add(scenario3);
+
+        //Randomize stations
+        for (int i = 0; i < 3; i++)
+        {
+            float randNum = Random.Range(0f, 10f);
+            saveData.radioStations.Add(randNum);
+        }
     }
 
     public void SetSavePoint(string sceneName, int ID)
@@ -128,6 +135,7 @@ public class SaveData
     public string currentScene;
     public int savePointID;
     public List<ScenarioObjective> scenarios = new List<ScenarioObjective>();
+    public List<float> radioStations = new List<float>();
 }
 
 [System.Serializable]
