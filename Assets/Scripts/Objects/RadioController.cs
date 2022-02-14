@@ -52,8 +52,10 @@ public class RadioController : InteractObject
     {
         activeModel.SetActive(activated);
         deactivatedModel.SetActive(!activated);
-        instructionText.SetActive(interacting);
+        //instructionText.SetActive(interacting);
 
+
+        //Lock rotation once the player reaches either end of frequency spectrum
         float tempSpeed = rotSpeed;
         if (currentFrequency < 0.0f)
         {
@@ -71,9 +73,10 @@ public class RadioController : InteractObject
         }
 
 
+        //Interact Logic
         if (interacting)
         {
-            if (Input.GetKey("right shift"))
+            if (Input.GetKey("right shift") && stationNums.Count > 0)
             {
                 frequencyText.color = presetColor;
                 if (Input.GetKeyDown("left"))
@@ -101,9 +104,10 @@ public class RadioController : InteractObject
 
             if (Input.GetKeyDown("x"))
             {
+                currentFrequency = (float)System.Math.Round(currentFrequency, 2);
                 SelectStation(currentFrequency);
             }
-
+         
             float displayFrequency = currentFrequency * 10f;
             frequencyText.text = displayFrequency.ToString("F1");
         }
