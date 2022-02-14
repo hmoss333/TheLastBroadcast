@@ -5,23 +5,12 @@ using UnityEngine.UI;
 
 public class InteractIcon_Controller : MonoBehaviour
 {
-    //public static InteractIcon_Controller instance;
-
-    [SerializeField] bool isActive;
-    //[SerializeField] float yOffSet;
-    [SerializeField] bool interacting;
+    bool isActive;
+    bool interacting;
     InteractObject targetObj;
     Image icon;
     [SerializeField] float fadeTime;
 
-
-    //private void Awake()
-    //{
-    //    if (instance == null)
-    //        instance = this;
-    //    else
-    //        Destroy(this.gameObject);
-    //}
 
     private void Start()
     {

@@ -9,8 +9,8 @@ public class SaveDataController : MonoBehaviour
 {
     public static SaveDataController instance;
 
-    public SaveData saveData;
-    string destination;
+    public SaveData saveData; //requires public for serialization
+    private string destination;
 
 
     private void Awake()
@@ -24,7 +24,6 @@ public class SaveDataController : MonoBehaviour
 
         destination = Application.persistentDataPath + "/save.json";
         saveData = new SaveData();
-        saveData.currentScene = SceneManager.GetActiveScene().name;
 
         LoadFile();
     }
@@ -34,17 +33,14 @@ public class SaveDataController : MonoBehaviour
         if (File.Exists(destination))
         {
             //Load data from file
-            //saveData = JsonUtility.FromJson<SaveData>(destination);
-
             string jsonData = "";
-            jsonData = File.ReadAllText(Application.persistentDataPath + "/save.json");
+            jsonData = File.ReadAllText(destination);
             saveData = JsonConvert.DeserializeObject<SaveData>(jsonData);
         }
         else
         {
             //Create a new file
-            saveData = new SaveData();
-            saveData.currentScene = "RadioRoom"; //Set RadioRoom as default for new save files
+            CreateNewSaveFile();
             SaveFile();
         }
     }
@@ -54,6 +50,35 @@ public class SaveDataController : MonoBehaviour
         string jsonData = JsonUtility.ToJson(saveData);
         print("Saving Data:" + jsonData);
         File.WriteAllText(destination, jsonData);
+    }
+
+    void CreateNewSaveFile()
+    {
+        saveData = new SaveData();
+
+        saveData.currentScene = "RadioRoom"; //Set RadioRoom as default for new save files
+        saveData.savePointID = 0;
+
+        ScenarioObjective scenario1 = new ScenarioObjective();
+        scenario1.sceneName = "Apartment";
+        scenario1.frequency = false;
+        scenario1.powerLevel = false;
+        scenario1.antenna = false;
+        saveData.scenarios.Add(scenario1);
+
+        ScenarioObjective scenario2 = new ScenarioObjective();
+        scenario2.sceneName = "House";
+        scenario2.frequency = false;
+        scenario2.powerLevel = false;
+        scenario2.antenna = false;
+        saveData.scenarios.Add(scenario2);
+
+        ScenarioObjective scenario3 = new ScenarioObjective();
+        scenario3.sceneName = "Facility";
+        scenario3.frequency = false;
+        scenario3.powerLevel = false;
+        scenario3.antenna = false;
+        saveData.scenarios.Add(scenario3);
     }
 
     public void SetSavePoint(string sceneName, int ID)
@@ -89,7 +114,7 @@ public class SaveDataController : MonoBehaviour
         }
     }
 
-    public SaveData ReturnSaveData()
+    public SaveData GetSaveData()
     {
         return saveData;
     }

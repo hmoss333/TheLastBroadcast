@@ -24,7 +24,7 @@ public class SceneInitController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        saveData = SaveDataController.instance.ReturnSaveData();
+        saveData = SaveDataController.instance.GetSaveData();
 
         InitializeGame();
     }
@@ -56,6 +56,14 @@ public class SceneInitController : MonoBehaviour
     {
         currentScene = SceneManager.GetActiveScene().name;
 
+        //Whenever a new scene is loaded, update save file to reflect the current level
+        if (currentScene != saveData.currentScene && currentScene != "Title")
+        {
+            SaveDataController.instance.SetSavePoint(currentScene, 0);
+            SaveDataController.instance.SaveFile();
+        }
+
+
         GetAllSavePoints();
         HideAllRooms();
 
@@ -72,7 +80,8 @@ public class SceneInitController : MonoBehaviour
             }
         }
 
-        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+        if (CameraController.instance)
+            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         FadeController.instance.StartFade(0.0f, 1f);
     }
 }
