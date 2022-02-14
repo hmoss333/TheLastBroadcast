@@ -59,17 +59,11 @@ public class SaveDataController : MonoBehaviour
         saveData.currentScene = "Facility"; //Set Facility as default for new save files
         saveData.savePointID = 0;
 
-        //Setup Scenario 0 objectives
-        ScenarioObjective scenario0 = new ScenarioObjective();
-        scenario0.sceneName = "Facility";
-        scenario0.frequency = false;
-        scenario0.powerLevel = false;
-        scenario0.antenna = false;
-        saveData.scenarios.Add(scenario0);
 
         //Setup Scenario 1 objectives
         ScenarioObjective scenario1 = new ScenarioObjective();
         scenario1.sceneName = "Apartment";
+        scenario1.presetVal = 0.0f;
         scenario1.frequency = false;
         scenario1.powerLevel = false;
         scenario1.antenna = false;
@@ -78,18 +72,29 @@ public class SaveDataController : MonoBehaviour
         //Setup Scenario 2 objectives
         ScenarioObjective scenario2 = new ScenarioObjective();
         scenario2.sceneName = "House";
+        scenario2.presetVal = 0.0f;
         scenario2.frequency = false;
         scenario2.powerLevel = false;
         scenario2.antenna = false;
         saveData.scenarios.Add(scenario2);
 
+        //Setup Scenario 3 objectives
+        ScenarioObjective scenario3 = new ScenarioObjective();
+        scenario3.sceneName = "Library";
+        scenario3.presetVal = 0.0f;
+        scenario3.frequency = false;
+        scenario3.powerLevel = false;
+        scenario3.antenna = false;
+        saveData.scenarios.Add(scenario3);
+
+
         //Randomize stations
         //TODO have each station be generated and added once scenario objectives have been completed
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < saveData.scenarios.Count; i++)
         {
             float randNum = Random.Range(0f, 10f);
             randNum = (float)System.Math.Round(randNum, 2);
-            saveData.radioStations.Add(randNum);
+            UpdateScenario(saveData.scenarios[i].sceneName, randNum);
         }
 
         //Set Ability defaults
@@ -135,6 +140,18 @@ public class SaveDataController : MonoBehaviour
         }
     }
 
+    public void UpdateScenario(string sceneName, float stationVal)
+    {
+        foreach (ScenarioObjective scenario in saveData.scenarios)
+        {
+            if (scenario.sceneName == sceneName)
+            {
+                scenario.presetVal = stationVal;
+                break;
+            }
+        }
+    }
+
     public SaveData GetSaveData()
     {
         return saveData;
@@ -149,18 +166,19 @@ public class SaveData
     public string currentScene;
     public int savePointID;
     public List<ScenarioObjective> scenarios = new List<ScenarioObjective>();
-    public List<float> radioStations = new List<float>();
+    //public List<float> radioStations = new List<float>(); //Need to configure this as a Dictionary<string, float> to make sure that stations are only added once per area
     public Abilities abilities;
+    //public List<int> collectableIDs = new List<int>();
 }
 
 [System.Serializable]
 public class ScenarioObjective
 {
     public string sceneName;
+    public float presetVal; //testing with adding station value here instead of unsorted list
     public bool frequency;
     public bool powerLevel;
     public bool antenna;
-    public List<int> collectableIDs = new List<int>();
 }
 
 [System.Serializable]

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class RadioController : InteractObject
 {
@@ -14,7 +15,7 @@ public class RadioController : InteractObject
     [SerializeField] GameObject deactivatedModel;
     [SerializeField] GameObject focusPoint;
     [SerializeField] AudioSource staticSource;
-    [SerializeField] GameObject instructionText;
+    //[SerializeField] GameObject instructionText;
 
     [SerializeField][Range(0f, 10f)] float currentFrequency;
     [SerializeField] TextMeshPro frequencyText;
@@ -22,7 +23,7 @@ public class RadioController : InteractObject
     [SerializeField] GameObject dialObj;
     [SerializeField] float rotSpeed;
     private float xInput;
-    [SerializeField] List<float> stationNums;
+    Dictionary<string, float> presetVals;
     int stationIndex;
     bool loadScene = false;
 
@@ -44,8 +45,12 @@ public class RadioController : InteractObject
 
     private void Start()
     {
-        stationNums = new List<float>();
-        stationNums = SaveDataController.instance.saveData.radioStations;
+        presetVals = new Dictionary<string, float>();
+        for (int i = 0; i < SaveDataController.instance.saveData.scenarios.Count; i++)
+        {
+            if (SaveDataController.instance.saveData.scenarios[i].presetVal > 0.0f) //ignore if presetVal hasn't been set yet
+                presetVals.Add(SaveDataController.instance.saveData.scenarios[i].sceneName, SaveDataController.instance.saveData.scenarios[i].presetVal);
+        }
     }
 
     private void Update()
@@ -76,23 +81,23 @@ public class RadioController : InteractObject
         //Interact Logic
         if (interacting)
         {
-            if (Input.GetKey("right shift") && stationNums.Count > 0)
+            if (Input.GetKey("right shift") && presetVals.Count > 0)
             {
                 frequencyText.color = presetColor;
                 if (Input.GetKeyDown("left"))
                 {
                     stationIndex--;
                     if (stationIndex < 0)
-                        stationIndex = stationNums.Count - 1;
+                        stationIndex = presetVals.Count - 1;
                 }
                 if (Input.GetKeyDown("right"))
                 {
                     stationIndex++;
-                    if (stationIndex > stationNums.Count - 1)
+                    if (stationIndex > presetVals.Count - 1)
                         stationIndex = 0;
                 }
 
-                currentFrequency = stationNums[stationIndex];
+                currentFrequency = presetVals.Values.ElementAt(stationIndex);
             }
             else
             {
@@ -115,24 +120,13 @@ public class RadioController : InteractObject
 
     void SelectStation(float stationVal)
     {
-        if (stationVal == stationNums[0] && !loadScene)
+        foreach (KeyValuePair<string, float> preset in presetVals)
         {
-            loadScene = true;
-            StartCoroutine(LoadStation("Apartment"));
-        }
-        else if (stationVal == stationNums[1] && !loadScene)
-        {
-            loadScene = true;
-            StartCoroutine(LoadStation("House"));
-        }
-        else if (stationVal == stationNums[2] && !loadScene)
-        {
-            loadScene = true;
-            StartCoroutine(LoadStation("Facility"));
-        }
-        else
-        {
-            Debug.Log("Station not found in presets");
+            if (stationVal == preset.Value && !loadScene)
+            {
+                loadScene = true;
+                StartCoroutine(LoadStation(preset.Key));
+            }
         }
     }
 
