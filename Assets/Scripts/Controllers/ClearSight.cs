@@ -17,18 +17,21 @@ public class ClearSight : MonoBehaviour
 
         foreach (RaycastHit hit in hits)
         {
-            Renderer R = hit.collider.GetComponent<Renderer>();
-
-            if (R == null || CameraController.instance.isFocused())
-                continue; // no renderer attached? go to next hit
-                          // TODO: maybe implement here a check for GOs that should not be affected like the player
-
-            AutoTransparent AT = R.GetComponent<AutoTransparent>();
-            if (AT == null) // if no script is attached, attach one
+            if (hit.collider.gameObject.tag != "SavePoint") //Need a more elegant solution for avoiding the TV
             {
-                AT = R.gameObject.AddComponent<AutoTransparent>();
+                Renderer R = hit.collider.GetComponent<Renderer>();
+
+                if (R == null || CameraController.instance.isFocused())
+                    continue; // no renderer attached? go to next hit
+                              // TODO: maybe implement here a check for GOs that should not be affected like the player
+
+                AutoTransparent AT = R.GetComponent<AutoTransparent>();
+                if (AT == null) // if no script is attached, attach one
+                {
+                    AT = R.gameObject.AddComponent<AutoTransparent>();
+                }
+                AT.BeTransparent(); // get called every frame to reset the falloff
             }
-            AT.BeTransparent(); // get called every frame to reset the falloff
         }
     }
 }
