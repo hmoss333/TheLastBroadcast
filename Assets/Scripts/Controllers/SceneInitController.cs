@@ -12,6 +12,9 @@ public class SceneInitController : MonoBehaviour
     [SerializeField] SavePointController[] savePoints;
     [SerializeField] RoomController[] rooms;
 
+    ScenarioObjective currentScenario;
+    [SerializeField] List<SceneInteractObj> currentInteractObjects;
+
 
     private void Awake()
     {
@@ -25,6 +28,7 @@ public class SceneInitController : MonoBehaviour
     void Start()
     {
         saveData = SaveDataController.instance.GetSaveData();
+        currentInteractObjects = new List<SceneInteractObj>();
 
         InitializeGame();
     }
@@ -33,6 +37,65 @@ public class SceneInitController : MonoBehaviour
     {
         if (currentScene != SceneManager.GetActiveScene().name)
             InitializeGame();
+    }
+
+    void GetCurrentScenario()
+    {
+        //Get reference to current Scenario
+        foreach (ScenarioObjective scenarioObjective in saveData.scenarios)
+        {
+            if (scenarioObjective.sceneName == currentScene)
+            {
+                currentScenario = scenarioObjective;
+                break;
+            }
+        }
+    }
+
+    void GetInteractObjs()
+    {      
+        InteractObject[] tempObjArray = FindObjectsOfType<InteractObject>();
+        foreach (InteractObject tempObj in tempObjArray)
+        {
+            foreach (SceneInteractObj tempSceneObj in currentScenario.objectStates)
+            {
+                if (tempObj.objID == tempSceneObj.ID)
+                {
+                    tempObj.activated = tempSceneObj.activated;
+                }
+            }
+        }
+
+        //Create list of all interactObjects in scene
+        currentInteractObjects = new List<SceneInteractObj>();
+        foreach (InteractObject tempObj in tempObjArray)
+        {
+            SceneInteractObj newObj = new SceneInteractObj();
+            newObj.ID = tempObj.objID;
+            newObj.activated = tempObj.activated;
+            //TODO add more values to track here
+
+            currentInteractObjects.Add(newObj);
+        }     
+    }
+
+    public void SaveInteractObjs() //call whenever changing FROM scene
+    {
+        InteractObject[] tempObjArray = FindObjectsOfType<InteractObject>();
+        foreach (SceneInteractObj tempSceneObj in currentInteractObjects)//currentScenario.objectStates)
+        {
+            foreach (InteractObject tempObj in tempObjArray)
+            {
+                if (tempSceneObj.ID == tempObj.objID)
+                {
+                    tempSceneObj.activated = tempObj.activated;
+                }
+            }
+        }
+
+        //Update save file with current changes
+        currentScenario.objectStates = currentInteractObjects;
+        SaveDataController.instance.SaveFile();
     }
 
     void GetAllSavePoints()
@@ -56,32 +119,37 @@ public class SceneInitController : MonoBehaviour
     {
         currentScene = SceneManager.GetActiveScene().name;
 
-        //Whenever a new scene is loaded, update save file to reflect the current level
-        if (currentScene != saveData.currentScene && currentScene != "Title")
+        if (currentScene != "Title")
         {
-            SaveDataController.instance.SetSavePoint(currentScene, 0);
-            SaveDataController.instance.SaveFile();
-        }
-
-
-        GetAllSavePoints();
-        HideAllRooms();
-
-        foreach (SavePointController point in savePoints)
-        {
-            if (point.ID == saveData.savePointID)
+            //Whenever a new scene is loaded, update save file to reflect the current level
+            if (currentScene != saveData.currentScene)
             {
-                if (!point.transform.parent.gameObject.activeSelf)
-                    point.transform.parent.gameObject.SetActive(true);
-                PlayerController.instance.transform.position = point.initPoint.position;
-                PlayerController.instance.transform.rotation = point.initPoint.rotation;
-                PlayerController.instance.interacting = false;
-                break;
+                SaveDataController.instance.SetSavePoint(currentScene, 0);
+                SaveDataController.instance.SaveFile();
             }
-        }
 
-        if (CameraController.instance)
+            GetCurrentScenario();
+            GetInteractObjs();
+            if (currentScenario.objectStates.Count <= 0) { SaveInteractObjs(); }
+            GetAllSavePoints();
+            HideAllRooms();
+
+            foreach (SavePointController point in savePoints)
+            {
+                if (point.ID == saveData.savePointID)
+                {
+                    if (!point.transform.parent.gameObject.activeSelf)
+                        point.transform.parent.gameObject.SetActive(true);
+                    PlayerController.instance.transform.position = point.initPoint.position;
+                    PlayerController.instance.transform.rotation = point.initPoint.rotation;
+                    PlayerController.instance.interacting = false;
+                    break;
+                }
+            }
+
+            //if (CameraController.instance)
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
-        FadeController.instance.StartFade(0.0f, 1f);
+            FadeController.instance.StartFade(0.0f, 1f);
+        }
     }
 }

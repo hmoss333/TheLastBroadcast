@@ -60,6 +60,15 @@ public class SaveDataController : MonoBehaviour
         saveData.savePointID = 0;
 
 
+        //Setup Scenario 0 objectives
+        ScenarioObjective scenario0 = new ScenarioObjective();
+        scenario0.sceneName = "Facility";
+        scenario0.presetVal = 0.0f;
+        scenario0.frequency = false;
+        scenario0.powerLevel = false;
+        scenario0.antenna = false;
+        saveData.scenarios.Add(scenario0);
+
         //Setup Scenario 1 objectives
         ScenarioObjective scenario1 = new ScenarioObjective();
         scenario1.sceneName = "Apartment";
@@ -90,7 +99,7 @@ public class SaveDataController : MonoBehaviour
 
         //Randomize stations
         //TODO have each station be generated and added once scenario objectives have been completed
-        for (int i = 0; i < saveData.scenarios.Count; i++)
+        for (int i = 1; i < saveData.scenarios.Count; i++)
         {
             float randNum = Random.Range(0f, 10f);
             randNum = (float)System.Math.Round(randNum, 2);
@@ -179,6 +188,7 @@ public class ScenarioObjective
     public bool frequency;
     public bool powerLevel;
     public bool antenna;
+    public List<SceneInteractObj> objectStates = new List<SceneInteractObj>();
 }
 
 [System.Serializable]
@@ -189,4 +199,11 @@ public class Abilities
     public bool book;
     public bool hand;
     public bool mirror;
+}
+
+[System.Serializable]
+public class SceneInteractObj
+{
+    public int ID;
+    public bool activated;
 }

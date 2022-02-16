@@ -138,6 +138,7 @@ public class TranscieverController : InteractObject
             yield return null;
 
         PlayerController.instance.ToggleAvatar();
+        SceneInitController.instance.SaveInteractObjs();
         SceneManager.LoadSceneAsync(sceneToLoad);
     }
 
