@@ -175,9 +175,7 @@ public class SaveData
     public string currentScene;
     public int savePointID;
     public List<ScenarioObjective> scenarios = new List<ScenarioObjective>();
-    //public List<float> radioStations = new List<float>(); //Need to configure this as a Dictionary<string, float> to make sure that stations are only added once per area
     public Abilities abilities;
-    //public List<int> collectableIDs = new List<int>();
 }
 
 [System.Serializable]

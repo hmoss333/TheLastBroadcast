@@ -147,7 +147,6 @@ public class SceneInitController : MonoBehaviour
                 }
             }
 
-            //if (CameraController.instance)
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
             FadeController.instance.StartFade(0.0f, 1f);
         }
