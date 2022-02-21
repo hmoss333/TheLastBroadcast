@@ -1,18 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MainMenuController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] GameObject mainMenuCanvas;
+    [SerializeField] GameObject loadGameCanvas;
+    [SerializeField] TextMeshProUGUI loadGameText;
+
+
+    private void Start()
     {
-        
+        mainMenuCanvas.SetActive(true);
+        loadGameCanvas.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void NewGameButton()
+    {        
+        SaveDataController.instance.CreateNewSaveFile();
+        SceneManager.LoadScene(SaveDataController.instance.saveData.currentScene);
+    }
+
+    public void LoadGameButton()
     {
-        
+        SaveDataController.instance.LoadFile();
+        mainMenuCanvas.SetActive(false);
+        loadGameCanvas.SetActive(true);
+        loadGameText.text = $"{SaveDataController.instance.saveData.currentScene}: \nSaveTV ID: {SaveDataController.instance.saveData.savePointID}";
+    }
+
+    public void StartSavedGame()
+    {
+        SceneManager.LoadScene(SaveDataController.instance.saveData.currentScene);
+    }
+
+    public void QuitGameButton()
+    {
+        Application.Quit();
     }
 }

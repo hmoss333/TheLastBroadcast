@@ -25,13 +25,14 @@ public class SaveDataController : MonoBehaviour
         destination = Application.persistentDataPath + "/save.json";
         saveData = new SaveData();
 
-        LoadFile();
+        //LoadFile();
     }
 
-    void LoadFile()
+    public void LoadFile()
     {
         if (File.Exists(destination))
         {
+            print("Loading data...");
             //Load data from file
             string jsonData = "";
             jsonData = File.ReadAllText(destination);
@@ -52,7 +53,7 @@ public class SaveDataController : MonoBehaviour
         File.WriteAllText(destination, jsonData);
     }
 
-    void CreateNewSaveFile()
+    public void CreateNewSaveFile()
     {
         saveData = new SaveData();
 

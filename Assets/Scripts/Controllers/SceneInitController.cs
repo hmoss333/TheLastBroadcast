@@ -22,6 +22,8 @@ public class SceneInitController : MonoBehaviour
             instance = this;
         else
             Destroy(this);
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // Start is called before the first frame update
@@ -119,36 +121,33 @@ public class SceneInitController : MonoBehaviour
     {
         currentScene = SceneManager.GetActiveScene().name;
 
-        if (currentScene != "Title")
+        //Whenever a new scene is loaded, update save file to reflect the current level
+        if (currentScene != saveData.currentScene)
         {
-            //Whenever a new scene is loaded, update save file to reflect the current level
-            if (currentScene != saveData.currentScene)
-            {
-                SaveDataController.instance.SetSavePoint(currentScene, 0);
-                SaveDataController.instance.SaveFile();
-            }
-
-            GetCurrentScenario();
-            GetInteractObjs();
-            if (currentScenario.objectStates.Count <= 0) { SaveInteractObjs(); }
-            GetAllSavePoints();
-            HideAllRooms();
-
-            foreach (SavePointController point in savePoints)
-            {
-                if (point.ID == saveData.savePointID)
-                {
-                    if (!point.transform.parent.gameObject.activeSelf)
-                        point.transform.parent.gameObject.SetActive(true);
-                    PlayerController.instance.transform.position = point.initPoint.position;
-                    PlayerController.instance.transform.rotation = point.initPoint.rotation;
-                    PlayerController.instance.interacting = false;
-                    break;
-                }
-            }
-
-            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
-            FadeController.instance.StartFade(0.0f, 1f);
+            SaveDataController.instance.SetSavePoint(currentScene, 0);
+            SaveDataController.instance.SaveFile();
         }
+
+        GetCurrentScenario();
+        GetInteractObjs();
+        if (currentScenario.objectStates.Count <= 0) { SaveInteractObjs(); }
+        GetAllSavePoints();
+        HideAllRooms();
+
+        foreach (SavePointController point in savePoints)
+        {
+            if (point.ID == saveData.savePointID)
+            {
+                if (!point.transform.parent.gameObject.activeSelf)
+                    point.transform.parent.gameObject.SetActive(true);
+                PlayerController.instance.transform.position = point.initPoint.position;
+                PlayerController.instance.transform.rotation = point.initPoint.rotation;
+                PlayerController.instance.interacting = false;
+                break;
+            }
+        }
+
+        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+        FadeController.instance.StartFade(0.0f, 1f);
     }
 }
