@@ -10,7 +10,6 @@ public class TranscieverController : InteractObject
 {
     public static TranscieverController instance;
 
-    //[SerializeField] GameObject radioPrefab;
     [SerializeField] GameObject activeModel;
     [SerializeField] GameObject deactivatedModel;
     [SerializeField] GameObject focusPoint;
@@ -48,8 +47,8 @@ public class TranscieverController : InteractObject
         presetVals = new Dictionary<string, float>();
         for (int i = 0; i < SaveDataController.instance.saveData.scenarios.Count; i++)
         {
-            if (SaveDataController.instance.saveData.scenarios[i].presetVal > 0.0f) //ignore if presetVal hasn't been set yet
-                presetVals.Add(SaveDataController.instance.saveData.scenarios[i].sceneName, SaveDataController.instance.saveData.scenarios[i].presetVal);
+            if (SaveDataController.instance.saveData.scenarios[i].station > 0.0f) //ignore if presetVal hasn't been set yet
+                presetVals.Add(SaveDataController.instance.saveData.scenarios[i].sceneName, SaveDataController.instance.saveData.scenarios[i].station);
         }
     }
 

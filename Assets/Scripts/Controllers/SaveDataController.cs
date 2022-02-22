@@ -25,7 +25,7 @@ public class SaveDataController : MonoBehaviour
         destination = Application.persistentDataPath + "/save.json";
         saveData = new SaveData();
 
-        //LoadFile();
+        LoadFile();
     }
 
     public void LoadFile()
@@ -64,7 +64,8 @@ public class SaveDataController : MonoBehaviour
         //Setup Scenario 0 objectives
         ScenarioObjective scenario0 = new ScenarioObjective();
         scenario0.sceneName = "Facility";
-        scenario0.presetVal = 0.0f;
+        scenario0.progressVal = 0;
+        scenario0.station = 0.0f;
         scenario0.frequency = false;
         scenario0.powerLevel = false;
         scenario0.antenna = false;
@@ -73,7 +74,8 @@ public class SaveDataController : MonoBehaviour
         //Setup Scenario 1 objectives
         ScenarioObjective scenario1 = new ScenarioObjective();
         scenario1.sceneName = "Apartment";
-        scenario1.presetVal = 0.0f;
+        scenario1.progressVal = 0;
+        scenario1.station = 0.0f;
         scenario1.frequency = false;
         scenario1.powerLevel = false;
         scenario1.antenna = false;
@@ -82,7 +84,8 @@ public class SaveDataController : MonoBehaviour
         //Setup Scenario 2 objectives
         ScenarioObjective scenario2 = new ScenarioObjective();
         scenario2.sceneName = "House";
-        scenario2.presetVal = 0.0f;
+        scenario2.progressVal = 0;
+        scenario2.station = 0.0f;
         scenario2.frequency = false;
         scenario2.powerLevel = false;
         scenario2.antenna = false;
@@ -91,7 +94,8 @@ public class SaveDataController : MonoBehaviour
         //Setup Scenario 3 objectives
         ScenarioObjective scenario3 = new ScenarioObjective();
         scenario3.sceneName = "Library";
-        scenario3.presetVal = 0.0f;
+        scenario3.progressVal = 0;
+        scenario3.station = 0.0f;
         scenario3.frequency = false;
         scenario3.powerLevel = false;
         scenario3.antenna = false;
@@ -156,7 +160,7 @@ public class SaveDataController : MonoBehaviour
         {
             if (scenario.sceneName == sceneName)
             {
-                scenario.presetVal = stationVal;
+                scenario.station = stationVal;
                 break;
             }
         }
@@ -183,7 +187,8 @@ public class SaveData
 public class ScenarioObjective
 {
     public string sceneName;
-    public float presetVal; //testing with adding station value here instead of unsorted list
+    public int progressVal;
+    public float station; //testing with adding station value here instead of unsorted list
     public bool frequency;
     public bool powerLevel;
     public bool antenna;
