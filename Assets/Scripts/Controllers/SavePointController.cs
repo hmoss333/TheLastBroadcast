@@ -19,44 +19,6 @@ public class SavePointController : InteractObject
         sceneToLoad = SaveDataController.instance.saveData.currentScene;
     }
 
-    private void Update()
-    {
-        if (interacting)
-        {
-            if (Input.GetKeyDown("left"))
-            {
-                sceneVal--;
-                CycleSceneName();
-            }
-            else if (Input.GetKeyDown("right"))
-            {
-                sceneVal++;
-                CycleSceneName();
-            }
-            else if (Input.GetKeyDown("up") && sceneToLoad != SaveDataController.instance.saveData.currentScene)
-            {
-                PlayerController.instance.ToggleAvatar();
-                SceneManager.LoadScene(sceneToLoad);
-            }
-        }
-    }
-
-
-    void CycleSceneName()
-    {
-        List<string> sceneNames = new List<string>();
-        for (int i = 0; i < SaveDataController.instance.saveData.scenarios.Count; i++)
-        {
-            sceneNames.Add(SaveDataController.instance.saveData.scenarios[i].sceneName);
-        }
-
-        if (sceneVal > sceneNames.Count - 1)
-            sceneVal = 0;
-        else if (sceneVal < 0)
-            sceneVal = sceneNames.Count - 1;
-        sceneToLoad = sceneNames[sceneVal];
-    }
-
     public override void Interact()
     {
         base.Interact();

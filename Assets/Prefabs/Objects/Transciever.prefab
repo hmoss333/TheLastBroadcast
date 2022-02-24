@@ -577,6 +577,37 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1396166335}
   m_maskType: 0
+--- !u!1 &1106824836985011414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2976158349546481}
+  m_Layer: 0
+  m_Name: InitPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2976158349546481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106824836985011414}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3412513304071608447}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3412513304071608443
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,6 +643,7 @@ Transform:
   m_Children:
   - {fileID: 7481519784980080279}
   - {fileID: 659703839}
+  - {fileID: 2976158349546481}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -693,6 +725,11 @@ MonoBehaviour:
   objID: 0
   interacting: 0
   activated: 1
+  ID: 0
+  initPoint: {fileID: 2976158349546481}
+  focusPoint: {fileID: 659703838}
+  sceneVal: 0
+  sceneToLoad: 
   activeModel: {fileID: 3720460723858242603}
   deactivatedModel: {fileID: 3801786449850605495}
   focusPoint: {fileID: 659703838}

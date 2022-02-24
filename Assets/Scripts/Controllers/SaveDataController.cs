@@ -104,7 +104,7 @@ public class SaveDataController : MonoBehaviour
 
         //Randomize stations
         //TODO have each station be generated and added once scenario objectives have been completed
-        for (int i = 1; i < saveData.scenarios.Count; i++)
+        for (int i = 0; i < saveData.scenarios.Count; i++)
         {
             float randNum = Random.Range(0f, 10f);
             randNum = (float)System.Math.Round(randNum, 2);

@@ -6,13 +6,13 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class TranscieverController : InteractObject
+public class TranscieverController : SavePointController
 {
     public static TranscieverController instance;
 
     [SerializeField] GameObject activeModel;
     [SerializeField] GameObject deactivatedModel;
-    [SerializeField] GameObject focusPoint;
+    //[SerializeField] GameObject focusPoint;
     [SerializeField] AudioSource staticSource;
     //[SerializeField] GameObject instructionText;
 
@@ -83,6 +83,9 @@ public class TranscieverController : InteractObject
             if (Input.GetKey("right shift") && presetVals.Count > 0)
             {
                 frequencyText.color = presetColor;
+                if (SaveDataController.instance.saveData.scenarios[stationIndex].sceneName == SceneInitController.instance.currentScene)
+                    stationIndex++;
+
                 if (Input.GetKeyDown("left"))
                 {
                     stationIndex--;
@@ -147,9 +150,9 @@ public class TranscieverController : InteractObject
         {
             base.Interact();
 
-            PlayerController.instance.ToggleAvatar();
-            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
-            CameraController.instance.FocusTarget();
+            //PlayerController.instance.ToggleAvatar();
+            //CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            //CameraController.instance.FocusTarget();
         }
 
         staticSource.mute = !interacting;
