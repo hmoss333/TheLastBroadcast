@@ -41,18 +41,18 @@ public class SceneInitController : MonoBehaviour
             InitializeGame();
     }
 
-    void GetCurrentScenario()
-    {
-        //Get reference to current Scenario
-        foreach (ScenarioObjective scenarioObjective in saveData.scenarios)
-        {
-            if (scenarioObjective.sceneName == currentScene)
-            {
-                currentScenario = scenarioObjective;
-                break;
-            }
-        }
-    }
+    //void GetCurrentScenario()
+    //{
+    //    //Get reference to current Scenario
+    //    foreach (ScenarioObjective scenarioObjective in saveData.scenarios)
+    //    {
+    //        if (scenarioObjective.sceneName == currentScene)
+    //        {
+    //            currentScenario = scenarioObjective;
+    //            break;
+    //        }
+    //    }
+    //}
 
     void GetInteractObjs()
     {      
@@ -84,7 +84,7 @@ public class SceneInitController : MonoBehaviour
     public void SaveInteractObjs() //call whenever changing FROM scene
     {
         InteractObject[] tempObjArray = FindObjectsOfType<InteractObject>();
-        foreach (SceneInteractObj tempSceneObj in currentInteractObjects)//currentScenario.objectStates)
+        foreach (SceneInteractObj tempSceneObj in currentInteractObjects)
         {
             foreach (InteractObject tempObj in tempObjArray)
             {
@@ -120,15 +120,8 @@ public class SceneInitController : MonoBehaviour
     public void InitializeGame()
     {
         currentScene = SceneManager.GetActiveScene().name;
+        currentScenario = SaveDataController.instance.GetScenario(currentScene);
 
-        //Whenever a new scene is loaded, update save file to reflect the current level
-        if (currentScene != saveData.currentScene)
-        {
-            SaveDataController.instance.SetSavePoint(currentScene, 0);
-            SaveDataController.instance.SaveFile();
-        }
-
-        GetCurrentScenario();
         GetInteractObjs();
         if (currentScenario.objectStates.Count <= 0) { SaveInteractObjs(); }
         GetAllSavePoints();
@@ -136,7 +129,7 @@ public class SceneInitController : MonoBehaviour
 
         foreach (SavePointController point in savePoints)
         {
-            if (point.ID == saveData.savePointID)
+            if (point.ID == currentScenario.savePointID)
             {
                 if (!point.transform.parent.gameObject.activeSelf)
                     point.transform.parent.gameObject.SetActive(true);

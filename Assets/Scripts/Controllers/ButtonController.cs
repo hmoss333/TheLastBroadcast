@@ -35,14 +35,17 @@ public class ButtonController : InteractObject
         //Activate all interact objects in list
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
+            if (!objectsToActivate[i].activated)
+            {
+                CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
 
-            yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1f);
 
-            objectsToActivate[i].Activate();
+                objectsToActivate[i].Activate();
 
 
-            yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1f);
+            }
         }
 
         //Reset camera to player

@@ -58,12 +58,13 @@ public class SaveDataController : MonoBehaviour
         saveData = new SaveData();
 
         saveData.currentScene = "Facility"; //Set Facility as default for new save files
-        saveData.savePointID = 0;
+        //saveData.savePointID = 0;
 
 
         //Setup Scenario 0 objectives
         ScenarioObjective scenario0 = new ScenarioObjective();
         scenario0.sceneName = "Facility";
+        scenario0.savePointID = 0;
         scenario0.progressVal = 0;
         scenario0.station = 0.0f;
         scenario0.frequency = false;
@@ -74,6 +75,7 @@ public class SaveDataController : MonoBehaviour
         //Setup Scenario 1 objectives
         ScenarioObjective scenario1 = new ScenarioObjective();
         scenario1.sceneName = "Apartment";
+        scenario1.savePointID = 0;
         scenario1.progressVal = 0;
         scenario1.station = 0.0f;
         scenario1.frequency = false;
@@ -84,6 +86,7 @@ public class SaveDataController : MonoBehaviour
         //Setup Scenario 2 objectives
         ScenarioObjective scenario2 = new ScenarioObjective();
         scenario2.sceneName = "House";
+        scenario2.savePointID = 0;
         scenario2.progressVal = 0;
         scenario2.station = 0.0f;
         scenario2.frequency = false;
@@ -94,6 +97,7 @@ public class SaveDataController : MonoBehaviour
         //Setup Scenario 3 objectives
         ScenarioObjective scenario3 = new ScenarioObjective();
         scenario3.sceneName = "Library";
+        scenario3.savePointID = 0;
         scenario3.progressVal = 0;
         scenario3.station = 0.0f;
         scenario3.frequency = false;
@@ -124,7 +128,41 @@ public class SaveDataController : MonoBehaviour
     public void SetSavePoint(string sceneName, int ID)
     {
         saveData.currentScene = sceneName;
-        saveData.savePointID = ID;
+        foreach (ScenarioObjective scenario in saveData.scenarios)
+        {
+            if (scenario.sceneName == sceneName)
+            {
+                scenario.savePointID = ID;
+            }
+        }
+    }
+
+    public ScenarioObjective GetScenario()
+    {
+        ScenarioObjective returnScenario = new ScenarioObjective();
+        for (int i = 0; i < saveData.scenarios.Count; i++)
+        {
+            if (saveData.scenarios[i].sceneName == saveData.currentScene)
+            {
+                returnScenario = saveData.scenarios[i];
+            }
+        }
+
+        return returnScenario;
+    }
+
+    public ScenarioObjective GetScenario(string sceneName)
+    {
+        ScenarioObjective returnScenario = new ScenarioObjective();
+        for (int i = 0; i < saveData.scenarios.Count; i++)
+        {
+            if (saveData.scenarios[i].sceneName == sceneName)
+            {
+                returnScenario = saveData.scenarios[i];
+            }
+        }
+
+        return returnScenario;
     }
 
     public void UpdateScenario(string sceneName, string valueName, bool value)
@@ -178,7 +216,6 @@ public class SaveDataController : MonoBehaviour
 public class SaveData
 {
     public string currentScene;
-    public int savePointID;
     public List<ScenarioObjective> scenarios = new List<ScenarioObjective>();
     public Abilities abilities;
 }
@@ -187,6 +224,7 @@ public class SaveData
 public class ScenarioObjective
 {
     public string sceneName;
+    public int savePointID;
     public int progressVal;
     public float station; //testing with adding station value here instead of unsorted list
     public bool frequency;

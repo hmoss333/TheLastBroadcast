@@ -28,7 +28,8 @@ public class MainMenuController : MonoBehaviour
         SaveDataController.instance.LoadFile();
         mainMenuCanvas.SetActive(false);
         loadGameCanvas.SetActive(true);
-        loadGameText.text = $"{SaveDataController.instance.saveData.currentScene}: \nSaveTV ID: {SaveDataController.instance.saveData.savePointID}";
+        int saveID = SaveDataController.instance.GetScenario().savePointID;
+        loadGameText.text = $"{SaveDataController.instance.saveData.currentScene}: \nSaveID: {saveID}";
     }
 
     public void StartSavedGame()

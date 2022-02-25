@@ -58,22 +58,12 @@ public class CameraController : MonoBehaviour
         if (focus)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, target.rotation, Time.deltaTime * focusRotRate);
-
-
-            if (Camera.main.orthographicSize > camFocusSize)
-                Camera.main.orthographicSize -= focusRate * Time.deltaTime;
-            else
-            {
-                Camera.main.orthographic = false; //Set camera to perspective when in focus mode
-                Camera.main.fieldOfView = 60f;
-            }
+            Camera.main.fieldOfView = 60f;
         }
         else
         {
             transform.rotation = baseRot;
-
-            if (Camera.main.orthographicSize < camDefaultSize)
-                Camera.main.orthographicSize += focusRate * Time.deltaTime;
+            Camera.main.fieldOfView = 20f;
         }
 
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
@@ -87,9 +77,6 @@ public class CameraController : MonoBehaviour
     public void FocusTarget()
     {
         focus = !focus;
-
-        if (!focus)
-            Camera.main.orthographic = true; //Set camera to ortho when exiting focus mode
     }
 
     public bool isFocused()

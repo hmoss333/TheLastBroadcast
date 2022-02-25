@@ -3,7 +3,6 @@ using System.Collections;
 
 public class ClearSight : MonoBehaviour
 {
-    public float DistanceToPlayer = 5.0f;
     [SerializeField] LayerMask layerToFade;
 
 
@@ -11,7 +10,8 @@ public class ClearSight : MonoBehaviour
     {
         RaycastHit[] hits;
         Vector3 forwardDir = PlayerController.instance.transform.position - transform.position;
-        hits = Physics.RaycastAll(transform.position, forwardDir, DistanceToPlayer, layerToFade);
+        float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
+        hits = Physics.RaycastAll(transform.position, forwardDir, distanceToPlayer, layerToFade);
         Debug.DrawRay(transform.position, forwardDir);
 
 
