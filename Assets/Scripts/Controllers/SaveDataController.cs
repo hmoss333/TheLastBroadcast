@@ -108,12 +108,12 @@ public class SaveDataController : MonoBehaviour
 
         //Randomize stations
         //TODO have each station be generated and added once scenario objectives have been completed
-        for (int i = 0; i < saveData.scenarios.Count; i++)
-        {
-            float randNum = Random.Range(0f, 10f);
-            randNum = (float)System.Math.Round(randNum, 2);
-            UpdateScenario(saveData.scenarios[i].sceneName, randNum);
-        }
+        //for (int i = 0; i < saveData.scenarios.Count; i++)
+        //{
+        //    float randNum = Random.Range(0f, 10f);
+        //    randNum = (float)System.Math.Round(randNum, 2);
+        //    UpdateScenario(saveData.scenarios[i].sceneName, randNum);
+        //}
 
         //Set Ability defaults
         Abilities tempAbilities = new Abilities();
@@ -165,43 +165,39 @@ public class SaveDataController : MonoBehaviour
         return returnScenario;
     }
 
-    public void UpdateScenario(string sceneName, string valueName, bool value)
+    public void UpdateScenario(string sceneName, string valueName)
     {
-        foreach (ScenarioObjective scenario in saveData.scenarios)
+        ScenarioObjective tempScenario = SaveDataController.instance.GetScenario(sceneName);
+        switch (valueName)
         {
-            if (scenario.sceneName == sceneName)
-            {
-                switch (valueName)
-                {
-                    case "frequency":
-                        scenario.frequency = value;
-                        break;
-                    case "powerLevel":
-                        scenario.powerLevel = value;
-                        break;
-                    case "antenna":
-                        scenario.antenna = value;
-                        break;
-                    default:
-                        Debug.Log($"{valueName} not found in saveData");
-                        break;
-                }
-
+            case "frequency":
+                tempScenario.frequency = true;
                 break;
-            }
+            case "powerLevel":
+                tempScenario.powerLevel = true;
+                break;
+            case "antenna":
+                tempScenario.antenna = true;
+                break;
+            default:
+                Debug.Log($"{valueName} not found in saveData");
+                break;
+        }
+
+
+        if (tempScenario.frequency && tempScenario.powerLevel && tempScenario.antenna)
+        {
+            Debug.Log("Generating radio station");
+            float randNum = Random.Range(0f, 10f);
+            randNum = (float)System.Math.Round(randNum, 2);
+            UpdateScenario(sceneName, randNum);
         }
     }
 
     public void UpdateScenario(string sceneName, float stationVal)
     {
-        foreach (ScenarioObjective scenario in saveData.scenarios)
-        {
-            if (scenario.sceneName == sceneName)
-            {
-                scenario.station = stationVal;
-                break;
-            }
-        }
+        ScenarioObjective tempScenario = GetScenario(sceneName);
+        tempScenario.station = stationVal;
     }
 
     public void GiveAbility(string abilityName)

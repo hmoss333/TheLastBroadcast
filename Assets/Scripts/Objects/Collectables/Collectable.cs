@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Collectable : InteractObject
 {
-    [SerializeField] string abilityName;
+    public enum CollectType { }
+    CollectType collectType;
 
 
     private void Update()
@@ -16,7 +17,7 @@ public class Collectable : InteractObject
     {
         Debug.Log("Collected " + gameObject.name);
         hasActivated = true;
-        SaveDataController.instance.GiveAbility(abilityName);
+        //SaveDataController.instance.GiveAbility(collectType.ToString());
         SceneInitController.instance.SaveInteractObjs();
         SaveDataController.instance.SaveFile();
     }

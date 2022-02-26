@@ -80,10 +80,10 @@ public class PlayerController : MonoBehaviour
             interactObj.Interact();
         }
 
-        //if (Input.GetButtonDown("Radio") && !attacking && !dashing)
-        //{
-        //    RadioToggle();
-        //}
+        if (Input.GetButtonDown("Radio") && SaveDataController.instance.saveData.abilities.radio == true)// && !attacking && !dashing)
+        {
+            RadioToggle();
+        }
 
         //if (Input.GetButtonDown("Melee") && !interacting && !attacking)
         //{
@@ -198,15 +198,15 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isInteracting", interacting);
     }
 
-    //public void RadioToggle()
-    //{
-    //    if (!interacting || (interacting && RadioOverlay_Controller.instance.isActive))
-    //    {
-    //        interacting = !interacting;
-    //        RadioOverlay_Controller.instance.ToggleOn();
-    //        animator.SetBool("isRadio", interacting);
-    //    }
-    //}
+    public void RadioToggle()
+    {
+        if (!interacting || (interacting && RadioOverlay_Controller.instance.isActive))
+        {
+            interacting = !interacting;
+            RadioOverlay_Controller.instance.ToggleOn();
+            animator.SetBool("isRadio", interacting);
+        }
+    }
 
     //void Melee()
     //{

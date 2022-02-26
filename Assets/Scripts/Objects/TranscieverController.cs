@@ -77,29 +77,42 @@ public class TranscieverController : SavePointController
         }
 
 
+
         //Interact Logic
         if (interacting)
         {
+            //Get latest updated list of Preset Values
+            for (int i = 0; i < SaveDataController.instance.saveData.scenarios.Count; i++)
+            {
+                if (SaveDataController.instance.saveData.scenarios[i].station > 0.0f && !presetVals.ContainsKey(SaveDataController.instance.saveData.scenarios[i].sceneName)) //ignore if presetVal hasn't been set yet
+                    presetVals.Add(SaveDataController.instance.saveData.scenarios[i].sceneName, SaveDataController.instance.saveData.scenarios[i].station);
+            }
+
+
             if (Input.GetKey("right shift") && presetVals.Count > 0)
             {
+                //Update station number text color
                 frequencyText.color = presetColor;
-                if (SaveDataController.instance.saveData.scenarios[stationIndex].sceneName == SceneInitController.instance.currentScene)
-                    stationIndex++;
 
+                //Cycle through presets based on button input
                 if (Input.GetKeyDown("left"))
                 {
                     stationIndex--;
-                    if (stationIndex < 0)
-                        stationIndex = presetVals.Count - 1;
                 }
                 if (Input.GetKeyDown("right"))
                 {
                     stationIndex++;
-                    if (stationIndex > presetVals.Count - 1)
-                        stationIndex = 0;
                 }
 
-                currentFrequency = presetVals.Values.ElementAt(stationIndex);
+                //Confirm that stationIndex will always referance an existing value inside of the presetVals Dictionary
+                if (stationIndex < 0)
+                    stationIndex = presetVals.Count - 1;
+                else if (stationIndex > presetVals.Count - 1)
+                    stationIndex = 0;
+
+                //Set the current frequency to the cooresponding preset value
+                if (presetVals.Keys.ElementAt(stationIndex) != SceneInitController.instance.currentScene)
+                    currentFrequency = presetVals.Values.ElementAt(stationIndex);
             }
             else
             {
