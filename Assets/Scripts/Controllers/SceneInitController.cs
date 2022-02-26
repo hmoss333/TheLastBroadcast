@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class SceneInitController : MonoBehaviour
 {
@@ -41,19 +42,6 @@ public class SceneInitController : MonoBehaviour
             InitializeGame();
     }
 
-    //void GetCurrentScenario()
-    //{
-    //    //Get reference to current Scenario
-    //    foreach (ScenarioObjective scenarioObjective in saveData.scenarios)
-    //    {
-    //        if (scenarioObjective.sceneName == currentScene)
-    //        {
-    //            currentScenario = scenarioObjective;
-    //            break;
-    //        }
-    //    }
-    //}
-
     void GetInteractObjs()
     {      
         InteractObject[] tempObjArray = FindObjectsOfType<InteractObject>();
@@ -74,13 +62,16 @@ public class SceneInitController : MonoBehaviour
         foreach (InteractObject tempObj in tempObjArray)
         {
             SceneInteractObj newObj = new SceneInteractObj();
+            newObj.name = tempObj.gameObject.name;
             newObj.ID = tempObj.objID;
             newObj.active = tempObj.active;
             newObj.hasActivated = tempObj.hasActivated;
             //TODO add more values to track here
 
             currentInteractObjects.Add(newObj);
-        }     
+        }
+
+        currentInteractObjects = currentInteractObjects.OrderBy(x => x.ID).ToList(); //sort objects by ID value
     }
 
     public void SaveInteractObjs() //call whenever changing FROM scene
@@ -92,6 +83,7 @@ public class SceneInitController : MonoBehaviour
             {
                 if (tempSceneObj.ID == tempObj.objID)
                 {
+                    tempSceneObj.name = tempObj.gameObject.name;
                     tempSceneObj.active = tempObj.active;
                     tempSceneObj.hasActivated = tempObj.hasActivated;
                 }
