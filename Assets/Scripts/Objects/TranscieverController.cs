@@ -54,8 +54,8 @@ public class TranscieverController : SavePointController
 
     private void Update()
     {
-        activeModel.SetActive(activated);
-        deactivatedModel.SetActive(!activated);
+        activeModel.SetActive(active);
+        deactivatedModel.SetActive(!active);
         //instructionText.SetActive(interacting);
 
 
@@ -146,13 +146,9 @@ public class TranscieverController : SavePointController
 
     public override void Interact()
     {
-        if (activated)
+        if (active)
         {
             base.Interact();
-
-            //PlayerController.instance.ToggleAvatar();
-            //CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
-            //CameraController.instance.FocusTarget();
         }
 
         staticSource.mute = !interacting;

@@ -9,7 +9,7 @@ public class DoorController : InteractObject
 
     public override void Interact()
     {
-        if (activated)
+        if (active)
         {
             base.Interact();
 

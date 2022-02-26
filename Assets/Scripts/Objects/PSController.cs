@@ -16,7 +16,7 @@ public class PSController : InteractObject
 
     public override void Interact()
     {
-        if (activated)
+        if (active)
             base.Interact();
     }
 }

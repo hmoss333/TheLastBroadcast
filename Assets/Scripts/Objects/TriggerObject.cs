@@ -45,7 +45,7 @@ public class TriggerObject : InteractObject
             try
             {
                 Debug.Log("Put trigger activation here");
-                objectsToTrigger[i].GetComponent<InteractObject>().activated = true; //testing for now
+                objectsToTrigger[i].GetComponent<InteractObject>().active = true; //testing for now
             }
             catch
             {

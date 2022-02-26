@@ -16,7 +16,7 @@ public class AntennaController : InteractObject
 
     public override void Interact()
     {
-        if (activated)
+        if (active)
             base.Interact();
     }
 }

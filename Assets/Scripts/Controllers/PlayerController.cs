@@ -37,8 +37,6 @@ public class PlayerController : MonoBehaviour
             instance = this;
         else
             Destroy(this.gameObject);
-
-        DontDestroyOnLoad(this.gameObject);
     }
 
     void Start()
@@ -77,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
 
         //Change these statements into a state machine
-        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.activated)// && !RadioOverlay_Controller.instance.isActive && !attacking && !dashing)
+        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.active)// && !RadioOverlay_Controller.instance.isActive && !attacking && !dashing)
         {
             interactObj.Interact();
         }

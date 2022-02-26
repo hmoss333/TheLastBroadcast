@@ -204,6 +204,32 @@ public class SaveDataController : MonoBehaviour
         }
     }
 
+    public void GiveAbility(string abilityName)
+    {
+        abilityName = abilityName.ToLower();
+        switch (abilityName)
+        {
+            case "radio":
+                saveData.abilities.radio = true;
+                break;
+            case "crowbar":
+                saveData.abilities.crowbar = true;
+                break;
+            case "book":
+                saveData.abilities.book = true;
+                break;
+            case "hand":
+                saveData.abilities.hand = true;
+                break;
+            case "mirror":
+                saveData.abilities.mirror = true;
+                break;
+            default:
+                Debug.Log($"Ability not found: {abilityName}");
+                break;
+        }
+    }
+
     public SaveData GetSaveData()
     {
         return saveData;
@@ -247,5 +273,6 @@ public class Abilities
 public class SceneInteractObj
 {
     public int ID;
-    public bool activated;
+    public bool active;
+    public bool hasActivated; 
 }

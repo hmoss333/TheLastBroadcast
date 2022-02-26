@@ -5,7 +5,7 @@ using UnityEngine;
 public class InteractObject : MonoBehaviour
 {
     public int objID;
-    public bool interacting, activated = true;
+    public bool interacting, active = true, hasActivated;
 
     public virtual void Interact()
     {
@@ -24,6 +24,6 @@ public class InteractObject : MonoBehaviour
 
     public virtual void Activate()
     {
-        activated = true;
+        active = true;
     } 
 }

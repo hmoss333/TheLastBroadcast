@@ -23,17 +23,17 @@ public class TVController : InteractObject
         Vector3 playerPos = PlayerController.instance.gameObject.transform.position; //Get current player position
         staticSource.volume = (audioDist - Vector3.Distance(transform.position, playerPos))/audioDist; //scale volume based on how close the player is to the TV
         if (Vector3.Distance(transform.position, playerPos) < audioDist)
-            staticSource.mute = !activated; //if TV is activated, unmute audio when in range
+            staticSource.mute = !active; //if TV is activated, unmute audio when in range
         else
             staticSource.mute = true; //If TV is not active, keep audio muted
 
-        tvMat.shader = activated ? staticShader : defaultShader;
-        tvLight.SetActive(activated);
+        tvMat.shader = active ? staticShader : defaultShader;
+        tvLight.SetActive(active);
     }
 
     public override void Interact()
     {
-        if (activated)
+        if (active)
         {
             base.Interact();
 

@@ -24,7 +24,7 @@ public class RadioController : InteractObject
 
     public override void Interact()
     {
-        if (activated && textVal < displayText.Length)
+        if (active && textVal < displayText.Length)
         {
             interacting = true;
             DisplayText();

@@ -63,7 +63,8 @@ public class SceneInitController : MonoBehaviour
             {
                 if (tempObj.objID == tempSceneObj.ID)
                 {
-                    tempObj.activated = tempSceneObj.activated;
+                    tempObj.active = tempSceneObj.active;
+                    tempObj.hasActivated = tempSceneObj.hasActivated;
                 }
             }
         }
@@ -74,7 +75,8 @@ public class SceneInitController : MonoBehaviour
         {
             SceneInteractObj newObj = new SceneInteractObj();
             newObj.ID = tempObj.objID;
-            newObj.activated = tempObj.activated;
+            newObj.active = tempObj.active;
+            newObj.hasActivated = tempObj.hasActivated;
             //TODO add more values to track here
 
             currentInteractObjects.Add(newObj);
@@ -90,7 +92,8 @@ public class SceneInitController : MonoBehaviour
             {
                 if (tempSceneObj.ID == tempObj.objID)
                 {
-                    tempSceneObj.activated = tempObj.activated;
+                    tempSceneObj.active = tempObj.active;
+                    tempSceneObj.hasActivated = tempObj.hasActivated;
                 }
             }
         }

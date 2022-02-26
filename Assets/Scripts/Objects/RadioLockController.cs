@@ -27,12 +27,12 @@ public class RadioLockController : InteractObject
         bool playerInRange = PlayerInRange();
         float currentFrequency = RadioOverlay_Controller.instance.currentFrequency;
 
-        if (activated && playerInRange && !isActive && RadioOverlay_Controller.instance.isActive)
+        if (active && playerInRange && !isActive && RadioOverlay_Controller.instance.isActive)
         {
             StartScan(currentFrequency);
         }
 
-        if (!activated)
+        if (!active)
             activeMat.material.color = Color.black;
         else
             activeMat.material.color = isActive ? Color.green : Color.red;

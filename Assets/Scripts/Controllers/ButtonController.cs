@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ButtonController : InteractObject
 {
-    [SerializeField] bool isActivated;
+    //[SerializeField] bool isActivated;
     PlayerController player;
     [SerializeField] InteractObject[] objectsToActivate;
 
@@ -16,9 +16,9 @@ public class ButtonController : InteractObject
 
     public override void Interact()
     {
-        if (!isActivated)
+        if (!hasActivated)
         {
-            isActivated = true;         
+            hasActivated = true;         
 
             StartCoroutine(ActivateObjects());
         }
@@ -35,7 +35,7 @@ public class ButtonController : InteractObject
         //Activate all interact objects in list
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            if (!objectsToActivate[i].activated)
+            if (!objectsToActivate[i].active)
             {
                 CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
 
