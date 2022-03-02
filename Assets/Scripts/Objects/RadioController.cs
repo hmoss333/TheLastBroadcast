@@ -35,6 +35,7 @@ public class RadioController : InteractObject
             interacting = false;
         }
 
+        CameraController.instance.SetTarget(interacting ? this.gameObject : PlayerController.instance.gameObject);
         PlayerController.instance.InteractToggle(interacting);
         displayTextObj.gameObject.SetActive(interacting);
         staticSource.mute = !interacting;
