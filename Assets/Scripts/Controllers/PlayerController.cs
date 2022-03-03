@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private InteractIcon_Controller interactIconController;
     [SerializeField] InteractObject interactObj;
     [SerializeField] GameObject playerAvatar;
-    [SerializeField] Animator animator;
+    public Animator animator;
 
     //[SerializeField] GameObject meleeObject;
 

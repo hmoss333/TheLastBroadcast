@@ -10,29 +10,35 @@ public class SavePointController : InteractObject
     public Transform initPoint;
     [SerializeField] GameObject focusPoint;
     //[SerializeField] TextMeshPro saveText;
-    [SerializeField] int sceneVal;
-    [SerializeField] string sceneToLoad;
+    //[SerializeField] AudioSource staticSource;
+    //[SerializeField] float audioDist;
 
-    //TODO add logic here to allow the player to select if they would like to return to the Facility
-    private void Start()
-    {
-        sceneToLoad = SaveDataController.instance.saveData.currentScene;
-    }
+
+    //private void Update()
+    //{
+    //    Vector3 playerPos = PlayerController.instance.gameObject.transform.position; //Get current player position
+    //    staticSource.volume = (audioDist - Vector3.Distance(transform.position, playerPos)) / audioDist; //scale volume based on how close the player is to the TV
+    //    staticSource.mute = Vector3.Distance(transform.position, playerPos) < audioDist ? false : true; //play or mute audio based on distance
+    //}
 
     public override void Interact()
     {
-        base.Interact();
-
-        PlayerController.instance.ToggleAvatar();
-        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
-        CameraController.instance.FocusTarget();
-
-        if (interacting)
+        if (active)
         {
-            Debug.Log("Saving game");
-            SceneInitController.instance.SaveInteractObjs();
-            SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);
-            SaveDataController.instance.SaveFile();
+            base.Interact();
+
+            PlayerController.instance.ToggleAvatar();
+            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            CameraController.instance.FocusTarget();
+
+
+            if (interacting)
+            {
+                Debug.Log("Saving game");
+                SceneInitController.instance.SaveInteractObjs();
+                SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);
+                SaveDataController.instance.SaveFile();
+            }
         }
     }
 }
