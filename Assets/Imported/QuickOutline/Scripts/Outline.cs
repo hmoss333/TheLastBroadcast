@@ -89,6 +89,9 @@ public class Outline : MonoBehaviour
 
     private bool needsUpdate;
 
+    InteractObject playerInteract;
+
+
     void Awake()
     {
 
@@ -101,6 +104,8 @@ public class Outline : MonoBehaviour
 
         outlineMaskMaterial.name = "OutlineMask (Instance)";
         outlineFillMaterial.name = "OutlineFill (Instance)";
+
+        outlineMode = Mode.OutlineVisible;
 
         // Retrieve or generate smooth normals
         LoadSmoothNormals();
@@ -120,10 +125,11 @@ public class Outline : MonoBehaviour
 
         foreach (var meshFilter in GetComponentsInChildren<MeshFilter>())
         {
-            if (meshFilter.sharedMesh.subMeshCount > 1)
+            if (meshFilter.mesh.subMeshCount > 1)
             {
-                meshFilter.sharedMesh.subMeshCount = meshFilter.sharedMesh.subMeshCount + 1;
-                meshFilter.sharedMesh.SetTriangles(meshFilter.sharedMesh.triangles, meshFilter.sharedMesh.subMeshCount - 1);
+                //meshFilter.sharedMesh.subMeshCount = meshFilter.sharedMesh.subMeshCount + 1;
+                meshFilter.mesh.subMeshCount = meshFilter.mesh.subMeshCount + 1;
+                meshFilter.mesh.SetTriangles(meshFilter.mesh.triangles, meshFilter.mesh.subMeshCount - 1);
             }
         }
     }
@@ -170,6 +176,12 @@ public class Outline : MonoBehaviour
             needsUpdate = false;
 
             UpdateMaterialProperties();
+        }
+
+        playerInteract = PlayerController.instance.interactObj;
+        if (playerInteract == null || playerInteract.gameObject != this.gameObject)
+        {
+            Destroy(this);
         }
     }
 

@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] ParticleSystem dashEffect;
 
     private InteractIcon_Controller interactIconController;
-    [SerializeField] InteractObject interactObj;
+    public InteractObject interactObj;
     [SerializeField] GameObject playerAvatar;
     public Animator animator;
 
@@ -72,6 +72,14 @@ public class PlayerController : MonoBehaviour
         }
 
         interactIconController.UpdateIcon(interacting, interactObj);
+        if (interactObj != null && interactObj.GetComponent<Outline>() == null) // if no script is attached, attach one
+        {
+            interactObj.gameObject.AddComponent<Outline>();
+        }
+        else if (interactObj != null && interactObj.GetComponent<Outline>() != null && !interactObj.GetComponent<Outline>().enabled)
+        {
+            interactObj.GetComponent<Outline>().enabled = true;
+        }
 
 
         //Change these statements into a state machine

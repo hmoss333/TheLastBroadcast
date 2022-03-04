@@ -12,7 +12,6 @@ public class TranscieverController : SavePointController
 
     [SerializeField] GameObject activeModel;
     [SerializeField] GameObject deactivatedModel;
-    //[SerializeField] GameObject focusPoint;
     [SerializeField] AudioSource staticSource;
     //[SerializeField] GameObject instructionText;
 
