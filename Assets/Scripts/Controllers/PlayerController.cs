@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float checkDist;
     //[SerializeField] ParticleSystem dashEffect;
 
-    private InteractIcon_Controller interactIconController;
+    //private InteractIcon_Controller interactIconController;
     public InteractObject interactObj;
     [SerializeField] GameObject playerAvatar;
     public Animator animator;
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         storedSpeed = speed;
         rb = GetComponent<Rigidbody>();
-        interactIconController = GetComponentInChildren<InteractIcon_Controller>();
+        //interactIconController = GetComponentInChildren<InteractIcon_Controller>();
     }
 
     void Update()
@@ -57,28 +57,21 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit, checkDist, layer))
         {
             interactObj = hit.transform.gameObject.GetComponent<InteractObject>();
+            interactObj.gameObject.GetComponent<Outline>().enabled = true;
         }
         else if (Physics.Raycast(ray1, out hit1, checkDist, layer))
         {
             interactObj = hit1.transform.gameObject.GetComponent<InteractObject>();
+            interactObj.gameObject.GetComponent<Outline>().enabled = true;
         }
         else if (Physics.Raycast(ray2, out hit2, checkDist, layer))
         {
             interactObj = hit2.transform.gameObject.GetComponent<InteractObject>();
+            interactObj.gameObject.GetComponent<Outline>().enabled = true;
         }
         else
         {
             interactObj = null;
-        }
-
-        interactIconController.UpdateIcon(interacting, interactObj);
-        if (interactObj != null && interactObj.GetComponent<Outline>() == null) // if no script is attached, attach one
-        {
-            interactObj.gameObject.AddComponent<Outline>();
-        }
-        else if (interactObj != null && interactObj.GetComponent<Outline>() != null && !interactObj.GetComponent<Outline>().enabled)
-        {
-            interactObj.GetComponent<Outline>().enabled = true;
         }
 
 
@@ -112,6 +105,8 @@ public class PlayerController : MonoBehaviour
         {
             speed = 0; //stop all player movement
         }
+
+
 
         //meleeObject.SetActive(attacking);
 

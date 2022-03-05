@@ -181,7 +181,8 @@ public class Outline : MonoBehaviour
         playerInteract = PlayerController.instance.interactObj;
         if (playerInteract == null || playerInteract.gameObject != this.gameObject)
         {
-            Destroy(this);
+            //Destroy(this);
+            enabled = false;
         }
     }
 
@@ -198,6 +199,8 @@ public class Outline : MonoBehaviour
 
             renderer.materials = materials.ToArray();
         }
+
+        //Destroy(this);
     }
 
     void OnDestroy()
@@ -264,7 +267,6 @@ public class Outline : MonoBehaviour
 
     List<Vector3> SmoothNormals(Mesh mesh)
     {
-
         // Group vertices by location
         var groups = mesh.vertices.Select((vertex, index) => new KeyValuePair<Vector3, int>(vertex, index)).GroupBy(pair => pair.Key);
 
