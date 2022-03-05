@@ -57,22 +57,22 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit, checkDist, layer))
         {
             interactObj = hit.transform.gameObject.GetComponent<InteractObject>();
-            interactObj.gameObject.GetComponent<Outline>().enabled = true;
         }
         else if (Physics.Raycast(ray1, out hit1, checkDist, layer))
         {
             interactObj = hit1.transform.gameObject.GetComponent<InteractObject>();
-            interactObj.gameObject.GetComponent<Outline>().enabled = true;
         }
         else if (Physics.Raycast(ray2, out hit2, checkDist, layer))
         {
             interactObj = hit2.transform.gameObject.GetComponent<InteractObject>();
-            interactObj.gameObject.GetComponent<Outline>().enabled = true;
         }
         else
         {
             interactObj = null;
         }
+
+        if (interactObj != null && interactObj.active && !interactObj.hasActivated)
+            interactObj.gameObject.GetComponent<Outline>().enabled = true;
 
 
         //Change these statements into a state machine
