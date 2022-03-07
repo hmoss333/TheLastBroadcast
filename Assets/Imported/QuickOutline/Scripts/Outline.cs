@@ -179,7 +179,7 @@ public class Outline : MonoBehaviour
         }
 
         playerInteract = PlayerController.instance.interactObj;
-        if (playerInteract == null || playerInteract.gameObject != this.gameObject)
+        if (playerInteract == null || playerInteract.gameObject != this.gameObject || playerInteract.hasActivated)
         {
             //Destroy(this);
             enabled = false;
