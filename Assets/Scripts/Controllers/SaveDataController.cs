@@ -194,31 +194,6 @@ public class SaveDataController : MonoBehaviour
     public void UpdateScenario(string sceneName, string valueName)
     {
         ScenarioObjective tempScenario = SaveDataController.instance.GetScenario(sceneName);
-        //switch (valueName)
-        //{
-        //    case "frequency":
-        //        tempScenario.frequency = true;
-        //        break;
-        //    case "powerLevel":
-        //        tempScenario.powerLevel = true;
-        //        break;
-        //    case "antenna":
-        //        tempScenario.antenna = true;
-        //        break;
-        //    default:
-        //        Debug.Log($"{valueName} not found in saveData");
-        //        break;
-        //}
-
-
-        //if (tempScenario.frequency && tempScenario.powerLevel && tempScenario.antenna)
-        //{
-        //    Debug.Log("Generating radio station");
-        //    float randNum = Random.Range(0f, 10f);
-        //    randNum = (float)System.Math.Round(randNum, 2);
-        //    UpdateScenario(sceneName, randNum);
-        //}
-
         for (int i = 0; i < tempScenario.objectives.Count; i++)
         {
             if (tempScenario.objectives[i].name == valueName)
@@ -308,31 +283,6 @@ public class ScenarioObjective
     {
         Debug.Log("Generating radio station");      
         station = GetObjective("frequency").value;
-    }
-
-    public void UpdateObjective(string objName)
-    {
-        ObjectiveObj objective = GetObjective(objName);
-        objective.hasSet = true;
-
-        if (station == 0.0f)
-        {
-            int trueCount = 0;
-            for (int i = 0; i < objectives.Count; i++)
-            {
-                if (!objectives[i].hasSet)
-                    break;
-                else
-                    trueCount++;
-
-                if (trueCount >= 3)
-                {
-                    GenerateStation();
-                }
-            }
-        }
-
-        SaveDataController.instance.SaveFile();
     }
 }
 
