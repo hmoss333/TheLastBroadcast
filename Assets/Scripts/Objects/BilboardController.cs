@@ -18,6 +18,9 @@ public class BilboardController : InteractObject
     [SerializeField] GameObject powerLevelCrossOut;
 
     ScenarioObjective currentScenario;
+    ObjectiveObj frequencyObj;
+    ObjectiveObj antennaObj;
+    ObjectiveObj powerlevelObj;
 
 
     private void Awake()
@@ -31,6 +34,9 @@ public class BilboardController : InteractObject
     private void Start()
     {
         currentScenario = SaveDataController.instance.GetScenario(targetScenario);
+        frequencyObj = currentScenario.GetObjective("frequency");
+        antennaObj = currentScenario.GetObjective("antenna");
+        powerlevelObj = currentScenario.GetObjective("powerLevel");
     }
 
     private void Update()
@@ -54,9 +60,9 @@ public class BilboardController : InteractObject
             }
         }
 
-        frequencyCrossOut.SetActive(TransmitterController.instance.hasActivated);
-        antennaCrossOut.SetActive(AntennaController.instance.hasActivated);
-        powerLevelCrossOut.SetActive(PSController.instance.hasActivated);
+        frequencyCrossOut.SetActive(frequencyObj.hasSet);
+        antennaCrossOut.SetActive(antennaObj.hasSet);
+        powerLevelCrossOut.SetActive(powerlevelObj.hasSet);
     }
 
     public override void Interact()

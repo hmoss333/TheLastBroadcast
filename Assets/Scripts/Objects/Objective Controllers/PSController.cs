@@ -6,10 +6,12 @@ public class PSController : InteractObject
 {
     public static PSController instance;
 
+    public float value;
+
     [SerializeField] string targetScenario;
     ScenarioObjective currentScenario;
+    ObjectiveObj currentObjective;
     [SerializeField] float targetValue;
-
 
     private void Awake()
     {
@@ -23,30 +25,33 @@ public class PSController : InteractObject
     void Start()
     {
         currentScenario = SaveDataController.instance.GetScenario(targetScenario);
+        currentObjective = currentScenario.GetObjective("powerLevel");
+    }
+
+    private void Update()
+    {
+        if (interacting)
+        {
+            float xInput = Input.GetAxis("Horizontal");
+            value += (float)(xInput * Time.deltaTime);
+            //value = (float)System.Math.Round(value, 2);
+
+            if ((value >= targetValue - 0.025f && value <= targetValue + 0.025f)
+                && targetValue != 0.0f
+                && !currentObjective.hasSet)
+            {
+                currentScenario.UpdateObjective(currentObjective.name);
+            }
+        }
     }
 
     public override void Interact()
     {
-        if (active && !hasActivated)
+        if (active)
         {
-            //base.Interact();
-            //TODO add logic here for configuring power supply object
-
-            for (int i = 0; i < currentScenario.objectives.Count; i++)
-            {
-                if (currentScenario.objectives[i].name == "powerLevel")
-                {
-                    targetValue = currentScenario.objectives[i].value;
-                    break;
-                }
-            }
-
-            if (targetValue != 0.0f)
-            {
-                hasActivated = true;
-                SceneInitController.instance.SaveInteractObjs();
-                SaveDataController.instance.SaveFile();
-            }
+            targetValue = currentObjective.value;
+            base.Interact();
+            //TODO add logic here for configuring transmitter object
         }
     }
 }

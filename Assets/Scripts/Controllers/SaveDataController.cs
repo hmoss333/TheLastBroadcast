@@ -58,18 +58,14 @@ public class SaveDataController : MonoBehaviour
         saveData = new SaveData();
 
         saveData.currentScene = "Facility"; //Set Facility as default for new save files
-        //saveData.savePointID = 0;
 
 
         //Setup Scenario 0 objectives
         ScenarioObjective scenario0 = new ScenarioObjective();
         scenario0.sceneName = "Facility";
         scenario0.savePointID = 0;
-        scenario0.progressVal = 0;
+        //scenario0.progressVal = 0;
         scenario0.station = 0.0f;
-        //scenario0.frequency = false;
-        //scenario0.powerLevel = false;
-        //scenario0.antenna = false;
         ObjectiveObj frequency0 = new ObjectiveObj();
         frequency0.name = "frequency";
         frequency0.value = 0;
@@ -88,11 +84,8 @@ public class SaveDataController : MonoBehaviour
         ScenarioObjective scenario1 = new ScenarioObjective();
         scenario1.sceneName = "Apartment";
         scenario1.savePointID = 0;
-        scenario1.progressVal = 0;
+        //scenario1.progressVal = 0;
         scenario1.station = 0.0f;
-        //scenario1.frequency = false;
-        //scenario1.powerLevel = false;
-        //scenario1.antenna = false;
         ObjectiveObj frequency1 = new ObjectiveObj();
         frequency1.name = "frequency";
         frequency1.value = 0;
@@ -111,11 +104,8 @@ public class SaveDataController : MonoBehaviour
         ScenarioObjective scenario2 = new ScenarioObjective();
         scenario2.sceneName = "House";
         scenario2.savePointID = 0;
-        scenario2.progressVal = 0;
+        //scenario2.progressVal = 0;
         scenario2.station = 0.0f;
-        //scenario2.frequency = false;
-        //scenario2.powerLevel = false;
-        //scenario2.antenna = false;
         ObjectiveObj frequency2 = new ObjectiveObj();
         frequency2.name = "frequency";
         frequency2.value = 0;
@@ -134,11 +124,8 @@ public class SaveDataController : MonoBehaviour
         ScenarioObjective scenario3 = new ScenarioObjective();
         scenario3.sceneName = "Library";
         scenario3.savePointID = 0;
-        scenario3.progressVal = 0;
+        //scenario3.progressVal = 0;
         scenario3.station = 0.0f;
-        //scenario3.frequency = false;
-        //scenario3.powerLevel = false;
-        //scenario3.antenna = false;
         ObjectiveObj frequency3 = new ObjectiveObj();
         frequency3.name = "frequency";
         frequency3.value = 0;
@@ -297,10 +284,56 @@ public class ScenarioObjective
 {
     public string sceneName;
     public int savePointID;
-    public int progressVal;
+    //public int progressVal;
     public float station; //testing with adding station value here instead of unsorted list
     public List<ObjectiveObj> objectives = new List<ObjectiveObj>();
     public List<SceneInteractObj> objectStates = new List<SceneInteractObj>();
+
+    public ObjectiveObj GetObjective(string objName)
+    {
+        ObjectiveObj returnObj = new ObjectiveObj();
+        for (int i = 0; i < objectives.Count; i++)
+        {
+            if (objectives[i].name == objName)
+            {
+                returnObj = objectives[i];
+                break;
+            }
+        }
+
+        return returnObj;
+    }
+
+    public void GenerateStation()
+    {
+        Debug.Log("Generating radio station");      
+        station = GetObjective("frequency").value;
+    }
+
+    public void UpdateObjective(string objName)
+    {
+        ObjectiveObj objective = GetObjective(objName);
+        objective.hasSet = true;
+
+        if (station == 0.0f)
+        {
+            int trueCount = 0;
+            for (int i = 0; i < objectives.Count; i++)
+            {
+                if (!objectives[i].hasSet)
+                    break;
+                else
+                    trueCount++;
+
+                if (trueCount >= 3)
+                {
+                    GenerateStation();
+                }
+            }
+        }
+
+        SaveDataController.instance.SaveFile();
+    }
 }
 
 [System.Serializable]
@@ -327,4 +360,5 @@ public class ObjectiveObj
 {
     public string name;
     public float value;
+    public bool hasSet;
 }

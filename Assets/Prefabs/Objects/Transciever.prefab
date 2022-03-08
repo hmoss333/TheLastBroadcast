@@ -618,9 +618,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3412513304071608447}
   - component: {fileID: 3412513304071608442}
-  - component: {fileID: -3697334038151069493}
   - component: {fileID: 1832722906}
   - component: {fileID: -4792959497615657211}
+  - component: {fileID: -3697334038151069493}
   m_Layer: 8
   m_Name: Transciever
   m_TagString: Untagged
@@ -659,34 +659,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.25, y: 1.75, z: 1}
   m_Center: {x: 0, y: -0.075, z: 0}
---- !u!114 &-3697334038151069493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3412513304071608443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b6348de5eeb544fbbe613274bb0d165, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objID: 0
-  interacting: 0
-  active: 1
-  hasActivated: 0
-  ID: 0
-  initPoint: {fileID: 2976158349546481}
-  focusPoint: {fileID: 659703838}
-  activeModel: {fileID: 3720460723858242603}
-  deactivatedModel: {fileID: 3801786449850605495}
-  staticSource: {fileID: 1832722906}
-  currentFrequency: 0
-  frequencyText: {fileID: 4288431}
-  dialObj: {fileID: 1220505859}
-  rotSpeed: 0.5
-  stationColor: {r: 0.02745098, g: 0.6431373, b: 0.26666668, a: 1}
-  presetColor: {r: 0.25490198, g: 0.9019608, b: 1, a: 1}
 --- !u!82 &1832722906
 AudioSource:
   m_ObjectHideFlags: 0
@@ -801,6 +773,34 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &-3697334038151069493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3412513304071608443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b6348de5eeb544fbbe613274bb0d165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objID: 0
+  interacting: 0
+  active: 1
+  hasActivated: 0
+  ID: 0
+  initPoint: {fileID: 2976158349546481}
+  focusPoint: {fileID: 659703838}
+  activeModel: {fileID: 3720460723858242603}
+  deactivatedModel: {fileID: 3801786449850605495}
+  staticSource: {fileID: 1832722906}
+  currentFrequency: 0
+  frequencyText: {fileID: 4288431}
+  dialObj: {fileID: 1220505859}
+  rotSpeed: 0.5
+  stationColor: {r: 0.02745098, g: 0.6431373, b: 0.26666668, a: 1}
+  presetColor: {r: 0.25490198, g: 0.9019608, b: 1, a: 1}
 --- !u!1 &3763400779093913433
 GameObject:
   m_ObjectHideFlags: 0
