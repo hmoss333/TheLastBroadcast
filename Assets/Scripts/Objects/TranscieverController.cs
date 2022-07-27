@@ -21,9 +21,11 @@ public class TranscieverController : SavePointController
     [SerializeField] GameObject dialObj;
     [SerializeField] float rotSpeed;
     private float xInput;
-    Dictionary<string, float> presetVals;
-    int stationIndex;
-    bool loadScene = false;
+    Dictionary<float, Station> presetVals;
+    [SerializeField] bool startCountdown = false;
+    [SerializeField] bool loadScene = false;
+    [SerializeField] float countdownTime = 2f;
+    [SerializeField] string sceneToLoad;
 
 
     [SerializeField] Color stationColor;
@@ -36,19 +38,12 @@ public class TranscieverController : SavePointController
             instance = this;
         else
             Destroy(this.gameObject);
-
-
-        stationIndex = 0;
     }
 
     private void Start()
     {
-        presetVals = new Dictionary<string, float>();
-        //for (int i = 0; i < SaveDataController.instance.saveData.scenarios.Count; i++)
-        //{
-        //    if (SaveDataController.instance.saveData.scenarios[i].station > 0.0f) //ignore if presetVal hasn't been set yet
-        //        presetVals.Add(SaveDataController.instance.saveData.scenarios[i].sceneName, SaveDataController.instance.saveData.scenarios[i].station);
-        //}
+        presetVals = new Dictionary<float, Station>();
+        UpdatedStationList();
     }
 
     private void Update()
@@ -80,67 +75,48 @@ public class TranscieverController : SavePointController
         //Interact Logic
         if (interacting)
         {
-            //Get latest updated list of Preset Values
-            //for (int i = 0; i < SaveDataController.instance.saveData.scenarios.Count; i++)
-            //{
-            //    if (SaveDataController.instance.saveData.scenarios[i].station > 0.0f && !presetVals.ContainsKey(SaveDataController.instance.saveData.scenarios[i].sceneName)) //ignore if presetVal hasn't been set yet
-            //        presetVals.Add(SaveDataController.instance.saveData.scenarios[i].sceneName, SaveDataController.instance.saveData.scenarios[i].station);
-            //}
+            frequencyText.color = stationColor;
+            xInput = Input.GetAxis("Horizontal");
+            dialObj.transform.Rotate(0.0f, xInput * tempSpeed, 0.0f);
+            currentFrequency += (float)(xInput * Time.deltaTime);
 
-
-            if (Input.GetKey("right shift") && presetVals.Count > 0)
+            //Compare current frequency to available stations
+            ///Very gross, but works for now
+            foreach (float frequency in presetVals.Keys)
             {
-                //Update station number text color
-                frequencyText.color = presetColor;
-
-                //Cycle through presets based on button input
-                if (Input.GetKeyDown("left"))
+                if (presetVals[frequency].sceneToLoad != SceneManager.GetActiveScene().name && 
+                    currentFrequency >= frequency - 0.05f && currentFrequency <= frequency + 0.05f)
                 {
-                    stationIndex--;
+                    frequencyText.color = presetColor;
+                    sceneToLoad = presetVals[frequency].sceneToLoad;
+                    startCountdown = true;
+                    break;
                 }
-                if (Input.GetKeyDown("right"))
+                else
                 {
-                    stationIndex++;
+                    startCountdown = false;
                 }
-
-                //Confirm that stationIndex will always referance an existing value inside of the presetVals Dictionary
-                if (stationIndex < 0)
-                    stationIndex = presetVals.Count - 1;
-                else if (stationIndex > presetVals.Count - 1)
-                    stationIndex = 0;
-
-                //Set the current frequency to the cooresponding preset value
-                if (presetVals.Keys.ElementAt(stationIndex) != SceneInitController.instance.currentScene)
-                    currentFrequency = presetVals.Values.ElementAt(stationIndex);
-            }
-            else
-            {
-                frequencyText.color = stationColor;
-                xInput = Input.GetAxis("Horizontal");
-                dialObj.transform.Rotate(0.0f, xInput * tempSpeed, 0.0f);
-                currentFrequency += (float)(xInput * Time.deltaTime);
-            }
-
-            if (Input.GetKeyDown("x"))
-            {
-                currentFrequency = (float)System.Math.Round(currentFrequency, 2);
-                SelectStation(currentFrequency);
             }
 
             float displayFrequency = currentFrequency * 10f;
             frequencyText.text = displayFrequency.ToString("F1");
         }
-    }
 
-    void SelectStation(float stationVal)
-    {
-        foreach (KeyValuePair<string, float> preset in presetVals)
+
+        //Countdown Timer
+        if (startCountdown)
         {
-            if (stationVal == preset.Value && !loadScene)
+            countdownTime -= Time.deltaTime;
+            if (countdownTime < 0 && !loadScene)
             {
                 loadScene = true;
-                StartCoroutine(LoadStation(preset.Key));
+                interacting = false;
+                StartCoroutine(LoadStation(sceneToLoad));
             }
+        }
+        else
+        {
+            countdownTime = 2f;
         }
     }
 
@@ -151,6 +127,7 @@ public class TranscieverController : SavePointController
         while (FadeController.instance.isFading)
             yield return null;
 
+        SaveDataController.instance.SetSavePoint(sceneToLoad, 0);
         PlayerController.instance.ToggleAvatar();
         SceneInitController.instance.SaveInteractObjs();
         SceneManager.LoadSceneAsync(sceneToLoad);
@@ -164,5 +141,15 @@ public class TranscieverController : SavePointController
         }
 
         staticSource.mute = !interacting;
+        UpdatedStationList();
+    }
+
+    void UpdatedStationList()
+    {
+        foreach (Station station in SaveDataController.instance.saveData.stations)
+        {
+            if (!presetVals.ContainsKey(station.frequency))
+                presetVals.Add(station.frequency, station);
+        }
     }
 }

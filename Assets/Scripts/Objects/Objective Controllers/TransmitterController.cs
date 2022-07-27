@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class TransmitterController : InteractObject
@@ -33,9 +34,27 @@ public class TransmitterController : InteractObject
             {
                 Debug.Log($"Actived transmitter for {sceneToActivate} station");
                 hasActivated = true;
+                active = false;
                 SaveDataController.instance.EnableStation(sceneToActivate);
                 SaveDataController.instance.SaveFile();
             }
+
+            StartCoroutine(LoadBroadcastRoom());
         }
+    }
+
+    IEnumerator LoadBroadcastRoom()
+    {
+        yield return new WaitForSeconds(2.5f); //change this to wait while any dialogue is playing
+
+        FadeController.instance.StartFade(1.0f, 1f);
+
+        while (FadeController.instance.isFading)
+            yield return null;
+
+        SaveDataController.instance.SetSavePoint("BroadcastRoom", 0);
+        PlayerController.instance.ToggleAvatar();
+        SceneInitController.instance.SaveInteractObjs();
+        SceneManager.LoadSceneAsync("BroadcastRoom");
     }
 }

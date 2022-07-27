@@ -10,23 +10,17 @@ public class PlayerController : MonoBehaviour
     //Player Movement Controls
     Rigidbody rb;
     float horizontal, vertical;
-    [SerializeField] float speed, rotSpeed;//, attackTimer;
+    [SerializeField] float speed, rotSpeed;
     float storedSpeed;
     Vector3 lastDir, lastDir1, lastDir2;
 
-    public bool interacting;//, dashing, attacking;
-    //[SerializeField] float dashSpeed;
-    //[SerializeField] float dashDist;
+    public bool interacting;
     [SerializeField] LayerMask layer;
     [SerializeField] float checkDist;
-    //[SerializeField] ParticleSystem dashEffect;
 
-    //private InteractIcon_Controller interactIconController;
     public InteractObject interactObj;
     [SerializeField] GameObject playerAvatar;
     public Animator animator;
-
-    //[SerializeField] GameObject meleeObject;
 
 
 
@@ -43,7 +37,6 @@ public class PlayerController : MonoBehaviour
     {
         storedSpeed = speed;
         rb = GetComponent<Rigidbody>();
-        //interactIconController = GetComponentInChildren<InteractIcon_Controller>();
     }
 
     void Update()
@@ -85,17 +78,6 @@ public class PlayerController : MonoBehaviour
         {
             RadioToggle();
         }
-
-        //if (Input.GetButtonDown("Melee") && !interacting && !attacking)
-        //{
-        //    attacking = true;
-        //    animator.SetTrigger("isMelee");
-        //}
-
-        //if (Input.GetButtonDown("Dash") && !interacting && !dashing)
-        //{
-        //    dashing = true;
-        //}
     }
 
     private void FixedUpdate()
@@ -107,38 +89,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-
-        //meleeObject.SetActive(attacking);
-
-
-        //if (dashing && !interacting)
-        //{
-        //    animator.SetTrigger("isDashing");
-        //    StartCoroutine(PlayDashParticles());
-
-        //    for (float i = 0; i < dashDist; i += dashSpeed * Time.deltaTime)
-        //    {
-        //        rb.velocity += transform.forward * i;
-
-        //        Ray ray = new Ray(transform.position, transform.forward);
-        //        RaycastHit hit;
-        //        if (Physics.Raycast(ray, out hit, dashDist))
-        //        {
-        //            rb.velocity = Vector3.zero;
-        //            transform.position = new Vector3(hit.transform.position.x - transform.position.normalized.x, transform.position.y, hit.transform.position.z - transform.position.normalized.z);
-        //            break;
-        //        }
-        //    }
-
-        //    dashing = false;
-        //}
-        //else if (attacking)
-        //{
-        //    if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > attackTimer)// && !animator.IsInTransition(0))
-        //        attacking = false;
-        //}
-        //else
-        if (!interacting)// && !attacking)
+        if (!interacting)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Vertical");
@@ -188,7 +139,7 @@ public class PlayerController : MonoBehaviour
 
     public void InteractToggle(bool interactState)
     {
-        interacting = interactState; //!interacting;
+        interacting = interactState;
         animator.SetBool("isInteracting", interacting);
     }
 
@@ -201,9 +152,4 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isRadio", interacting);
         }
     }
-
-    //void Melee()
-    //{
-    //    animator.SetTrigger("isMelee");
-    //}
 }

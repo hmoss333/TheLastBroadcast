@@ -53,6 +53,8 @@ public class ElevatorController : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            other.gameObject.transform.SetParent(this.transform);
+
             if (transform.position == bottomPoint.position)
             {
                 movingDown = false;
@@ -63,6 +65,13 @@ public class ElevatorController : MonoBehaviour
             }
 
             moving = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            other.gameObject.transform.SetParent(null);
         }
     }
 }
