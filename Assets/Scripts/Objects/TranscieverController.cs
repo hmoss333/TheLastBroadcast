@@ -84,8 +84,9 @@ public class TranscieverController : SavePointController
             ///Very gross, but works for now
             foreach (float frequency in presetVals.Keys)
             {
-                if (presetVals[frequency].sceneToLoad != SceneManager.GetActiveScene().name && 
-                    currentFrequency >= frequency - 0.05f && currentFrequency <= frequency + 0.05f)
+                if (presetVals[frequency].sceneToLoad != SceneManager.GetActiveScene().name &&
+                    presetVals[frequency].isActive &&
+                    currentFrequency >= frequency - 0.015f && currentFrequency <= frequency + 0.015f)
                 {
                     frequencyText.color = presetColor;
                     sceneToLoad = presetVals[frequency].sceneToLoad;

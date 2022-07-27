@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
-using Newtonsoft.Json;
 
 public class SaveDataController : MonoBehaviour
 {
@@ -36,7 +35,7 @@ public class SaveDataController : MonoBehaviour
             //Load data from file
             string jsonData = "";
             jsonData = File.ReadAllText(destination);
-            saveData = JsonConvert.DeserializeObject<SaveData>(jsonData);
+            saveData = JsonUtility.FromJson<SaveData>(jsonData);
         }
         else
         {
@@ -76,6 +75,18 @@ public class SaveDataController : MonoBehaviour
         station1.sceneToLoad = "Apartment";
         station1.isActive = false;
         tempStations.Add(station1);
+
+        Station station2 = new Station();
+        station2.frequency = 3.33f;
+        station2.sceneToLoad = "Backrooms";
+        station2.isActive = false;
+        tempStations.Add(station2);
+
+        Station station3 = new Station();
+        station3.frequency = 9.30f;
+        station3.sceneToLoad = "Library";
+        station3.isActive = false;
+        tempStations.Add(station2);
 
         saveData.stations = tempStations;
 
