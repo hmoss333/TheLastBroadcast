@@ -44,11 +44,11 @@ public class TranscieverController : SavePointController
     private void Start()
     {
         presetVals = new Dictionary<string, float>();
-        for (int i = 0; i < SaveDataController.instance.saveData.scenarios.Count; i++)
-        {
-            if (SaveDataController.instance.saveData.scenarios[i].station > 0.0f) //ignore if presetVal hasn't been set yet
-                presetVals.Add(SaveDataController.instance.saveData.scenarios[i].sceneName, SaveDataController.instance.saveData.scenarios[i].station);
-        }
+        //for (int i = 0; i < SaveDataController.instance.saveData.scenarios.Count; i++)
+        //{
+        //    if (SaveDataController.instance.saveData.scenarios[i].station > 0.0f) //ignore if presetVal hasn't been set yet
+        //        presetVals.Add(SaveDataController.instance.saveData.scenarios[i].sceneName, SaveDataController.instance.saveData.scenarios[i].station);
+        //}
     }
 
     private void Update()
@@ -81,11 +81,11 @@ public class TranscieverController : SavePointController
         if (interacting)
         {
             //Get latest updated list of Preset Values
-            for (int i = 0; i < SaveDataController.instance.saveData.scenarios.Count; i++)
-            {
-                if (SaveDataController.instance.saveData.scenarios[i].station > 0.0f && !presetVals.ContainsKey(SaveDataController.instance.saveData.scenarios[i].sceneName)) //ignore if presetVal hasn't been set yet
-                    presetVals.Add(SaveDataController.instance.saveData.scenarios[i].sceneName, SaveDataController.instance.saveData.scenarios[i].station);
-            }
+            //for (int i = 0; i < SaveDataController.instance.saveData.scenarios.Count; i++)
+            //{
+            //    if (SaveDataController.instance.saveData.scenarios[i].station > 0.0f && !presetVals.ContainsKey(SaveDataController.instance.saveData.scenarios[i].sceneName)) //ignore if presetVal hasn't been set yet
+            //        presetVals.Add(SaveDataController.instance.saveData.scenarios[i].sceneName, SaveDataController.instance.saveData.scenarios[i].station);
+            //}
 
 
             if (Input.GetKey("right shift") && presetVals.Count > 0)

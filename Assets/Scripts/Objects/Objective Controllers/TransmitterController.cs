@@ -8,8 +8,7 @@ public class TransmitterController : InteractObject
     public static TransmitterController instance;
 
     [SerializeField] GameObject focusPoint;
-    [SerializeField] TextMeshPro displayText;
-    public float value;
+    [SerializeField] string sceneToActivate;
 
 
     private void Awake()
@@ -20,32 +19,25 @@ public class TransmitterController : InteractObject
             Destroy(this);
     }
 
-    private void Update()
-    {
-        if (interacting)
-        {
-            float xInput = Input.GetAxis("Horizontal");
-            value += (float)(xInput * Time.deltaTime);
-            //value = (float)System.Math.Round(value, 2);
-
-            displayText.text = ((float)System.Math.Round(value, 2)).ToString();
-        }
-    }
-
-    public void SetDisplayColor(Color colorToSet)
-    {
-        displayText.color = colorToSet;
-    }
-
     public override void Interact()
     {
+        base.Interact();
+
+        PlayerController.instance.ToggleAvatar();
+        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+        CameraController.instance.FocusTarget();
+
         if (active)
         {
-            base.Interact();
+            //base.Interact();
 
-            PlayerController.instance.ToggleAvatar();
-            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
-            CameraController.instance.FocusTarget();
+            //PlayerController.instance.ToggleAvatar();
+            //CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            //CameraController.instance.FocusTarget();
+
+            //TODO
+            SaveDataController.instance.EnableStation(sceneToActivate);
+            active = false;
         }
     }
 }

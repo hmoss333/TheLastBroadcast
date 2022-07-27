@@ -53,92 +53,31 @@ public class SaveDataController : MonoBehaviour
         File.WriteAllText(destination, jsonData);
     }
 
+    //TODO
+    //Update this with new save file formating
     public void CreateNewSaveFile()
     {
         saveData = new SaveData();
 
-        saveData.currentScene = "Facility"; //Set Facility as default for new save files
+        saveData.currentScene = "BroadcastRoom"; //Set BroadcastRoom as default for new save files
+        saveData.savePointID = 0; //Set default spawn position
 
+        //Set all station values here
+        List<Station> tempStations = new List<Station>();
 
-        //Setup Scenario 0 objectives
-        ScenarioObjective scenario0 = new ScenarioObjective();
-        scenario0.sceneName = "Facility";
-        scenario0.savePointID = 0;
-        //scenario0.progressVal = 0;
-        scenario0.station = 0.0f;
-        ObjectiveObj frequency0 = new ObjectiveObj();
-        frequency0.name = "frequency";
-        frequency0.value = 0;
-        scenario0.objectives.Add(frequency0);
-        ObjectiveObj antenna0 = new ObjectiveObj();
-        antenna0.name = "antenna";
-        antenna0.value = 0;
-        scenario0.objectives.Add(antenna0);
-        ObjectiveObj powerLevel0 = new ObjectiveObj();
-        powerLevel0.name = "powerLevel";
-        powerLevel0.value = 0;
-        scenario0.objectives.Add(powerLevel0);
-        saveData.scenarios.Add(scenario0);
+        Station station0 = new Station();
+        station0.frequency = 2.02f;
+        station0.sceneToLoad = "Facility";
+        station0.isActive = true;
+        tempStations.Add(station0);
 
-        //Setup Scenario 1 objectives
-        ScenarioObjective scenario1 = new ScenarioObjective();
-        scenario1.sceneName = "Apartment";
-        scenario1.savePointID = 0;
-        //scenario1.progressVal = 0;
-        scenario1.station = 0.0f;
-        ObjectiveObj frequency1 = new ObjectiveObj();
-        frequency1.name = "frequency";
-        frequency1.value = 0;
-        scenario1.objectives.Add(frequency1);
-        ObjectiveObj antenna1 = new ObjectiveObj();
-        antenna1.name = "antenna";
-        antenna1.value = 0;
-        scenario1.objectives.Add(antenna1);
-        ObjectiveObj powerLevel1 = new ObjectiveObj();
-        powerLevel1.name = "powerLevel";
-        powerLevel1.value = 0;
-        scenario1.objectives.Add(powerLevel1);
-        saveData.scenarios.Add(scenario1);
+        Station station1 = new Station();
+        station0.frequency = 8.2f;
+        station0.sceneToLoad = "Apartment";
+        station0.isActive = false;
+        tempStations.Add(station1);
 
-        //Setup Scenario 2 objectives
-        ScenarioObjective scenario2 = new ScenarioObjective();
-        scenario2.sceneName = "House";
-        scenario2.savePointID = 0;
-        //scenario2.progressVal = 0;
-        scenario2.station = 0.0f;
-        ObjectiveObj frequency2 = new ObjectiveObj();
-        frequency2.name = "frequency";
-        frequency2.value = 0;
-        scenario2.objectives.Add(frequency2);
-        ObjectiveObj antenna2 = new ObjectiveObj();
-        antenna2.name = "antenna";
-        antenna2.value = 0;
-        scenario2.objectives.Add(antenna2);
-        ObjectiveObj powerLevel2 = new ObjectiveObj();
-        powerLevel2.name = "powerLevel";
-        powerLevel2.value = 0;
-        scenario2.objectives.Add(powerLevel2);
-        saveData.scenarios.Add(scenario2);
-
-        //Setup Scenario 3 objectives
-        ScenarioObjective scenario3 = new ScenarioObjective();
-        scenario3.sceneName = "Library";
-        scenario3.savePointID = 0;
-        //scenario3.progressVal = 0;
-        scenario3.station = 0.0f;
-        ObjectiveObj frequency3 = new ObjectiveObj();
-        frequency3.name = "frequency";
-        frequency3.value = 0;
-        scenario3.objectives.Add(frequency3);
-        ObjectiveObj antenna3 = new ObjectiveObj();
-        antenna3.name = "antenna";
-        antenna3.value = 0;
-        scenario3.objectives.Add(antenna3);
-        ObjectiveObj powerLevel3 = new ObjectiveObj();
-        powerLevel3.name = "powerLevel";
-        powerLevel3.value = 0;
-        scenario3.objectives.Add(powerLevel3);
-        saveData.scenarios.Add(scenario3);
+        saveData.stations = tempStations;
 
 
         //Set Ability defaults
@@ -154,63 +93,69 @@ public class SaveDataController : MonoBehaviour
     public void SetSavePoint(string sceneName, int ID)
     {
         saveData.currentScene = sceneName;
-        foreach (ScenarioObjective scenario in saveData.scenarios)
-        {
-            if (scenario.sceneName == sceneName)
-            {
-                scenario.savePointID = ID;
-            }
-        }
+        saveData.savePointID = ID;
     }
 
-    public ScenarioObjective GetScenario()
+    public void EnableStation(string stationName)
     {
-        ScenarioObjective returnScenario = new ScenarioObjective();
-        for (int i = 0; i < saveData.scenarios.Count; i++)
+        for (int i = 0; i < saveData.stations.Count; i++)
         {
-            if (saveData.scenarios[i].sceneName == saveData.currentScene)
+            if (saveData.stations[i].sceneToLoad == stationName)
             {
-                returnScenario = saveData.scenarios[i];
-            }
-        }
-
-        return returnScenario;
-    }
-
-    public ScenarioObjective GetScenario(string sceneName)
-    {
-        ScenarioObjective returnScenario = new ScenarioObjective();
-        for (int i = 0; i < saveData.scenarios.Count; i++)
-        {
-            if (saveData.scenarios[i].sceneName == sceneName)
-            {
-                returnScenario = saveData.scenarios[i];
-            }
-        }
-
-        return returnScenario;
-    }
-
-    public void UpdateScenario(string sceneName, string valueName)
-    {
-        ScenarioObjective tempScenario = SaveDataController.instance.GetScenario(sceneName);
-        for (int i = 0; i < tempScenario.objectives.Count; i++)
-        {
-            if (tempScenario.objectives[i].name == valueName)
-            {
-                float randNum = Random.Range(0f, 10f);
-                randNum = (float)System.Math.Round(randNum, 2);
-                tempScenario.objectives[i].value = randNum;
+                saveData.stations[i].isActive = true;
                 break;
             }
         }
     }
 
-    public void UpdateScenario(string sceneName, float stationVal)
-    {
-        ScenarioObjective tempScenario = GetScenario(sceneName);
-        tempScenario.station = stationVal;
-    }
+    //public ScenarioObjective GetScenario()
+    //{
+    //    ScenarioObjective returnScenario = new ScenarioObjective();
+    //    for (int i = 0; i < saveData.scenarios.Count; i++)
+    //    {
+    //        if (saveData.scenarios[i].sceneName == saveData.currentScene)
+    //        {
+    //            returnScenario = saveData.scenarios[i];
+    //        }
+    //    }
+
+    //    return returnScenario;
+    //}
+
+    //public ScenarioObjective GetScenario(string sceneName)
+    //{
+    //    ScenarioObjective returnScenario = new ScenarioObjective();
+    //    for (int i = 0; i < saveData.scenarios.Count; i++)
+    //    {
+    //        if (saveData.scenarios[i].sceneName == sceneName)
+    //        {
+    //            returnScenario = saveData.scenarios[i];
+    //        }
+    //    }
+
+    //    return returnScenario;
+    //}
+
+    //public void UpdateScenario(string sceneName, string valueName)
+    //{
+    //    ScenarioObjective tempScenario = SaveDataController.instance.GetScenario(sceneName);
+    //    for (int i = 0; i < tempScenario.objectives.Count; i++)
+    //    {
+    //        if (tempScenario.objectives[i].name == valueName)
+    //        {
+    //            float randNum = Random.Range(0f, 10f);
+    //            randNum = (float)System.Math.Round(randNum, 2);
+    //            tempScenario.objectives[i].value = randNum;
+    //            break;
+    //        }
+    //    }
+    //}
+
+    //public void UpdateScenario(string sceneName, float stationVal)
+    //{
+    //    ScenarioObjective tempScenario = GetScenario(sceneName);
+    //    tempScenario.station = stationVal;
+    //}
 
     public void GiveAbility(string abilityName)
     {
@@ -250,41 +195,44 @@ public class SaveDataController : MonoBehaviour
 public class SaveData
 {
     public string currentScene;
-    public List<ScenarioObjective> scenarios = new List<ScenarioObjective>();
+    public int savePointID;
+    public List<Station> stations = new List<Station>();
+    //public List<ScenarioObjective> scenarios = new List<ScenarioObjective>();
     public Abilities abilities;
 }
 
-[System.Serializable]
-public class ScenarioObjective
-{
-    public string sceneName;
-    public int savePointID;
-    //public int progressVal;
-    public float station; //testing with adding station value here instead of unsorted list
-    public List<ObjectiveObj> objectives = new List<ObjectiveObj>();
-    public List<SceneInteractObj> objectStates = new List<SceneInteractObj>();
+//[System.Serializable]
+//public class ScenarioObjective
+//{
+//    public string sceneName;
+//    public int savePointID;
+//    //public int progressVal;
+//    public float station; //testing with adding station value here instead of unsorted list
+//    public List<ObjectiveObj> objectives = new List<ObjectiveObj>();
+//    public List<SceneInteractObj> objectStates = new List<SceneInteractObj>();
 
-    public ObjectiveObj GetObjective(string objName)
-    {
-        ObjectiveObj returnObj = new ObjectiveObj();
-        for (int i = 0; i < objectives.Count; i++)
-        {
-            if (objectives[i].name == objName)
-            {
-                returnObj = objectives[i];
-                break;
-            }
-        }
+//    public ObjectiveObj GetObjective(string objName)
+//    {
+//        ObjectiveObj returnObj = new ObjectiveObj();
+//        for (int i = 0; i < objectives.Count; i++)
+//        {
+//            if (objectives[i].name == objName)
+//            {
+//                returnObj = objectives[i];
+//                break;
+//            }
+//        }
 
-        return returnObj;
-    }
+//        return returnObj;
+//    }
 
-    public void GenerateStation()
-    {
-        Debug.Log("Generating radio station");      
-        station = GetObjective("frequency").value;
-    }
-}
+//    public void GenerateStation()
+//    {
+//        Debug.Log("Generating radio station");      
+//        station = GetObjective("frequency").value;
+//    }
+//}
+
 
 [System.Serializable]
 public class Abilities
@@ -297,6 +245,15 @@ public class Abilities
 }
 
 [System.Serializable]
+public class Station
+{
+    public float frequency;
+    //public AudioClip audioClip;
+    public string sceneToLoad;
+    public bool isActive;
+}
+
+[System.Serializable]
 public class SceneInteractObj
 {
     public int ID;
@@ -305,10 +262,10 @@ public class SceneInteractObj
     public bool hasActivated; 
 }
 
-[System.Serializable]
-public class ObjectiveObj
-{
-    public string name;
-    public float value;
-    public bool hasSet;
-}
+//[System.Serializable]
+//public class ObjectiveObj
+//{
+//    public string name;
+//    public float value;
+//    public bool hasSet;
+//}

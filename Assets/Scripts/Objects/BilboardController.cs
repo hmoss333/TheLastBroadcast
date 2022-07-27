@@ -8,19 +8,7 @@ public class BilboardController : InteractObject
 {
     public static BilboardController instance;
 
-    [SerializeField] string targetScenario;
     [SerializeField] GameObject focusPoint;
-    [SerializeField] TextMeshPro frequencyText;
-    [SerializeField] GameObject frequencyCrossOut;
-    [SerializeField] TextMeshPro antennaText;
-    [SerializeField] GameObject antennaCrossOut;
-    [SerializeField] TextMeshPro powerLevelText;
-    [SerializeField] GameObject powerLevelCrossOut;
-
-    ScenarioObjective currentScenario;
-    ObjectiveObj frequencyObj;
-    ObjectiveObj antennaObj;
-    ObjectiveObj powerlevelObj;
 
 
     private void Awake()
@@ -29,40 +17,6 @@ public class BilboardController : InteractObject
             instance = this;
         else
             Destroy(this.gameObject);
-    }
-
-    private void Start()
-    {
-        currentScenario = SaveDataController.instance.GetScenario(targetScenario);
-        frequencyObj = currentScenario.GetObjective("frequency");
-        antennaObj = currentScenario.GetObjective("antenna");
-        powerlevelObj = currentScenario.GetObjective("powerLevel");
-    }
-
-    private void Update()
-    {
-        foreach (ObjectiveObj objective in currentScenario.objectives)
-        {
-            if (objective.value != 0.0f)
-            {
-                switch (objective.name)
-                {
-                    case "frequency":
-                        frequencyText.text = $"Station Frequency: {objective.value}";
-                        break;
-                    case "antenna":
-                        antennaText.text = $"Antenna Height: {objective.value}";
-                        break;
-                    case "powerLevel":
-                        powerLevelText.text = $"Power Output: {objective.value}";
-                        break;
-                }
-            }
-        }
-
-        frequencyCrossOut.SetActive(frequencyObj.hasSet);
-        antennaCrossOut.SetActive(antennaObj.hasSet);
-        powerLevelCrossOut.SetActive(powerlevelObj.hasSet);
     }
 
     public override void Interact()

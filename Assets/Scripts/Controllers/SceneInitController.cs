@@ -13,7 +13,7 @@ public class SceneInitController : MonoBehaviour
     [SerializeField] SavePointController[] savePoints;
     [SerializeField] RoomController[] rooms;
 
-    ScenarioObjective currentScenario;
+    //ScenarioObjective currentScenario;
     [SerializeField] List<SceneInteractObj> currentInteractObjects;
 
 
@@ -45,17 +45,17 @@ public class SceneInitController : MonoBehaviour
     void GetInteractObjs()
     {      
         InteractObject[] tempObjArray = FindObjectsOfType<InteractObject>();
-        foreach (InteractObject tempObj in tempObjArray)
-        {
-            foreach (SceneInteractObj tempSceneObj in currentScenario.objectStates)
-            {
-                if (tempObj.objID == tempSceneObj.ID)
-                {
-                    tempObj.active = tempSceneObj.active;
-                    tempObj.hasActivated = tempSceneObj.hasActivated;
-                }
-            }
-        }
+        //foreach (InteractObject tempObj in tempObjArray)
+        //{
+        //    foreach (SceneInteractObj tempSceneObj in currentScenario.objectStates)
+        //    {
+        //        if (tempObj.objID == tempSceneObj.ID)
+        //        {
+        //            tempObj.active = tempSceneObj.active;
+        //            tempObj.hasActivated = tempSceneObj.hasActivated;
+        //        }
+        //    }
+        //}
 
         //Create list of all interactObjects in scene
         currentInteractObjects = new List<SceneInteractObj>();
@@ -91,7 +91,7 @@ public class SceneInitController : MonoBehaviour
         }
 
         //Update save file with current changes
-        currentScenario.objectStates = currentInteractObjects;
+        //currentScenario.objectStates = currentInteractObjects;
         SaveDataController.instance.SaveFile();
     }
 
@@ -115,16 +115,16 @@ public class SceneInitController : MonoBehaviour
     public void InitializeGame()
     {
         currentScene = SceneManager.GetActiveScene().name;
-        currentScenario = SaveDataController.instance.GetScenario(currentScene);
+        //currentScenario = SaveDataController.instance.GetScenario(currentScene);
 
         GetInteractObjs();
-        if (currentScenario.objectStates.Count <= 0) { SaveInteractObjs(); }
+        //if (currentScenario.objectStates.Count <= 0) { SaveInteractObjs(); }
         GetAllSavePoints();
         HideAllRooms();
 
         foreach (SavePointController point in savePoints)
         {
-            if (point.ID == currentScenario.savePointID)
+            if (point.ID == saveData.savePointID)
             {
                 if (!point.transform.parent.gameObject.activeSelf)
                     point.transform.parent.gameObject.SetActive(true);
