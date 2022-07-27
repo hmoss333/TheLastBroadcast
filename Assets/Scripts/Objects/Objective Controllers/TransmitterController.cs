@@ -21,23 +21,21 @@ public class TransmitterController : InteractObject
 
     public override void Interact()
     {
-        base.Interact();
-
-        PlayerController.instance.ToggleAvatar();
-        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
-        CameraController.instance.FocusTarget();
-
         if (active)
         {
-            //base.Interact();
+            base.Interact();
 
-            //PlayerController.instance.ToggleAvatar();
-            //CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
-            //CameraController.instance.FocusTarget();
+            PlayerController.instance.ToggleAvatar();
+            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            CameraController.instance.FocusTarget();
 
-            //TODO
-            SaveDataController.instance.EnableStation(sceneToActivate);
-            active = false;
+            if (!hasActivated)
+            {
+                Debug.Log($"Actived transmitter for {sceneToActivate} station");
+                hasActivated = true;
+                SaveDataController.instance.EnableStation(sceneToActivate);
+                SaveDataController.instance.SaveFile();
+            }
         }
     }
 }

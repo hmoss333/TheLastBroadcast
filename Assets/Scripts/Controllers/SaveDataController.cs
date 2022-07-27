@@ -72,9 +72,9 @@ public class SaveDataController : MonoBehaviour
         tempStations.Add(station0);
 
         Station station1 = new Station();
-        station0.frequency = 8.2f;
-        station0.sceneToLoad = "Apartment";
-        station0.isActive = false;
+        station1.frequency = 8.2f;
+        station1.sceneToLoad = "Apartment";
+        station1.isActive = false;
         tempStations.Add(station1);
 
         saveData.stations = tempStations;
@@ -197,8 +197,10 @@ public class SaveData
     public string currentScene;
     public int savePointID;
     public List<Station> stations = new List<Station>();
-    //public List<ScenarioObjective> scenarios = new List<ScenarioObjective>();
     public Abilities abilities;
+    //    public List<ScenarioObjective> scenarios = new List<ScenarioObjective>();
+    //    public List<ObjectiveObj> objectives = new List<ObjectiveObj>();
+    //    public List<SceneInteractObj> objectStates = new List<SceneInteractObj>();
 }
 
 //[System.Serializable]
@@ -247,6 +249,8 @@ public class Abilities
 [System.Serializable]
 public class Station
 {
+    //TODO initialize these values from a csv file and audio clip folder
+
     public float frequency;
     //public AudioClip audioClip;
     public string sceneToLoad;

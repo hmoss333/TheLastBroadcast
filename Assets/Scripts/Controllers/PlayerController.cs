@@ -186,15 +186,6 @@ public class PlayerController : MonoBehaviour
         playerAvatar.SetActive(!playerAvatar.activeSelf);
     }
 
-    //IEnumerator PlayDashParticles()
-    //{
-    //    dashEffect.Play();
-
-    //    yield return new WaitForSeconds(0.1f);
-
-    //    dashEffect.Stop();
-    //}
-
     public void InteractToggle(bool interactState)
     {
         interacting = interactState; //!interacting;
