@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class RadioOverlay_Controller : MonoBehaviour
+public class RadioController : MonoBehaviour
 {
-    public static RadioOverlay_Controller instance;
+    public static RadioController instance;
 
     [SerializeField] float speed;
     [SerializeField] float yOffSet;
@@ -22,6 +22,7 @@ public class RadioOverlay_Controller : MonoBehaviour
     [SerializeField] RawImage stationScroll;
     [SerializeField] TextMeshProUGUI frequencyText;
     float xInput;
+
 
     //Audio Elements
     [SerializeField] AudioSource staticSource;

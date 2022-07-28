@@ -145,10 +145,10 @@ public class PlayerController : MonoBehaviour
 
     public void RadioToggle()
     {
-        if (!interacting || (interacting && RadioOverlay_Controller.instance.isActive))
+        if (!interacting || (interacting && RadioController.instance.isActive))
         {
             interacting = !interacting;
-            RadioOverlay_Controller.instance.ToggleOn();
+            RadioController.instance.ToggleOn();
             animator.SetBool("isRadio", interacting);
         }
     }

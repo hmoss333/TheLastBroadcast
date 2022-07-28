@@ -4,87 +4,54 @@ using UnityEngine;
 
 public class RadioLockController : InteractObject
 {
-    [SerializeField] bool isActive;
-    [SerializeField] float checkDist;
-    [SerializeField] float stationVal;
-    [SerializeField] float stationOffset;
+    public bool unlocked = false; //has controller been triggered
+    private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
+    private float checkTime = 2f; //time the radio must stay within the frequency range to activate
+    private float checkFrequency; //frequency that must be matched on field radio
+    [SerializeField] private MeshRenderer mr;
+    public InteractObject[] objectsToActivate;
 
-    PlayerController player;
-    [SerializeField] Renderer activeMat;
-
-    [SerializeField] InteractObject[] objectsToActivate;
-
-
-    // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlayerController>();
+        mr.material.color = Color.red;
+        checkFrequency = Random.Range(1f, 7.5f);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        bool playerInRange = PlayerInRange();
-        float currentFrequency = RadioOverlay_Controller.instance.currentFrequency;
-
-        if (active && playerInRange && !isActive && RadioOverlay_Controller.instance.isActive)
+        if (!unlocked && active)
         {
-            StartScan(currentFrequency);
-        }
+            float dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
-        if (!active)
-            activeMat.material.color = Color.black;
-        else
-            activeMat.material.color = isActive ? Color.green : Color.red;
-    }
-
-    bool PlayerInRange()
-    {
-        float playerDist = Vector3.Distance(transform.position, player.gameObject.transform.position);
-        if (playerDist <= checkDist)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    void StartScan(float currentFrequency)
-    {
-        if (currentFrequency >= stationVal - stationOffset && currentFrequency <= stationVal + stationOffset)
-        {
-            isActive = true;
-            //PlayerController.instance.RadioToggle();
-            StartCoroutine(ActivateObjects());
-        }
-        else
-        {
-            isActive = false;
+            if (dist <= checkRadius
+                && (RadioController.instance.currentFrequency < checkFrequency + 0.05f && RadioController.instance.currentFrequency > checkFrequency - 0.05f)
+                && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)                                              
+                && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
+            {
+                interacting = true;
+                mr.material.color = Color.blue;
+                checkTime -= Time.deltaTime;
+                if (checkTime < 0)
+                {
+                    UnlockDoor();
+                }
+            }
+            else
+            {
+                interacting = false;
+                mr.material.color = Color.red;
+                checkTime = 2f;
+            }
         }
     }
 
-    IEnumerator ActivateObjects()
+    void UnlockDoor()
     {
-        //Pause user input for brief moment
-        PlayerController.instance.interacting = true;
-        yield return new WaitForSeconds(0.65f);
-        PlayerController.instance.interacting = false;
-
-
-        //Activate all interact objects in list
+        mr.material.color = Color.green;
+        unlocked = true;
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
-
-            yield return new WaitForSeconds(1f);
-
             objectsToActivate[i].Activate();
-            
-
-            yield return new WaitForSeconds(1f);
         }
-
-        //Reset camera to player
-        CameraController.instance.SetTarget(player.gameObject);
     }
 }

@@ -509,8 +509,8 @@ GameObject:
   - component: {fileID: 7686404432064916494}
   - component: {fileID: 7686404432071836652}
   - component: {fileID: 8893823773826241360}
-  - component: {fileID: 8893823773826241361}
   - component: {fileID: -1179028950722798494}
+  - component: {fileID: 3082281063099351131}
   m_Layer: 8
   m_Name: Radio_Lock
   m_TagString: Untagged
@@ -572,24 +572,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 7, y: 3.2499998, z: 16}
   m_Center: {x: -0.00000012644053, y: 1.5, z: -3.5}
---- !u!114 &8893823773826241361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7686404432064426030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 541c712ed9bc44810a7300a2552977c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objID: 1
-  interacting: 0
-  active: 1
-  hasActivated: 0
-  objectsToActivate:
-  - {fileID: 0}
 --- !u!114 &-1179028950722798494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,3 +590,23 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &3082281063099351131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686404432064426030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8c04d2685fb46d1801f79cefdd3a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objID: 1
+  interacting: 0
+  active: 1
+  hasActivated: 0
+  unlocked: 0
+  checkFrequency: 0
+  doors: []
+  mr: {fileID: 7686404432062492392}
