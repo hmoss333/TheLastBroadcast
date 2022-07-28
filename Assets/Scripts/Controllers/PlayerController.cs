@@ -14,9 +14,10 @@ public class PlayerController : MonoBehaviour
     float storedSpeed;
     Vector3 lastDir, lastDir1, lastDir2;
 
-    public bool interacting;
+    public bool interacting, attacking;
     [SerializeField] LayerMask layer;
     [SerializeField] float checkDist;
+    [SerializeField] GameObject melee;
 
     public InteractObject interactObj;
     [SerializeField] GameObject playerAvatar;
@@ -69,15 +70,29 @@ public class PlayerController : MonoBehaviour
 
 
         //Change these statements into a state machine
-        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.active)// && !RadioOverlay_Controller.instance.isActive && !attacking && !dashing)
+        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.active)
         {
             interactObj.Interact();
         }
 
-        if (Input.GetButtonDown("Radio") && SaveDataController.instance.saveData.abilities.radio == true)// && !attacking && !dashing)
+        if (Input.GetButtonDown("Radio") && SaveDataController.instance.saveData.abilities.radio == true && !attacking)
         {
-            RadioToggle();
+            if (!interacting || (interacting && RadioController.instance.isActive))
+            {
+                interacting = !interacting;
+                RadioController.instance.ToggleOn();
+                animator.SetBool("isRadio", interacting);
+            }
         }
+
+        if (Input.GetButtonDown("Melee") && SaveDataController.instance.saveData.abilities.crowbar == true && !interacting)
+        {
+            animator.SetTrigger("isMelee");
+            attacking = true;
+            interacting = true;
+        }
+
+        melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state
     }
 
     private void FixedUpdate()
@@ -86,10 +101,15 @@ public class PlayerController : MonoBehaviour
         if (interacting)
         {
             speed = 0; //stop all player movement
+
+            //If attacking, pause all inputs until animation has completed
+            if (attacking && !isPlaying("Melee"))
+            {
+                interacting = false;
+                attacking = false;
+            }
         }
-
-
-        if (!interacting)
+        else
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Vertical");
@@ -143,13 +163,12 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isInteracting", interacting);
     }
 
-    public void RadioToggle()
+    bool isPlaying(string stateName)
     {
-        if (!interacting || (interacting && RadioController.instance.isActive))
-        {
-            interacting = !interacting;
-            RadioController.instance.ToggleOn();
-            animator.SetBool("isRadio", interacting);
-        }
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
+                animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+            return true;
+        else
+            return false;
     }
 }
