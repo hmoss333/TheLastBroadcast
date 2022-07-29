@@ -128,6 +128,9 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("isMoving", false);
             }
 
+            animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false); //toggle falling animation
+
+
             //Move player in FixedUpdate for consistent performance
             rb.velocity = new Vector3(horizontal * speed, rb.velocity.y, vertical * speed);
 

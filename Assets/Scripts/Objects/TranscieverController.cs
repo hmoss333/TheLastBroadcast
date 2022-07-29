@@ -10,13 +10,11 @@ public class TranscieverController : SavePointController
 {
     public static TranscieverController instance;
 
-    [SerializeField] GameObject activeModel;
-    [SerializeField] GameObject deactivatedModel;
     [SerializeField] AudioSource staticSource;
-    //[SerializeField] GameObject instructionText;
 
     [SerializeField] [Range(0f, 10f)] float currentFrequency;
     [SerializeField] TextMeshPro frequencyText;
+    [SerializeField] MeshRenderer lightMesh;
 
     [SerializeField] GameObject dialObj;
     [SerializeField] float rotSpeed;
@@ -48,10 +46,7 @@ public class TranscieverController : SavePointController
 
     private void Update()
     {
-        activeModel.SetActive(active);
-        deactivatedModel.SetActive(!active);
-        //instructionText.SetActive(interacting);
-
+        lightMesh.material.color = active ? Color.green : Color.red;
 
         //Lock rotation once the player reaches either end of frequency spectrum
         float tempSpeed = rotSpeed;
@@ -89,6 +84,7 @@ public class TranscieverController : SavePointController
                     currentFrequency >= frequency - 0.015f && currentFrequency <= frequency + 0.015f)
                 {
                     frequencyText.color = presetColor;
+                    lightMesh.material.color = presetColor;
                     sceneToLoad = presetVals[frequency].sceneToLoad;
                     startCountdown = true;
                     break;

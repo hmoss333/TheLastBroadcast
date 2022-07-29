@@ -29,7 +29,7 @@ public class RadioLockController : InteractObject
                 && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
             {
                 interacting = true;
-                mr.material.color = Color.blue;
+                mr.material.color = Color.yellow;
                 checkTime -= Time.deltaTime;
                 if (checkTime < 0)
                 {

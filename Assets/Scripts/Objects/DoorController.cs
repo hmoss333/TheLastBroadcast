@@ -35,6 +35,6 @@ public class DoorController : InteractObject
 
         FadeController.instance.StartFade(0.0f, 1f);
 
-        //PlayerController.instance.InteractToggle(false);
+        PlayerController.instance.InteractToggle(false);
     }
 }
