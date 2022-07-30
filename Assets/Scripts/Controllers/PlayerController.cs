@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     float storedSpeed;
     Vector3 lastDir, lastDir1, lastDir2;
 
-    public bool interacting, attacking;
+    public bool interacting, attacking, hurt;
     [SerializeField] LayerMask layer;
     [SerializeField] float checkDist;
     [SerializeField] GameObject melee;
@@ -48,7 +48,11 @@ public class PlayerController : MonoBehaviour
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (Physics.Raycast(ray, out hit, checkDist, layer))
+        if (interacting && RadioController.instance.isActive)
+        {
+            interactObj = null;
+        }
+        else if (Physics.Raycast(ray, out hit, checkDist, layer))
         {
             interactObj = hit.transform.gameObject.GetComponent<InteractObject>();
         }

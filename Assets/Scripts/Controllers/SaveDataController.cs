@@ -86,9 +86,33 @@ public class SaveDataController : MonoBehaviour
         station3.frequency = 9.30f;
         station3.sceneToLoad = "Library";
         station3.isActive = false;
-        tempStations.Add(station2);
+        tempStations.Add(station3);
 
         saveData.stations = tempStations;
+
+
+        //Set radio ability values here
+        List<RadioAbility> tempRadioAbilities = new List<RadioAbility>();
+
+        RadioAbility rb0 = new RadioAbility();
+        rb0.name = "invisibility";
+        rb0.frequency = 2.5f;
+        rb0.isActive = false;
+        tempRadioAbilities.Add(rb0);
+
+        RadioAbility rb1 = new RadioAbility();
+        rb1.name = "remote";
+        rb1.frequency = 5.0f;
+        rb1.isActive = false;
+        tempRadioAbilities.Add(rb1);
+
+        RadioAbility rb2 = new RadioAbility();
+        rb2.name = "control";
+        rb2.frequency = 7.5f;
+        rb2.isActive = false;
+        tempRadioAbilities.Add(rb2);
+
+        saveData.radioAbilities = tempRadioAbilities;
 
 
         //Set Ability defaults
@@ -119,54 +143,30 @@ public class SaveDataController : MonoBehaviour
         }
     }
 
-    //public ScenarioObjective GetScenario()
-    //{
-    //    ScenarioObjective returnScenario = new ScenarioObjective();
-    //    for (int i = 0; i < saveData.scenarios.Count; i++)
-    //    {
-    //        if (saveData.scenarios[i].sceneName == saveData.currentScene)
-    //        {
-    //            returnScenario = saveData.scenarios[i];
-    //        }
-    //    }
+    public void GiveRadioAbility(string abilityName)
+    {
+        for (int i = 0; i < saveData.radioAbilities.Count; i++)
+        {
+            if (saveData.radioAbilities[i].name == abilityName)
+            {
+                saveData.radioAbilities[i].isActive = true;
+                break;
+            }
+        }
+    }
 
-    //    return returnScenario;
-    //}
+    public bool isRadioAbilityActive(string abilityName)
+    {
+        for (int i = 0; i < saveData.radioAbilities.Count; i++)
+        {
+            if (saveData.radioAbilities[i].name == abilityName)
+            {
+                return saveData.radioAbilities[i].isActive;
+            }
+        }
 
-    //public ScenarioObjective GetScenario(string sceneName)
-    //{
-    //    ScenarioObjective returnScenario = new ScenarioObjective();
-    //    for (int i = 0; i < saveData.scenarios.Count; i++)
-    //    {
-    //        if (saveData.scenarios[i].sceneName == sceneName)
-    //        {
-    //            returnScenario = saveData.scenarios[i];
-    //        }
-    //    }
-
-    //    return returnScenario;
-    //}
-
-    //public void UpdateScenario(string sceneName, string valueName)
-    //{
-    //    ScenarioObjective tempScenario = SaveDataController.instance.GetScenario(sceneName);
-    //    for (int i = 0; i < tempScenario.objectives.Count; i++)
-    //    {
-    //        if (tempScenario.objectives[i].name == valueName)
-    //        {
-    //            float randNum = Random.Range(0f, 10f);
-    //            randNum = (float)System.Math.Round(randNum, 2);
-    //            tempScenario.objectives[i].value = randNum;
-    //            break;
-    //        }
-    //    }
-    //}
-
-    //public void UpdateScenario(string sceneName, float stationVal)
-    //{
-    //    ScenarioObjective tempScenario = GetScenario(sceneName);
-    //    tempScenario.station = stationVal;
-    //}
+        return false;
+    }
 
     public void GiveAbility(string abilityName)
     {
@@ -175,6 +175,9 @@ public class SaveDataController : MonoBehaviour
         {
             case "radio":
                 saveData.abilities.radio = true;
+                break;
+            case "radio_special":
+                saveData.abilities.radio_special = true;
                 break;
             case "crowbar":
                 saveData.abilities.crowbar = true;
@@ -209,52 +212,30 @@ public class SaveData
     public int savePointID;
     public List<Station> stations = new List<Station>();
     public Abilities abilities;
+    public List<RadioAbility> radioAbilities;
     //    public List<ScenarioObjective> scenarios = new List<ScenarioObjective>();
     //    public List<ObjectiveObj> objectives = new List<ObjectiveObj>();
     //    public List<SceneInteractObj> objectStates = new List<SceneInteractObj>();
 }
-
-//[System.Serializable]
-//public class ScenarioObjective
-//{
-//    public string sceneName;
-//    public int savePointID;
-//    //public int progressVal;
-//    public float station; //testing with adding station value here instead of unsorted list
-//    public List<ObjectiveObj> objectives = new List<ObjectiveObj>();
-//    public List<SceneInteractObj> objectStates = new List<SceneInteractObj>();
-
-//    public ObjectiveObj GetObjective(string objName)
-//    {
-//        ObjectiveObj returnObj = new ObjectiveObj();
-//        for (int i = 0; i < objectives.Count; i++)
-//        {
-//            if (objectives[i].name == objName)
-//            {
-//                returnObj = objectives[i];
-//                break;
-//            }
-//        }
-
-//        return returnObj;
-//    }
-
-//    public void GenerateStation()
-//    {
-//        Debug.Log("Generating radio station");      
-//        station = GetObjective("frequency").value;
-//    }
-//}
 
 
 [System.Serializable]
 public class Abilities
 {
     public bool radio;
+    public bool radio_special;
     public bool crowbar;
     public bool book;
     public bool hand;
     public bool mirror;
+}
+
+[System.Serializable]
+public class RadioAbility
+{
+    public string name;
+    public float frequency;
+    public bool isActive;
 }
 
 [System.Serializable]

@@ -9,6 +9,8 @@ public class TransmitterController : InteractObject
     public static TransmitterController instance;
 
     [SerializeField] GameObject focusPoint;
+    [SerializeField] enum AbilityToGive { invisibility, remote, control };
+    [SerializeField] AbilityToGive abilityToGive;
     [SerializeField] string sceneToActivate;
 
 
@@ -35,7 +37,8 @@ public class TransmitterController : InteractObject
                 Debug.Log($"Actived transmitter for {sceneToActivate} station");
                 hasActivated = true;
                 active = false;
-                SaveDataController.instance.EnableStation(sceneToActivate);
+                SaveDataController.instance.EnableStation(sceneToActivate); 
+                SaveDataController.instance.EnableStation(abilityToGive.ToString()); //Ability station
                 SaveDataController.instance.SaveFile();
             }
 

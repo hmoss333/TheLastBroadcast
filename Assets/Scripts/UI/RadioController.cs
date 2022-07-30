@@ -13,20 +13,22 @@ public class RadioController : MonoBehaviour
     [SerializeField] float maxFrequency;
     [Range(0.0f, 10.0f)]
     public float currentFrequency;
-    public bool isActive;
+    public bool isActive, abilityMode;
     [SerializeField] float stationOffset;
 
 
     //UI Elements
     [SerializeField] GameObject overlayPanel;
-    [SerializeField] RawImage stationScroll;
-    [SerializeField] TextMeshProUGUI frequencyText;
+    [SerializeField] Slider radioSlider;
     float xInput;
+    [SerializeField] Image stationBackground;
+    [SerializeField] Color onColor, offColor, abilityColor;
 
 
     //Audio Elements
     [SerializeField] AudioSource staticSource;
     [SerializeField] AudioSource stationSource;
+
 
 
 
@@ -67,23 +69,27 @@ public class RadioController : MonoBehaviour
 
         if (isActive)
         {
-            //Display the current frequency
-            float displayFrequency = currentFrequency * 10f;
-            frequencyText.text = displayFrequency.ToString("F1");
-
-
             //Get input values
             xInput = Input.GetAxis("Horizontal");
             currentFrequency += (float)(xInput * Time.deltaTime);
 
 
-            //Offset station strip element
-            float xPos = stationScroll.uvRect.x;
-            stationScroll.uvRect = new Rect(xPos += tempSpeed * xInput * Time.deltaTime, 0, 1, 1);
+            //Offset station slider element
+            radioSlider.value = currentFrequency / 10f;
+
+
+            if (SaveDataController.instance.saveData.abilities.radio_special)
+                abilityMode = Input.GetButton("RadioSpecial");
+
+            //TODO add radio ability controls here
         }
 
         staticSource.mute = !isActive;
-        overlayPanel.SetActive(isActive);
+        overlayPanel.SetActive(SaveDataController.instance.saveData.abilities.radio);
+        if (!abilityMode)
+            stationBackground.color = isActive ? onColor : offColor;
+        else
+            stationBackground.color = abilityColor;
     }
 
     public void ToggleOn()
