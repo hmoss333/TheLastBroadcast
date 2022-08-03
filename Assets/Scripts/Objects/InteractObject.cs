@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractObject : MonoBehaviour
 {
-    public int objID;
+    //public int objID;
     public bool interacting, active = true, hasActivated;
 
     public virtual void Interact()

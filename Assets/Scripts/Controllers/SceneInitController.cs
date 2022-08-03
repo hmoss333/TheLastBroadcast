@@ -63,7 +63,7 @@ public class SceneInitController : MonoBehaviour
         {
             SceneInteractObj newObj = new SceneInteractObj();
             newObj.name = tempObj.gameObject.name;
-            newObj.ID = tempObj.objID;
+            //newObj.ID = tempObj.objID;
             newObj.active = tempObj.active;
             newObj.hasActivated = tempObj.hasActivated;
             //TODO add more values to track here
@@ -74,26 +74,26 @@ public class SceneInitController : MonoBehaviour
         currentInteractObjects = currentInteractObjects.OrderBy(x => x.ID).ToList(); //sort objects by ID value
     }
 
-    public void SaveInteractObjs() //call whenever changing FROM scene
-    {
-        InteractObject[] tempObjArray = FindObjectsOfType<InteractObject>();
-        foreach (SceneInteractObj tempSceneObj in currentInteractObjects)
-        {
-            foreach (InteractObject tempObj in tempObjArray)
-            {
-                if (tempSceneObj.ID == tempObj.objID)
-                {
-                    tempSceneObj.name = tempObj.gameObject.name;
-                    tempSceneObj.active = tempObj.active;
-                    tempSceneObj.hasActivated = tempObj.hasActivated;
-                }
-            }
-        }
+    //public void SaveInteractObjs() //call whenever changing FROM scene
+    //{
+    //    InteractObject[] tempObjArray = FindObjectsOfType<InteractObject>();
+    //    foreach (SceneInteractObj tempSceneObj in currentInteractObjects)
+    //    {
+    //        foreach (InteractObject tempObj in tempObjArray)
+    //        {
+    //            if (tempSceneObj.ID == tempObj.objID)
+    //            {
+    //                tempSceneObj.name = tempObj.gameObject.name;
+    //                tempSceneObj.active = tempObj.active;
+    //                tempSceneObj.hasActivated = tempObj.hasActivated;
+    //            }
+    //        }
+    //    }
 
-        //Update save file with current changes
-        //currentScenario.objectStates = currentInteractObjects;
-        SaveDataController.instance.SaveFile();
-    }
+    //    //Update save file with current changes
+    //    //currentScenario.objectStates = currentInteractObjects;
+    //    SaveDataController.instance.SaveFile();
+    //}
 
     void GetAllSavePoints()
     {

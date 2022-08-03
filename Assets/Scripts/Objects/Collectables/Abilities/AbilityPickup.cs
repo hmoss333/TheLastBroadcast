@@ -12,7 +12,7 @@ public class AbilityPickup : Collectable
         hand,
         mirror
     }
-    public new CollectType collectType;
+    public CollectType collectType;
 
 
     public override void Interact()

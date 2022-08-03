@@ -85,7 +85,7 @@ public class RadioController : MonoBehaviour
         }
 
         staticSource.mute = !isActive;
-        overlayPanel.SetActive(SaveDataController.instance.saveData.abilities.radio);
+        overlayPanel.SetActive(SaveDataController.instance.saveData.abilities.radio && !PlayerController.instance.interacting);
         if (!abilityMode)
             stationBackground.color = isActive ? onColor : offColor;
         else

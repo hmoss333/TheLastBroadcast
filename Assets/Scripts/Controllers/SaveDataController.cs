@@ -71,13 +71,13 @@ public class SaveDataController : MonoBehaviour
         tempStations.Add(station0);
 
         Station station1 = new Station();
-        station1.frequency = 8.2f;
+        station1.frequency = 8.20f;
         station1.sceneToLoad = "Apartment";
         station1.isActive = false;
         tempStations.Add(station1);
 
         Station station2 = new Station();
-        station2.frequency = 3.33f;
+        station2.frequency = 3.330f;
         station2.sceneToLoad = "Backrooms";
         station2.isActive = false;
         tempStations.Add(station2);
@@ -213,8 +213,6 @@ public class SaveData
     public List<Station> stations = new List<Station>();
     public Abilities abilities;
     public List<RadioAbility> radioAbilities;
-    //    public List<ScenarioObjective> scenarios = new List<ScenarioObjective>();
-    //    public List<ObjectiveObj> objectives = new List<ObjectiveObj>();
     //    public List<SceneInteractObj> objectStates = new List<SceneInteractObj>();
 }
 

@@ -29,7 +29,7 @@ public class DoorController : InteractObject
         exitPoint.parent.parent.gameObject.SetActive(true); //gross...
 
         PlayerController.instance.transform.position = exitPoint.position;
-        //PlayerController.instance.SetlastDir(exitPoint.position);
+        PlayerController.instance.SetLastDir(exitPoint.transform.forward);
 
         transform.parent.gameObject.SetActive(false);
 

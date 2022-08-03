@@ -18,7 +18,7 @@ public class Collectable : InteractObject
         Debug.Log("Collected " + gameObject.name);
         hasActivated = true;
         //SaveDataController.instance.GiveAbility(collectType.ToString());
-        SceneInitController.instance.SaveInteractObjs();
+        //SceneInitController.instance.SaveInteractObjs();
         SaveDataController.instance.SaveFile();
     }
 }

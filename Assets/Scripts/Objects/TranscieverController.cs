@@ -126,7 +126,7 @@ public class TranscieverController : SavePointController
 
         SaveDataController.instance.SetSavePoint(sceneToLoad, 0);
         PlayerController.instance.ToggleAvatar();
-        SceneInitController.instance.SaveInteractObjs();
+        //SceneInitController.instance.SaveInteractObjs();
         SceneManager.LoadSceneAsync(sceneToLoad);
     }
 

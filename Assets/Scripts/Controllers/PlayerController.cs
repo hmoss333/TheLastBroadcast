@@ -8,20 +8,20 @@ public class PlayerController : MonoBehaviour
 
 
     //Player Movement Controls
-    Rigidbody rb;
-    float horizontal, vertical;
+    private Rigidbody rb;
+    private float horizontal, vertical;
     [SerializeField] float speed, rotSpeed;
-    float storedSpeed;
-    Vector3 lastDir, lastDir1, lastDir2;
+    private float storedSpeed;
+    private Vector3 lastDir, lastDir1, lastDir2;
 
-    public bool interacting, attacking, hurt;
-    [SerializeField] LayerMask layer;
-    [SerializeField] float checkDist;
-    [SerializeField] GameObject melee;
+    public bool interacting, usingRadio, attacking, hurt;
+    [SerializeField] private LayerMask layer;
+    [SerializeField] private float checkDist;
+    [SerializeField] private GameObject melee;
 
     public InteractObject interactObj;
-    [SerializeField] GameObject playerAvatar;
-    public Animator animator;
+    [SerializeField] private GameObject playerAvatar;
+    [SerializeField] private Animator animator;
 
 
 
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (interacting && RadioController.instance.isActive)
+        if (interacting || usingRadio || attacking)
         {
             interactObj = null;
         }
@@ -73,27 +73,35 @@ public class PlayerController : MonoBehaviour
             interactObj.gameObject.GetComponent<Outline>().enabled = true;
 
 
-        //Change these statements into a state machine
+
+        //Player input controls
         if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.active)
         {
             interactObj.Interact();
         }
 
-        if (Input.GetButtonDown("Radio") && SaveDataController.instance.saveData.abilities.radio == true && !attacking)
+        if (SaveDataController.instance.saveData.abilities.radio == true && !interacting && !attacking)
         {
-            if (!interacting || (interacting && RadioController.instance.isActive))
+            //If player holds down Radio button, interact with radio
+            if (Input.GetButtonDown("Radio"))
             {
-                interacting = !interacting;
+                usingRadio = true;
                 RadioController.instance.ToggleOn();
-                animator.SetBool("isRadio", interacting);
             }
+            //If player releases Radio button, stop interacting with radio
+            else if (Input.GetButtonUp("Radio"))
+            {
+                usingRadio = false;
+                RadioController.instance.ToggleOn();
+            }
+
+            animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
         }
 
-        if (Input.GetButtonDown("Melee") && SaveDataController.instance.saveData.abilities.crowbar == true && !interacting)
+        if (Input.GetButtonDown("Melee") && SaveDataController.instance.saveData.abilities.crowbar == true && !interacting && !usingRadio)
         {
-            animator.SetTrigger("isMelee");
             attacking = true;
-            interacting = true;
+            animator.SetTrigger("isMelee");
         }
 
         melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state
@@ -102,14 +110,13 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         //Movement Controller
-        if (interacting)
+        if (interacting || usingRadio || attacking)
         {
             speed = 0; //stop all player movement
 
             //If attacking, pause all inputs until animation has completed
             if (attacking && !isPlaying("Melee"))
             {
-                interacting = false;
                 attacking = false;
             }
         }
@@ -177,5 +184,10 @@ public class PlayerController : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    public void SetLastDir(Vector3 newDir)
+    {
+        lastDir = newDir;
     }
 }

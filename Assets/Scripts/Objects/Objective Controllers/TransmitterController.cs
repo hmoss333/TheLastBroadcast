@@ -37,8 +37,8 @@ public class TransmitterController : InteractObject
                 Debug.Log($"Actived transmitter for {sceneToActivate} station");
                 hasActivated = true;
                 active = false;
-                SaveDataController.instance.EnableStation(sceneToActivate); 
-                SaveDataController.instance.EnableStation(abilityToGive.ToString()); //Ability station
+                SaveDataController.instance.EnableStation(sceneToActivate); //Activate new scene station
+                SaveDataController.instance.GiveRadioAbility(abilityToGive.ToString()); //Give new ability station
                 SaveDataController.instance.SaveFile();
             }
 
@@ -57,7 +57,7 @@ public class TransmitterController : InteractObject
 
         SaveDataController.instance.SetSavePoint("BroadcastRoom", 0);
         PlayerController.instance.ToggleAvatar();
-        SceneInitController.instance.SaveInteractObjs();
+        //SceneInitController.instance.SaveInteractObjs();
         SceneManager.LoadSceneAsync("BroadcastRoom");
     }
 }
