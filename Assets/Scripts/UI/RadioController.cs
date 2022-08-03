@@ -14,7 +14,6 @@ public class RadioController : MonoBehaviour
     [Range(0.0f, 10.0f)]
     public float currentFrequency;
     public bool isActive, abilityMode;
-    [SerializeField] float stationOffset;
 
 
     //UI Elements
@@ -71,7 +70,7 @@ public class RadioController : MonoBehaviour
         {
             //Get input values
             xInput = Input.GetAxis("Horizontal");
-            currentFrequency += (float)(xInput * Time.deltaTime);
+            currentFrequency += (float)(xInput * speed * Time.deltaTime);
 
 
             //Offset station slider element
