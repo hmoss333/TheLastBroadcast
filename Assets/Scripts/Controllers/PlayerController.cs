@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
 
 
 
-
     private void Awake()
     {
         if (instance == null)
@@ -48,7 +47,7 @@ public class PlayerController : MonoBehaviour
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (interacting || usingRadio || attacking)
+        if (usingRadio || attacking)
         {
             interactObj = null;
         }

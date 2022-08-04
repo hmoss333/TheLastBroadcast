@@ -22,13 +22,13 @@ public class RadioController : MonoBehaviour
     float xInput;
     [SerializeField] Image stationBackground;
     [SerializeField] Color onColor, offColor, abilityColor;
+    [SerializeField] Vector2 inactivePos, activePos;
+    [SerializeField] float slideSpeed;
 
 
     //Audio Elements
     [SerializeField] AudioSource staticSource;
     [SerializeField] AudioSource stationSource;
-
-
 
 
 
@@ -38,11 +38,6 @@ public class RadioController : MonoBehaviour
             instance = this;
         else
             Destroy(this.gameObject);
-    }
-
-    private void Start()
-    {
-
     }
 
     // Update is called once per frame
@@ -89,6 +84,9 @@ public class RadioController : MonoBehaviour
             stationBackground.color = isActive ? onColor : offColor;
         else
             stationBackground.color = abilityColor;
+
+        //Move radio panel into position based on active state
+        overlayPanel.transform.localPosition = Vector2.Lerp(overlayPanel.transform.localPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
     }
 
     public void ToggleOn()

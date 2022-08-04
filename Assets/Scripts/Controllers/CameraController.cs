@@ -52,21 +52,16 @@ public class CameraController : MonoBehaviour
             pos.z += camZOffset;
         }
 
-        Vector3 newPos = Vector3.Lerp(transform.position, pos, smoothTime);
+        Vector3 newPos = Vector3.Lerp(transform.position, pos, smoothTime * Time.deltaTime);
         transform.position = newPos;
 
         if (focus)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, target.rotation, Time.deltaTime * focusRotRate);
-            Camera.main.fieldOfView = 60f;
-        }
+            transform.rotation = Quaternion.Slerp(transform.rotation, target.rotation, focusRotRate * Time.deltaTime);          
         else
-        {
-            transform.rotation = baseRot;
-            Camera.main.fieldOfView = 20f;
-        }
+            transform.rotation = Quaternion.Slerp(transform.rotation, baseRot, focusRotRate * 5f * Time.deltaTime); //baseRot;
 
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
+        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, focus ? 60f : 20f, focusRate * Time.deltaTime);
     }
 
     public void SetTarget(GameObject newTargetObj)
