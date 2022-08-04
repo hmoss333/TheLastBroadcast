@@ -52,6 +52,11 @@ public class SaveDataController : MonoBehaviour
         File.WriteAllText(destination, jsonData);
     }
 
+    public SaveData GetSaveData()
+    {
+        return saveData;
+    }
+
     //TODO
     //Update this with new save file formating
     public void CreateNewSaveFile()
@@ -125,12 +130,18 @@ public class SaveDataController : MonoBehaviour
         saveData.abilities = tempAbilities;
     }
 
+
+    //Update Save Point Data
     public void SetSavePoint(string sceneName, int ID)
     {
         saveData.currentScene = sceneName;
         saveData.savePointID = ID;
+
+        SaveFile();
     }
 
+
+    //Ability Setters
     public void EnableStation(string stationName)
     {
         for (int i = 0; i < saveData.stations.Count; i++)
@@ -153,19 +164,6 @@ public class SaveDataController : MonoBehaviour
                 break;
             }
         }
-    }
-
-    public bool isRadioAbilityActive(string abilityName)
-    {
-        for (int i = 0; i < saveData.radioAbilities.Count; i++)
-        {
-            if (saveData.radioAbilities[i].name == abilityName)
-            {
-                return saveData.radioAbilities[i].isActive;
-            }
-        }
-
-        return false;
     }
 
     public void GiveAbility(string abilityName)
@@ -195,11 +193,6 @@ public class SaveDataController : MonoBehaviour
                 Debug.Log($"Ability not found: {abilityName}");
                 break;
         }
-    }
-
-    public SaveData GetSaveData()
-    {
-        return saveData;
     }
 }
 
@@ -240,7 +233,6 @@ public class RadioAbility
 public class Station
 {
     //TODO initialize these values from a csv file and audio clip folder
-
     public float frequency;
     //public AudioClip audioClip;
     public string sceneToLoad;
@@ -255,11 +247,3 @@ public class SceneInteractObj
     public bool active;
     public bool hasActivated; 
 }
-
-//[System.Serializable]
-//public class ObjectiveObj
-//{
-//    public string name;
-//    public float value;
-//    public bool hasSet;
-//}
