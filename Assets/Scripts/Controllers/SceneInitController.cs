@@ -13,7 +13,7 @@ public class SceneInitController : MonoBehaviour
     [SerializeField] SavePointController[] savePoints;
     [SerializeField] RoomController[] rooms;
 
-    //ScenarioObjective currentScenario;
+    [SerializeField] SceneObjectsContainer currentScenario;
     [SerializeField] List<SceneInteractObj> currentInteractObjects;
 
 
@@ -32,7 +32,7 @@ public class SceneInitController : MonoBehaviour
     {
         saveData = SaveDataController.instance.GetSaveData();
         currentInteractObjects = new List<SceneInteractObj>();
-
+        //SaveDataController.instance.LoadObjectData(currentScene);
         InitializeGame();
     }
 
@@ -44,18 +44,18 @@ public class SceneInitController : MonoBehaviour
 
     void GetInteractObjs()
     {      
-        InteractObject[] tempObjArray = FindObjectsOfType<InteractObject>();
-        //foreach (InteractObject tempObj in tempObjArray)
-        //{
-        //    foreach (SceneInteractObj tempSceneObj in currentScenario.objectStates)
-        //    {
-        //        if (tempObj.objID == tempSceneObj.ID)
-        //        {
-        //            tempObj.active = tempSceneObj.active;
-        //            tempObj.hasActivated = tempSceneObj.hasActivated;
-        //        }
-        //    }
-        //}
+        InteractObject[] tempObjArray = (InteractObject[])FindObjectsOfType(typeof(InteractObject), true);
+        foreach (InteractObject tempObj in tempObjArray)
+        {
+            foreach (SceneInteractObj tempSceneObj in currentScenario.sceneObjects)
+            {
+                if (tempObj.name == tempSceneObj.name)
+                {
+                    tempObj.active = tempSceneObj.active;
+                    tempObj.hasActivated = tempSceneObj.hasActivated;
+                }
+            }
+        }
 
         //Create list of all interactObjects in scene
         currentInteractObjects = new List<SceneInteractObj>();
@@ -71,7 +71,7 @@ public class SceneInitController : MonoBehaviour
             currentInteractObjects.Add(newObj);
         }
 
-        currentInteractObjects = currentInteractObjects.OrderBy(x => x.ID).ToList(); //sort objects by ID value
+        //currentInteractObjects = currentInteractObjects.OrderBy(x => x.ID).ToList(); //sort objects by ID value
     }
 
     //public void SaveInteractObjs() //call whenever changing FROM scene
@@ -115,10 +115,9 @@ public class SceneInitController : MonoBehaviour
     public void InitializeGame()
     {
         currentScene = SceneManager.GetActiveScene().name;
-        //currentScenario = SaveDataController.instance.GetScenario(currentScene);
+        currentScenario = SaveDataController.instance.sceneObjectContainer;
 
         GetInteractObjs();
-        //if (currentScenario.objectStates.Count <= 0) { SaveInteractObjs(); }
         GetAllSavePoints();
         HideAllRooms();
 

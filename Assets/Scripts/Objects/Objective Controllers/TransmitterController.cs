@@ -40,6 +40,8 @@ public class TransmitterController : InteractObject
                 SaveDataController.instance.EnableStation(sceneToActivate); //Activate new scene station
                 SaveDataController.instance.GiveRadioAbility(abilityToGive.ToString()); //Give new ability station
                 SaveDataController.instance.SaveFile();
+                string currentScene = SaveDataController.instance.saveData.currentScene;
+                SaveDataController.instance.SaveObjectData(currentScene);
             }
 
             StartCoroutine(LoadBroadcastRoom());

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.SceneManagement;
 
 public class SaveDataController : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class SaveDataController : MonoBehaviour
 
     public SaveData saveData; //requires public for serialization
     private string destination;
+
+    public SceneObjectsContainer sceneObjectContainer;
+
 
 
     private void Awake()
@@ -25,7 +29,9 @@ public class SaveDataController : MonoBehaviour
         saveData = new SaveData();
 
         LoadFile();
+        LoadObjectData(saveData.currentScene);
     }
+
 
     public void LoadFile()
     {
@@ -56,6 +62,28 @@ public class SaveDataController : MonoBehaviour
     {
         return saveData;
     }
+
+    public void LoadObjectData(string sceneName)
+    {
+        string tempDest = Application.persistentDataPath + "/" + sceneName + ".json";
+
+        if (File.Exists(tempDest))
+        {
+            print("Loading data...");
+            //Load data from file
+            SceneObjectsContainer tempContainer = new SceneObjectsContainer();
+            string jsonData = File.ReadAllText(tempDest);
+            tempContainer = JsonUtility.FromJson<SceneObjectsContainer>(jsonData);
+
+            sceneObjectContainer = tempContainer;
+        }
+        else
+        {
+            //Create a new file
+            SaveObjectData(sceneName);
+        }
+    }
+
 
     //TODO
     //Update this with new save file formating
@@ -140,6 +168,27 @@ public class SaveDataController : MonoBehaviour
         SaveFile();
     }
 
+    public void SaveObjectData(string sceneName)
+    {
+        SceneObjectsContainer tempContainer = new SceneObjectsContainer();
+        tempContainer.sceneName = sceneName;
+
+        InteractObject[] sceneObjects = (InteractObject[])FindObjectsOfType(typeof(InteractObject), true);
+        for (int i = 0; i < sceneObjects.Length; i++)
+        {
+            SceneInteractObj tempObj = new SceneInteractObj();
+            tempObj.name = sceneObjects[i].name;
+            tempObj.active = sceneObjects[i].active;
+            tempObj.hasActivated = sceneObjects[i].hasActivated;
+
+            tempContainer.sceneObjects.Add(tempObj);
+        }
+
+        string tempPath = Application.persistentDataPath + "/" + sceneName + ".json";
+        string jsonData = JsonUtility.ToJson(tempContainer);
+        print("Saving Object Data:" + jsonData);
+        File.WriteAllText(tempPath, jsonData);
+    }
 
     //Ability Setters
     public void EnableStation(string stationName)
@@ -239,10 +288,18 @@ public class Station
     public bool isActive;
 }
 
+
+[System.Serializable]
+public class SceneObjectsContainer
+{
+    public string sceneName;
+    public List<SceneInteractObj> sceneObjects = new List<SceneInteractObj>();
+}
+
 [System.Serializable]
 public class SceneInteractObj
 {
-    public int ID;
+    //public int ID;
     public string name;
     public bool active;
     public bool hasActivated; 

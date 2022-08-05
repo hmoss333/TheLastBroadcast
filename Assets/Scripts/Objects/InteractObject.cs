@@ -25,5 +25,5 @@ public class InteractObject : MonoBehaviour
     public virtual void Activate()
     {
         active = true;
-    } 
+    }
 }

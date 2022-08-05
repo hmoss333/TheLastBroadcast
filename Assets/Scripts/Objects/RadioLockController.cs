@@ -44,12 +44,17 @@ public class RadioLockController : InteractObject
                 checkTime = 2f;
             }
         }
+
+        if (hasActivated && !unlocked)
+            unlocked = true;
+
+        mr.material.color = unlocked ? Color.green : mr.material.color;
     }
 
     void UnlockDoor()
     {
-        mr.material.color = Color.green;
         unlocked = true;
+        hasActivated = true;
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             objectsToActivate[i].Activate();
