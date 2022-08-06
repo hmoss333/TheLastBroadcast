@@ -6,21 +6,11 @@ using TMPro;
 
 public class TransmitterController : InteractObject
 {
-    public static TransmitterController instance;
-
     [SerializeField] GameObject focusPoint;
     [SerializeField] enum AbilityToGive { Tune, Invisibility, Rats };
     [SerializeField] AbilityToGive abilityToGive;
     [SerializeField] string sceneToActivate;
 
-
-    private void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this);
-    }
 
     public override void Interact()
     {
@@ -39,9 +29,8 @@ public class TransmitterController : InteractObject
                 active = false;
                 SaveDataController.instance.EnableStation(sceneToActivate); //Activate new scene station
                 SaveDataController.instance.GiveRadioAbility(abilityToGive.ToString()); //Give new ability station
+                SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name); //Save object states
                 SaveDataController.instance.SaveFile();
-                string currentScene = SaveDataController.instance.saveData.currentScene;
-                SaveDataController.instance.SaveObjectData(currentScene);
             }
 
             StartCoroutine(LoadBroadcastRoom());
@@ -59,7 +48,6 @@ public class TransmitterController : InteractObject
 
         SaveDataController.instance.SetSavePoint("BroadcastRoom", 0);
         PlayerController.instance.ToggleAvatar();
-        //SceneInitController.instance.SaveInteractObjs();
         SceneManager.LoadSceneAsync("BroadcastRoom");
     }
 }

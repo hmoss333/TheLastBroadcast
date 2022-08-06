@@ -36,7 +36,7 @@ public class SavePointController : InteractObject
             {
                 Debug.Log("Saving game");
                 SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);
-                SaveDataController.instance.SaveObjectData(SaveDataController.instance.saveData.currentScene);
+                SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
                 SaveDataController.instance.SaveFile();
             }
         }

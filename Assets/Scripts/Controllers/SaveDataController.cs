@@ -21,7 +21,7 @@ public class SaveDataController : MonoBehaviour
         if (instance == null)
             instance = this;
         else
-            Destroy(this);
+            Destroy(this.gameObject);
 
         DontDestroyOnLoad(this.gameObject);
 
@@ -80,6 +80,7 @@ public class SaveDataController : MonoBehaviour
         else
         {
             //Create a new file
+            print("Creating new file");
             SaveObjectData(sceneName);
         }
     }

@@ -22,7 +22,7 @@ public class SceneInitController : MonoBehaviour
         if (instance == null)
             instance = this;
         else
-            Destroy(this);
+            Destroy(this.gameObject);
 
         DontDestroyOnLoad(this.gameObject);
     }
@@ -32,14 +32,17 @@ public class SceneInitController : MonoBehaviour
     {
         saveData = SaveDataController.instance.GetSaveData();
         currentInteractObjects = new List<SceneInteractObj>();
-        //SaveDataController.instance.LoadObjectData(currentScene);
+        currentScene = SceneManager.GetActiveScene().name;
+        SaveDataController.instance.LoadObjectData(currentScene);
         InitializeGame();
     }
 
     private void Update()
     {
         if (currentScene != SceneManager.GetActiveScene().name)
+        {
             InitializeGame();
+        }
     }
 
     void GetInteractObjs()
@@ -74,27 +77,6 @@ public class SceneInitController : MonoBehaviour
         //currentInteractObjects = currentInteractObjects.OrderBy(x => x.ID).ToList(); //sort objects by ID value
     }
 
-    //public void SaveInteractObjs() //call whenever changing FROM scene
-    //{
-    //    InteractObject[] tempObjArray = FindObjectsOfType<InteractObject>();
-    //    foreach (SceneInteractObj tempSceneObj in currentInteractObjects)
-    //    {
-    //        foreach (InteractObject tempObj in tempObjArray)
-    //        {
-    //            if (tempSceneObj.ID == tempObj.objID)
-    //            {
-    //                tempSceneObj.name = tempObj.gameObject.name;
-    //                tempSceneObj.active = tempObj.active;
-    //                tempSceneObj.hasActivated = tempObj.hasActivated;
-    //            }
-    //        }
-    //    }
-
-    //    //Update save file with current changes
-    //    //currentScenario.objectStates = currentInteractObjects;
-    //    SaveDataController.instance.SaveFile();
-    //}
-
     void GetAllSavePoints()
     {
         SavePointController[] tempArray = FindObjectsOfType<SavePointController>();
@@ -115,6 +97,7 @@ public class SceneInitController : MonoBehaviour
     public void InitializeGame()
     {
         currentScene = SceneManager.GetActiveScene().name;
+        SaveDataController.instance.LoadObjectData(currentScene);
         currentScenario = SaveDataController.instance.sceneObjectContainer;
 
         GetInteractObjs();
