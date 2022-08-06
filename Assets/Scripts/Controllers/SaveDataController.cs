@@ -128,19 +128,19 @@ public class SaveDataController : MonoBehaviour
         List<RadioAbility> tempRadioAbilities = new List<RadioAbility>();
 
         RadioAbility rb0 = new RadioAbility();
-        rb0.name = "invisibility";
+        rb0.name = "Tune";
         rb0.frequency = 2.5f;
         rb0.isActive = false;
         tempRadioAbilities.Add(rb0);
 
         RadioAbility rb1 = new RadioAbility();
-        rb1.name = "remote";
+        rb1.name = "Invisibility";
         rb1.frequency = 5.0f;
         rb1.isActive = false;
         tempRadioAbilities.Add(rb1);
 
         RadioAbility rb2 = new RadioAbility();
-        rb2.name = "control";
+        rb2.name = "Rats";
         rb2.frequency = 7.5f;
         rb2.isActive = false;
         tempRadioAbilities.Add(rb2);
@@ -243,6 +243,21 @@ public class SaveDataController : MonoBehaviour
                 break;
         }
     }
+
+    public RadioAbility GetRadioAbility(string abilityName)
+    {
+        string tempName = abilityName.ToLower();
+        SaveData tempData = GetSaveData();
+
+        for (int i = 0; i < tempData.radioAbilities.Count; i++)
+        {
+            if (tempData.radioAbilities[i].name.ToLower() == tempName)
+                return tempData.radioAbilities[i];
+        }
+
+        print("No matching ability found for " + abilityName);
+        return null;
+    }
 }
 
 
@@ -257,7 +272,6 @@ public class SaveData
     public List<RadioAbility> radioAbilities;
     //    public List<SceneInteractObj> objectStates = new List<SceneInteractObj>();
 }
-
 
 [System.Serializable]
 public class Abilities
@@ -287,7 +301,6 @@ public class Station
     public string sceneToLoad;
     public bool isActive;
 }
-
 
 [System.Serializable]
 public class SceneObjectsContainer

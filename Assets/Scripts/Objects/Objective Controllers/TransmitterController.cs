@@ -9,7 +9,7 @@ public class TransmitterController : InteractObject
     public static TransmitterController instance;
 
     [SerializeField] GameObject focusPoint;
-    [SerializeField] enum AbilityToGive { invisibility, remote, control };
+    [SerializeField] enum AbilityToGive { Tune, Invisibility, Rats };
     [SerializeField] AbilityToGive abilityToGive;
     [SerializeField] string sceneToActivate;
 

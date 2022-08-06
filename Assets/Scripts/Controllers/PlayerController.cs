@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
 
 
+    [SerializeField] private int health;
+
     //Player Movement Controls
     private Rigidbody rb;
     private float horizontal, vertical;
@@ -110,7 +112,7 @@ public class PlayerController : MonoBehaviour
     {
         //Movement Controller
         if (interacting || usingRadio || attacking)
-        {
+        {         
             speed = 0; //stop all player movement
 
             //If attacking, pause all inputs until animation has completed
@@ -188,5 +190,10 @@ public class PlayerController : MonoBehaviour
     public void SetLastDir(Vector3 newDir)
     {
         lastDir = newDir;
+    }
+
+    public void Hit(int value)
+    {
+        health -= value;
     }
 }

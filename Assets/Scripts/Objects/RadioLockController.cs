@@ -5,11 +5,11 @@ using UnityEngine;
 public class RadioLockController : InteractObject
 {
     public bool unlocked = false; //has controller been triggered
-    private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
-    private float checkTime = 2f; //time the radio must stay within the frequency range to activate
-    private float checkFrequency; //frequency that must be matched on field radio
-    private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
-    [SerializeField] private MeshRenderer mr;
+    public float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
+    public float checkTime = 2f; //time the radio must stay within the frequency range to activate
+    public float checkFrequency; //frequency that must be matched on field radio
+    public float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
+    public MeshRenderer mr;
     public InteractObject[] objectsToActivate;
 
     void Start()
@@ -26,7 +26,8 @@ public class RadioLockController : InteractObject
 
             if (dist <= checkRadius
                 && (RadioController.instance.currentFrequency < checkFrequency + checkOffset && RadioController.instance.currentFrequency > checkFrequency - checkOffset)
-                && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)                                              
+                && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)
+                && !RadioController.instance.abilityMode //ability mode is not active                                                       
                 && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
             {
                 interacting = true;

@@ -17,10 +17,10 @@ public class RadioController : MonoBehaviour
 
 
     //UI Elements
-    [SerializeField] GameObject overlayPanel;
+    [SerializeField] GameObject overlayPanel, radioPrefab;
     [SerializeField] Slider radioSlider;
-    float xInput;
     [SerializeField] Image stationBackground;
+    float xInput;
     [SerializeField] Color onColor, offColor, abilityColor;
     [SerializeField] Vector2 inactivePos, activePos;
     [SerializeField] float slideSpeed;
@@ -64,7 +64,7 @@ public class RadioController : MonoBehaviour
         if (isActive)
         {
             //Get input values
-            xInput = Input.GetAxis("Horizontal");
+            xInput = Input.GetAxis("Horizontal"); //Input.GetAxis("RadioTune");
             currentFrequency += (float)(xInput * speed * Time.deltaTime);
 
 
@@ -74,12 +74,12 @@ public class RadioController : MonoBehaviour
 
             if (SaveDataController.instance.saveData.abilities.radio_special)
                 abilityMode = Input.GetButton("RadioSpecial");
-
-            //TODO add radio ability controls here
         }
 
         staticSource.mute = !isActive;
         overlayPanel.SetActive(SaveDataController.instance.saveData.abilities.radio && !PlayerController.instance.interacting);
+        radioPrefab.SetActive(isActive);
+
         if (!abilityMode)
             stationBackground.color = isActive ? onColor : offColor;
         else
