@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -104,8 +105,7 @@ public class TunableObject : MonoBehaviour
                     checkTime -= Time.deltaTime;
                     if (checkTime < 0)
                     {
-                        CameraController.instance.SetTarget(PlayerController.instance.gameObject); //If the object is successfully tuned, re-focus on the player
-                        baseObject.Activate(); //Activate the base interact object
+                        StartCoroutine(ActivateObject());
                     }
                 }
                 else
@@ -113,7 +113,7 @@ public class TunableObject : MonoBehaviour
                     CameraController.instance.SetTarget(PlayerController.instance.gameObject); //If the radio is not set to the correct station, re-focus the camera on the player
                     checkTime = 3f; //Reset check time
                 }
-            }          
+            }
         }
         else
         {
@@ -213,5 +213,16 @@ public class TunableObject : MonoBehaviour
         staticMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.LessEqual);
         staticMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Greater);
         staticMaterial.SetFloat("_OutlineWidth", 0);
+    }
+
+    IEnumerator ActivateObject()
+    {
+        Debug.Log($"Activating {baseObject.name}");
+
+        baseObject.Activate();
+
+        yield return new WaitForSeconds(1.25f);
+
+        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
     }
 }

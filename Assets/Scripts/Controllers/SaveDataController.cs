@@ -25,7 +25,7 @@ public class SaveDataController : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
 
-        destination = Application.persistentDataPath + "/save.json";
+        destination = $"{Application.persistentDataPath}/save.json";
         saveData = new SaveData();
 
         LoadFile();
@@ -33,19 +33,19 @@ public class SaveDataController : MonoBehaviour
     }
 
 
+    //File Save/Load functions
     public void LoadFile()
     {
         if (File.Exists(destination))
         {
-            print("Loading data...");
-            //Load data from file
+            print("Loading save data");
             string jsonData = "";
             jsonData = File.ReadAllText(destination);
             saveData = JsonUtility.FromJson<SaveData>(jsonData);
         }
         else
         {
-            //Create a new file
+            print("Creating new save file");
             CreateNewSaveFile();
             SaveFile();
         }
@@ -65,12 +65,11 @@ public class SaveDataController : MonoBehaviour
 
     public void LoadObjectData(string sceneName)
     {
-        string tempDest = Application.persistentDataPath + "/" + sceneName + ".json";
+        string tempDest = $"{Application.persistentDataPath}/{sceneName}.json";
 
         if (File.Exists(tempDest))
         {
-            print("Loading data...");
-            //Load data from file
+            print("Loading object data");
             SceneObjectsContainer tempContainer = new SceneObjectsContainer();
             string jsonData = File.ReadAllText(tempDest);
             tempContainer = JsonUtility.FromJson<SceneObjectsContainer>(jsonData);
@@ -79,15 +78,35 @@ public class SaveDataController : MonoBehaviour
         }
         else
         {
-            //Create a new file
             print("Creating new file");
             SaveObjectData(sceneName);
         }
     }
 
+    public void SaveObjectData(string sceneName)
+    {
+        SceneObjectsContainer tempContainer = new SceneObjectsContainer();
+        tempContainer.sceneName = sceneName;
 
-    //TODO
-    //Update this with new save file formating
+        InteractObject[] sceneObjects = (InteractObject[])FindObjectsOfType(typeof(InteractObject), true);
+        for (int i = 0; i < sceneObjects.Length; i++)
+        {
+            SceneInteractObj tempObj = new SceneInteractObj();
+            tempObj.name = sceneObjects[i].name;
+            tempObj.active = sceneObjects[i].active;
+            tempObj.hasActivated = sceneObjects[i].hasActivated;
+
+            tempContainer.sceneObjects.Add(tempObj);
+        }
+
+        string tempPath = $"{Application.persistentDataPath}/{sceneName}.json";
+        string jsonData = JsonUtility.ToJson(tempContainer);
+        print("Saving Object Data:" + jsonData);
+        File.WriteAllText(tempPath, jsonData);
+    }
+
+
+    //Initialize save file with correct formatting/values
     public void CreateNewSaveFile()
     {
         saveData = new SaveData();
@@ -169,27 +188,6 @@ public class SaveDataController : MonoBehaviour
         SaveFile();
     }
 
-    public void SaveObjectData(string sceneName)
-    {
-        SceneObjectsContainer tempContainer = new SceneObjectsContainer();
-        tempContainer.sceneName = sceneName;
-
-        InteractObject[] sceneObjects = (InteractObject[])FindObjectsOfType(typeof(InteractObject), true);
-        for (int i = 0; i < sceneObjects.Length; i++)
-        {
-            SceneInteractObj tempObj = new SceneInteractObj();
-            tempObj.name = sceneObjects[i].name;
-            tempObj.active = sceneObjects[i].active;
-            tempObj.hasActivated = sceneObjects[i].hasActivated;
-
-            tempContainer.sceneObjects.Add(tempObj);
-        }
-
-        string tempPath = Application.persistentDataPath + "/" + sceneName + ".json";
-        string jsonData = JsonUtility.ToJson(tempContainer);
-        print("Saving Object Data:" + jsonData);
-        File.WriteAllText(tempPath, jsonData);
-    }
 
     //Ability Setters
     public void EnableStation(string stationName)

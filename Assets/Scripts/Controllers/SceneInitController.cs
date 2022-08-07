@@ -33,7 +33,6 @@ public class SceneInitController : MonoBehaviour
         saveData = SaveDataController.instance.GetSaveData();
         currentInteractObjects = new List<SceneInteractObj>();
         currentScene = SceneManager.GetActiveScene().name;
-        SaveDataController.instance.LoadObjectData(currentScene);
         InitializeGame();
     }
 
@@ -41,7 +40,7 @@ public class SceneInitController : MonoBehaviour
     {
         if (currentScene != SceneManager.GetActiveScene().name)
         {
-            InitializeGame();
+            InitializeGame(); //Initialize game on scene change
         }
     }
 

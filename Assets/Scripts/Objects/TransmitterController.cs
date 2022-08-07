@@ -30,6 +30,8 @@ public class TransmitterController : InteractObject
                 SaveDataController.instance.EnableStation(sceneToActivate); //Activate new scene station
                 SaveDataController.instance.GiveRadioAbility(abilityToGive.ToString()); //Give new ability station
                 SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name); //Save object states
+                if (!SaveDataController.instance.GetSaveData().abilities.radio_special)
+                    SaveDataController.instance.GiveAbility("radio_special"); //If radio_special has not already been unlocked, set to true
                 SaveDataController.instance.SaveFile();
             }
 
