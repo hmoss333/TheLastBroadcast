@@ -335,10 +335,7 @@ MonoBehaviour:
   bakeKeys: []
   bakeValues: []
   staticMaterial: {fileID: 2100000, guid: 16aebe7d34d5f6e4ca9d778acc20d47e, type: 2}
-  checkRadius: 4
-  checkTime: 0
-  checkFrequency: 0
-  checkOffset: 0.5
+  checkTime: 3
 --- !u!65 &270705390
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -454,6 +451,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4446532677640691404, guid: de1b9288a5367499f9556e1559c59193, type: 3}
   m_PrefabInstance: {fileID: 1859465197}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &547918232 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
+  m_PrefabInstance: {fileID: 1859465197}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3361299280484deb94b219159283df9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1130163280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7686404432064426030, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
@@ -948,11 +956,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 593217357095946766, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.75
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 593217357095946766, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 593217357095946766, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -989,6 +997,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2405227150581960491, guid: d72c3d586968847aaaf21326e5b525ad, type: 3}
   m_PrefabInstance: {fileID: 3124943233063613625}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &738328697208339348 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2405227150382877756, guid: d72c3d586968847aaaf21326e5b525ad, type: 3}
+  m_PrefabInstance: {fileID: 3124943233063613625}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b08c035abe0045fcac9a23a488a970f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1280901920040377650 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7686404432064916494, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
@@ -1009,10 +1028,7 @@ MonoBehaviour:
   bakeKeys: []
   bakeValues: []
   staticMaterial: {fileID: 2100000, guid: 16aebe7d34d5f6e4ca9d778acc20d47e, type: 2}
-  checkRadius: 4
-  checkTime: 2
-  checkFrequency: 0
-  checkOffset: 0.5
+  checkTime: 3
 --- !u!4 &1348610237687988936
 Transform:
   m_ObjectHideFlags: 0
@@ -1180,6 +1196,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1348610237687988936}
     m_Modifications:
+    - target: {fileID: 2405227150382877756, guid: d72c3d586968847aaaf21326e5b525ad, type: 3}
+      propertyPath: active
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2405227150382877756, guid: d72c3d586968847aaaf21326e5b525ad, type: 3}
       propertyPath: targetScenario
       value: Apartment
@@ -1592,6 +1612,14 @@ PrefabInstance:
       propertyPath: objectsToActivate.Array.data[0]
       value: 
       objectReference: {fileID: 1956357626}
+    - target: {fileID: 3082281063099351131, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
+      propertyPath: objectsToActivate.Array.data[1]
+      value: 
+      objectReference: {fileID: 738328697208339348}
+    - target: {fileID: 3082281063099351131, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
+      propertyPath: objectsToActivate.Array.data[2]
+      value: 
+      objectReference: {fileID: 547918232}
     - target: {fileID: 7686404432064426030, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: m_Name
       value: Radio_Lock

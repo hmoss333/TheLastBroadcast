@@ -26,11 +26,10 @@ public class TunableObject : MonoBehaviour
     InteractObject baseObject;
 
 
-    [SerializeField] private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
-    [SerializeField] private float checkTime = 2f; //time the radio must stay within the frequency range to activate
-    [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
-    [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
-
+    private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
+    [SerializeField] private float checkTime = 3f; //time the radio must stay within the frequency range to activate
+    private float checkFrequency; //frequency that must be matched on field radio
+    private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
 
 
     void Awake()
@@ -71,7 +70,6 @@ public class TunableObject : MonoBehaviour
     {
         foreach (var renderer in renderers)
         {
-
             // Append outline shaders
             var materials = renderer.sharedMaterials.ToList();
 
@@ -88,35 +86,44 @@ public class TunableObject : MonoBehaviour
         if (needsUpdate)
         {
             needsUpdate = false;
-
             UpdateMaterialProperties();
         }
-
 
         if (RadioController.instance.abilityMode)
         {
             float dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
-            if (dist <= checkRadius
-                && (RadioController.instance.currentFrequency < checkFrequency + checkOffset && RadioController.instance.currentFrequency > checkFrequency - checkOffset)
-                && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)
-                && RadioController.instance.abilityMode //ability mode is active                                                       
-                && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
+            if (dist <= checkRadius)
             {
-                checkTime -= Time.deltaTime;
-                if (checkTime < 0)
+                if ((RadioController.instance.currentFrequency < checkFrequency + checkOffset && RadioController.instance.currentFrequency > checkFrequency - checkOffset)
+                    && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)                                                      
+                    && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
                 {
-                    baseObject.Activate();
+                    CameraController.instance.SetTarget(this.gameObject); //If the radio is set to the correct station, focus on tunable object
+
+                    checkTime -= Time.deltaTime;
+                    if (checkTime < 0)
+                    {
+                        CameraController.instance.SetTarget(PlayerController.instance.gameObject); //If the object is successfully tuned, re-focus on the player
+                        baseObject.Activate(); //Activate the base interact object
+                    }
                 }
-            }
-            else
-            {
-                checkTime = 2f;
-            }
+                else
+                {
+                    CameraController.instance.SetTarget(PlayerController.instance.gameObject); //If the radio is not set to the correct station, re-focus the camera on the player
+                    checkTime = 3f; //Reset check time
+                }
+            }          
+        }
+        else
+        {
+            //If the player disables the ability radio during tuning, reset camera to player
+            if (CameraController.instance.GetTarget() == this.gameObject.transform)
+                CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         }
 
         if (baseObject)
-            enabled = !baseObject.active;
+            enabled = !baseObject.active; //tunable script is disabled when base object is activated
     }
 
     void OnDisable()

@@ -64,6 +64,11 @@ public class CameraController : MonoBehaviour
         target = newTargetObj.transform;
     }
 
+    public Transform GetTarget()
+    {
+        return target;
+    }
+
     public void FocusTarget()
     {
         focus = !focus;

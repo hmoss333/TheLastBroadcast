@@ -35,7 +35,7 @@ public class RadioLockController : InteractObject
                 checkTime -= Time.deltaTime;
                 if (checkTime < 0)
                 {
-                    UnlockDoor();
+                    StartCoroutine(UnlockDoor());
                 }
             }
             else
@@ -52,13 +52,19 @@ public class RadioLockController : InteractObject
         mr.material.color = unlocked ? Color.green : mr.material.color;
     }
 
-    void UnlockDoor()
+    IEnumerator UnlockDoor()
     {
         unlocked = true;
         hasActivated = true;
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
+            CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
+
             objectsToActivate[i].Activate();
+
+            yield return new WaitForSeconds(1.25f);
         }
+
+        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
     }
 }

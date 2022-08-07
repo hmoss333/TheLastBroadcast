@@ -64,7 +64,7 @@ public class RadioController : MonoBehaviour
         if (isActive)
         {
             //Get input values
-            xInput = Input.GetAxis("Horizontal"); //Input.GetAxis("RadioTune");
+            xInput = Input.GetAxis("Horizontal");
             currentFrequency += (float)(xInput * speed * Time.deltaTime);
 
 
@@ -91,6 +91,7 @@ public class RadioController : MonoBehaviour
 
     public void ToggleOn()
     {
+        currentFrequency = 0.0f;
         isActive = !isActive;
     }
 }
