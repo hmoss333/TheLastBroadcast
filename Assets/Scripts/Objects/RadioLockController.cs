@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class RadioLockController : InteractObject
 {
-    public bool unlocked = false; //has controller been triggered
-    public float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
-    public float checkTime = 2f; //time the radio must stay within the frequency range to activate
-    public float checkFrequency; //frequency that must be matched on field radio
-    public float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
-    public MeshRenderer mr;
-    public InteractObject[] objectsToActivate;
+    [SerializeField] private bool unlocked = false; //has controller been triggered
+    [SerializeField] private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
+    [SerializeField] private float checkTime = 2f; //time the radio must stay within the frequency range to activate
+    [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
+    [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
+    [SerializeField] private MeshRenderer mr;
+    [SerializeField] private InteractObject[] objectsToActivate;
 
     void Start()
     {

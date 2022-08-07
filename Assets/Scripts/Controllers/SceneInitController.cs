@@ -73,8 +73,6 @@ public class SceneInitController : MonoBehaviour
 
             currentInteractObjects.Add(newObj);
         }
-
-        //currentInteractObjects = currentInteractObjects.OrderBy(x => x.ID).ToList(); //sort objects by ID value
     }
 
     void GetAllSavePoints()
