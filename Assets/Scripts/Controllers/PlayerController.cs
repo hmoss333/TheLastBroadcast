@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private float storedSpeed;
     private Vector3 lastDir, lastDir1, lastDir2;
 
-    public bool interacting, usingRadio, attacking, hurt;
+    public bool interacting, usingRadio, attacking, invisible, hurt;
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
     [SerializeField] private GameObject melee;
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (usingRadio || attacking)
+        if (usingRadio || attacking || invisible)
         {
             interactObj = null;
         }
@@ -74,14 +74,13 @@ public class PlayerController : MonoBehaviour
             interactObj.gameObject.GetComponent<Outline>().enabled = true;
 
 
-
         //Player input controls
         if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.active)
         {
             interactObj.Interact();
         }
 
-        if (SaveDataController.instance.saveData.abilities.radio == true && !interacting && !attacking)
+        if (SaveDataController.instance.saveData.abilities.radio == true && !interacting && !attacking && !invisible)
         {
             //If player holds down Radio button, interact with radio
             if (Input.GetButtonDown("Radio"))
@@ -96,16 +95,17 @@ public class PlayerController : MonoBehaviour
                 RadioController.instance.ToggleOn();
             }
 
-            animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
+            //animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
         }
 
-        if (Input.GetButtonDown("Melee") && SaveDataController.instance.saveData.abilities.crowbar == true && !interacting && !usingRadio)
+        if (Input.GetButtonDown("Melee") && SaveDataController.instance.saveData.abilities.crowbar == true && !interacting && !usingRadio && !invisible)
         {
             attacking = true;
             animator.SetTrigger("isMelee");
         }
 
         melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state
+        animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
     }
 
     private void FixedUpdate()
