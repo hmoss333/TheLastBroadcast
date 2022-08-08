@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private float storedSpeed;
     private Vector3 lastDir, lastDir1, lastDir2;
 
-    public bool interacting, usingRadio, attacking, invisible, hurt;
+    public bool isMoving, interacting, usingRadio, attacking, invisible, hurt, colliding;
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
     [SerializeField] private GameObject melee;
@@ -129,17 +129,18 @@ public class PlayerController : MonoBehaviour
             speed = storedSpeed; //restore default player movement
 
             //Save last input vector for interact raycast
-            if (horizontal != 0 || vertical != 0)
+            if ((horizontal != 0 || vertical != 0) && !colliding)
             {
                 lastDir.x = horizontal;
                 lastDir.z = vertical;
-                animator.SetBool("isMoving", true);
+                isMoving = true;
             }
             else
             {
-                animator.SetBool("isMoving", false);
+                isMoving = false;        
             }
 
+            animator.SetBool("isMoving", isMoving);
             animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false); //toggle falling animation
 
 
@@ -195,5 +196,23 @@ public class PlayerController : MonoBehaviour
     public void Hit(int value)
     {
         health -= value;
+    }
+
+
+    //Pause player movement animation when they walk into an object
+    private void OnCollisionEnter(Collision collision)
+    {
+        int floorLayer = LayerMask.NameToLayer("Floor");
+        if (collision.gameObject.layer != floorLayer)
+        {
+            Debug.Log("Colliding");
+            isMoving = false;
+            colliding = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        colliding = false;
     }
 }
