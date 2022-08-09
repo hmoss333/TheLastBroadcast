@@ -8,13 +8,14 @@ public class SceneInitController : MonoBehaviour
 {
     public static SceneInitController instance;
 
-    public string currentScene;
-    SaveData saveData;
-    [SerializeField] SavePointController[] savePoints;
-    [SerializeField] RoomController[] rooms;
 
-    [SerializeField] SceneObjectsContainer currentScenario;
-    [SerializeField] List<SceneInteractObj> currentInteractObjects;
+    public string currentScene;
+    private SaveData saveData;
+    [SerializeField] private SavePointController[] savePoints;
+    [SerializeField] private RoomController[] rooms;
+
+    [SerializeField] private SceneObjectsContainer currentScenario;
+    [SerializeField] private List<SceneInteractObj> currentInteractObjects;
 
 
     private void Awake()

@@ -7,21 +7,26 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
 
 
-    [SerializeField] private int health;
-
-    //Player Movement Controls
+    [Header("Player Movement Variables")]
+    [SerializeField] float speed;
+    [SerializeField] float rotSpeed;
+    private float storedSpeed;
     private Rigidbody rb;
     private float horizontal, vertical;
-    [SerializeField] float speed, rotSpeed;
-    private float storedSpeed;
     private Vector3 lastDir, lastDir1, lastDir2;
 
-    public bool isMoving, interacting, usingRadio, attacking, invisible, hurt, colliding;
+    //TODO change some of thse into a state machine
+    [Header("Player State Variables")]
+    [HideInInspector] public bool interacting, usingRadio, invisible; 
+    private bool isMoving, attacking, hurt, colliding;
+
+    [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
-    [SerializeField] private GameObject melee;
+    [HideInInspector] public InteractObject interactObj;
 
-    public InteractObject interactObj;
+    [Header("Player Avatar Variables")]
+    [SerializeField] private GameObject melee;
     [SerializeField] private GameObject playerAvatar;
     [SerializeField] private Animator animator;
 
@@ -191,11 +196,6 @@ public class PlayerController : MonoBehaviour
     public void SetLastDir(Vector3 newDir)
     {
         lastDir = newDir;
-    }
-
-    public void Hit(int value)
-    {
-        health -= value;
     }
 
 

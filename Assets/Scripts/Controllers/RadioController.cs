@@ -8,27 +8,30 @@ public class RadioController : MonoBehaviour
 {
     public static RadioController instance;
 
-    [SerializeField] float speed;
-    [SerializeField] float yOffSet;
-    [SerializeField] float maxFrequency;
+
+    [Header("Radio Control Variables")]
+    [SerializeField] private float speed;
+    [SerializeField] private float yOffSet;
+    [SerializeField] private float maxFrequency;
     [Range(0.0f, 10.0f)]
     public float currentFrequency;
-    public bool isActive, abilityMode;
+    [HideInInspector] public bool isActive, abilityMode;
 
 
-    //UI Elements
-    [SerializeField] GameObject overlayPanel, radioPrefab;
-    [SerializeField] Slider radioSlider;
-    [SerializeField] Image stationBackground;
-    float xInput;
-    [SerializeField] Color onColor, offColor, abilityColor;
-    [SerializeField] Vector2 inactivePos, activePos;
-    [SerializeField] float slideSpeed;
+    [Header("UI Elements")]
+    [SerializeField] private GameObject overlayPanel;
+    [SerializeField] private GameObject radioPrefab;
+    [SerializeField] private Slider radioSlider;
+    [SerializeField] private Image stationBackground;
+    private float xInput;
+    [SerializeField] private Color onColor, offColor, abilityColor;
+    [SerializeField] private Vector2 inactivePos, activePos;
+    [SerializeField] private float slideSpeed;
 
 
-    //Audio Elements
-    [SerializeField] AudioSource staticSource;
-    [SerializeField] AudioSource stationSource;
+    [Header("Audio Elements")]
+    [SerializeField] private AudioSource staticSource;
+    [SerializeField] private AudioSource stationSource;
 
 
 
