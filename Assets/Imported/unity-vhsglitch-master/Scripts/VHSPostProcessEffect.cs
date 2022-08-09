@@ -15,6 +15,7 @@ public class VHSPostProcessEffect : MonoBehaviour
 	[SerializeField] private Material _material = null;
 	private VideoPlayer _player;
 
+
 	void Start()
 	{
 		_material = new Material(shader);
@@ -45,14 +46,6 @@ public class VHSPostProcessEffect : MonoBehaviour
 		_material.SetFloat("_xScanline", _xScanline);
 		Graphics.Blit(source, destination, _material);
 	}
-
-    //protected void OnDisable()
-    //{
-    //    if (_material)
-    //    {
-    //        DestroyImmediate(_material);
-    //    }
-    //}
 
     //TODO add on enable/disable calls to slow fade the tv effect in/out, respectively
 }
