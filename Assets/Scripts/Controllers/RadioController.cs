@@ -11,7 +11,6 @@ public class RadioController : MonoBehaviour
 
     [Header("Radio Control Variables")]
     [SerializeField] private float speed;
-    [SerializeField] private float yOffSet;
     [SerializeField] private float maxFrequency;
     [Range(0.0f, 10.0f)]
     public float currentFrequency;
@@ -86,15 +85,9 @@ public class RadioController : MonoBehaviour
         if (!abilityMode)
             stationBackground.color = isActive ? onColor : offColor;
         else
-            stationBackground.color = abilityColor;
+            stationBackground.color = abilityColor; //usingAbility ? abilityOnColor : abilityOffColor;
 
         //Move radio panel into position based on active state
         overlayPanel.transform.localPosition = Vector2.Lerp(overlayPanel.transform.localPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
-    }
-
-    public void ToggleOn()
-    {
-        currentFrequency = 0.0f;
-        isActive = !isActive;
     }
 }

@@ -91,16 +91,14 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Radio"))
             {
                 usingRadio = true;
-                RadioController.instance.ToggleOn();
+                RadioController.instance.currentFrequency = 0.0f;
             }
             //If player releases Radio button, stop interacting with radio
             else if (Input.GetButtonUp("Radio"))
             {
                 usingRadio = false;
-                RadioController.instance.ToggleOn();
-            }
-
-            //animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
+                RadioController.instance.abilityMode = false;
+            }         
         }
 
         if (Input.GetButtonDown("Melee") && SaveDataController.instance.saveData.abilities.crowbar == true && !interacting && !usingRadio && !invisible)
@@ -111,6 +109,7 @@ public class PlayerController : MonoBehaviour
 
         melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state
         animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
+        RadioController.instance.isActive = usingRadio;
     }
 
     private void FixedUpdate()
@@ -205,7 +204,6 @@ public class PlayerController : MonoBehaviour
         int floorLayer = LayerMask.NameToLayer("Floor");
         if (collision.gameObject.layer != floorLayer)
         {
-            Debug.Log("Colliding");
             isMoving = false;
             colliding = true;
         }

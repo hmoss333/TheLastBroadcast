@@ -103,6 +103,7 @@ public class TunableObject : MonoBehaviour
                     && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
                 {
                     CameraController.instance.SetTarget(this.gameObject); //If the radio is set to the correct station, focus on tunable object
+                    TuneAbility.instance.isUsing = true;
 
                     checkTime -= Time.deltaTime;
                     if (checkTime < 0)
@@ -114,6 +115,7 @@ public class TunableObject : MonoBehaviour
                 {
                     CameraController.instance.SetTarget(PlayerController.instance.gameObject); //If the radio is not set to the correct station, re-focus the camera on the player
                     checkTime = tempTime;
+                    TuneAbility.instance.isUsing = false;
                 }
             }
         }
@@ -122,6 +124,8 @@ public class TunableObject : MonoBehaviour
             //If the player disables the ability radio during tuning, reset camera to player
             if (CameraController.instance.GetTarget() == this.gameObject.transform)
                 CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+
+            TuneAbility.instance.isUsing = false;
         }
 
         if (baseObject)
@@ -223,8 +227,9 @@ public class TunableObject : MonoBehaviour
 
         baseObject.Activate();
 
-        yield return new WaitForSeconds(1.25f);
+        yield return new WaitForSeconds(1.45f);
 
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+        TuneAbility.instance.isUsing = false;
     }
 }

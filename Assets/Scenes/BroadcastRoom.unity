@@ -296,8 +296,6 @@ GameObject:
   - component: {fileID: 270705392}
   - component: {fileID: 270705391}
   - component: {fileID: 270705390}
-  - component: {fileID: 270705389}
-  - component: {fileID: 270705393}
   m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
@@ -320,22 +318,6 @@ Transform:
   m_Father: {fileID: 1348610237687988936}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &270705389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270705387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b711399939d7b40a5996b08147ec8c81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bakeKeys: []
-  bakeValues: []
-  staticMaterial: {fileID: 2100000, guid: 16aebe7d34d5f6e4ca9d778acc20d47e, type: 2}
-  checkTime: 3
 --- !u!65 &270705390
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -369,7 +351,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 16aebe7d34d5f6e4ca9d778acc20d47e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -399,21 +381,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 270705387}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &270705393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!4 &380511966 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8146545691968974870, guid: f59be91db065842498db7d03db095daf, type: 3}
+  m_PrefabInstance: {fileID: 1620494581}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270705387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3344209fca9644e99b6ca645ffd7221b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interacting: 0
-  active: 0
-  hasActivated: 0
 --- !u!1 &541952772
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,6 +434,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3361299280484deb94b219159283df9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!21 &972790017
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/VHSPostProcessEffect
+  m_Shader: {fileID: 4800000, guid: 602d0b85a2a774ceebacda07bd10ffab, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VHSTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1 &1130163280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7686404432064426030, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
@@ -539,6 +542,58 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: vhsEffect
+      value: 
+      objectReference: {fileID: 1870826997}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: abilityColor.b
+      value: 0.75294125
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: abilityColor.g
+      value: 0.6156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: abilityColor.r
+      value: 0.4901961
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: abilityOnColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: abilityOnColor.b
+      value: 0.754717
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: abilityOnColor.g
+      value: 0.6144751
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: abilityOnColor.r
+      value: 0.48771805
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: abilityOffColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: abilityOffColor.b
+      value: 0.6509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: abilityOffColor.g
+      value: 0.44705883
+      objectReference: {fileID: 0}
+    - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: abilityOffColor.r
+      value: 0.2627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 4481846713834912274, guid: f59be91db065842498db7d03db095daf, type: 3}
+      propertyPath: vhsEffect
+      value: 
+      objectReference: {fileID: 1870826997}
     - target: {fileID: 8146545691968974867, guid: f59be91db065842498db7d03db095daf, type: 3}
       propertyPath: m_Name
       value: Player
@@ -733,6 +788,77 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de1b9288a5367499f9556e1559c59193, type: 3}
+--- !u!1 &1870826991 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 593217357095946755, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
+  m_PrefabInstance: {fileID: 593217356961037814}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1870826995 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 593217357095946753, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
+  m_PrefabInstance: {fileID: 593217356961037814}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1870826997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870826991}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d4b9e95bcd544df18df108ead7dd6d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 602d0b85a2a774ceebacda07bd10ffab, type: 3}
+  VHSClip: {fileID: 32900000, guid: ca3694070dab44db5976cad5982b4018, type: 3}
+  _material: {fileID: 972790017}
+--- !u!328 &1870826998
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870826991}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 32900000, guid: ca3694070dab44db5976cad5982b4018, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 1870826995}
+  m_TargetTexture: {fileID: 0}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 270705391}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 4
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 0
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
+  m_Url: 
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 1
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
+--- !u!114 &1870827003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870826991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff10de049634476f86b346f0a842f5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vhsEffect: {fileID: 1870826997}
 --- !u!1001 &1956357624
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -986,6 +1112,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 593217357095946767, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 380511966}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
 --- !u!4 &738328697208339346 stripped

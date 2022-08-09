@@ -6,41 +6,43 @@ using UnityEngine;
 
 public class InvisAbility : RadioAbilityController
 {
-    [SerializeField] private bool isInvis;
+    public static InvisAbility instance;
 
+
+    [SerializeField] private bool isInvis;
     private int oldLayer;
     private int voidLayer;
     [SerializeField] Material invisMat;
-
     private float checkFrequency;
     private float checkOffset = 0.5f;
     [SerializeField] float checkTime;
     [SerializeField] float invisTime;
     private float tempTime;
-
+    public bool isUsing; //used to toggle camera after effect for special abilities
 
 
     ////Invis Material Values////
     private static HashSet<Mesh> registeredMeshes = new HashSet<Mesh>();
-
     private class ListVector3
     {
         public List<Vector3> data;
     }
-
     [SerializeField, HideInInspector]
     private List<Mesh> bakeKeys = new List<Mesh>();
-
     [SerializeField, HideInInspector]
     private List<ListVector3> bakeValues = new List<ListVector3>();
-
     private Renderer[] renderers;
-
     private bool needsUpdate;
 
 
     void Awake()
     {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
+
+
         tempTime = checkTime;
 
         // Cache renderers
@@ -91,6 +93,7 @@ public class InvisAbility : RadioAbilityController
                 && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)                                                      
                 && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
             {
+                isUsing = true;
                 checkTime -= Time.deltaTime;
                 if (checkTime < 0)
                 {
@@ -101,24 +104,32 @@ public class InvisAbility : RadioAbilityController
             }
             else
             {
+                isUsing = false;
                 checkTime = 3f;
             }
         }
+        else if (!RadioController.instance.abilityMode && !isInvis)
+        {
+            //If the player turns off the radio before the ability has triggered
+            isUsing = false;
+        }
 
+        //If the player is currently using the ability
         if (isInvis)
         {
             PlayerController.instance.usingRadio = false;
-            RadioController.instance.isActive = false;
 
             invisTime -= Time.deltaTime;
             if (invisTime < 0)
             {
                 EnableCollider();
-                isInvis = false;
                 invisTime = tempTime;
+                isInvis = false;
+                isUsing = false;
             }
         }
 
+        //Toggle player interaction state based on invisibility status
         PlayerController.instance.invisible = isInvis;
     }
 
