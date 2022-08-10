@@ -4,22 +4,34 @@ using UnityEngine;
 
 public class CamEffectController : MonoBehaviour
 {
-    [SerializeField] VHSPostProcessEffect vhsEffect;
+    public static CamEffectController instance;
+
+    public AnalogGlitch glitchEffect; 
+    public bool effectOn; //Manually turn effect on/off
+
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
+    }
 
     private void Start()
     {
-        vhsEffect.enabled = false;
+        glitchEffect.enabled = false;
     }
 
     private void Update()
     {
-        if (TuneAbility.instance.isUsing || InvisAbility.instance.isUsing || RatAbility.instance.isUsing)
+        if (effectOn || TuneAbility.instance.isUsing || InvisAbility.instance.isUsing || RatAbility.instance.isUsing)
         {
-            vhsEffect.enabled = true;
+            glitchEffect.enabled = true;
         }
         else
         {
-            vhsEffect.enabled = false;
+            glitchEffect.enabled = false;
         }
     }
 }

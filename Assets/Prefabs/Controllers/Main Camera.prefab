@@ -13,9 +13,8 @@ GameObject:
   - component: {fileID: 593217357095946752}
   - component: {fileID: 593217357095946767}
   - component: {fileID: 593217357095946764}
-  - component: {fileID: 1870826998}
-  - component: {fileID: 1870826997}
   - component: {fileID: 1870827003}
+  - component: {fileID: 309034915}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -125,54 +124,6 @@ MonoBehaviour:
   layerToFade:
     serializedVersion: 2
     m_Bits: 257
---- !u!328 &1870826998
-VideoPlayer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 593217357095946755}
-  m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: ca3694070dab44db5976cad5982b4018, type: 3}
-  m_TargetCameraAlpha: 1
-  m_TargetCamera3DLayout: 0
-  m_TargetCamera: {fileID: 593217357095946753}
-  m_TargetTexture: {fileID: 0}
-  m_TimeReference: 0
-  m_TargetMaterialRenderer: {fileID: 0}
-  m_TargetMaterialProperty: <noninit>
-  m_RenderMode: 4
-  m_AspectRatio: 2
-  m_DataSource: 0
-  m_PlaybackSpeed: 1
-  m_AudioOutputMode: 0
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
-  m_Url: 
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
-  m_PlayOnAwake: 1
-  m_SkipOnDrop: 1
-  m_Looping: 1
-  m_WaitForFirstFrame: 1
-  m_FrameReadyEventEnabled: 0
-  m_VideoShaders: []
---- !u!114 &1870826997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 593217357095946755}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d4b9e95bcd544df18df108ead7dd6d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: 602d0b85a2a774ceebacda07bd10ffab, type: 3}
-  VHSClip: {fileID: 32900000, guid: ca3694070dab44db5976cad5982b4018, type: 3}
-  _material: {fileID: 0}
 --- !u!114 &1870827003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,4 +136,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff10de049634476f86b346f0a842f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vhsEffect: {fileID: 1870826997}
+  glitchEffect: {fileID: 309034915}
+  effectOn: 0
+--- !u!114 &309034915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593217357095946755}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 870b9a8f0f82f4f56800cc427bcd1025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scanLineJitter: 0.075
+  _verticalJump: 0.05
+  _horizontalShake: 0.015
+  _colorDrift: 0.1
+  _shader: {fileID: 4800000, guid: da33272284ea24f208f36998880990be, type: 3}
