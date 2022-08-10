@@ -22,6 +22,7 @@ public class TunableObject : MonoBehaviour
 
     private Renderer[] renderers;
     [SerializeField] private Material staticMaterial;
+    [SerializeField] bool showStatic;
 
     private bool needsUpdate;
     InteractObject baseObject;
@@ -80,6 +81,8 @@ public class TunableObject : MonoBehaviour
 
             renderer.materials = materials.ToArray();
         }
+
+        showStatic = true;
     }
 
     void Update()
@@ -130,6 +133,19 @@ public class TunableObject : MonoBehaviour
 
         if (baseObject)
             enabled = !baseObject.active; //tunable script is disabled when base object is activated
+
+        if (showStatic)
+        {
+            foreach (var renderer in renderers)
+            {
+                var mats = renderer.sharedMaterials.ToList();
+
+                foreach (Material mat in mats)
+                {
+                    mat.SetFloat("_DissolveAmount", Mathf.Sin(Time.time) / 2.5f + 0.6f);
+                }
+            }
+        }
     }
 
     void OnDisable()
@@ -143,6 +159,8 @@ public class TunableObject : MonoBehaviour
 
             renderer.materials = materials.ToArray();
         }
+
+        showStatic = false;
     }
 
     void LoadSmoothNormals()
@@ -224,12 +242,14 @@ public class TunableObject : MonoBehaviour
     IEnumerator ActivateObject()
     {
         Debug.Log($"Activating {baseObject.name}");
-
         baseObject.Activate();
 
-        yield return new WaitForSeconds(1.45f);
+        yield return new WaitForSeconds(1f);
+
+        TuneAbility.instance.isUsing = false;
+
+        yield return new WaitForSeconds(1.25f);
 
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
-        TuneAbility.instance.isUsing = false;
     }
 }

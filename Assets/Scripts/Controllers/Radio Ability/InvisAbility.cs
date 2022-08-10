@@ -135,7 +135,7 @@ public class InvisAbility : RadioAbilityController
 
     public void DisableCollider()
     {
-        gameObject.layer = voidLayer;
+        //gameObject.layer = voidLayer;
 
         foreach (var renderer in renderers)
         {

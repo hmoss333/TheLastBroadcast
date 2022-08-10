@@ -296,13 +296,14 @@ GameObject:
   - component: {fileID: 270705392}
   - component: {fileID: 270705391}
   - component: {fileID: 270705390}
+  - component: {fileID: 270705393}
   m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &270705388
 Transform:
   m_ObjectHideFlags: 0
@@ -381,6 +382,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 270705387}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &270705393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270705387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff6406cd00db8415385f73df1155b9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interacting: 0
+  active: 0
+  hasActivated: 0
+  dissolveMat: {fileID: 2100000, guid: 319dbccb011c64ea8a33c9d4317d0ee4, type: 2}
 --- !u!4 &380511966 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8146545691968974870, guid: f59be91db065842498db7d03db095daf, type: 3}
@@ -434,37 +451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3361299280484deb94b219159283df9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &972790017
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Hidden/VHSPostProcessEffect
-  m_Shader: {fileID: 4800000, guid: 602d0b85a2a774ceebacda07bd10ffab, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _VHSTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
 --- !u!1 &1130163280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7686404432064426030, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
@@ -545,7 +531,7 @@ PrefabInstance:
     - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
       propertyPath: vhsEffect
       value: 
-      objectReference: {fileID: 1870826997}
+      objectReference: {fileID: 0}
     - target: {fileID: 3308665666861343286, guid: f59be91db065842498db7d03db095daf, type: 3}
       propertyPath: abilityColor.b
       value: 0.75294125
@@ -593,7 +579,7 @@ PrefabInstance:
     - target: {fileID: 4481846713834912274, guid: f59be91db065842498db7d03db095daf, type: 3}
       propertyPath: vhsEffect
       value: 
-      objectReference: {fileID: 1870826997}
+      objectReference: {fileID: 0}
     - target: {fileID: 8146545691968974867, guid: f59be91db065842498db7d03db095daf, type: 3}
       propertyPath: m_Name
       value: Player
@@ -788,17 +774,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de1b9288a5367499f9556e1559c59193, type: 3}
---- !u!114 &1870826997 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1870826997, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
-  m_PrefabInstance: {fileID: 593217356961037814}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d4b9e95bcd544df18df108ead7dd6d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1956357624
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1004,14 +979,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1870826997, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
-      propertyPath: _material
-      value: 
-      objectReference: {fileID: 972790017}
-    - target: {fileID: 1870826998, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
-      propertyPath: m_TargetMaterialRenderer
-      value: 
-      objectReference: {fileID: 270705391}
     - target: {fileID: 593217357095946755, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
       propertyPath: m_Name
       value: Main Camera
@@ -1102,6 +1069,24 @@ MonoBehaviour:
   bakeKeys: []
   bakeValues: []
   staticMaterial: {fileID: 2100000, guid: 16aebe7d34d5f6e4ca9d778acc20d47e, type: 2}
+  showStatic: 0
+  checkTime: 3
+--- !u!114 &1280901920040377656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130163280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b711399939d7b40a5996b08147ec8c81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bakeKeys: []
+  bakeValues: []
+  staticMaterial: {fileID: 2100000, guid: 179555ab8bd66734b8c1ac67e84c7cbc, type: 2}
+  showStatic: 0
   checkTime: 3
 --- !u!4 &1348610237687988936
 Transform:

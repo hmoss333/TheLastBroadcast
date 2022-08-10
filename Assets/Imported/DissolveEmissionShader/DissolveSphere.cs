@@ -7,7 +7,7 @@ public class DissolveSphere : MonoBehaviour {
     Material mat;
 
     private void Start() {
-        mat = GetComponent<Renderer>().material;
+        mat = GetComponent<Renderer>().material; 
     }
 
     private void Update() {
