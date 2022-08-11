@@ -149,7 +149,11 @@ public class PlayerController : MonoBehaviour
 
 
             //Move player in FixedUpdate for consistent performance
-            rb.velocity = new Vector3(horizontal * speed, rb.velocity.y, vertical * speed);
+            Vector3 tempMove = new Vector3(horizontal, 0f, vertical);
+            if (tempMove.magnitude > 1)
+                tempMove = tempMove.normalized;
+            rb.velocity = new Vector3(tempMove.x * speed, rb.velocity.y, tempMove.z * speed);
+            
 
             // Determine which direction to rotate towards
             Vector3 targetDirection = lastDir;

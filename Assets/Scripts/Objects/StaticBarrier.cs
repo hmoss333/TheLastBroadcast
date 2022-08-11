@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class StaticBarrier : InteractObject
+public class StaticBarrier : MonoBehaviour
 {
     private BoxCollider collider;
     private Renderer renderer;
     [SerializeField] Material dissolveMat;
     Material tempMat;
     float dissolveVal;
-    bool dissolving;
+    bool dissolving, activated;
 
 
     // Start is called before the first frame update
@@ -34,12 +34,12 @@ public class StaticBarrier : InteractObject
 
             if (dissolveVal >= 1f)
             {
-                hasActivated = true;
+                activated = true;
                 dissolving = false;
             }
         }
 
-        this.gameObject.SetActive(!hasActivated);
+        this.gameObject.SetActive(!activated);
     }
 
     private void OnTriggerEnter(Collider other)
