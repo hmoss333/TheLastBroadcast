@@ -15,10 +15,9 @@ public class InvisAbility : RadioAbilityController
     [SerializeField] Material invisMat;
     private float checkFrequency;
     private float checkOffset = 0.5f;
-    [SerializeField] float checkTime;
-    [SerializeField] float invisTime;
-    private float tempTime;
-    public bool isUsing; //used to toggle camera after effect for special abilities
+    [SerializeField] float checkTime, invisTime;
+    private float tempCheckTime, tempInvisTime;
+    [HideInInspector] public bool isUsing; //used to toggle camera after effect for special abilities
 
 
     ////Invis Material Values////
@@ -32,7 +31,6 @@ public class InvisAbility : RadioAbilityController
     [SerializeField, HideInInspector]
     private List<ListVector3> bakeValues = new List<ListVector3>();
     private Renderer[] renderers;
-    private bool needsUpdate;
 
 
     void Awake()
@@ -43,16 +41,14 @@ public class InvisAbility : RadioAbilityController
             Destroy(this.gameObject);
 
 
-        tempTime = checkTime;
+        tempCheckTime = checkTime;
+        tempInvisTime = invisTime;
 
         // Cache renderers
         renderers = GetComponentsInChildren<Renderer>();
 
         // Retrieve or generate smooth normals
         LoadSmoothNormals();
-
-        // Apply material properties immediately
-        needsUpdate = true;
 
         foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
         {
@@ -75,13 +71,14 @@ public class InvisAbility : RadioAbilityController
         }
     }
 
-    void Start()
+    override public void Start()
     {
         base.Start();
 
         oldLayer = LayerMask.NameToLayer("Player");
         voidLayer = LayerMask.NameToLayer("Void");
-        tempTime = invisTime;
+        tempCheckTime = checkTime;
+        tempInvisTime = invisTime;
         checkFrequency = abilityData.frequency;
     }
 
@@ -99,13 +96,13 @@ public class InvisAbility : RadioAbilityController
                 {
                     DisableCollider();
                     isInvis = true;
-                    checkTime = 3f;
+                    checkTime = tempCheckTime;
                 }
             }
             else
             {
                 isUsing = false;
-                checkTime = 3f;
+                checkTime = tempCheckTime;
             }
         }
         else if (!RadioController.instance.abilityMode && !isInvis)
@@ -123,7 +120,7 @@ public class InvisAbility : RadioAbilityController
             if (invisTime < 0)
             {
                 EnableCollider();
-                invisTime = tempTime;
+                invisTime = tempInvisTime;
                 isInvis = false;
                 isUsing = false;
             }

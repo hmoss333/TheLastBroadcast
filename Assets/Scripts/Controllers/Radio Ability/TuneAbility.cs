@@ -6,8 +6,7 @@ public class TuneAbility : RadioAbilityController
 {
     public static TuneAbility instance;
 
-
-    public bool isUsing; //used to toggle camera after effect for special abilities
+    [HideInInspector] public bool isUsing; //used to toggle camera after effect for special abilities
 
 
     private void Awake()

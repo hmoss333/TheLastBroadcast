@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                isMoving = false;        
+                isMoving = false;
             }
 
             animator.SetBool("isMoving", isMoving);
@@ -210,6 +210,8 @@ public class PlayerController : MonoBehaviour
         {
             isMoving = false;
             colliding = true;
+
+
         }
     }
 

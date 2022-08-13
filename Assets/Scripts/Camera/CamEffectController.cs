@@ -6,7 +6,7 @@ public class CamEffectController : MonoBehaviour
 {
     public static CamEffectController instance;
 
-    public AnalogGlitch glitchEffect; 
+    [SerializeField] AnalogGlitch glitchEffect;
     public bool effectOn; //Manually turn effect on/off
 
 
@@ -33,5 +33,10 @@ public class CamEffectController : MonoBehaviour
         {
             glitchEffect.enabled = false;
         }
+    }
+
+    void SetEffectValues()
+    {
+
     }
 }
