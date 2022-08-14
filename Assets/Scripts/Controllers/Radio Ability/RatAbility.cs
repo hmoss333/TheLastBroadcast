@@ -7,6 +7,7 @@ public class RatAbility : RadioAbilityController
     public static RatAbility instance;
 
     [SerializeField] GameObject ratPrefab;
+    private GameObject ratObj;
 
     [SerializeField] bool isRat;
     private float checkFrequency;
@@ -50,7 +51,9 @@ public class RatAbility : RadioAbilityController
                 if (checkTime < 0)
                 {
                     isRat = true;
-                    Debug.Log($"Instantiate Prefab here");
+                    Vector3 newPos = new Vector3(PlayerController.instance.transform.position.x, 0.5f, PlayerController.instance.transform.position.z);
+                    ratObj = Instantiate(ratPrefab, newPos, Quaternion.identity);
+                    CameraController.instance.SetTarget(ratObj);
                     checkTime = tempCheckTime;
                 }
             }
@@ -66,10 +69,13 @@ public class RatAbility : RadioAbilityController
             isUsing = false;
         }
 
-        //If the player is currently using the ability
-        if (isRat)
+        if (Input.GetButtonDown("RadioSpecial") && isRat)
         {
+            print("End rat ability");
+            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+            Destroy(ratObj);
             PlayerController.instance.usingRadio = false;
+            isRat = false;
         }
 
         //Toggle player interaction state based on invisibility status

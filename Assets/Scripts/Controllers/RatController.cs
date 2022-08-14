@@ -1,13 +1,14 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class PlayerController : MonoBehaviour
+public class RatController : MonoBehaviour
 {
-    public static PlayerController instance;
+    public static RatController instance;
 
 
-    [Header("Player Movement Variables")]
+    [Header("Character Movement Variables")]
     [SerializeField] float speed;
     [SerializeField] float rotSpeed;
     private float storedSpeed;
@@ -17,8 +18,8 @@ public class PlayerController : MonoBehaviour
 
     //TODO change some of thse into a state machine
     [Header("Player State Variables")]
-    [HideInInspector] public bool interacting, usingRadio, invisible; 
-    private bool isMoving, attacking, hurt, colliding;
+    [HideInInspector] public bool interacting;
+    private bool isMoving, attacking, hurt;
 
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
@@ -27,9 +28,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Avatar Variables")]
     [SerializeField] private GameObject melee;
-    [SerializeField] private GameObject playerAvatar;
     [SerializeField] private Animator animator;
-
 
 
     private void Awake()
@@ -40,12 +39,14 @@ public class PlayerController : MonoBehaviour
             Destroy(this.gameObject);
     }
 
+    // Start is called before the first frame update
     void Start()
     {
         storedSpeed = speed;
         rb = GetComponent<Rigidbody>();
     }
 
+    // Update is called once per frame
     void Update()
     {
         Vector3 rayDir = lastDir.normalized;
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (usingRadio || attacking || invisible)
+        if (attacking)
         {
             interactObj = null;
         }
@@ -85,38 +86,20 @@ public class PlayerController : MonoBehaviour
             interactObj.Interact();
         }
 
-        if (SaveDataController.instance.saveData.abilities.radio == true && !interacting && !attacking && !invisible)
-        {
-            //If player holds down Radio button, interact with radio
-            if (Input.GetButtonDown("Radio"))
-            {
-                usingRadio = true;
-                RadioController.instance.currentFrequency = 0.0f;
-            }
-            //If player releases Radio button, stop interacting with radio
-            else if (Input.GetButtonUp("Radio"))
-            {
-                usingRadio = false;
-                RadioController.instance.abilityMode = false;
-            }         
-        }
-
-        if (Input.GetButtonDown("Melee") && SaveDataController.instance.saveData.abilities.crowbar == true && !interacting && !usingRadio && !invisible)
-        {
-            attacking = true;
-            animator.SetTrigger("isMelee");
-        }
+        //if (Input.GetButtonDown("Melee") && !interacting)
+        //{
+        //    attacking = true;
+        //    animator.SetTrigger("isMelee");
+        //}
 
         melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state
-        animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
-        RadioController.instance.isActive = usingRadio;
     }
 
     private void FixedUpdate()
     {
         //Movement Controller
-        if (interacting || usingRadio || attacking)
-        {         
+        if (interacting || attacking)
+        {
             speed = 0; //stop all player movement
 
             //If attacking, pause all inputs until animation has completed
@@ -133,7 +116,7 @@ public class PlayerController : MonoBehaviour
             speed = storedSpeed; //restore default player movement
 
             //Save last input vector for interact raycast
-            if ((horizontal != 0 || vertical != 0) && !colliding)
+            if (horizontal != 0 || vertical != 0)
             {
                 lastDir.x = horizontal;
                 lastDir.z = vertical;
@@ -145,7 +128,7 @@ public class PlayerController : MonoBehaviour
             }
 
             animator.SetBool("isMoving", isMoving);
-            animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false); //toggle falling animation
+            //animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false); //toggle falling animation
 
 
             //Move player in FixedUpdate for consistent performance
@@ -153,7 +136,7 @@ public class PlayerController : MonoBehaviour
             if (tempMove.magnitude > 1)
                 tempMove = tempMove.normalized;
             rb.velocity = new Vector3(tempMove.x * speed, rb.velocity.y, tempMove.z * speed);
-            
+
 
             // Determine which direction to rotate towards
             Vector3 targetDirection = lastDir;
@@ -176,11 +159,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void ToggleAvatar()
-    {
-        playerAvatar.SetActive(!playerAvatar.activeSelf);
-    }
-
     public void InteractToggle(bool interactState)
     {
         interacting = interactState;
@@ -199,22 +177,5 @@ public class PlayerController : MonoBehaviour
     public void SetLastDir(Vector3 newDir)
     {
         lastDir = newDir;
-    }
-
-
-    //Pause player movement animation when they walk into an object
-    private void OnCollisionEnter(Collision collision)
-    {
-        int floorLayer = LayerMask.NameToLayer("Floor");
-        if (collision.gameObject.layer != floorLayer)
-        {
-            isMoving = false;
-            colliding = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        colliding = false;
     }
 }
