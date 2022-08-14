@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Player Movement Variables")]
-    [SerializeField] float speed;
+    [SerializeField] float speed, climbSpeed;
     [SerializeField] float rotSpeed;
     private float storedSpeed;
     private Rigidbody rb;
@@ -17,7 +18,8 @@ public class PlayerController : MonoBehaviour
 
     //TODO change some of thse into a state machine
     [Header("Player State Variables")]
-    [HideInInspector] public bool interacting, usingRadio, invisible; 
+    //[HideInInspector]
+    public bool interacting, usingRadio, invisible, onLadder; 
     private bool isMoving, attacking, hurt, colliding;
 
     [Header("Interact Variables")]
@@ -107,8 +109,13 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("isMelee");
         }
 
+        //Pause ladder climbing animation if there is no input
+        if (onLadder)
+            animator.enabled = Input.GetAxisRaw("Vertical") != 0 ? true : false;
+
         melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state
         animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
+        animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder
         RadioController.instance.isActive = usingRadio;
     }
 
@@ -196,6 +203,7 @@ public class PlayerController : MonoBehaviour
             return false;
     }
 
+    //Used for the door controller to set exit direction
     public void SetLastDir(Vector3 newDir)
     {
         lastDir = newDir;

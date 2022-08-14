@@ -79,6 +79,7 @@ public class RatAbility : RadioAbilityController
         }
 
         //Toggle player interaction state based on invisibility status
-        PlayerController.instance.interacting = isRat;
+        if (RadioController.instance.abilityMode)
+            PlayerController.instance.interacting = isRat;
     }
 }
