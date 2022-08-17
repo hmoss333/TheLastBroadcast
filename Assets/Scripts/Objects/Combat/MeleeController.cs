@@ -4,29 +4,31 @@ using UnityEngine;
 
 public class MeleeController : MonoBehaviour
 {
-    [SerializeField] LayerMask interactLayers;
+    [SerializeField] List<string> tags;
     [SerializeField] int damage;
-    bool isHitting;
+    Collider col;
 
+
+    private void Start()
+    {
+        col = GetComponent<Collider>();
+    }
+
+    private void OnEnable()
+    {
+        col.enabled = true;
+    }
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Destructable") && !isHitting)//interactLayers)
+        if (tags.Contains(collision.tag))
         {
             Health targetHealth = collision.GetComponent<Health>();
             if (targetHealth != null)
             {
-                isHitting = true;
+                col.enabled = false;
                 targetHealth.Hurt(damage);
             }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Destructable") && isHitting)//interactLayers)
-        {
-            isHitting = false;
         }
     }
 }
