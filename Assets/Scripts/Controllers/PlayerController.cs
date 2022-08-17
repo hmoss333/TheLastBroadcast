@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Player Movement Variables")]
-    [SerializeField] float speed, climbSpeed;
+    [SerializeField] float speed;
     [SerializeField] float rotSpeed;
     private float storedSpeed;
     private Rigidbody rb;
@@ -78,7 +78,9 @@ public class PlayerController : MonoBehaviour
         }
 
         if (interactObj != null && interactObj.active && !interactObj.hasActivated)
-            interactObj.gameObject.GetComponent<Outline>().enabled = true;
+            interactObj.gameObject.GetComponent<Outline>().enabled = interacting ? false : true;
+        //else if (interacting)
+        //    interactObj.gameObject.GetComponent<Outline>().enabled = false;
 
 
         //Player input controls
@@ -125,6 +127,7 @@ public class PlayerController : MonoBehaviour
         if (interacting || usingRadio || attacking)
         {         
             speed = 0; //stop all player movement
+            colliding = false;
 
             //If attacking, pause all inputs until animation has completed
             if (attacking && !isPlaying("Melee"))

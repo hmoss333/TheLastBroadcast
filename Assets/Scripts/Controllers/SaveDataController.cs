@@ -12,6 +12,7 @@ public class SaveDataController : MonoBehaviour
     public SaveData saveData; //requires public for serialization
     private string destination;
 
+    public LoreSaveData loreSaveData;
     public SceneObjectsContainer sceneObjectContainer;
 
 
@@ -29,6 +30,7 @@ public class SaveDataController : MonoBehaviour
         saveData = new SaveData();
 
         LoadFile();
+        LoadLoreData();
         LoadObjectData(saveData.currentScene);
     }
 
@@ -102,6 +104,57 @@ public class SaveDataController : MonoBehaviour
         string tempPath = $"{Application.persistentDataPath}/{sceneName}.json";
         string jsonData = JsonUtility.ToJson(tempContainer);
         print("Saving Object Data:" + jsonData);
+        File.WriteAllText(tempPath, jsonData);
+    }
+
+    public void LoadLoreData()
+    {
+        //TODO load data from lore save file
+        string tempDest = $"{Application.persistentDataPath}/loreData.json";
+
+        if (File.Exists(tempDest))
+        {
+            print("Loading lore data");
+            LoreSaveData tempContainer = new LoreSaveData();
+            string jsonData = File.ReadAllText(tempDest);
+            tempContainer = JsonUtility.FromJson<LoreSaveData>(jsonData);
+            loreSaveData = tempContainer;
+        }
+        else
+        {
+            print("Creating new lore file");
+            LoreSaveData tempContainer = new LoreSaveData();
+            tempContainer.loreData = new List<LoreData>();
+
+            //TODO read lore data values from csv file
+            for (int i = 0; i < 20; i++) //arbitrary number here; need to update once we have an actual number of lore objects
+            {
+                LoreData tempData = new LoreData();
+                tempData.id = i;
+                tempData.collected = false;
+                tempContainer.loreData.Add(tempData);
+            }
+
+            loreSaveData = tempContainer;
+            SaveLoreData(-1);
+        }
+    }
+
+    public void SaveLoreData(int id)
+    {
+        for (int i = 0; i < loreSaveData.loreData.Count; i++)
+        {
+            if (loreSaveData.loreData[i].id == id)
+            {
+                loreSaveData.loreData[i].collected = true;
+                break;
+            }
+        }
+
+        //TODO save lore data for specified ID
+        string tempPath = $"{Application.persistentDataPath}/loreData.json";
+        string jsonData = JsonUtility.ToJson(loreSaveData);
+        print("Saving Lore Data:" + jsonData);
         File.WriteAllText(tempPath, jsonData);
     }
 
@@ -315,4 +368,17 @@ public class SceneInteractObj
     public string name;
     public bool active;
     public bool hasActivated; 
+}
+
+[System.Serializable]
+public class LoreSaveData
+{
+    public List<LoreData> loreData = new List<LoreData>();
+}
+
+[System.Serializable]
+public class LoreData
+{
+    public int id;
+    public bool collected;
 }
