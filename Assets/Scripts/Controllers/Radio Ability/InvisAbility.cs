@@ -11,7 +11,7 @@ public class InvisAbility : RadioAbilityController
 
     [SerializeField] private bool isInvis;
     private int oldLayer;
-    private int voidLayer;
+    //private int voidLayer;
     [SerializeField] Material invisMat;
     private float checkFrequency;
     private float checkOffset = 0.5f;
@@ -41,8 +41,8 @@ public class InvisAbility : RadioAbilityController
             Destroy(this.gameObject);
 
 
-        tempCheckTime = checkTime;
-        tempInvisTime = invisTime;
+        //tempCheckTime = checkTime;
+        //tempInvisTime = invisTime;
 
         // Cache renderers
         renderers = GetComponentsInChildren<Renderer>();
@@ -75,8 +75,11 @@ public class InvisAbility : RadioAbilityController
     {
         base.Start();
 
+        tempCheckTime = checkTime;
+        tempInvisTime = invisTime;
+
         oldLayer = LayerMask.NameToLayer("Player");
-        voidLayer = LayerMask.NameToLayer("Void");
+        //voidLayer = LayerMask.NameToLayer("Void");
         tempCheckTime = checkTime;
         tempInvisTime = invisTime;
         checkFrequency = abilityData.frequency;

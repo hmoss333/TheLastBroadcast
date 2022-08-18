@@ -18,9 +18,8 @@ public class PlayerController : MonoBehaviour
 
     //TODO change some of thse into a state machine
     [Header("Player State Variables")]
-    //[HideInInspector]
-    public bool interacting, usingRadio, invisible, onLadder; 
-    private bool isMoving, attacking, hurt, colliding;
+    [HideInInspector] public bool interacting, usingRadio, invisible, onLadder; 
+    [SerializeField] private bool isMoving, attacking, hurt, colliding;
 
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
@@ -28,7 +27,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public InteractObject interactObj;
 
     [Header("Player Avatar Variables")]
-    [SerializeField] private GameObject melee;
+    [SerializeField] private MeleeController melee;
+    [SerializeField] private int damage;
     [SerializeField] private GameObject playerAvatar;
     [SerializeField] private Animator animator;
 
@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     {
         storedSpeed = speed;
         rb = GetComponent<Rigidbody>();
+        melee.damage = damage;      
     }
 
     void Update()
@@ -79,11 +80,11 @@ public class PlayerController : MonoBehaviour
 
         if (interactObj != null && interactObj.active && !interactObj.hasActivated)
             interactObj.gameObject.GetComponent<Outline>().enabled = interacting ? false : true;
-        //else if (interacting)
-        //    interactObj.gameObject.GetComponent<Outline>().enabled = false;
 
 
         //Player input controls
+        //if (!hurt)
+        //{
         if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.active)
         {
             interactObj.Interact();
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviour
             {
                 usingRadio = false;
                 RadioController.instance.abilityMode = false;
-            }         
+            }
         }
 
         if (Input.GetButtonDown("Melee") && SaveDataController.instance.saveData.abilities.crowbar == true && !interacting && !usingRadio && !invisible)
@@ -110,21 +111,23 @@ public class PlayerController : MonoBehaviour
             attacking = true;
             animator.SetTrigger("isMelee");
         }
+        //}
 
         //Pause ladder climbing animation if there is no input
         if (onLadder)
             animator.enabled = Input.GetAxisRaw("Vertical") != 0 ? true : false;
 
-        melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state
+        melee.gameObject.SetActive(attacking); //toggle melee weapon visibility based on attacking state
         animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
         animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder
         RadioController.instance.isActive = usingRadio;
+        //hurt = isPlaying("Hurt");
     }
 
     private void FixedUpdate()
     {
         //Movement Controller
-        if (interacting || usingRadio || attacking)
+        if (interacting || usingRadio || attacking || hurt)
         {         
             speed = 0; //stop all player movement
             colliding = false;
@@ -188,6 +191,7 @@ public class PlayerController : MonoBehaviour
 
     public void ToggleAvatar()
     {
+        print($"Toggle avatar {!playerAvatar.activeSelf}");
         playerAvatar.SetActive(!playerAvatar.activeSelf);
     }
 

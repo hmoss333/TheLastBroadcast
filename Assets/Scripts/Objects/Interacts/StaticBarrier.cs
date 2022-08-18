@@ -65,12 +65,12 @@ public class StaticBarrier : MonoBehaviour
 
     IEnumerator CollisionEffect()
     {
-        CamEffectController.instance.effectOn = true;
+        CamEffectController.instance.SetEffectValues(true);
         collideAudio.mute = false;
 
         yield return new WaitForSeconds(0.15f);
 
-        CamEffectController.instance.effectOn = false;
+        CamEffectController.instance.SetEffectValues(false);
         collideAudio.mute = true;
     }
 }

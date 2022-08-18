@@ -1070,6 +1070,7 @@ GameObject:
   - component: {fileID: 8146545691968974868}
   - component: {fileID: 8146545691968974869}
   - component: {fileID: 8146545691968974873}
+  - component: {fileID: 2647051179905232537}
   - component: {fileID: 8146545691968974866}
   - component: {fileID: 3308665666861343286}
   - component: {fileID: 210302640271701883}
@@ -1179,6 +1180,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &2647051179905232537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8146545691968974867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f4cfcc6b57a48cbbb275d8cea40184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 5
 --- !u!114 &8146545691968974866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1202,7 +1216,8 @@ MonoBehaviour:
     m_Bits: 256
   checkDist: 2
   interactObj: {fileID: 0}
-  melee: {fileID: 2635801173503523299}
+  melee: {fileID: 449930675621914486}
+  damage: 0
   playerAvatar: {fileID: 6491658825817301298}
   animator: {fileID: 199947665006198363}
 --- !u!114 &3308665666861343286
@@ -1547,9 +1562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c922f021a849a4768942829ff32fed19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactLayers:
-    serializedVersion: 2
-    m_Bits: 8320
+  tags: []
   damage: 1
 --- !u!1001 &3517108800334584123
 PrefabInstance:

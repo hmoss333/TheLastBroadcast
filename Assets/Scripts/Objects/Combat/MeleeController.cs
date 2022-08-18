@@ -5,17 +5,21 @@ using UnityEngine;
 public class MeleeController : MonoBehaviour
 {
     [SerializeField] List<string> tags;
-    [SerializeField] int damage;
+    public int damage;
     Collider col;
 
 
-    private void Start()
+    private void Awake()
     {
         col = GetComponent<Collider>();
+        col.enabled = true;
     }
 
     private void OnEnable()
     {
+        //if (col == null)
+        //    col = GetComponent<Collider>();
+
         col.enabled = true;
     }
 

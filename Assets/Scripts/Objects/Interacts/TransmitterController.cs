@@ -43,7 +43,7 @@ public class TransmitterController : InteractObject
     {
         yield return new WaitForSeconds(1f);
 
-        CamEffectController.instance.effectOn = true;
+        CamEffectController.instance.SetEffectValues(true);
 
         yield return new WaitForSeconds(2.5f); //change this to wait while any dialogue is playing
 
@@ -52,7 +52,7 @@ public class TransmitterController : InteractObject
         while (FadeController.instance.isFading)
             yield return null;
 
-        CamEffectController.instance.effectOn = false;
+        CamEffectController.instance.SetEffectValues(false);
         SaveDataController.instance.SetSavePoint("BroadcastRoom", 0);
         PlayerController.instance.ToggleAvatar();
         SceneManager.LoadSceneAsync("BroadcastRoom");

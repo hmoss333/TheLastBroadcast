@@ -7,7 +7,7 @@ public class CamEffectController : MonoBehaviour
     public static CamEffectController instance;
 
     [SerializeField] AnalogGlitch glitchEffect;
-    public bool effectOn; //Manually turn effect on/off
+    private bool effectOn; //Manually turn effect on/off
 
 
     private void Awake()
@@ -35,8 +35,26 @@ public class CamEffectController : MonoBehaviour
         }
     }
 
-    void SetEffectValues()
-    {
 
+
+    public void SetEffectValues(bool effectState)
+    {
+        effectOn = effectState;
+    }
+
+
+
+    public void ShockEffect(float duration)
+    {
+        StartCoroutine(ShockRoutine(duration));
+    }
+
+    IEnumerator ShockRoutine(float duration)
+    {
+        effectOn = true;
+
+        yield return new WaitForSeconds(duration);
+
+        effectOn = false;
     }
 }
