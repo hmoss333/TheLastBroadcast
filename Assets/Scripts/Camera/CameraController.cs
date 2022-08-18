@@ -50,9 +50,9 @@ public class CameraController : MonoBehaviour
         Vector3 pos = target.transform.position;
         if (!focus)
         {
-            pos.x += camXOffset + xOff;
-            pos.y += camYOffset + yOff;
-            pos.z += camZOffset + zOff;
+            pos.x += target == !PlayerController.instance.transform || PlayerController.instance.usingRadio ? camXOffset : camXOffset + xOff;
+            pos.y += target == !PlayerController.instance.transform || PlayerController.instance.usingRadio ? camYOffset  : camYOffset + yOff;
+            pos.z += target == !PlayerController.instance.transform || PlayerController.instance.usingRadio ? camZOffset  : camZOffset + zOff;
         }
 
         if (Input.GetButtonDown("CamXOffset"))
