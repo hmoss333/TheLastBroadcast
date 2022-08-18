@@ -6,18 +6,13 @@ public class Health : MonoBehaviour
 {
     [SerializeField] int health;
     [SerializeField] bool shockEffect;
-    //[SerializeField] Animator animator;
 
-    //private void Start()
-    //{
-    //    animator = GetComponentInChildren<Animator>();
-    //}
 
     public void Hurt(int value)
     {
         health -= value;
         print($"{gameObject.name} health = {health}");
-        //animator.SetTrigger("isHurt");
+        CharacterController character = GetComponent<CharacterController>();
 
         if (shockEffect)
         {
@@ -26,8 +21,15 @@ public class Health : MonoBehaviour
 
         if (health <= 0)
         {
-            print($"{gameObject.name} has been destroyed");
-            gameObject.SetActive(false);
+            if (character != null)
+                character.dead = true;
+            else
+                gameObject.SetActive(false);
+        }
+        else
+        {
+            if (character != null)
+                character.hurt = true;
         }
     }
 }

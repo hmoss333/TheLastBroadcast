@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharacterController
 {
     public static PlayerController instance;
 
@@ -12,14 +12,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float rotSpeed;
     private float storedSpeed;
-    private Rigidbody rb;
     private float horizontal, vertical;
     private Vector3 lastDir, lastDir1, lastDir2;
 
     //TODO change some of thse into a state machine
     [Header("Player State Variables")]
     [HideInInspector] public bool interacting, usingRadio, invisible, onLadder; 
-    [SerializeField] private bool isMoving, attacking, hurt, colliding;
+    private bool isMoving, attacking, colliding;
 
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
@@ -30,7 +29,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
     [SerializeField] private GameObject playerAvatar;
-    [SerializeField] private Animator animator;
 
 
 
@@ -42,14 +40,15 @@ public class PlayerController : MonoBehaviour
             Destroy(this.gameObject);
     }
 
-    void Start()
+    override public void Start()
     {
         storedSpeed = speed;
-        rb = GetComponent<Rigidbody>();
-        melee.damage = damage;      
+        melee.damage = damage;
+
+        base.Start();
     }
 
-    void Update()
+    override public void Update()
     {
         Vector3 rayDir = lastDir.normalized;
         Ray ray = new Ray(transform.position, rayDir);
@@ -83,35 +82,45 @@ public class PlayerController : MonoBehaviour
 
 
         //Player input controls
-        //if (!hurt)
-        //{
-        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.active)
+        if (!isPlaying("Hurt") && !dead)
         {
-            interactObj.Interact();
-        }
-
-        if (SaveDataController.instance.saveData.abilities.radio == true && !interacting && !attacking && !invisible)
-        {
-            //If player holds down Radio button, interact with radio
-            if (Input.GetButtonDown("Radio"))
+            if (Input.GetButtonDown("Interact")
+                && interactObj != null
+                && interactObj.active)
             {
-                usingRadio = true;
-                RadioController.instance.currentFrequency = 0.0f;
+                interactObj.Interact();
             }
-            //If player releases Radio button, stop interacting with radio
-            else if (Input.GetButtonUp("Radio"))
-            {
-                usingRadio = false;
-                RadioController.instance.abilityMode = false;
-            }
-        }
 
-        if (Input.GetButtonDown("Melee") && SaveDataController.instance.saveData.abilities.crowbar == true && !interacting && !usingRadio && !invisible)
-        {
-            attacking = true;
-            animator.SetTrigger("isMelee");
+            if (SaveDataController.instance.saveData.abilities.radio == true
+                && !interacting
+                && !attacking
+                && !invisible)
+            {
+                //If player holds down Radio button, interact with radio
+                if (Input.GetButtonDown("Radio"))
+                {
+                    usingRadio = true;
+                    RadioController.instance.currentFrequency = 0.0f;
+                }
+                //If player releases Radio button, stop interacting with radio
+                else if (Input.GetButtonUp("Radio"))
+                {
+                    usingRadio = false;
+                    RadioController.instance.abilityMode = false;
+                }
+            }
+
+            if (Input.GetButtonDown("Melee")
+                && SaveDataController.instance.saveData.abilities.crowbar == true
+                && !interacting
+                && !usingRadio
+                && !attacking
+                && !invisible)      
+            {
+                attacking = true;
+                animator.SetTrigger("isMelee");
+            }
         }
-        //}
 
         //Pause ladder climbing animation if there is no input
         if (onLadder)
@@ -121,13 +130,14 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
         animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder
         RadioController.instance.isActive = usingRadio;
-        //hurt = isPlaying("Hurt");
+
+        base.Update();
     }
 
     private void FixedUpdate()
     {
         //Movement Controller
-        if (interacting || usingRadio || attacking || hurt)
+        if (interacting || usingRadio || attacking || dead || isPlaying("Hurt"))
         {         
             speed = 0; //stop all player movement
             colliding = false;
@@ -199,15 +209,6 @@ public class PlayerController : MonoBehaviour
     {
         interacting = interactState;
         animator.SetBool("isInteracting", interacting);
-    }
-
-    bool isPlaying(string stateName)
-    {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
-                animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
-            return true;
-        else
-            return false;
     }
 
     //Used for the door controller to set exit direction

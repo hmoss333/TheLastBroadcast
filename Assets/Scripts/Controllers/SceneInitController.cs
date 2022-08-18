@@ -18,14 +18,14 @@ public class SceneInitController : MonoBehaviour
     [SerializeField] private List<SceneInteractObj> currentInteractObjects;
 
 
+    float fadeTime = 3f;
+
     private void Awake()
     {
         if (instance == null)
             instance = this;
         else
             Destroy(this.gameObject);
-
-        DontDestroyOnLoad(this.gameObject);
     }
 
     // Start is called before the first frame update
@@ -39,9 +39,22 @@ public class SceneInitController : MonoBehaviour
 
     private void Update()
     {
+        //Initialize game on scene change
         if (currentScene != SceneManager.GetActiveScene().name)
         {
-            InitializeGame(); //Initialize game on scene change
+            InitializeGame();
+        }
+
+        //Reload scene on Player death
+        if (PlayerController.instance.dead)
+        {
+            FadeController.instance.StartFade(100f, 250f);
+
+            fadeTime -= Time.deltaTime;
+            if (fadeTime < 0)
+            {
+                SceneManager.LoadScene(currentScene);
+            }
         }
     }
 

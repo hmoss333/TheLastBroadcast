@@ -8,7 +8,7 @@ public class FadeController : MonoBehaviour
     public static FadeController instance;
 
     [SerializeField] Image objectToFade;
-    public bool isFading;
+    [HideInInspector] public bool isFading;
 
 
     private void Awake()

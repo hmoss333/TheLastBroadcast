@@ -24,7 +24,7 @@ public class SaveDataController : MonoBehaviour
         else
             Destroy(this.gameObject);
 
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
 
         destination = $"{Application.persistentDataPath}/save.json";
         saveData = new SaveData();
