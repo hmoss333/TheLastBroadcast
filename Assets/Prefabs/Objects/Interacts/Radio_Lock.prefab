@@ -426,6 +426,7 @@ GameObject:
   - component: {fileID: 7686404432064916492}
   - component: {fileID: 7686404432061525036}
   - component: {fileID: 7686404432062492396}
+  - component: {fileID: 3145461699651749697}
   m_Layer: 0
   m_Name: fusebox3_body
   m_TagString: Untagged
@@ -498,6 +499,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3145461699651749697
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686404432064426028}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7, y: 3.2499998, z: 16}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &7686404432064426030
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,10 +521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7686404432064916494}
-  - component: {fileID: 7686404432071836652}
-  - component: {fileID: 8893823773826241360}
-  - component: {fileID: -1179028950722798494}
-  - component: {fileID: 3082281063099351131}
+  - component: {fileID: 6505529831997096470}
   m_Layer: 0
   m_Name: Radio_Lock
   m_TagString: Untagged
@@ -539,58 +550,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!95 &7686404432071836652
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7686404432064426030}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 5234408246481cc4d85f3f10cad7242e, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!65 &8893823773826241360
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7686404432064426030}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 7, y: 3.2499998, z: 16}
-  m_Center: {x: -0.00000012644053, y: 1.5, z: -3.5}
---- !u!114 &-1179028950722798494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7686404432064426030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 5
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
---- !u!114 &3082281063099351131
+--- !u!114 &6505529831997096470
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -602,10 +562,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae8c04d2685fb46d1801f79cefdd3a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objID: 1
   interacting: 0
   active: 1
   hasActivated: 0
   unlocked: 0
-  mr: {fileID: 7686404432062492392}
+  checkRadius: 4
+  checkTime: 2
+  checkFrequency: 0
+  checkOffset: 0.5
+  mesh: {fileID: 7686404432062492392}
   objectsToActivate: []

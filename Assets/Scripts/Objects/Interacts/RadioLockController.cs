@@ -9,12 +9,12 @@ public class RadioLockController : InteractObject
     [SerializeField] private float checkTime = 2f; //time the radio must stay within the frequency range to activate
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
-    [SerializeField] private MeshRenderer mr;
-    [SerializeField] private InteractObject[] objectsToActivate;
+    [SerializeField] private MeshRenderer mesh;
+    [SerializeField] private GameObject[] objectsToActivate;//InteractObject[] objectsToActivate;
 
     void Start()
     {
-        mr.material.color = Color.red;
+        mesh.material.color = Color.red;
         checkFrequency = Random.Range(1f, 7.5f);
     }
 
@@ -31,7 +31,7 @@ public class RadioLockController : InteractObject
                 && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
             {
                 interacting = true;
-                mr.material.color = Color.yellow;
+                mesh.material.color = Color.yellow;
                 checkTime -= Time.deltaTime;
                 if (checkTime < 0)
                 {
@@ -41,7 +41,7 @@ public class RadioLockController : InteractObject
             else
             {
                 interacting = false;
-                mr.material.color = Color.red;
+                mesh.material.color = Color.red;
                 checkTime = 2f;
             }
         }
@@ -49,7 +49,7 @@ public class RadioLockController : InteractObject
         if (hasActivated && !unlocked)
             unlocked = true;
 
-        mr.material.color = unlocked ? Color.green : mr.material.color;
+        mesh.material.color = unlocked ? Color.green : mesh.material.color;
     }
 
     IEnumerator UnlockDoor()
@@ -60,7 +60,11 @@ public class RadioLockController : InteractObject
         {
             CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
 
-            objectsToActivate[i].Activate();
+            InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
+            if (tempInteract != null)
+                tempInteract.Activate();
+            else
+                objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
 
             yield return new WaitForSeconds(1.25f);
         }

@@ -110,14 +110,13 @@ public class PlayerController : CharacterController
                 }
             }
 
-            if (Input.GetButtonDown("Melee")
-                && SaveDataController.instance.saveData.abilities.crowbar == true
+            if (SaveDataController.instance.saveData.abilities.crowbar == true              
+                && Input.GetButtonDown("Melee")
                 && !interacting
                 && !usingRadio
                 && !attacking
-                && !invisible)      
+                && !invisible)  
             {
-                attacking = true;
                 animator.SetTrigger("isMelee");
             }
         }
@@ -126,6 +125,7 @@ public class PlayerController : CharacterController
         if (onLadder)
             animator.enabled = Input.GetAxisRaw("Vertical") != 0 ? true : false;
 
+        attacking = isPlaying("Melee");
         melee.gameObject.SetActive(attacking); //toggle melee weapon visibility based on attacking state
         animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
         animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder
@@ -141,12 +141,6 @@ public class PlayerController : CharacterController
         {         
             speed = 0; //stop all player movement
             colliding = false;
-
-            //If attacking, pause all inputs until animation has completed
-            if (attacking && !isPlaying("Melee"))
-            {
-                attacking = false;
-            }
         }
         else
         {

@@ -13,6 +13,9 @@ public class CameraController : MonoBehaviour
     private float camXOffset;
     private float camYOffset;
     private float camZOffset;
+    [SerializeField] float xOff;
+    [SerializeField] float yOff;
+    [SerializeField] float zOff;
     Quaternion baseRot;
 
     [SerializeField] bool focus;
@@ -47,10 +50,13 @@ public class CameraController : MonoBehaviour
         Vector3 pos = target.transform.position;
         if (!focus)
         {
-            pos.x += camXOffset;
-            pos.y += camYOffset;
-            pos.z += camZOffset;
+            pos.x += camXOffset + xOff;
+            pos.y += camYOffset + yOff;
+            pos.z += camZOffset + zOff;
         }
+
+        if (Input.GetButtonDown("CamXOffset"))
+            xOff = -xOff;
 
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
 
