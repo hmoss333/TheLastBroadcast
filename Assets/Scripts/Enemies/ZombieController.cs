@@ -8,7 +8,8 @@ public class ZombieController : CharacterController
 {
     [Header("Zombie Interact Variables")]
     private bool seePlayer, attacking;
-    [SerializeField] private float seeDist, attackDist, loseDist;
+    [SerializeField] private float seeDist, attackDist, loseDist, loseTime;
+    private float tempLoseTime;
     [SerializeField] private LayerMask layer;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
@@ -19,6 +20,7 @@ public class ZombieController : CharacterController
     {
         melee.damage = damage;
         storedSpeed = speed;
+        tempLoseTime = loseTime;
         base.Start();
     }
 
@@ -46,7 +48,23 @@ public class ZombieController : CharacterController
 
             if (dist <= seeDist || (seePlayer && dist <= loseDist))
             {
-                seePlayer = hits[0].collider.gameObject.tag == "Player" ? true : false;
+                //seePlayer = hits[0].collider.gameObject.tag == "Player" ? true : false;
+                if (hits[0].collider.gameObject.tag == "Player")
+                {
+                    seePlayer = true;
+                }
+                else
+                {
+                    if (seePlayer)
+                    {
+                        tempLoseTime -= Time.deltaTime;
+                        if (tempLoseTime <= 0f)
+                        {
+                            seePlayer = false;
+                            tempLoseTime = loseTime;
+                        }
+                    }
+                }
 
                 if (seePlayer)
                 {
@@ -63,7 +81,7 @@ public class ZombieController : CharacterController
             }
         }
 
-        storedSpeed = isPlaying("Move") ? speed : 0f;
+        storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed;//? speed : 0f;
         rb.velocity = transform.forward * storedSpeed;
 
         PlayerController.instance.isSeen = seePlayer;

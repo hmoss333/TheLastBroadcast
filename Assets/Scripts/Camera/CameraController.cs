@@ -44,6 +44,12 @@ public class CameraController : MonoBehaviour
         baseRot = transform.rotation;
     }
 
+    private void Update()
+    {
+        if (Input.GetButtonDown("CamXOffset"))
+            xOff = -xOff;
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -57,9 +63,6 @@ public class CameraController : MonoBehaviour
             pos.z += target != PlayerController.instance.transform || PlayerController.instance.usingRadio || PlayerController.instance.isSeen
                 ? camZOffset : camZOffset + zOff;
         }
-
-        if (Input.GetButtonDown("CamXOffset"))
-            xOff = -xOff;
 
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
 

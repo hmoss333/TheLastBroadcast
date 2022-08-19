@@ -16,7 +16,7 @@ public class CharacterController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
-        animator = GetComponentInChildren<Animator>();//GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     virtual public void Update()
