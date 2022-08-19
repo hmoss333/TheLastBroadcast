@@ -9,15 +9,13 @@ public class PlayerController : CharacterController
 
 
     [Header("Player Movement Variables")]
-    [SerializeField] float speed;
     [SerializeField] float rotSpeed;
-    private float storedSpeed;
     private float horizontal, vertical;
     private Vector3 lastDir, lastDir1, lastDir2;
 
     //TODO change some of thse into a state machine
     [Header("Player State Variables")]
-    [HideInInspector] public bool interacting, usingRadio, invisible, onLadder; 
+    [HideInInspector] public bool interacting, usingRadio, invisible, onLadder, isSeen; 
     private bool isMoving, attacking, colliding;
 
     [Header("Interact Variables")]

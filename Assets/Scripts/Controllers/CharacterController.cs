@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
+    public float speed;
+    [HideInInspector] public float storedSpeed;
     [HideInInspector] public bool hurt, dead;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public Collider col;

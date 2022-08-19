@@ -41,31 +41,30 @@ public class InvisAbility : RadioAbilityController
             Destroy(this.gameObject);
 
 
-        //// Cache renderers
-        //renderers = GetComponentsInChildren<Renderer>();
+        // Cache renderers
+        renderers = GetComponentsInChildren<Renderer>();
 
-        //// Retrieve or generate smooth normals
-        //LoadSmoothNormals();
+        // Retrieve or generate smooth normals
+        LoadSmoothNormals();
 
-        //foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
-        //{
-        //    if (skinnedMeshRenderer.sharedMesh.subMeshCount > 1)
-        //    {
-        //        skinnedMeshRenderer.sharedMesh.subMeshCount = skinnedMeshRenderer.sharedMesh.subMeshCount + 1;
-        //        skinnedMeshRenderer.sharedMesh.SetTriangles(skinnedMeshRenderer.sharedMesh.triangles, skinnedMeshRenderer.sharedMesh.subMeshCount - 1);
-        //    }
+        foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            if (skinnedMeshRenderer.sharedMesh.subMeshCount > 1)
+            {
+                skinnedMeshRenderer.sharedMesh.subMeshCount = skinnedMeshRenderer.sharedMesh.subMeshCount + 1;
+                skinnedMeshRenderer.sharedMesh.SetTriangles(skinnedMeshRenderer.sharedMesh.triangles, skinnedMeshRenderer.sharedMesh.subMeshCount - 1);
+            }
+        }
 
-        //}
-
-        //foreach (var meshFilter in GetComponentsInChildren<MeshFilter>())
-        //{
-        //    if (meshFilter.mesh.subMeshCount > 1)
-        //    {
-        //        //meshFilter.sharedMesh.subMeshCount = meshFilter.sharedMesh.subMeshCount + 1;
-        //        meshFilter.mesh.subMeshCount = meshFilter.mesh.subMeshCount + 1;
-        //        meshFilter.mesh.SetTriangles(meshFilter.mesh.triangles, meshFilter.mesh.subMeshCount - 1);
-        //    }
-        //}
+        foreach (var meshFilter in GetComponentsInChildren<MeshFilter>())
+        {
+            if (meshFilter.mesh.subMeshCount > 1)
+            {
+                //meshFilter.sharedMesh.subMeshCount = meshFilter.sharedMesh.subMeshCount + 1;
+                meshFilter.mesh.subMeshCount = meshFilter.mesh.subMeshCount + 1;
+                meshFilter.mesh.SetTriangles(meshFilter.mesh.triangles, meshFilter.mesh.subMeshCount - 1);
+            }
+        }
     }
 
     override public void Start()
@@ -76,7 +75,6 @@ public class InvisAbility : RadioAbilityController
         tempInvisTime = invisTime;
 
         oldLayer = LayerMask.NameToLayer("Player");
-        //voidLayer = LayerMask.NameToLayer("Void");
         tempCheckTime = checkTime;
         tempInvisTime = invisTime;
         checkFrequency = abilityData.frequency;
@@ -94,7 +92,7 @@ public class InvisAbility : RadioAbilityController
                 checkTime -= Time.deltaTime;
                 if (checkTime < 0)
                 {
-                    DisableCollider();
+                    AddMaterials();
                     isInvis = true;
                     checkTime = tempCheckTime;
                 }
@@ -119,7 +117,7 @@ public class InvisAbility : RadioAbilityController
             invisTime -= Time.deltaTime;
             if (invisTime < 0)
             {
-                EnableCollider();
+                RemoveMaterials();
                 invisTime = tempInvisTime;
                 isInvis = false;
                 isUsing = false;
@@ -130,10 +128,8 @@ public class InvisAbility : RadioAbilityController
         PlayerController.instance.invisible = isInvis;
     }
 
-    public void DisableCollider()
+    void AddMaterials()
     {
-        //gameObject.layer = voidLayer;
-
         foreach (var renderer in renderers)
         {
             // Append outline shaders
@@ -145,10 +141,8 @@ public class InvisAbility : RadioAbilityController
         }
     }
 
-    public void EnableCollider()
+    void RemoveMaterials()
     {
-        gameObject.layer = oldLayer;
-
         foreach (var renderer in renderers)
         {
             // Remove outline shaders
@@ -229,12 +223,5 @@ public class InvisAbility : RadioAbilityController
         }
 
         return smoothNormals;
-    }
-
-    void UpdateMaterialProperties()
-    {
-        invisMat.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.LessEqual);
-        invisMat.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Greater);
-        invisMat.SetFloat("_OutlineWidth", 0);
     }
 }

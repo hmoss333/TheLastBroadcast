@@ -17,7 +17,7 @@ public class EnemyFocus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!hasFocused && enemyToFocus.seePlayer)
+        if (!hasFocused && enemyToFocus.SeePlayer())
         {
             CameraController.instance.SetTarget(gameObject);
             if (!toggleAvatar)

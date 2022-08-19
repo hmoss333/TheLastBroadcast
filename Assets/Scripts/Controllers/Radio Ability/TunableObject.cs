@@ -83,6 +83,10 @@ public class TunableObject : MonoBehaviour
         }
 
         showStatic = true;
+
+        //Disable script if base object has already been activated
+        if (baseObject && (baseObject.active || baseObject.hasActivated))
+            enabled = false;
     }
 
     void Update()

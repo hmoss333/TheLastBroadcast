@@ -12,10 +12,21 @@ public class RadioLockController : InteractObject
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private GameObject[] objectsToActivate;//InteractObject[] objectsToActivate;
 
+
     void Start()
     {
         mesh.material.color = Color.red;
         checkFrequency = Random.Range(1f, 7.5f);
+    }
+
+    private void OnEnable()
+    {
+        //If radioLock has already been triggered previously, interact with all objectsToActivate
+        if (hasActivated)
+        {
+            StartCoroutine(UnlockDoor(false));
+            unlocked = true;
+        }
     }
 
     void Update()
@@ -35,7 +46,7 @@ public class RadioLockController : InteractObject
                 checkTime -= Time.deltaTime;
                 if (checkTime < 0)
                 {
-                    StartCoroutine(UnlockDoor());
+                    hasActivated = true;
                 }
             }
             else
@@ -46,19 +57,21 @@ public class RadioLockController : InteractObject
             }
         }
 
-        if (hasActivated && !unlocked)
+        if (!unlocked && hasActivated)
+        {
+            StartCoroutine(UnlockDoor(true));
             unlocked = true;
+        }
 
         mesh.material.color = unlocked ? Color.green : mesh.material.color;
     }
 
-    IEnumerator UnlockDoor()
+    IEnumerator UnlockDoor(bool focusCamera)
     {
-        unlocked = true;
-        hasActivated = true;
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
+            if (focusCamera)
+                CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
 
             InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
             if (tempInteract != null)
