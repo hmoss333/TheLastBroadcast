@@ -37,8 +37,7 @@ public class CharacterController : MonoBehaviour
 
     public bool isPlaying(string stateName)
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
-                animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
             return true;
         else
             return false;

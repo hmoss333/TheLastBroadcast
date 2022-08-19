@@ -41,34 +41,31 @@ public class InvisAbility : RadioAbilityController
             Destroy(this.gameObject);
 
 
-        //tempCheckTime = checkTime;
-        //tempInvisTime = invisTime;
+        //// Cache renderers
+        //renderers = GetComponentsInChildren<Renderer>();
 
-        // Cache renderers
-        renderers = GetComponentsInChildren<Renderer>();
+        //// Retrieve or generate smooth normals
+        //LoadSmoothNormals();
 
-        // Retrieve or generate smooth normals
-        LoadSmoothNormals();
+        //foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+        //{
+        //    if (skinnedMeshRenderer.sharedMesh.subMeshCount > 1)
+        //    {
+        //        skinnedMeshRenderer.sharedMesh.subMeshCount = skinnedMeshRenderer.sharedMesh.subMeshCount + 1;
+        //        skinnedMeshRenderer.sharedMesh.SetTriangles(skinnedMeshRenderer.sharedMesh.triangles, skinnedMeshRenderer.sharedMesh.subMeshCount - 1);
+        //    }
 
-        foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
-        {
-            if (skinnedMeshRenderer.sharedMesh.subMeshCount > 1)
-            {
-                skinnedMeshRenderer.sharedMesh.subMeshCount = skinnedMeshRenderer.sharedMesh.subMeshCount + 1;
-                skinnedMeshRenderer.sharedMesh.SetTriangles(skinnedMeshRenderer.sharedMesh.triangles, skinnedMeshRenderer.sharedMesh.subMeshCount - 1);
-            }
+        //}
 
-        }
-
-        foreach (var meshFilter in GetComponentsInChildren<MeshFilter>())
-        {
-            if (meshFilter.mesh.subMeshCount > 1)
-            {
-                //meshFilter.sharedMesh.subMeshCount = meshFilter.sharedMesh.subMeshCount + 1;
-                meshFilter.mesh.subMeshCount = meshFilter.mesh.subMeshCount + 1;
-                meshFilter.mesh.SetTriangles(meshFilter.mesh.triangles, meshFilter.mesh.subMeshCount - 1);
-            }
-        }
+        //foreach (var meshFilter in GetComponentsInChildren<MeshFilter>())
+        //{
+        //    if (meshFilter.mesh.subMeshCount > 1)
+        //    {
+        //        //meshFilter.sharedMesh.subMeshCount = meshFilter.sharedMesh.subMeshCount + 1;
+        //        meshFilter.mesh.subMeshCount = meshFilter.mesh.subMeshCount + 1;
+        //        meshFilter.mesh.SetTriangles(meshFilter.mesh.triangles, meshFilter.mesh.subMeshCount - 1);
+        //    }
+        //}
     }
 
     override public void Start()
