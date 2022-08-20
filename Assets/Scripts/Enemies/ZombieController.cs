@@ -7,9 +7,9 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 public class ZombieController : CharacterController
 {
     [Header("Zombie Interact Variables")]
-    private bool seePlayer, attacking;
-    [SerializeField] private float seeDist, attackDist, loseDist, loseTime;
-    private float tempLoseTime;
+    private bool seePlayer, attacking, colliding;
+    [SerializeField] private float seeDist, attackDist, loseDist, focusTime;
+    [SerializeField] private float tempFocusTime;
     [SerializeField] private LayerMask layer;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
@@ -20,7 +20,7 @@ public class ZombieController : CharacterController
     {
         melee.damage = damage;
         storedSpeed = speed;
-        tempLoseTime = loseTime;
+        tempFocusTime = focusTime;
         base.Start();
     }
 
@@ -51,17 +51,26 @@ public class ZombieController : CharacterController
                 //seePlayer = hits[0].collider.gameObject.tag == "Player" ? true : false;
                 if (hits[0].collider.gameObject.tag == "Player")
                 {
-                    seePlayer = true;
+                    if (!seePlayer)
+                    {
+                        tempFocusTime -= Time.deltaTime;
+                        if (tempFocusTime <= 0f)
+                        {
+                            seePlayer = true;
+                            tempFocusTime = focusTime;
+                        }
+                    }
                 }
                 else
                 {
                     if (seePlayer)
                     {
-                        tempLoseTime -= Time.deltaTime;
-                        if (tempLoseTime <= 0f)
+                        tempFocusTime -= Time.deltaTime;
+                        if (tempFocusTime <= 0f)
                         {
                             seePlayer = false;
-                            tempLoseTime = loseTime;
+                            colliding = false;
+                            tempFocusTime = focusTime;
                         }
                     }
                 }
@@ -88,10 +97,21 @@ public class ZombieController : CharacterController
         animator.SetBool("seePlayer", seePlayer);
         animator.SetBool("isAttacking", attacking);
         melee.gameObject.SetActive(isPlaying("Melee"));
+
+        if (colliding)
+            animator.SetBool("isAttacking", true);
     }
 
     public bool SeePlayer()
     {
         return seePlayer;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer != layer && seePlayer)
+        {
+            colliding = true;
+        }
     }
 }

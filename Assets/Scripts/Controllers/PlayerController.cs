@@ -122,6 +122,8 @@ public class PlayerController : CharacterController
         //Pause ladder climbing animation if there is no input
         if (onLadder)
             animator.enabled = Input.GetAxisRaw("Vertical") != 0 ? true : false;
+        else
+            animator.enabled = true;
 
         attacking = isPlaying("Melee");
         melee.gameObject.SetActive(attacking); //toggle melee weapon visibility based on attacking state
@@ -135,7 +137,7 @@ public class PlayerController : CharacterController
     private void FixedUpdate()
     {
         //Movement Controller
-        if (interacting || usingRadio || attacking || dead || isPlaying("Hurt"))
+        if (interacting || usingRadio || attacking || onLadder || dead || isPlaying("Hurt"))
         {         
             speed = 0; //stop all player movement
             colliding = false;
@@ -148,7 +150,7 @@ public class PlayerController : CharacterController
             speed = storedSpeed; //restore default player movement
 
             //Save last input vector for interact raycast
-            if ((horizontal != 0 || vertical != 0) && !colliding)
+            if ((horizontal != 0 || vertical != 0))// && !colliding)
             {
                 lastDir.x = horizontal;
                 lastDir.z = vertical;
@@ -224,5 +226,6 @@ public class PlayerController : CharacterController
     private void OnCollisionExit(Collision collision)
     {
         colliding = false;
+        //InteractToggle(false);
     }
 }
