@@ -56,11 +56,11 @@ public class CameraController : MonoBehaviour
         Vector3 pos = target.transform.position;
         if (!focus)
         {
-            pos.x += target != PlayerController.instance.transform || PlayerController.instance.usingRadio || PlayerController.instance.isSeen
+            pos.x += target != PlayerController.instance.transform || PlayerController.instance.usingRadio || PlayerController.instance.isSeen || PlayerController.instance.interacting
                 ? camXOffset : camXOffset + xOff;
-            pos.y += target != PlayerController.instance.transform || PlayerController.instance.usingRadio || PlayerController.instance.isSeen
+            pos.y += target != PlayerController.instance.transform || PlayerController.instance.usingRadio || PlayerController.instance.isSeen || PlayerController.instance.interacting
                 ? camYOffset : camYOffset + yOff;
-            pos.z += target != PlayerController.instance.transform || PlayerController.instance.usingRadio || PlayerController.instance.isSeen
+            pos.z += target != PlayerController.instance.transform || PlayerController.instance.usingRadio || PlayerController.instance.isSeen || PlayerController.instance.interacting
                 ? camZOffset : camZOffset + zOff;
         }
 

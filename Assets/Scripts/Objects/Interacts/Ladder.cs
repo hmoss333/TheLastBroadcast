@@ -45,11 +45,11 @@ public class Ladder : InteractObject
 
     public override void Interact()
     {
-        print("Interct with ladder");
         interacting = !interacting;
         onLadder = interacting;
         PlayerController.instance.interacting = onLadder;
         PlayerController.instance.transform.position = new Vector3(transform.position.x, PlayerController.instance.transform.position.y, transform.position.z);
+        PlayerController.instance.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles);
         playerRb.useGravity = !interacting;
         active = !active;
     }

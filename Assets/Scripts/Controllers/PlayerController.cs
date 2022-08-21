@@ -26,7 +26,7 @@ public class PlayerController : CharacterController
     [Header("Player Avatar Variables")]
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
-    [SerializeField] private GameObject playerAvatar;
+    [SerializeField] private GameObject playerAvatar, bagObj;
 
 
 
@@ -127,6 +127,7 @@ public class PlayerController : CharacterController
 
         attacking = isPlaying("Melee");
         melee.gameObject.SetActive(attacking); //toggle melee weapon visibility based on attacking state
+        bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio);
         animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
         animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder
         RadioController.instance.isActive = usingRadio;
