@@ -19,7 +19,6 @@ public class RadioController : MonoBehaviour
 
     [Header("UI Elements")]
     [SerializeField] private GameObject overlayPanel;
-    [SerializeField] private GameObject radioPrefab;
     [SerializeField] private Slider radioSlider;
     [SerializeField] private Image stationBackground;
     private float xInput;
@@ -80,7 +79,6 @@ public class RadioController : MonoBehaviour
 
         staticSource.mute = !isActive;
         overlayPanel.SetActive(SaveDataController.instance.saveData.abilities.radio && !PlayerController.instance.interacting);
-        radioPrefab.SetActive(isActive);
 
         if (!abilityMode)
             stationBackground.color = isActive ? onColor : offColor;

@@ -15,8 +15,8 @@ public class PlayerController : CharacterController
 
     //TODO change some of thse into a state machine
     [Header("Player State Variables")]
-    [HideInInspector] public bool interacting, usingRadio, invisible, onLadder, isSeen; 
-    private bool isMoving, attacking, colliding;
+    [HideInInspector] public bool interacting, usingRadio, invisible, onLadder, isSeen;
+    private bool isMoving, attacking;//, colliding;
 
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
@@ -26,7 +26,7 @@ public class PlayerController : CharacterController
     [Header("Player Avatar Variables")]
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
-    [SerializeField] private GameObject playerAvatar, bagObj;
+    [SerializeField] private GameObject playerAvatar, bagObj, radioObj;
 
 
 
@@ -46,6 +46,8 @@ public class PlayerController : CharacterController
         base.Start();
     }
 
+
+    //Update Functions
     override public void Update()
     {
         Vector3 rayDir = lastDir.normalized;
@@ -99,12 +101,16 @@ public class PlayerController : CharacterController
                 {
                     usingRadio = true;
                     RadioController.instance.currentFrequency = 0.0f;
+                    CameraController.instance.SetLastTarget(CameraController.instance.GetTarget().gameObject);
+                    CameraController.instance.SetRotation(false);
+                    CameraController.instance.SetTarget(radioObj);
                 }
                 //If player releases Radio button, stop interacting with radio
                 else if (Input.GetButtonUp("Radio"))
                 {
                     usingRadio = false;
                     RadioController.instance.abilityMode = false;
+                    CameraController.instance.LoadLastTarget();
                 }
             }
 
@@ -131,8 +137,10 @@ public class PlayerController : CharacterController
         animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
         animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder
         RadioController.instance.isActive = usingRadio;
+        radioObj.SetActive(usingRadio);
 
-        base.Update();
+
+        base.Update(); //Handles hurt and dead controller state overrides
     }
 
     private void FixedUpdate()
@@ -141,7 +149,7 @@ public class PlayerController : CharacterController
         if (interacting || usingRadio || attacking || onLadder || dead || isPlaying("Hurt"))
         {         
             speed = 0; //stop all player movement
-            colliding = false;
+            //colliding = false;
         }
         else
         {
@@ -194,6 +202,8 @@ public class PlayerController : CharacterController
         }
     }
 
+
+    //Toggle Functions
     public void ToggleAvatar()
     {
         print($"Toggle avatar {!playerAvatar.activeSelf}");
@@ -214,19 +224,18 @@ public class PlayerController : CharacterController
 
 
     //Pause player movement animation when they walk into an object
-    private void OnCollisionEnter(Collision collision)
-    {
-        int floorLayer = LayerMask.NameToLayer("Floor");
-        if (collision.gameObject.layer != floorLayer)
-        {
-            isMoving = false;
-            colliding = true;
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    int floorLayer = LayerMask.NameToLayer("Floor");
+    //    if (collision.gameObject.layer != floorLayer)
+    //    {
+    //        isMoving = false;
+    //        colliding = true;
+    //    }
+    //}
 
-    private void OnCollisionExit(Collision collision)
-    {
-        colliding = false;
-        //InteractToggle(false);
-    }
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    colliding = false;
+    //}
 }

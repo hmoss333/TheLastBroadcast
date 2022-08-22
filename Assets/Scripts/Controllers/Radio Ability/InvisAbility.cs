@@ -113,6 +113,7 @@ public class InvisAbility : RadioAbilityController
         if (isInvis)
         {
             PlayerController.instance.usingRadio = false;
+            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
 
             invisTime -= Time.deltaTime;
             if (invisTime < 0)
@@ -121,6 +122,7 @@ public class InvisAbility : RadioAbilityController
                 invisTime = tempInvisTime;
                 isInvis = false;
                 isUsing = false;
+                CameraController.instance.LoadLastTarget();
             }
         }
 

@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     public static CameraController instance;
 
-    [SerializeField] Transform target;
+    [SerializeField] Transform target, lastTarget;
     [SerializeField] float smoothTime;
     [SerializeField] float focusSmoothTime;
     [SerializeField] float normalSmoothTime;
@@ -71,14 +71,26 @@ public class CameraController : MonoBehaviour
         Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, focus ? 60f : 20f, focusRate * Time.deltaTime); //update camera field of view based on focus state
     }
 
+
+    //Get/Set functions
     public void SetTarget(GameObject newTargetObj)
     {
         target = newTargetObj.transform;
     }
 
+    public void SetLastTarget(GameObject newLastTarget)
+    {
+        lastTarget = newLastTarget.transform;
+    }
+
     public Transform GetTarget()
     {
         return target;
+    }
+
+    public void LoadLastTarget()
+    {
+        target = lastTarget;
     }
 
     public void FocusTarget()
@@ -91,8 +103,13 @@ public class CameraController : MonoBehaviour
         return focus;
     }
 
-    public void SetRotation()
+    public void SetRotation(bool rotState)
     {
-        setRot = !setRot;
+        setRot = rotState;
+    }
+
+    public bool GetRotState()
+    {
+        return setRot;
     }
 }
