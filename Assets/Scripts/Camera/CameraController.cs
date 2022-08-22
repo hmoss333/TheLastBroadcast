@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] float zOff;
     Quaternion baseRot;
 
-    [SerializeField] bool focus;
+    [SerializeField] bool focus, setRot;
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
     [SerializeField] float focusRate;
@@ -67,7 +67,7 @@ public class CameraController : MonoBehaviour
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
 
         transform.position = Vector3.Lerp(transform.position, pos, smoothTime * Time.deltaTime); //update camera position
-        transform.rotation = Quaternion.Lerp(transform.rotation, focus ? target.rotation : baseRot, focusRotRate * Time.deltaTime); //update camera rotation based on focus state
+        transform.rotation = Quaternion.Lerp(transform.rotation, focus || setRot ? target.rotation : baseRot, focusRotRate * Time.deltaTime); //update camera rotation based on focus state
         Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, focus ? 60f : 20f, focusRate * Time.deltaTime); //update camera field of view based on focus state
     }
 
@@ -89,5 +89,10 @@ public class CameraController : MonoBehaviour
     public bool isFocused()
     {
         return focus;
+    }
+
+    public void SetRotation()
+    {
+        setRot = !setRot;
     }
 }
