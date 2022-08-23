@@ -44,6 +44,8 @@ public class ZombieController : CharacterController
                 && !RadioController.instance.abilityMode //ability mode is not active                                                       
                 && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
             {
+                //TODO add animator toggle here to play "stunning" animation
+                animator.SetBool("isStunning", true);
                 RadioController.instance.StunEnemy(true);
                 tempTuneTime -= Time.deltaTime;
                 if (tempTuneTime <= 0)
@@ -54,6 +56,8 @@ public class ZombieController : CharacterController
             }
             else
             {
+                //TODO add animator toggle here to stop "stunning" animation
+                animator.SetBool("isStunning", false);
                 RadioController.instance.StunEnemy(false);
                 tempTuneTime = tuneTime;
             }
@@ -61,7 +65,6 @@ public class ZombieController : CharacterController
 
         if (stunned)
         {
-            RadioController.instance.StunEnemy(false);
             tempStunTime -= Time.deltaTime;
             if (tempStunTime <= 0)
             {
