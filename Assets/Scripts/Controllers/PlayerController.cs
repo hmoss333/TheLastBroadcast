@@ -131,13 +131,17 @@ public class PlayerController : CharacterController
         else
             animator.enabled = true;
 
-        attacking = isPlaying("Melee");
+
+        //Melee
+        attacking = isPlaying("Melee"); //set attacking value for the duration of the melee animation
         melee.gameObject.SetActive(attacking); //toggle melee weapon visibility based on attacking state
-        bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio);
+        //Radio
         animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
+        RadioController.instance.isActive = usingRadio; //toggle radio controller active state if player is pressing the corresponding input
+        radioObj.SetActive(usingRadio); //toggle radioObj based on usingRadio state
+        bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
+        //Ladder
         animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder
-        RadioController.instance.isActive = usingRadio;
-        radioObj.SetActive(usingRadio);
 
 
         base.Update(); //Handles hurt and dead controller state overrides

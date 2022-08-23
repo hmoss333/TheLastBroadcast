@@ -7,12 +7,18 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 public class ZombieController : CharacterController
 {
     [Header("Zombie Interact Variables")]
-    private bool seePlayer, attacking, colliding;
+    private bool seePlayer, attacking, colliding, stunned;
     [SerializeField] private float seeDist, attackDist, loseDist, focusTime;
-    [SerializeField] private float tempFocusTime;
+    private float tempFocusTime, dist;
     [SerializeField] private LayerMask layer;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
+
+    [Header("Stun Values")]
+    [SerializeField] private float tuneTime = 1.5f;
+    private float tuneDist, tuneFrequency, tuneOffset = 0.5f;
+    [SerializeField] private float stunTime;
+    float tempTuneTime, tempStunTime;
 
 
     // Start is called before the first frame update
@@ -21,20 +27,58 @@ public class ZombieController : CharacterController
         melee.damage = damage;
         storedSpeed = speed;
         tempFocusTime = focusTime;
+        tempTuneTime = tuneTime;
+        tempStunTime = stunTime;
+        tuneDist = seeDist * 1.25f;
+        tuneFrequency = Random.Range(1.5f, 7.5f);
+
         base.Start();
     }
 
     override public void Update()
     {
+        if (!stunned)
+        {
+            if (dist <= tuneDist
+                && (RadioController.instance.currentFrequency < tuneFrequency + tuneOffset && RadioController.instance.currentFrequency > tuneFrequency - tuneOffset)
+                && !RadioController.instance.abilityMode //ability mode is not active                                                       
+                && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
+            {
+                RadioController.instance.StunEnemy(true);
+                tempTuneTime -= Time.deltaTime;
+                if (tempTuneTime <= 0)
+                {
+                    stunned = true;
+                    tempTuneTime = tuneTime;
+                }
+            }
+            else
+            {
+                RadioController.instance.StunEnemy(false);
+                tempTuneTime = tuneTime;
+            }
+        }
+
+        if (stunned)
+        {
+            RadioController.instance.StunEnemy(false);
+            tempStunTime -= Time.deltaTime;
+            if (tempStunTime <= 0)
+            {
+                stunned = false;
+                tempStunTime = stunTime;
+            }
+        }
+
         base.Update();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        float dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
+        dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
-        if (PlayerController.instance.invisible || dead)
+        if (PlayerController.instance.invisible || dead || stunned)
         {
             seePlayer = false;
         }
@@ -96,6 +140,7 @@ public class ZombieController : CharacterController
         PlayerController.instance.isSeen = seePlayer;
         animator.SetBool("seePlayer", seePlayer);
         animator.SetBool("isAttacking", attacking);
+        animator.SetBool("isStunned", stunned);
         melee.gameObject.SetActive(isPlaying("Melee"));
 
         if (colliding)
