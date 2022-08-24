@@ -68,6 +68,7 @@ public class RadioLockController : InteractObject
 
     IEnumerator UnlockDoor(bool focusCamera)
     {
+        print("unlocking objects");
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             if (focusCamera)

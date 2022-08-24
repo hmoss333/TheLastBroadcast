@@ -22,6 +22,7 @@ public class CamTriggerZone : MonoBehaviour
     {
         if (other.tag == "Player" && !isFocusing)
         {
+            print("Enter trigger");
             isFocusing = true;
             CameraController.instance.SetLastTarget(camPos); //Set the lat target to the camPos in case of reset
             CameraController.instance.SetTarget(camPos); //Set the new camera target to the camPos
@@ -32,6 +33,7 @@ public class CamTriggerZone : MonoBehaviour
     {
         if (other.tag == "Player" && isFocusing)
         {
+            print("Exit trigger");
             isFocusing = false;
             CameraController.instance.SetLastTarget(PlayerController.instance.gameObject); //Once out of the trigger, set the player to the last camera target
             CameraController.instance.SetTarget(PlayerController.instance.gameObject); //Set the camera to focus on the player

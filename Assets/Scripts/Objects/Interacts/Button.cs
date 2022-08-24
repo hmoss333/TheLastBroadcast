@@ -27,6 +27,7 @@ public class Button : InteractObject
 
     IEnumerator UnlockObjects(bool focusCamera)
     {
+        print("Unlocking objects");
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             if (focusCamera)

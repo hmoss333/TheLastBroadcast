@@ -75,6 +75,7 @@ public class CameraController : MonoBehaviour
     //Get/Set functions
     public void SetTarget(GameObject newTargetObj)
     {
+        print($"Setting cam target to {newTargetObj.name}");
         target = newTargetObj.transform;
     }
 
