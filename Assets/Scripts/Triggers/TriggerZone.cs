@@ -18,7 +18,7 @@ public class TriggerZone : InteractObject
 
     private void OnTriggerEnter(Collider other)
     {
-        if (active && !hasActivated)
+        if (other.tag == "Player" && active && !hasActivated)
         {
             hasActivated = true;
             StartCoroutine(UnlockObjects(focusCam));
