@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class ElevatorController : MonoBehaviour
 {
-    //[SerializeField] int elevatorID;
     [SerializeField] float speed;
     [SerializeField] bool moving, movingDown;
     [SerializeField] Transform bottomPoint, topPoint;
 
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (moving)
         {
@@ -42,11 +41,8 @@ public class ElevatorController : MonoBehaviour
 
     public void CallElevator(bool moveDir)
     {
-        if (!moving)
-        {
-            movingDown = moveDir;
-            moving = true;
-        }
+        movingDown = moveDir;
+        moving = true;
     }
 
     private void OnTriggerEnter(Collider other)

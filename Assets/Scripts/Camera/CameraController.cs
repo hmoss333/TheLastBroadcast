@@ -89,6 +89,11 @@ public class CameraController : MonoBehaviour
         return target;
     }
 
+    public Transform GetLastTarget()
+    {
+        return lastTarget;
+    }
+
     public void LoadLastTarget()
     {
         target = lastTarget;

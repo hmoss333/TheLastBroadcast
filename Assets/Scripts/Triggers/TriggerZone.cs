@@ -41,6 +41,9 @@ public class TriggerZone : InteractObject
             yield return new WaitForSeconds(1.25f);
         }
 
-        CameraController.instance.LoadLastTarget();//.SetTarget(PlayerController.instance.gameObject);
+        if (CameraController.instance.GetLastTarget() != null)
+            CameraController.instance.LoadLastTarget();
+        else
+            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
     }
 }
