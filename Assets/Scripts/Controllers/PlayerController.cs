@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : CharacterController
 {
@@ -29,6 +30,9 @@ public class PlayerController : CharacterController
     [SerializeField] private GameObject playerAvatar, bagObj, radioObj;
 
 
+    public InputMaster inputMaster;
+    private InputControlScheme controlScheme;
+
 
     private void Awake()
     {
@@ -36,6 +40,9 @@ public class PlayerController : CharacterController
             instance = this;
         else
             Destroy(this.gameObject);
+
+        inputMaster = new InputMaster();
+        inputMaster.Enable();
     }
 
     override public void Start()
@@ -45,7 +52,6 @@ public class PlayerController : CharacterController
 
         base.Start();
     }
-
 
     //Update Functions
     override public void Update()
@@ -84,7 +90,7 @@ public class PlayerController : CharacterController
         //Player input controls
         if (!isPlaying("Hurt") && !dead)
         {
-            if (Input.GetButtonDown("Interact")
+            if (inputMaster.Player.Interact.triggered
                 && interactObj != null
                 && interactObj.active)
             {
@@ -97,7 +103,7 @@ public class PlayerController : CharacterController
                 && !invisible)
             {
                 //If player holds down Radio button, interact with radio
-                if (Input.GetButtonDown("Radio"))
+                if (inputMaster.Player.Radio.triggered) //only register the intial button press event
                 {
                     usingRadio = true;
                     RadioController.instance.currentFrequency = 0.0f;
@@ -106,7 +112,7 @@ public class PlayerController : CharacterController
                     CameraController.instance.SetTarget(radioObj);
                 }
                 //If player releases Radio button, stop interacting with radio
-                else if (Input.GetButtonUp("Radio"))
+                else if (inputMaster.Player.Radio.ReadValue<float>() <= 0) //if no longer holding
                 {
                     usingRadio = false;
                     RadioController.instance.abilityMode = false;
@@ -115,7 +121,7 @@ public class PlayerController : CharacterController
             }
 
             if (SaveDataController.instance.saveData.abilities.crowbar == true              
-                && Input.GetButtonDown("Melee")
+                && inputMaster.Player.Melee.triggered
                 && !interacting
                 && !usingRadio
                 && !attacking
@@ -127,7 +133,7 @@ public class PlayerController : CharacterController
 
         //Pause ladder climbing animation if there is no input
         if (onLadder)
-            animator.enabled = Input.GetAxisRaw("Vertical") != 0 ? true : false;
+            animator.enabled = inputMaster.Player.Move.ReadValue<Vector2>().y != 0 ? true : false;
         else
             animator.enabled = true;
 
@@ -157,13 +163,14 @@ public class PlayerController : CharacterController
         }
         else
         {
-            horizontal = Input.GetAxisRaw("Horizontal");
-            vertical = Input.GetAxisRaw("Vertical");
+            Vector2 move = inputMaster.Player.Move.ReadValue<Vector2>();
+            horizontal = move.x;
+            vertical = move.y;
 
             speed = storedSpeed; //restore default player movement
 
             //Save last input vector for interact raycast
-            if ((horizontal != 0 || vertical != 0))// && !colliding)
+            if (horizontal != 0 || vertical != 0)// && !colliding)
             {
                 lastDir.x = horizontal;
                 lastDir.z = vertical;

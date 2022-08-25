@@ -65,7 +65,8 @@ public class RadioController : MonoBehaviour
         if (isActive)
         {
             //Get input values
-            xInput = Input.GetAxis("Horizontal");
+            xInput = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x;//Input.GetAxis("Horizontal");
+            print("Radio horizontal input: " + xInput);
             currentFrequency += (float)(xInput * speed * Time.deltaTime);
 
 
@@ -74,7 +75,7 @@ public class RadioController : MonoBehaviour
 
 
             if (SaveDataController.instance.saveData.abilities.radio_special)
-                abilityMode = Input.GetButton("RadioSpecial");
+                abilityMode = PlayerController.instance.inputMaster.Player.RadioSpecial.ReadValue<float>() > 0 ? true : false;
         }
 
         staticSource.mute = !isActive;

@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("CamXOffset"))
+        if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)//Input.GetButtonDown("CamXOffset"))
             xOff = -xOff;
     }
 
