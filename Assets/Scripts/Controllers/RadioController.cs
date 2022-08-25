@@ -65,8 +65,7 @@ public class RadioController : MonoBehaviour
         if (isActive)
         {
             //Get input values
-            xInput = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x;//Input.GetAxis("Horizontal");
-            print("Radio horizontal input: " + xInput);
+            xInput = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x;
             currentFrequency += (float)(xInput * speed * Time.deltaTime);
 
 

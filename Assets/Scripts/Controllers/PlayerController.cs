@@ -12,12 +12,13 @@ public class PlayerController : CharacterController
     [Header("Player Movement Variables")]
     [SerializeField] float rotSpeed;
     private float horizontal, vertical;
+    //private Vector2 move;
     private Vector3 lastDir, lastDir1, lastDir2;
 
     //TODO change some of thse into a state machine
     [Header("Player State Variables")]
     [HideInInspector] public bool interacting, usingRadio, invisible, onLadder, isSeen;
-    private bool isMoving, attacking;//, colliding;
+    private bool isMoving, attacking;
 
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
@@ -103,7 +104,7 @@ public class PlayerController : CharacterController
                 && !invisible)
             {
                 //If player holds down Radio button, interact with radio
-                if (inputMaster.Player.Radio.triggered) //only register the intial button press event
+                if (inputMaster.Player.Radio.ReadValue<float>() > 0 && !usingRadio)
                 {
                     usingRadio = true;
                     RadioController.instance.currentFrequency = 0.0f;
@@ -112,7 +113,7 @@ public class PlayerController : CharacterController
                     CameraController.instance.SetTarget(radioObj);
                 }
                 //If player releases Radio button, stop interacting with radio
-                else if (inputMaster.Player.Radio.ReadValue<float>() <= 0) //if no longer holding
+                else if (inputMaster.Player.Radio.ReadValue<float>() <= 0)
                 {
                     usingRadio = false;
                     RadioController.instance.abilityMode = false;
@@ -159,18 +160,17 @@ public class PlayerController : CharacterController
         if (interacting || usingRadio || attacking || onLadder || dead || isPlaying("Hurt"))
         {         
             speed = 0; //stop all player movement
-            //colliding = false;
         }
         else
         {
-            Vector2 move = inputMaster.Player.Move.ReadValue<Vector2>();
-            horizontal = move.x;
-            vertical = move.y;
+            speed = storedSpeed; //restore default movement speed
 
-            speed = storedSpeed; //restore default player movement
+            Vector2 move = inputMaster.Player.Move.ReadValue<Vector2>();
+            horizontal = Mathf.Round(move.x * 10f) * 0.1f;
+            vertical = Mathf.Round(move.y * 10f) * 0.1f;
 
             //Save last input vector for interact raycast
-            if (horizontal != 0 || vertical != 0)// && !colliding)
+            if (horizontal != 0f || vertical != 0f)
             {
                 lastDir.x = horizontal;
                 lastDir.z = vertical;
@@ -232,21 +232,4 @@ public class PlayerController : CharacterController
     {
         lastDir = newDir;
     }
-
-
-    //Pause player movement animation when they walk into an object
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    int floorLayer = LayerMask.NameToLayer("Floor");
-    //    if (collision.gameObject.layer != floorLayer)
-    //    {
-    //        isMoving = false;
-    //        colliding = true;
-    //    }
-    //}
-
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    colliding = false;
-    //}
 }

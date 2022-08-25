@@ -16,28 +16,17 @@ public class Ladder : InteractObject
         playerRb = PlayerController.instance.GetComponent<Rigidbody>();
     }
 
-    private void Update()
-    {
-        if (!interacting && !onLadder)
-        {
-            active = true;
-        }
-    }
-
     private void FixedUpdate()
     {
         if (interacting && onLadder)
         {
-            vertical = Input.GetAxisRaw("Vertical");
+            vertical = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y;
 
             Vector3 tempMove = new Vector3(0f, vertical, 0f);
             playerRb.velocity = new Vector3(0f, tempMove.y * climbSpeed, 0f);
 
-            if (Input.GetButtonDown("Interact"))
-            {
+            if (PlayerController.instance.inputMaster.Player.Interact.IsPressed() && !active)
                 Interact();
-                active = false;
-            }
         }
 
         PlayerController.instance.onLadder = onLadder;
@@ -45,6 +34,7 @@ public class Ladder : InteractObject
 
     public override void Interact()
     {
+        PlayerController.instance.inputMaster.Disable();
         interacting = !interacting;
         onLadder = interacting;
         PlayerController.instance.interacting = onLadder;
@@ -52,6 +42,7 @@ public class Ladder : InteractObject
         PlayerController.instance.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles);
         playerRb.useGravity = !interacting;
         active = !active;
+        PlayerController.instance.inputMaster.Enable();
     }
 
     private void OnTriggerExit(Collider other)
