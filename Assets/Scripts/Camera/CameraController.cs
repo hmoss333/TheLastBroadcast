@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     public static CameraController instance;
 
-    [SerializeField] Transform target, lastTarget;
+    [SerializeField] private Transform target, lastTarget;
     [SerializeField] float smoothTime;
     [SerializeField] float focusSmoothTime;
     [SerializeField] float normalSmoothTime;
@@ -97,6 +97,7 @@ public class CameraController : MonoBehaviour
 
     public void LoadLastTarget()
     {
+        print($"Loading last target {lastTarget}");
         target = lastTarget;
     }
 

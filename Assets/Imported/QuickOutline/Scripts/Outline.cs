@@ -94,7 +94,6 @@ public class Outline : MonoBehaviour
 
     void Awake()
     {
-
         // Cache renderers
         renderers = GetComponentsInChildren<Renderer>();
 
@@ -120,7 +119,6 @@ public class Outline : MonoBehaviour
                 skinnedMeshRenderer.sharedMesh.subMeshCount = skinnedMeshRenderer.sharedMesh.subMeshCount + 1;
                 skinnedMeshRenderer.sharedMesh.SetTriangles(skinnedMeshRenderer.sharedMesh.triangles, skinnedMeshRenderer.sharedMesh.subMeshCount - 1);
             }
-
         }
 
         foreach (var meshFilter in GetComponentsInChildren<MeshFilter>())
@@ -138,7 +136,6 @@ public class Outline : MonoBehaviour
     {
         foreach (var renderer in renderers)
         {
-
             // Append outline shaders
             var materials = renderer.sharedMaterials.ToList();
 
@@ -181,8 +178,7 @@ public class Outline : MonoBehaviour
         playerInteract = PlayerController.instance.interactObj;
         if (playerInteract == null || playerInteract.gameObject != this.gameObject || playerInteract.hasActivated)
         {
-            //Destroy(this);
-            enabled = false;
+            Destroy(this);
         }
     }
 
@@ -213,13 +209,11 @@ public class Outline : MonoBehaviour
 
     void Bake()
     {
-
         // Generate smooth normals for each mesh
         var bakedMeshes = new HashSet<Mesh>();
 
         foreach (var meshFilter in GetComponentsInChildren<MeshFilter>())
         {
-
             // Skip duplicates
             if (!bakedMeshes.Add(meshFilter.sharedMesh))
             {
@@ -236,11 +230,9 @@ public class Outline : MonoBehaviour
 
     void LoadSmoothNormals()
     {
-
         // Retrieve or generate smooth normals
         foreach (var meshFilter in GetComponentsInChildren<MeshFilter>())
         {
-
             // Skip if smooth normals have already been adopted
             if (!registeredMeshes.Add(meshFilter.sharedMesh))
             {
@@ -305,7 +297,6 @@ public class Outline : MonoBehaviour
 
     void UpdateMaterialProperties()
     {
-
         // Apply properties according to mode
         outlineFillMaterial.SetColor("_OutlineColor", outlineColor);
 

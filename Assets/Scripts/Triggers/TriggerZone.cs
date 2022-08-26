@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TriggerZone : InteractObject
 {
-    [SerializeField] GameObject[] objectsToActivate;
     [SerializeField] bool focusCam;
+    [SerializeField] GameObject[] objectsToActivate;
 
 
     private void OnEnable()
@@ -41,6 +41,7 @@ public class TriggerZone : InteractObject
             yield return new WaitForSeconds(1.25f);
         }
 
+        print($"Cam Last target: {CameraController.instance.GetLastTarget().name}");
         if (CameraController.instance.GetLastTarget() != null)
             CameraController.instance.LoadLastTarget();
         else

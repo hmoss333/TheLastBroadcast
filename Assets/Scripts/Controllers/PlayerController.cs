@@ -84,8 +84,12 @@ public class PlayerController : CharacterController
             interactObj = null;
         }
 
-        if (interactObj != null && interactObj.active && !interactObj.hasActivated)
-            interactObj.gameObject.GetComponent<Outline>().enabled = interacting ? false : true;
+        if (interactObj != null
+            && interactObj.active
+            && !interactObj.hasActivated
+            && !interactObj.GetComponent<Outline>())
+            interactObj.gameObject.AddComponent<Outline>();
+            //interactObj.gameObject.GetComponent<Outline>().enabled = interacting ? false : true;
 
 
         //Player input controls
@@ -113,7 +117,7 @@ public class PlayerController : CharacterController
                     CameraController.instance.SetTarget(radioObj);
                 }
                 //If player releases Radio button, stop interacting with radio
-                else if (inputMaster.Player.Radio.ReadValue<float>() <= 0)
+                else if (inputMaster.Player.Radio.ReadValue<float>() <= 0 && usingRadio)
                 {
                     usingRadio = false;
                     RadioController.instance.abilityMode = false;

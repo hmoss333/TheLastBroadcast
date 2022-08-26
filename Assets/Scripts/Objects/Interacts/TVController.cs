@@ -8,26 +8,36 @@ public class TVController : SavePointController
 {
     [SerializeField] Material tvMat;
     MeshRenderer renderer;
+    GameObject light;
 
 
     private void Awake()
     {
         renderer = GetComponent<MeshRenderer>();
+        light = GetComponentInChildren<Light>().gameObject;
+    }
 
-        if (active && renderer != null)
-            AddMaterial();
+    private void Start()
+    {
+        if (!active)
+        {
+            var materials = renderer.sharedMaterials.ToList();
+
+            if (materials.Contains(tvMat))
+                materials.Remove(tvMat);
+
+            renderer.materials = materials.ToArray();
+        }
+
+        light.SetActive(active);
     }
 
     void AddMaterial()
     {
         var materials = renderer.sharedMaterials.ToList();
-        foreach (Material mat in materials)
-        {
-            if (mat == tvMat)
-                return;
-        }
 
-        materials.Add(tvMat);
+        if (!materials.Contains(tvMat))
+            materials.Add(tvMat);
 
         renderer.materials = materials.ToArray();
     }
@@ -38,5 +48,7 @@ public class TVController : SavePointController
 
         if (renderer != null)
             AddMaterial();
+
+        light.SetActive(true);
     }
 }

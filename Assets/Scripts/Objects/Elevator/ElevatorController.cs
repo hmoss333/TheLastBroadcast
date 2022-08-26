@@ -21,31 +21,24 @@ public class ElevatorController : InteractObject
             tempMoveDelay -= Time.deltaTime;
             if (tempMoveDelay < 0)
             {
-                if (movingDown)
+                tempMoveDelay = 0f;
+                if (movingDown && transform.position != bottomPoint.position)
                 {
-                    if (transform.position != bottomPoint.position)
-                    {
-                        transform.position = Vector3.MoveTowards(transform.position, bottomPoint.position, speed * Time.deltaTime);
-                    }
+                    transform.position = Vector3.MoveTowards(transform.position, bottomPoint.position, speed * Time.deltaTime);
                 }
-                else
+                else if (!movingDown && transform.position != topPoint.position)
                 {
-                    if (transform.position != topPoint.position)
-                    {
-                        transform.position = Vector3.MoveTowards(transform.position, topPoint.position, speed * Time.deltaTime);
-                    }
+                    transform.position = Vector3.MoveTowards(transform.position, topPoint.position, speed * Time.deltaTime);
                 }
             }
         }
+        else
+            tempMoveDelay = moveDelay;
 
-        if (transform.position == topPoint.position && !movingDown)
+        if ((transform.position == topPoint.position && !movingDown)
+            || (transform.position == bottomPoint.position && movingDown))
         {
             moving = false;
-            tempMoveDelay = moveDelay;
-        }
-        else if (transform.position == bottomPoint.position && movingDown)
-        {
-            tempMoveDelay = moveDelay;
         }
     }
 
@@ -59,8 +52,6 @@ public class ElevatorController : InteractObject
     {
         if (other.tag == "Player" && active)
         {
-            //other.gameObject.transform.SetParent(this.transform);
-
             if (transform.position == bottomPoint.position)
             {
                 movingDown = false;
@@ -73,11 +64,4 @@ public class ElevatorController : InteractObject
             moving = true;
         }
     }
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if (other.tag == "Player")
-    //    {
-    //        other.gameObject.transform.SetParent(null);
-    //    }
-    //}
 }
