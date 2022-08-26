@@ -6,6 +6,13 @@ using UnityEngine.SceneManagement;
 public class DoorController : InteractObject
 {
     public Transform exitPoint;
+    RoomController exitRoom;
+
+
+    private void Awake()
+    {
+        exitRoom = exitPoint.GetComponentInParent<RoomController>();
+    }
 
     public override void Interact()
     {
@@ -25,8 +32,8 @@ public class DoorController : InteractObject
 
         while (FadeController.instance.isFading)
             yield return null;
-
-        exitPoint.parent.parent.gameObject.SetActive(true); //gross...
+  
+        exitRoom.gameObject.SetActive(true);
 
         PlayerController.instance.transform.position = exitPoint.position;
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);

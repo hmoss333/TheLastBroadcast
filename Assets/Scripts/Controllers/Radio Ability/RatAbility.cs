@@ -40,7 +40,9 @@ public class RatAbility : RadioAbilityController
 
     private void Update()
     {
-        if (RadioController.instance.abilityMode && !isRat)
+        if (RadioController.instance.abilityMode
+            && abilityData.isActive
+            && !isRat)
         {
             if ((RadioController.instance.currentFrequency < checkFrequency + checkOffset && RadioController.instance.currentFrequency > checkFrequency - checkOffset)
                 && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)                                                      

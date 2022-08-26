@@ -14,7 +14,7 @@ public class RadioController : MonoBehaviour
     [SerializeField] private float maxFrequency;
     [Range(0.0f, 10.0f)]
     public float currentFrequency;
-    [HideInInspector] public bool isActive, abilityMode, stunEnemy;
+    [HideInInspector] public bool isActive, abilityMode;//, stunEnemy;
 
 
     [Header("UI Elements")]
@@ -65,7 +65,7 @@ public class RadioController : MonoBehaviour
         if (isActive)
         {
             //Get input values
-            xInput = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x;
+            xInput = PlayerController.instance.inputMaster.Player.TuneRadio.ReadValue<Vector2>().x;
             currentFrequency += (float)(xInput * speed * Time.deltaTime);
 
 
@@ -80,9 +80,10 @@ public class RadioController : MonoBehaviour
         staticSource.mute = !isActive;
         overlayPanel.SetActive(SaveDataController.instance.saveData.abilities.radio && !PlayerController.instance.interacting);
 
-        if (stunEnemy)
-            stationBackground.color = enemyColor;
-        else if (!abilityMode)
+        //if (stunEnemy)
+        //    stationBackground.color = enemyColor;
+        //else
+        if (!abilityMode)
             stationBackground.color = isActive ? onColor : offColor;
         else
             stationBackground.color = abilityColor; //usingAbility ? abilityOnColor : abilityOffColor;
@@ -91,8 +92,8 @@ public class RadioController : MonoBehaviour
         overlayPanel.transform.localPosition = Vector2.Lerp(overlayPanel.transform.localPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
     }
 
-    public void StunEnemy(bool isStunning)
-    {
-        stunEnemy = isStunning;
-    }
+    //public void StunEnemy(bool isStunning)
+    //{
+    //    stunEnemy = isStunning;
+    //}
 }

@@ -80,6 +80,15 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TuneRadio"",
+                    ""type"": ""Value"",
+                    ""id"": ""65dfe0eb-541e-435c-892c-4809e4f85769"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -313,6 +322,83 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""action"": ""ShiftCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""413745f6-da5b-4b62-bbaa-9e479420ee06"",
+                    ""path"": ""<SwitchProControllerHID>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""TuneRadio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""9dfcff18-5809-4cd7-929e-6c7a548c7f3d"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TuneRadio"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""cde56a5c-4fa6-49a7-bd00-58573e395242"",
+                    ""path"": ""<SwitchProControllerHID>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TuneRadio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""f7abe7eb-0f0f-4971-a83d-7a9ac2c14f8e"",
+                    ""path"": ""<SwitchProControllerHID>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TuneRadio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard 2D Vector"",
+                    ""id"": ""cbb98207-472a-43e6-bbd8-12ce8a5c0d0e"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TuneRadio"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9b00a557-f966-4406-a094-0a8e0ff6cd6c"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""TuneRadio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""08c5005d-3e53-48af-9045-6af342ad42ad"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""TuneRadio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -350,6 +436,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         m_Player_RadioSpecial = m_Player.FindAction("RadioSpecial", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_ShiftCamera = m_Player.FindAction("ShiftCamera", throwIfNotFound: true);
+        m_Player_TuneRadio = m_Player.FindAction("TuneRadio", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -415,6 +502,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_RadioSpecial;
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_ShiftCamera;
+    private readonly InputAction m_Player_TuneRadio;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -425,6 +513,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         public InputAction @RadioSpecial => m_Wrapper.m_Player_RadioSpecial;
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @ShiftCamera => m_Wrapper.m_Player_ShiftCamera;
+        public InputAction @TuneRadio => m_Wrapper.m_Player_TuneRadio;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -452,6 +541,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @ShiftCamera.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShiftCamera;
                 @ShiftCamera.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShiftCamera;
                 @ShiftCamera.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShiftCamera;
+                @TuneRadio.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTuneRadio;
+                @TuneRadio.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTuneRadio;
+                @TuneRadio.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTuneRadio;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -474,6 +566,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @ShiftCamera.started += instance.OnShiftCamera;
                 @ShiftCamera.performed += instance.OnShiftCamera;
                 @ShiftCamera.canceled += instance.OnShiftCamera;
+                @TuneRadio.started += instance.OnTuneRadio;
+                @TuneRadio.performed += instance.OnTuneRadio;
+                @TuneRadio.canceled += instance.OnTuneRadio;
             }
         }
     }
@@ -504,5 +599,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         void OnRadioSpecial(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnShiftCamera(InputAction.CallbackContext context);
+        void OnTuneRadio(InputAction.CallbackContext context);
     }
 }

@@ -1070,13 +1070,13 @@ GameObject:
   - component: {fileID: 8146545691968974868}
   - component: {fileID: 8146545691968974869}
   - component: {fileID: 8146545691968974873}
+  - component: {fileID: 247081526}
   - component: {fileID: 2647051179905232537}
   - component: {fileID: 8146545691968974866}
   - component: {fileID: 3308665666861343286}
   - component: {fileID: 210302640271701883}
   - component: {fileID: 4481846713834912274}
   - component: {fileID: 4763882164811681192}
-  - component: {fileID: 247081526}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1161,7 +1161,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.4
+  m_Radius: 0.25
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -1181,6 +1181,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &247081526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8146545691968974867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 88d8d8e60198e49d7b23654c1626155c, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: Keyboard
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!114 &2647051179905232537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1247,7 +1277,6 @@ MonoBehaviour:
   currentFrequency: 0
   isActive: 0
   abilityMode: 0
-  stunEnemy: 0
   overlayPanel: {fileID: 3010277704099710025}
   radioSlider: {fileID: 4331685436541562725}
   stationBackground: {fileID: 5108026547539428186}
@@ -1322,36 +1351,6 @@ MonoBehaviour:
   isRat: 0
   checkTime: 2
   isUsing: 0
---- !u!114 &247081526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8146545691968974867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 88d8d8e60198e49d7b23654c1626155c, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: Keyboard
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &8548949322375321311
 GameObject:
   m_ObjectHideFlags: 0

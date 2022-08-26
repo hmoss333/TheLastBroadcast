@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)//Input.GetButtonDown("CamXOffset"))
+        if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)
             xOff = -xOff;
     }
 
@@ -81,6 +81,7 @@ public class CameraController : MonoBehaviour
 
     public void SetLastTarget(GameObject newLastTarget)
     {
+        print($"Setting lastTarget to {newLastTarget.name}");
         lastTarget = newLastTarget.transform;
     }
 

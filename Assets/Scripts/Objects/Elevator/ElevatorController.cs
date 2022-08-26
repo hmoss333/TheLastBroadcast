@@ -2,29 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElevatorController : MonoBehaviour
+public class ElevatorController : InteractObject
 {
-    [SerializeField] float speed;
-    [SerializeField] bool moving, movingDown;
-    [SerializeField] Transform bottomPoint, topPoint;
+    [SerializeField] private float speed, moveDelay;
+    private float tempMoveDelay;
+    [SerializeField] private bool moving, movingDown;
+    [SerializeField] private Transform bottomPoint, topPoint;
 
+    private void Start()
+    {
+        tempMoveDelay = moveDelay;
+    }
 
     private void Update()
     {
         if (moving)
         {
-            if (movingDown)
+            tempMoveDelay -= Time.deltaTime;
+            if (tempMoveDelay < 0)
             {
-                if (transform.position != bottomPoint.position)
+                if (movingDown)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, bottomPoint.position, speed * Time.deltaTime);
+                    if (transform.position != bottomPoint.position)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, bottomPoint.position, speed * Time.deltaTime);
+                    }
                 }
-            }
-            else
-            {
-                if (transform.position != topPoint.position)
+                else
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, topPoint.position, speed * Time.deltaTime);
+                    if (transform.position != topPoint.position)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, topPoint.position, speed * Time.deltaTime);
+                    }
                 }
             }
         }
@@ -32,10 +41,11 @@ public class ElevatorController : MonoBehaviour
         if (transform.position == topPoint.position && !movingDown)
         {
             moving = false;
+            tempMoveDelay = moveDelay;
         }
         else if (transform.position == bottomPoint.position && movingDown)
         {
-            moving = false;
+            tempMoveDelay = moveDelay;
         }
     }
 
@@ -47,9 +57,9 @@ public class ElevatorController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && active)
         {
-            other.gameObject.transform.SetParent(this.transform);
+            //other.gameObject.transform.SetParent(this.transform);
 
             if (transform.position == bottomPoint.position)
             {
@@ -63,11 +73,11 @@ public class ElevatorController : MonoBehaviour
             moving = true;
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            other.gameObject.transform.SetParent(null);
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.tag == "Player")
+    //    {
+    //        other.gameObject.transform.SetParent(null);
+    //    }
+    //}
 }

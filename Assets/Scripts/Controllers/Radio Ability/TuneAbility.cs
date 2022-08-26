@@ -19,6 +19,7 @@ public class TuneAbility : RadioAbilityController
 
     public void SetTuning(bool isOn)
     {
-        isUsing = isOn;
+        if (abilityData.isActive)
+            isUsing = isOn;
     }
 }

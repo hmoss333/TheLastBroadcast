@@ -82,7 +82,9 @@ public class InvisAbility : RadioAbilityController
 
     private void Update()
     {
-        if (RadioController.instance.abilityMode && !isInvis)
+        if (RadioController.instance.abilityMode
+            && abilityData.isActive
+            && !isInvis)
         {
             if ((RadioController.instance.currentFrequency < checkFrequency + checkOffset && RadioController.instance.currentFrequency > checkFrequency - checkOffset)
                 && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)                                                      
