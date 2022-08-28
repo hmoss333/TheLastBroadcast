@@ -9673,7 +9673,7 @@ GameObject:
   - component: {fileID: 246747420}
   - component: {fileID: 246747419}
   - component: {fileID: 246747418}
-  - component: {fileID: 246747417}
+  - component: {fileID: 246747421}
   m_Layer: 15
   m_Name: RoomChangeTrigger (1)
   m_TagString: Untagged
@@ -9696,22 +9696,6 @@ Transform:
   m_Father: {fileID: 1624449405}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &246747417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246747415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e85a49c2d38764a3584ca7c29e3a493f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interacting: 0
-  active: 1
-  hasActivated: 0
-  exitPoint: {fileID: 1263785268}
 --- !u!65 &246747418
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9775,6 +9759,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246747415}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &246747421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246747415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f12f2bffadc4e44988e61a22388b2fb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneToLoad: Maintenance
 --- !u!1001 &247081524
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19329,7 +19326,7 @@ GameObject:
   - component: {fileID: 874344278}
   - component: {fileID: 874344277}
   - component: {fileID: 874344276}
-  - component: {fileID: 874344275}
+  - component: {fileID: 874344279}
   m_Layer: 15
   m_Name: RoomChangeTrigger
   m_TagString: Untagged
@@ -19352,22 +19349,6 @@ Transform:
   m_Father: {fileID: 1840826522}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &874344275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 874344273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e85a49c2d38764a3584ca7c29e3a493f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interacting: 0
-  active: 1
-  hasActivated: 0
-  exitPoint: {fileID: 942364305}
 --- !u!65 &874344276
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19431,6 +19412,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874344273}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &874344279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874344273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f12f2bffadc4e44988e61a22388b2fb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneToLoad: Basement
 --- !u!1 &877189637
 GameObject:
   m_ObjectHideFlags: 0
@@ -20545,11 +20539,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941942500}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &942364305 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6933094770528217856, guid: e9c0e6b7970854416a7acee27e746d71, type: 3}
-  m_PrefabInstance: {fileID: 787247262}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &948910719
 GameObject:
   m_ObjectHideFlags: 0
@@ -57458,7 +57447,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1624449405
 Transform:
   m_ObjectHideFlags: 0
@@ -60768,7 +60757,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1840826521}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 25, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -62874,7 +62863,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2001402874
 Transform:
   m_ObjectHideFlags: 0

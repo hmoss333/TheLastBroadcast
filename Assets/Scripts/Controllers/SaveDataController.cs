@@ -164,35 +164,35 @@ public class SaveDataController : MonoBehaviour
     {
         saveData = new SaveData();
 
-        saveData.currentScene = "BroadcastRoom"; //Set BroadcastRoom as default for new save files
+        saveData.currentScene = "Morgue"; //Set BroadcastRoom as default for new save files
         saveData.savePointID = 0; //Set default spawn position
 
         //Set all station values here
         List<Station> tempStations = new List<Station>();
 
-        Station station0 = new Station();
-        station0.frequency = 2.02f;
-        station0.sceneToLoad = "Facility";
-        station0.isActive = true;
-        tempStations.Add(station0);
+        //Station station0 = new Station();
+        //station0.frequency = 2.02f;
+        //station0.sceneToLoad = "Facility";
+        //station0.isActive = true;
+        //tempStations.Add(station0);
 
-        Station station1 = new Station();
-        station1.frequency = 8.20f;
-        station1.sceneToLoad = "Apartment";
-        station1.isActive = false;
-        tempStations.Add(station1);
+        //Station station1 = new Station();
+        //station1.frequency = 8.20f;
+        //station1.sceneToLoad = "Apartment";
+        //station1.isActive = false;
+        //tempStations.Add(station1);
 
-        Station station2 = new Station();
-        station2.frequency = 3.330f;
-        station2.sceneToLoad = "Backrooms";
-        station2.isActive = false;
-        tempStations.Add(station2);
+        //Station station2 = new Station();
+        //station2.frequency = 3.330f;
+        //station2.sceneToLoad = "Backrooms";
+        //station2.isActive = false;
+        //tempStations.Add(station2);
 
-        Station station3 = new Station();
-        station3.frequency = 9.30f;
-        station3.sceneToLoad = "Library";
-        station3.isActive = false;
-        tempStations.Add(station3);
+        //Station station3 = new Station();
+        //station3.frequency = 9.30f;
+        //station3.sceneToLoad = "Library";
+        //station3.isActive = false;
+        //tempStations.Add(station3);
 
         saveData.stations = tempStations;
 
