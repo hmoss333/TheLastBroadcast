@@ -10,9 +10,10 @@ public class TitleScreenController : MonoBehaviour
     [SerializeField] AudioSource staticSource;
     [SerializeField] AudioSource musicSource;
 
-    [SerializeField] TextMeshProUGUI titleText, quoteText, sigText;
+    [SerializeField] TextMeshPro titleText;
+    [SerializeField] TextMeshProUGUI quoteText, sigText;
 
-    [SerializeField] float fadeSpeed, startDelayTime, musicDelayTime, quoteDelayTime, titleDelayTime, titleDisplayTime, sceneDelayTime;
+    [SerializeField] float fadeSpeed, startDelayTime, musicDelayTime, quoteDelayTime, glitchDelayTime, titleDelayTime, titleDisplayTime, sceneDelayTime;
 
 
     // Start is called before the first frame update
@@ -64,6 +65,10 @@ public class TitleScreenController : MonoBehaviour
         while (FadeController.instance.isFading)
             yield return null;
 
+        yield return new WaitForSeconds(glitchDelayTime);
+
+        CamEffectController.instance.SetEffectValues(true);
+
         yield return new WaitForSeconds(titleDisplayTime);
 
         FadeController.instance.StartFade(1, 2.5f);
@@ -75,6 +80,6 @@ public class TitleScreenController : MonoBehaviour
 
         yield return new WaitForSeconds(sceneDelayTime);
 
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(2); //should link directly into starting scene
     }
 }

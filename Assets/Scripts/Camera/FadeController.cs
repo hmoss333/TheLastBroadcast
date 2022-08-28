@@ -21,6 +21,7 @@ public class FadeController : MonoBehaviour
 
     public void StartFade(float aValue, float aTime)
     {
+        print("Start fade");
         StartCoroutine(FadeTo(aValue, aTime));
     }
 
