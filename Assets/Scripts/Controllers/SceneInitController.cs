@@ -131,6 +131,6 @@ public class SceneInitController : MonoBehaviour
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         if (CameraController.instance.GetLastTarget() == null)
             CameraController.instance.SetLastTarget(PlayerController.instance.gameObject);
-        FadeController.instance.StartFade(0.0f, 1f);
+        FadeController.instance.StartFade(0.0f, 5f);
     }
 }
