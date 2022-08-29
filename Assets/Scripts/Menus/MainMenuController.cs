@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class MainMenuController : MonoBehaviour
@@ -14,9 +15,13 @@ public class MainMenuController : MonoBehaviour
     bool loadingScene;
     string sceneToLoad;
 
+    EventSystem eventSystem;
+    [SerializeField] GameObject loadButton;
 
     private void Start()
     {
+        eventSystem = FindObjectOfType<EventSystem>();
+
         mainMenuCanvas.SetActive(true);
         loadGameCanvas.SetActive(false);
         defaultColor = radioLight.color;
@@ -43,7 +48,6 @@ public class MainMenuController : MonoBehaviour
     public void NewGameButton()
     {        
         SaveDataController.instance.CreateNewSaveFile();
-        //SceneManager.LoadScene("Title");//SaveDataController.instance.saveData.currentScene);
         FadeController.instance.StartFade(1, 1f);
         sceneToLoad = "Title";
         loadingScene = true;
@@ -55,13 +59,15 @@ public class MainMenuController : MonoBehaviour
         SaveDataController.instance.LoadObjectData(SaveDataController.instance.saveData.currentScene);
         mainMenuCanvas.SetActive(false);
         loadGameCanvas.SetActive(true);
+
+        eventSystem.SetSelectedGameObject(loadButton);
+
         int saveID = SaveDataController.instance.saveData.savePointID;
         loadGameText.text = $"{SaveDataController.instance.saveData.currentScene}: \nSaveID: {saveID}";
     }
 
     public void StartSavedGame()
     {
-        //SceneManager.LoadScene(SaveDataController.instance.saveData.currentScene);
         FadeController.instance.StartFade(1, 1f);
         sceneToLoad = SaveDataController.instance.saveData.currentScene;
         loadingScene = true;

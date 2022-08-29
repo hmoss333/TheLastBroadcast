@@ -32,4 +32,9 @@ public class Health : MonoBehaviour
                 character.hurt = true;
         }
     }
+
+    public int CurrentHealth()
+    {
+        return health;
+    }
 }
