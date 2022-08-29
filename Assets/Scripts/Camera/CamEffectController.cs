@@ -36,13 +36,10 @@ public class CamEffectController : MonoBehaviour
     }
 
 
-
     public void SetEffectValues(bool effectState)
     {
         effectOn = effectState;
     }
-
-
 
     public void ShockEffect(float duration)
     {

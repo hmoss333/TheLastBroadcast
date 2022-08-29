@@ -23,7 +23,7 @@ public class PlayerHealthUI : MonoBehaviour
 
     void AddNewPoint(float x, float y)
     {
-        var point = new Vector2(x, y);//) { x, y };
+        var point = new Vector2(x, y);
         pointList.Add(point);
     }
 
@@ -31,9 +31,9 @@ public class PlayerHealthUI : MonoBehaviour
     {
         float xStart = xLimits.x;//0;
         float Tau = 2 * Mathf.PI;
-        float xFinish = xLimits.y;//Tau;
-        //amplitude = health.CurrentHealth() * 5f;
-        frequency = (health.CurrentHealth() / 5f) + 1f;
+        float xFinish = xLimits.y; //Tau;
+        int adjustVal = health.CurrentHealth() % 2 == 0 ? 0 : 1;
+        frequency = (health.CurrentHealth() * 2f) / 2f + adjustVal;
 
         pointList.Clear();
         for (int currentPoint = 0; currentPoint < points; currentPoint++)
