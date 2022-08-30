@@ -3,52 +3,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
 public class PlayerHealthUI : MonoBehaviour
 {
     [SerializeField] Health health;
-    UILineRenderer lineRenderer;
-    [SerializeField] int points;
-    [SerializeField] float amplitude = 1;
-    [SerializeField] float frequency = 1;
-    [SerializeField] Vector2 xLimits = new Vector2(0, 1);
+    [SerializeField] int maxHealth;
+    [SerializeField] RawImage healthImage;
     [SerializeField] float movementSpeed = 1;
-    List<Vector2> pointList = new List<Vector2>();
 
-    private void Start()
-    {
-        lineRenderer = GetComponent<UILineRenderer>();
-    }
+    [SerializeField] Color high;
+    [SerializeField] Color medium;
+    [SerializeField] Color low;
 
-    void AddNewPoint(float x, float y)
-    {
-        var point = new Vector2(x, y);
-        pointList.Add(point);
-    }
 
-    private void Draw()
-    {
-        float xStart = xLimits.x;//0;
-        float Tau = 2 * Mathf.PI;
-        float xFinish = xLimits.y; //Tau;
-        int adjustVal = health.CurrentHealth() % 2 == 0 ? 0 : 1;
-        frequency = (health.CurrentHealth() * 2f) / 2f + adjustVal;
-
-        pointList.Clear();
-        for (int currentPoint = 0; currentPoint < points; currentPoint++)
-        {
-            float progress = (float)currentPoint / (points - 1);
-            float x = Mathf.Lerp(xStart, xFinish, progress);
-            float y = amplitude * Mathf.Sin((Tau * frequency * x) + Time.timeSinceLevelLoad * movementSpeed);
-            AddNewPoint(x, y);
-        }
-
-        lineRenderer.Points = pointList.ToArray();
-    }
 
     private void Update()
     {
-        Draw();
+        int checkHealth = health.CurrentHealth();
+        float tempSpeed = (float)maxHealth / (float)checkHealth;
+        movementSpeed = tempSpeed / 4f;
+
+        Color healthColor = new Color();
+        if (checkHealth >= 4)
+        {
+            healthColor = high;
+        }
+        else if (checkHealth >= 2)
+        {
+            healthColor = medium;
+        }
+        else
+        {
+            healthColor = low;
+        }
+
+        healthImage.color = healthColor;
+
+        Rect rect = healthImage.uvRect;
+        rect.x += Time.deltaTime * -movementSpeed;
+        healthImage.uvRect = rect;
     }
 }
