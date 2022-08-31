@@ -89,6 +89,15 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Health"",
+                    ""type"": ""Button"",
+                    ""id"": ""9435d62f-6c1f-4eb1-a7e6-99f256c4da4f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -399,6 +408,17 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""action"": ""TuneRadio"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""648af070-0d8e-4396-8906-82cb7e4fff75"",
+                    ""path"": ""<SwitchProControllerHID>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""Health"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -437,6 +457,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_ShiftCamera = m_Player.FindAction("ShiftCamera", throwIfNotFound: true);
         m_Player_TuneRadio = m_Player.FindAction("TuneRadio", throwIfNotFound: true);
+        m_Player_Health = m_Player.FindAction("Health", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -503,6 +524,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_ShiftCamera;
     private readonly InputAction m_Player_TuneRadio;
+    private readonly InputAction m_Player_Health;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -514,6 +536,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @ShiftCamera => m_Wrapper.m_Player_ShiftCamera;
         public InputAction @TuneRadio => m_Wrapper.m_Player_TuneRadio;
+        public InputAction @Health => m_Wrapper.m_Player_Health;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -544,6 +567,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @TuneRadio.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTuneRadio;
                 @TuneRadio.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTuneRadio;
                 @TuneRadio.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTuneRadio;
+                @Health.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHealth;
+                @Health.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHealth;
+                @Health.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHealth;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -569,6 +595,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @TuneRadio.started += instance.OnTuneRadio;
                 @TuneRadio.performed += instance.OnTuneRadio;
                 @TuneRadio.canceled += instance.OnTuneRadio;
+                @Health.started += instance.OnHealth;
+                @Health.performed += instance.OnHealth;
+                @Health.canceled += instance.OnHealth;
             }
         }
     }
@@ -600,5 +629,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnShiftCamera(InputAction.CallbackContext context);
         void OnTuneRadio(InputAction.CallbackContext context);
+        void OnHealth(InputAction.CallbackContext context);
     }
 }

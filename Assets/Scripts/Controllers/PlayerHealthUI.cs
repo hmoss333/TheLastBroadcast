@@ -11,11 +11,15 @@ public class PlayerHealthUI : MonoBehaviour
     [SerializeField] Health health;
     [SerializeField] int maxHealth;
     [SerializeField] RawImage healthImage;
-    [SerializeField] float movementSpeed = 1;
+    float movementSpeed = 1;
 
     [SerializeField] Color high;
     [SerializeField] Color medium;
     [SerializeField] Color low;
+
+    [SerializeField] Vector2 activePos, inactivePos;
+    bool isActive;
+    float slideSpeed = 5f;
 
 
 
@@ -27,22 +31,27 @@ public class PlayerHealthUI : MonoBehaviour
 
         Color healthColor = new Color();
         if (checkHealth >= 4)
-        {
             healthColor = high;
-        }
         else if (checkHealth >= 2)
-        {
             healthColor = medium;
-        }
         else
-        {
             healthColor = low;
-        }
 
         healthImage.color = healthColor;
 
         Rect rect = healthImage.uvRect;
         rect.x += Time.deltaTime * -movementSpeed;
         healthImage.uvRect = rect;
+
+        if (PlayerController.instance.interacting)
+        {
+            isActive = false; //hide health UI if interacting
+        }
+        else if (PlayerController.instance.inputMaster.Player.Health.triggered)
+        {
+            isActive = !isActive; //toggle health UI on button press
+        }
+
+        transform.localPosition = Vector2.Lerp(transform.localPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
     }
 }

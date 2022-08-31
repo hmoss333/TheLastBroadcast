@@ -23,7 +23,7 @@ public class PlayerController : CharacterController
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
-    [HideInInspector] public InteractObject interactObj;
+    [HideInInspector] public InteractObject interactObj { get; private set; }
 
     [Header("Player Avatar Variables")]
     [SerializeField] private MeleeController melee;
@@ -31,7 +31,7 @@ public class PlayerController : CharacterController
     [SerializeField] private GameObject playerAvatar, bagObj, radioObj;
 
 
-    public InputMaster inputMaster;
+    public InputMaster inputMaster { get; private set; }
     private InputControlScheme controlScheme;
 
 
@@ -111,7 +111,7 @@ public class PlayerController : CharacterController
                 if (inputMaster.Player.Radio.ReadValue<float>() > 0 && !usingRadio)
                 {
                     usingRadio = true;
-                    RadioController.instance.currentFrequency = 0.0f;
+                    //RadioController.instance.currentFrequency = 0.0f;
                     CameraController.instance.SetLastTarget(CameraController.instance.GetTarget().gameObject);
                     CameraController.instance.SetRotation(false);
                     CameraController.instance.SetTarget(radioObj);
@@ -120,7 +120,6 @@ public class PlayerController : CharacterController
                 else if (inputMaster.Player.Radio.ReadValue<float>() <= 0 && usingRadio)
                 {
                     usingRadio = false;
-                    RadioController.instance.abilityMode = false;
                     CameraController.instance.LoadLastTarget();
                 }
             }
@@ -148,7 +147,7 @@ public class PlayerController : CharacterController
         melee.gameObject.SetActive(attacking); //toggle melee weapon visibility based on attacking state
         //Radio
         animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
-        RadioController.instance.isActive = usingRadio; //toggle radio controller active state if player is pressing the corresponding input
+        RadioController.instance.SetActive(usingRadio); //toggle radio controller active state if player is pressing the corresponding input
         radioObj.SetActive(usingRadio); //toggle radioObj based on usingRadio state
         bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
         //Ladder

@@ -106,7 +106,6 @@ RectTransform:
   m_Children:
   - {fileID: 4275308084270947260}
   - {fileID: 2943393841501573153}
-  - {fileID: 2548224799797868022}
   m_Father: {fileID: 8146545691968974870}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -685,106 +684,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &4918106864332897814
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2548224799797868022}
-  - component: {fileID: 1029650435155319308}
-  - component: {fileID: 4986414477685450137}
-  - component: {fileID: 267591753156531464}
-  m_Layer: 5
-  m_Name: PlayerHealth
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2548224799797868022
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4918106864332897814}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1073566145}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 5, y: -50}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1029650435155319308
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4918106864332897814}
-  m_CullTransparentMesh: 1
---- !u!114 &4986414477685450137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4918106864332897814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b33b2e663e78774c9f0c9af55018725, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.2966803, g: 0.5566038, b: 0.3518098, a: 0.47058824}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_improveResolution: 0
-  m_Resolution: 0
-  m_useNativeSize: 0
-  m_points:
-  - {x: 0, y: 0}
-  lineThickness: 5
-  relativeSize: 0
-  lineList: 0
-  lineCaps: 0
-  bezierSegmentsPerCurve: 10
-  LineJoins: 0
-  BezierMode: 0
-  drivenExternally: 0
---- !u!114 &267591753156531464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4918106864332897814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b6da87a9dc4b48eb9d3be2b6c153199, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: {fileID: 2647051179905232537}
-  maxHealth: 5
-  healthImage: {fileID: 3136216130453675275}
-  movementSpeed: 0
-  high: {r: 0.29803923, g: 0.5568628, b: 0.3529412, a: 0.78431374}
-  medium: {r: 0.5568628, g: 0.5426103, b: 0.29803923, a: 0.78431374}
-  low: {r: 0.5568628, g: 0.29803923, b: 0.32126316, a: 0.78431374}
 --- !u!1 &6084197668692694633
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,8 +779,9 @@ GameObject:
   - component: {fileID: 2943393841501573153}
   - component: {fileID: 8083788109891668753}
   - component: {fileID: 2985845738908193013}
+  - component: {fileID: 913547962030999777}
   m_Layer: 5
-  m_Name: Line_Test
+  m_Name: HealthOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -947,6 +847,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &913547962030999777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6584803160168372111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6da87a9dc4b48eb9d3be2b6c153199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 2647051179905232537}
+  maxHealth: 5
+  healthImage: {fileID: 3136216130453675275}
+  high: {r: 0.29803923, g: 0.5568628, b: 0.3529412, a: 0.78431374}
+  medium: {r: 0.5568628, g: 0.5426103, b: 0.29803923, a: 0.78431374}
+  low: {r: 0.5568628, g: 0.29803923, b: 0.32126316, a: 0.78431374}
+  activePos: {x: -345, y: 215}
+  inactivePos: {x: -345, y: 300}
 --- !u!1 &7313174213890263233
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class SceneInitController : MonoBehaviour
     public static SceneInitController instance;
 
 
-    public string currentScene;
+    public string currentScene { get; private set; }
     private SaveData saveData;
     [SerializeField] private SavePointController[] savePoints;
     [SerializeField] private RoomController[] rooms;

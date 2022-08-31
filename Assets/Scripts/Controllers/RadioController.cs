@@ -12,9 +12,10 @@ public class RadioController : MonoBehaviour
     [Header("Radio Control Variables")]
     [SerializeField] private float speed;
     [SerializeField] private float maxFrequency;
-    [Range(0.0f, 10.0f)]
-    public float currentFrequency;
-    [HideInInspector] public bool isActive, abilityMode;//, stunEnemy;
+    //[Range(0.0f, 10.0f)]
+    public float currentFrequency { get; private set; }
+    [HideInInspector] public bool isActive { get; private set; }
+    [HideInInspector] public bool abilityMode { get; private set; }//, stunEnemy;
 
 
     [Header("UI Elements")]
@@ -76,6 +77,10 @@ public class RadioController : MonoBehaviour
             if (SaveDataController.instance.saveData.abilities.radio_special)
                 abilityMode = PlayerController.instance.inputMaster.Player.RadioSpecial.ReadValue<float>() > 0 ? true : false;
         }
+        else
+        {
+            abilityMode = false;
+        }
 
         staticSource.mute = !isActive;
         overlayPanel.SetActive(SaveDataController.instance.saveData.abilities.radio && !PlayerController.instance.interacting);
@@ -90,6 +95,11 @@ public class RadioController : MonoBehaviour
 
         //Move radio panel into position based on active state
         overlayPanel.transform.localPosition = Vector2.Lerp(overlayPanel.transform.localPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
+    }
+
+    public void SetActive(bool activeVal)
+    {
+        isActive = activeVal;
     }
 
     //public void StunEnemy(bool isStunning)

@@ -18,13 +18,13 @@ public class RatController : MonoBehaviour
 
     //TODO change some of thse into a state machine
     [Header("Player State Variables")]
-    [HideInInspector] public bool interacting;
     private bool isMoving, attacking, hurt;
+    [HideInInspector] public bool interacting { get; private set; }
 
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
-    [HideInInspector] public InteractObject interactObj;
+    [HideInInspector] public InteractObject interactObj { get; private set; }
 
     [Header("Player Avatar Variables")]
     [SerializeField] private GameObject melee;
