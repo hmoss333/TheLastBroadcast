@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
+//using static UnityEditor.Experimental.GraphView.GraphView;
+//using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class ZombieController : CharacterController
 {
@@ -137,7 +137,7 @@ public class ZombieController : CharacterController
             }
         }
 
-        storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed;//? speed : 0f;
+        storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed;
         rb.velocity = transform.forward * storedSpeed;
 
         PlayerController.instance.isSeen = seePlayer;
