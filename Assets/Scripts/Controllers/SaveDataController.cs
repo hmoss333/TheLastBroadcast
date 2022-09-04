@@ -164,7 +164,7 @@ public class SaveDataController : MonoBehaviour
     {
         saveData = new SaveData();
 
-        saveData.currentScene = "Morgue"; //Set BroadcastRoom as default for new save files
+        saveData.currentScene = "Forest"; //Set BroadcastRoom as default for new save files
         saveData.savePointID = 0; //Set default spawn position
 
         //Set all station values here
