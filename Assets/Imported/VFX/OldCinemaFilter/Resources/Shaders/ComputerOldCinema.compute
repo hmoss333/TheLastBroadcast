@@ -1,0 +1,81 @@
+﻿#pragma kernel OldCinema
+
+int    FrameIndex;
+float2 FrameOffset;
+float  GrainStrange;
+float  VignetteStrange;
+
+Texture2D<float4>   TextureColorSRV;
+RWTexture2D<float4> TextureColorUAV;
+
+SamplerState sampler_point_clamp;
+
+struct CRNG {
+    uint2 Seed;
+};
+
+
+uint Hash(uint seed) {
+    seed = (seed ^ 61) ^ (seed >> 16);
+    seed *= 9;
+    seed = seed ^ (seed >> 4);
+    seed *= 0x27d4eb2d;
+    seed = seed ^ (seed >> 15);
+    return seed;
+}
+
+uint RngNext(inout CRNG rng) {
+    uint result = rng.Seed.x * 0x9e3779bb;
+
+    rng.Seed.y ^= rng.Seed.x;
+    rng.Seed.x = ((rng.Seed.x << 26) | (rng.Seed.x >> (32 - 26))) ^ rng.Seed.y ^ (rng.Seed.y << 9);
+    rng.Seed.y = (rng.Seed.x << 13) | (rng.Seed.x >> (32 - 13));
+
+    return result;
+}
+
+float Rand(inout CRNG rng) {
+    uint u = 0x3f800000 | (RngNext(rng) >> 9);
+    return asfloat(u) - 1.0;
+}
+
+
+
+CRNG InitCRND(uint2 id, uint frameIndex) {
+    uint s0 = (id.x << 16) | id.y;
+    uint s1 = frameIndex;
+
+    CRNG rng;
+    rng.Seed.x = Hash(s0);
+    rng.Seed.y = Hash(s1);
+    RngNext(rng);
+    return rng;
+}
+
+
+
+[numthreads(8, 8, 1)]
+void OldCinema(uint3 id : SV_DispatchThreadID)
+{
+    int2 textureSize;
+    TextureColorSRV.GetDimensions(textureSize.x, textureSize.y);
+    
+    float2 uv = float2(id.xy) / float2(textureSize) + FrameOffset;
+    
+    
+    CRNG rng0 = InitCRND(id.xy, FrameIndex);
+    CRNG rng1 = InitCRND(uint2(id.x, 0), FrameIndex);
+ 
+    
+    
+    float gray = dot(TextureColorSRV.SampleLevel(sampler_point_clamp, uv, 0).xyz, float3(0.2126, 0.7152, 0.072));
+    float grain = (1 - GrainStrange) * gray + Rand(rng0) * GrainStrange;
+    float vign  = saturate(pow(uv.x, VignetteStrange)) + saturate(pow(1.0 - uv.x, VignetteStrange)) + saturate(pow(uv.y, VignetteStrange)) + saturate(pow(1.0 - uv.y, VignetteStrange));
+    float vline = saturate(200.0 * abs(uv.x - Rand(rng1)));
+    
+    
+    float color = grain * vline - vign;
+    
+    TextureColorUAV[id.xy] = float4(color, color, color, 1.0);
+
+}

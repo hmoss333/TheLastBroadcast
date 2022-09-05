@@ -7,7 +7,7 @@ public class CamEffectController : MonoBehaviour
     public static CamEffectController instance;
 
     [SerializeField] AnalogGlitch glitchEffect;
-    private bool effectOn; //Manually turn effect on/off
+    [SerializeField] private bool effectOn; //Manually turn effect on/off
 
 
     private void Awake()
