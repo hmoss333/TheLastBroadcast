@@ -16,6 +16,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] float xOff;
     [SerializeField] float yOff;
     [SerializeField] float zOff;
+    [SerializeField] float zOffMin, zOffMax;
+    float xTemp;
     Quaternion baseRot;
 
     [SerializeField] bool focus, setRot;
@@ -42,12 +44,22 @@ public class CameraController : MonoBehaviour
         camZOffset = cameraPos.z;
 
         baseRot = transform.rotation;
+        xTemp = xOff;
     }
 
     private void Update()
     {
-        if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)
-            xOff = -xOff;
+        //Shift xOff based on left/right movement
+        if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x < 0)
+            xOff = -xTemp;
+        else if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x > 0)
+            xOff = xTemp;
+
+        //Shift zOff based on forward/backwards movement
+        if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y < 0)
+            zOff = zOffMin;
+        else if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y > 0)
+            zOff = zOffMax;
     }
 
     // Update is called once per frame
