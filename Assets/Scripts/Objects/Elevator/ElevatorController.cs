@@ -8,6 +8,7 @@ public class ElevatorController : InteractObject
     private float tempMoveDelay;
     [SerializeField] private bool moving, movingDown;
     [SerializeField] private Transform bottomPoint, topPoint;
+    [SerializeField] Animator anim;
 
     private void Start()
     {
@@ -18,6 +19,7 @@ public class ElevatorController : InteractObject
     {
         if (moving)
         {
+            //anim.SetBool("closeDoor", true);
             tempMoveDelay -= Time.deltaTime;
             if (tempMoveDelay < 0)
             {
@@ -39,7 +41,10 @@ public class ElevatorController : InteractObject
             || (transform.position == bottomPoint.position && movingDown))
         {
             moving = false;
+            //anim.SetBool("closeDoor", false);
         }
+
+        anim.SetBool("closeDoor", moving);
     }
 
     public void CallElevator(bool moveDir)
@@ -52,6 +57,8 @@ public class ElevatorController : InteractObject
     {
         if (other.tag == "Player" && active)
         {
+            other.transform.parent = this.transform;
+
             if (transform.position == bottomPoint.position)
             {
                 movingDown = false;
@@ -62,6 +69,14 @@ public class ElevatorController : InteractObject
             }
 
             moving = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player" && active)
+        {
+            other.transform.parent = null;
         }
     }
 }

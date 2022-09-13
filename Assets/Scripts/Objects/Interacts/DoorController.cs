@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class DoorController : InteractObject
 {
     public Transform exitPoint;
-    RoomController exitRoom;
+    [SerializeField] RoomController exitRoom;
 
 
     private void Awake()
@@ -38,7 +38,7 @@ public class DoorController : InteractObject
         PlayerController.instance.transform.position = exitPoint.position;
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);
 
-        transform.parent.gameObject.SetActive(false);
+        transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
 
         FadeController.instance.StartFade(0.0f, 1f);
 
