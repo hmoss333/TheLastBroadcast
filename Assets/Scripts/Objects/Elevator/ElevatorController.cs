@@ -8,7 +8,7 @@ public class ElevatorController : InteractObject
     private float tempMoveDelay;
     [SerializeField] private bool moving, movingDown;
     [SerializeField] private Transform bottomPoint, topPoint;
-    [SerializeField] Animator anim;
+    [SerializeField] Animator[] anims;
 
     private void Start()
     {
@@ -44,7 +44,11 @@ public class ElevatorController : InteractObject
             //anim.SetBool("closeDoor", false);
         }
 
-        anim.SetBool("closeDoor", moving);
+        //anim.SetBool("closeDoor", moving);
+        foreach (Animator anim in anims)
+        {
+            anim.SetBool("closeDoor", moving);
+        }
     }
 
     public void CallElevator(bool moveDir)
