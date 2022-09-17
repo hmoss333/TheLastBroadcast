@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ElevatorController : InteractObject
 {
-    [SerializeField] private float speed, moveDelay;
+    [SerializeField] private float speed, moveDelay, doorDelay;
     private float tempMoveDelay;
     [SerializeField] private bool moving, movingDown;
     [SerializeField] private Transform bottomPoint, topPoint;
@@ -38,16 +38,11 @@ public class ElevatorController : InteractObject
             tempMoveDelay = moveDelay;
 
         if ((transform.position == topPoint.position && !movingDown)
-            || (transform.position == bottomPoint.position && movingDown))
+            || (transform.position == bottomPoint.position && movingDown)
+            && moving != false)
         {
             moving = false;
-            //anim.SetBool("closeDoor", false);
-        }
-
-        //anim.SetBool("closeDoor", moving);
-        foreach (Animator anim in anims)
-        {
-            anim.SetBool("closeDoor", moving);
+            StartCoroutine(CloseDoors(false, doorDelay));
         }
     }
 
@@ -62,6 +57,7 @@ public class ElevatorController : InteractObject
         if (other.tag == "Player" && active)
         {
             other.transform.parent = this.transform;
+            StartCoroutine(CloseDoors(true, doorDelay));
 
             if (transform.position == bottomPoint.position)
             {
@@ -71,8 +67,6 @@ public class ElevatorController : InteractObject
             {
                 movingDown = true;
             }
-
-            moving = true;
         }
     }
 
@@ -82,5 +76,17 @@ public class ElevatorController : InteractObject
         {
             other.transform.parent = null;
         }
+    }
+
+    IEnumerator CloseDoors(bool doorState, float delayTime)
+    {
+        foreach (Animator anim in anims)
+        {
+            anim.SetBool("closeDoor", doorState);
+        }
+
+        yield return new WaitForSeconds(delayTime);
+
+        moving = doorState;
     }
 }
