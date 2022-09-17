@@ -8,6 +8,7 @@ public class ElevatorController : InteractObject
     private float tempMoveDelay;
     [SerializeField] private bool moving, movingDown;
     [SerializeField] private Transform bottomPoint, topPoint;
+    [SerializeField] GameObject doorCollider;
     [SerializeField] Animator[] anims;
 
     private void Start()
@@ -44,6 +45,8 @@ public class ElevatorController : InteractObject
             moving = false;
             StartCoroutine(CloseDoors(false, doorDelay));
         }
+
+        doorCollider.SetActive(moving);
     }
 
     public void CallElevator(bool moveDir)
