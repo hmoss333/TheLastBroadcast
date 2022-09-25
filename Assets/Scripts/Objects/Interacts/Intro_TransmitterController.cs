@@ -20,15 +20,6 @@ public class Intro_TransmitterController : InteractObject
             CameraController.instance.FocusTarget();
             active = false;
 
-            //if (!hasActivated)
-            //{
-            //    //Debug.Log($"Actived transmitter for {sceneToActivate} station");
-            //    hasActivated = true;
-            //    active = false;
-            //    SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name); //Save object states
-            //    SaveDataController.instance.SaveFile();
-            //}
-
             StartCoroutine(LoadRoom(nextScene));
         }
     }
