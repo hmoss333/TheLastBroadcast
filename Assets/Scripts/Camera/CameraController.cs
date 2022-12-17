@@ -78,6 +78,7 @@ public class CameraController : MonoBehaviour
 
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
 
+        transform.LookAt(target);
         transform.position = Vector3.Lerp(transform.position, pos, smoothTime * Time.deltaTime); //update camera position
         transform.rotation = Quaternion.Lerp(transform.rotation, focus || setRot ? target.rotation : baseRot, focusRotRate * Time.deltaTime); //update camera rotation based on focus state
         Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, focus ? 60f : 20f, focusRate * Time.deltaTime); //update camera field of view based on focus state
