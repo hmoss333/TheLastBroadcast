@@ -11,7 +11,8 @@ public class DoorController : InteractObject
 
     private void Awake()
     {
-        exitRoom = exitPoint.GetComponentInParent<RoomController>();
+        if (exitPoint)
+            exitRoom = exitPoint.GetComponentInParent<RoomController>();
     }
 
     public override void Interact()
@@ -32,8 +33,9 @@ public class DoorController : InteractObject
 
         while (FadeController.instance.isFading)
             yield return null;
-  
-        exitRoom.gameObject.SetActive(true);
+
+        if (exitRoom)
+            exitRoom.gameObject.SetActive(true);
 
         PlayerController.instance.transform.position = exitPoint.position;
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);
