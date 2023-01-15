@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TVController : SavePointController
 {
@@ -50,5 +51,22 @@ public class TVController : SavePointController
             AddMaterial();
 
         light.SetActive(true);
+    }
+
+    public override void Interact()
+    {
+        if (active)
+        {
+            interacting = !interacting;
+            PlayerController.instance.InteractToggle(interacting);
+
+            if (interacting)
+            {
+                Debug.Log("Saving game");
+                SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);
+                SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
+                SaveDataController.instance.SaveFile();
+            }
+        }
     }
 }
