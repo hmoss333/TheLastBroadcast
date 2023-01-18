@@ -22,6 +22,10 @@ public class Intro_TransmitterController : InteractObject
 
             StartCoroutine(LoadRoom(nextScene));
         }
+        else
+        {
+            Debug.Log("Theres no way to interact with it");
+        }
     }
 
     IEnumerator LoadRoom(string sceneToLoad)
@@ -30,9 +34,9 @@ public class Intro_TransmitterController : InteractObject
 
         CamEffectController.instance.SetEffectValues(true);
 
-        yield return new WaitForSeconds(2.5f); //change this to wait while any dialogue is playing
+        yield return new WaitForSeconds(1.5f); //change this to wait while any dialogue is playing
 
-        FadeController.instance.StartFade(1.0f, 7.5f);
+        FadeController.instance.StartFade(1.0f, 4.5f);
 
         while (FadeController.instance.isFading)
             yield return null;

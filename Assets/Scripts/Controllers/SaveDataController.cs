@@ -367,7 +367,7 @@ public class SceneInteractObj
     //public int ID;
     public string name;
     public bool active;
-    public bool hasActivated; 
+    public bool hasActivated;
 }
 
 [System.Serializable]

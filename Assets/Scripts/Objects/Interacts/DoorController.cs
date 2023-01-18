@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class DoorController : InteractObject
 {
+    //public bool locked;
     public Transform exitPoint;
     [SerializeField] RoomController exitRoom;
 
@@ -22,6 +23,10 @@ public class DoorController : InteractObject
             base.Interact();
 
             StartCoroutine(DoorTrigger());
+        }
+        else
+        {
+            print("Door is locked");
         }
     }
 

@@ -136,6 +136,10 @@ public class TranscieverController : SavePointController
         {
             base.Interact();
         }
+        else
+        {
+            Debug.Log($"The {name} doesn't appear to have any power");
+        }
 
         staticSource.mute = !interacting;
         UpdatedStationList();

@@ -85,19 +85,20 @@ public class PlayerController : CharacterController
         }
 
         if (interactObj != null
-            && interactObj.active
+            //&& interactObj.active
             && !interactObj.hasActivated
             && !interactObj.GetComponent<Outline>())
+        {
             interactObj.gameObject.AddComponent<Outline>();
-            //interactObj.gameObject.GetComponent<Outline>().enabled = interacting ? false : true;
+        }
 
 
         //Player input controls
         if (!isPlaying("Hurt") && !dead)
         {
             if (inputMaster.Player.Interact.triggered
-                && interactObj != null
-                && interactObj.active)
+                //&& interactObj.active //inactive objects should return fail state text
+                && interactObj != null)
             {
                 interactObj.Interact();
             }

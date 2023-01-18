@@ -14,11 +14,11 @@ public class InteractObject : MonoBehaviour
 
         if (interacting)
         {
-            Debug.Log("Started interacting with " + name);
+            Debug.Log($"Started interacting with {name}");
         }
         else
         {
-            Debug.Log("Finished interacting with " + name);
+            Debug.Log($"Finished interacting with {name}");
         }
     }
 
