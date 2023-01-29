@@ -43,7 +43,7 @@ public class PlayerHealthUI : MonoBehaviour
         rect.x += Time.deltaTime * -movementSpeed;
         healthImage.uvRect = rect;
 
-        if (PlayerController.instance.interacting)
+        if (PlayerController.instance.state == PlayerController.States.interacting)
         {
             isActive = false; //hide health UI if interacting
         }

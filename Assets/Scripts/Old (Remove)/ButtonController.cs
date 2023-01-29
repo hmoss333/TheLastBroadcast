@@ -27,9 +27,9 @@ public class ButtonController : InteractObject
     IEnumerator ActivateObjects()
     {
         //Pause user input for brief moment
-        PlayerController.instance.interacting = true;
+        PlayerController.instance.state = PlayerController.States.interacting;//.interacting = true;
         yield return new WaitForSeconds(0.65f);
-        PlayerController.instance.interacting = false;
+        PlayerController.instance.state = PlayerController.States.idle;//.interacting = false;
 
 
         //Activate all interact objects in list

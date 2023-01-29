@@ -55,6 +55,12 @@ public class CameraController : MonoBehaviour
         else if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x > 0)
             xOff = xTemp;
 
+        //Manualy shift xOff with button press
+        if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)//Input.GetKeyDown(KeyCode.RightShift))
+        {
+            xOff = xOff * -1f;
+        }
+
         //Shift zOff based on forward/backwards movement
         if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y < 0)
             zOff = zOffMin;
@@ -68,17 +74,26 @@ public class CameraController : MonoBehaviour
         Vector3 pos = target.transform.position;
         if (!focus)
         {
-            pos.x += target != PlayerController.instance.transform || PlayerController.instance.usingRadio || PlayerController.instance.isSeen || PlayerController.instance.interacting
+            pos.x += target != PlayerController.instance.transform
+                || PlayerController.instance.state == PlayerController.States.radio
+                || PlayerController.instance.isSeen
+                || PlayerController.instance.state == PlayerController.States.interacting
                 ? camXOffset : camXOffset + xOff;
-            pos.y += target != PlayerController.instance.transform || PlayerController.instance.usingRadio || PlayerController.instance.isSeen || PlayerController.instance.interacting
+            pos.y += target != PlayerController.instance.transform
+                || PlayerController.instance.state == PlayerController.States.radio
+                || PlayerController.instance.isSeen
+                || PlayerController.instance.state == PlayerController.States.interacting
                 ? camYOffset : camYOffset + yOff;
-            pos.z += target != PlayerController.instance.transform || PlayerController.instance.usingRadio || PlayerController.instance.isSeen || PlayerController.instance.interacting
+            pos.z += target != PlayerController.instance.transform
+                || PlayerController.instance.state == PlayerController.States.radio
+                || PlayerController.instance.isSeen
+                || PlayerController.instance.state == PlayerController.States.interacting
                 ? camZOffset : camZOffset + zOff;
         }
 
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
 
-        transform.LookAt(target);
+        //transform.LookAt(target);
         transform.position = Vector3.Lerp(transform.position, pos, smoothTime * Time.deltaTime); //update camera position
         transform.rotation = Quaternion.Lerp(transform.rotation, focus || setRot ? target.rotation : baseRot, focusRotRate * Time.deltaTime); //update camera rotation based on focus state
         Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, focus ? 60f : 20f, focusRate * Time.deltaTime); //update camera field of view based on focus state

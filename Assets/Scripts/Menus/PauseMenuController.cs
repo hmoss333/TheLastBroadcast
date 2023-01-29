@@ -16,7 +16,7 @@ public class PauseMenuController : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !PlayerController.instance.interacting)
+        if (Input.GetKeyDown(KeyCode.Space) && PlayerController.instance.state != PlayerController.States.interacting)//.interacting)
         {
             isPaused = !isPaused;
 

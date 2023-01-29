@@ -15,10 +15,10 @@ public class PlayerController : CharacterController
     //private Vector2 move;
     private Vector3 lastDir, lastDir1, lastDir2;
 
-    //TODO change some of thse into a state machine
-    [Header("Player State Variables")]
-    [HideInInspector] public bool interacting, usingRadio, invisible, onLadder, isSeen;
-    private bool isMoving, attacking;
+    //[Header("Player State Variables")]
+    public enum States { idle, interacting, talking, moving, attacking, radio, hurt, dead }
+    public States state;
+    public bool onLadder, isSeen, invisible;
 
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
@@ -29,7 +29,6 @@ public class PlayerController : CharacterController
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
     [SerializeField] private GameObject playerAvatar, bagObj, radioObj;
-
 
     public InputMaster inputMaster { get; private set; }
     private InputControlScheme controlScheme;
@@ -54,7 +53,6 @@ public class PlayerController : CharacterController
         base.Start();
     }
 
-    //Update Functions
     override public void Update()
     {
         Vector3 rayDir = lastDir.normalized;
@@ -63,7 +61,7 @@ public class PlayerController : CharacterController
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (usingRadio || attacking || invisible)
+        if (state == States.radio || state == States.attacking)
         {
             interactObj = null;
         }
@@ -93,48 +91,32 @@ public class PlayerController : CharacterController
         }
 
 
-        //Player input controls
-        if (!isPlaying("Hurt") && !dead)
+        //Manage Player Inputs
+        if (state == States.idle || state == States.moving)
         {
-            if (inputMaster.Player.Interact.triggered
-                //&& interactObj.active //inactive objects should return fail state text
-                && interactObj != null)
+            if (PlayerController.instance.inputMaster.Player.Interact.triggered)
             {
                 interactObj.Interact();
+                state = States.interacting;
+            }
+
+            if (SaveDataController.instance.saveData.abilities.crowbar == true
+                && PlayerController.instance.inputMaster.Player.Melee.triggered)
+            {
+                animator.SetTrigger("isMelee");
+                state = States.attacking;
             }
 
             if (SaveDataController.instance.saveData.abilities.radio == true
-                && !interacting
-                && !attacking
-                && !invisible)
+                && PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() > 0)
             {
-                //If player holds down Radio button, interact with radio
-                if (inputMaster.Player.Radio.ReadValue<float>() > 0 && !usingRadio)
-                {
-                    usingRadio = true;
-                    //RadioController.instance.currentFrequency = 0.0f;
-                    CameraController.instance.SetLastTarget(CameraController.instance.GetTarget().gameObject);
-                    CameraController.instance.SetRotation(false);
-                    CameraController.instance.SetTarget(radioObj);
-                }
-                //If player releases Radio button, stop interacting with radio
-                else if (inputMaster.Player.Radio.ReadValue<float>() <= 0 && usingRadio)
-                {
-                    usingRadio = false;
-                    CameraController.instance.LoadLastTarget();
-                }
-            }
-
-            if (SaveDataController.instance.saveData.abilities.crowbar == true              
-                && inputMaster.Player.Melee.triggered
-                && !interacting
-                && !usingRadio
-                && !attacking
-                && !invisible)  
-            {
-                animator.SetTrigger("isMelee");
+                state = States.radio;
+                CameraController.instance.SetLastTarget(CameraController.instance.GetTarget().gameObject);
+                CameraController.instance.SetRotation(false);
+                CameraController.instance.SetTarget(radioObj);
             }
         }
+
 
         //Pause ladder climbing animation if there is no input
         if (onLadder)
@@ -144,77 +126,125 @@ public class PlayerController : CharacterController
 
 
         //Melee
-        attacking = isPlaying("Melee"); //set attacking value for the duration of the melee animation
-        melee.gameObject.SetActive(attacking); //toggle melee weapon visibility based on attacking state
+        melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
         //Radio
-        animator.SetBool("isRadio", usingRadio); //play radio animation while button is held
-        RadioController.instance.SetActive(usingRadio); //toggle radio controller active state if player is pressing the corresponding input
-        radioObj.SetActive(usingRadio); //toggle radioObj based on usingRadio state
+        animator.SetBool("isRadio", state == States.radio); //play radio animation while button is held
+        RadioController.instance.SetActive(state == States.radio); //toggle radio controller active state if player is pressing the corresponding input
+        radioObj.SetActive(state == States.radio); //toggle radioObj based on usingRadio state
+        //Bag
         bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
         //Ladder
         animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder
 
 
-        base.Update(); //Handles hurt and dead controller state overrides
+        //base.Update(); //Handles hurt and dead controller state overrides
     }
 
-    private void FixedUpdate()
+    // Update is called once per frame
+    void FixedUpdate()
     {
-        //Movement Controller
-        if (interacting || usingRadio || attacking || onLadder || dead || isPlaying("Hurt"))
-        {         
+        if (state != States.moving)
+        {
             speed = 0; //stop all player movement
         }
-        else
+
+
+        //Store player move values
+        Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
+        switch (state)
         {
-            speed = storedSpeed; //restore default movement speed
+            case States.idle:
+                if (move.x != 0f || move.y != 0f)
+                {
+                    state = States.moving;
+                }
+                break;
+            case States.interacting:
+                if (PlayerController.instance.inputMaster.Player.Interact.triggered)
+                {
+                    interactObj.Interact();
+                }
+                break;
+            case States.talking:
+                //TODO add state logic here
+                break;
+            case States.moving:
+                speed = storedSpeed;
 
-            Vector2 move = inputMaster.Player.Move.ReadValue<Vector2>();
-            horizontal = Mathf.Round(move.x * 10f) * 0.1f;
-            vertical = Mathf.Round(move.y * 10f) * 0.1f;
+                horizontal = Mathf.Round(move.x * 10f) * 0.1f;
+                vertical = Mathf.Round(move.y * 10f) * 0.1f;
 
-            //Save last input vector for interact raycast
-            if (horizontal != 0f || vertical != 0f)
-            {
-                lastDir.x = horizontal;
-                lastDir.z = vertical;
-                isMoving = true;
-            }
-            else
-            {
-                isMoving = false;
-            }
+                //Save last input vector for interact raycast
+                if (horizontal != 0f || vertical != 0f)
+                {
+                    lastDir.x = horizontal;
+                    lastDir.z = vertical;
+                }
 
-            animator.SetBool("isMoving", isMoving);
-            animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false); //toggle falling animation
+                Vector3 tempMove = new Vector3(horizontal, 0f, vertical);
+                if (tempMove.magnitude > 1)
+                    tempMove = tempMove.normalized;
+                rb.velocity = new Vector3(tempMove.x * speed, rb.velocity.y, tempMove.z * speed);
 
+                // Determine which direction to rotate towards
+                Vector3 targetDirection = lastDir;
 
-            //Move player in FixedUpdate for consistent performance
-            Vector3 tempMove = new Vector3(horizontal, 0f, vertical);
-            if (tempMove.magnitude > 1)
-                tempMove = tempMove.normalized;
-            rb.velocity = new Vector3(tempMove.x * speed, rb.velocity.y, tempMove.z * speed);
-            
+                // The step size is equal to speed times frame time.
+                float singleStep = rotSpeed * Time.deltaTime;
 
-            // Determine which direction to rotate towards
-            Vector3 targetDirection = lastDir;
+                // Rotate the forward vector towards the target direction by one step
+                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+                lastDir1 = (2 * transform.forward - transform.right).normalized; //Left ray
+                lastDir2 = (2 * transform.forward + transform.right).normalized; //Right ray
 
-            // The step size is equal to speed times frame time.
-            float singleStep = rotSpeed * Time.deltaTime;
+                // Draw rays pointing in all interact directions
+                Debug.DrawRay(transform.position, newDirection, Color.green);
+                Debug.DrawRay(transform.position, lastDir1, Color.green);
+                Debug.DrawRay(transform.position, lastDir2, Color.green);
 
-            // Rotate the forward vector towards the target direction by one step
-            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
-            lastDir1 = (2 * transform.forward - transform.right).normalized; //Left ray
-            lastDir2 = (2 * transform.forward + transform.right).normalized; //Right ray
+                // Calculate a rotation a step closer to the target and applies rotation to this object
+                transform.rotation = Quaternion.LookRotation(newDirection);
 
-            // Draw rays pointing in all interact directions
-            Debug.DrawRay(transform.position, newDirection, Color.green);
-            Debug.DrawRay(transform.position, lastDir1, Color.green);
-            Debug.DrawRay(transform.position, lastDir2, Color.green);
-
-            // Calculate a rotation a step closer to the target and applies rotation to this object
-            transform.rotation = Quaternion.LookRotation(newDirection);
+                if (move.x == 0f && move.y == 0f)
+                {
+                    state = States.idle;
+                }
+                break;
+            case States.attacking:
+                if (!isPlaying("Melee"))
+                {
+                    state = States.idle;
+                }
+                break;
+            case States.radio:
+                if (PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() <= 0)
+                {
+                    CameraController.instance.LoadLastTarget();
+                    state = States.idle;
+                }
+                break;
+            case States.hurt:
+                print($"{gameObject.name} is hurt");
+                animator.SetTrigger("isHurt");
+                if (!isPlaying("Hurt"))
+                {
+                    state = States.idle;
+                }
+                break;
+            case States.dead:
+                //TODO add state logic
+                print($"{gameObject.name} is dead");
+                animator.SetTrigger("isDead");
+                rb.useGravity = false;
+                rb.isKinematic = true;
+                col.enabled = false;
+                break;
+            default:
+                break;
         }
+
+        animator.SetBool("isMoving", state == States.moving);
+        animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false); //toggle falling animation
     }
 
 
@@ -227,8 +257,8 @@ public class PlayerController : CharacterController
 
     public void InteractToggle(bool interactState)
     {
-        interacting = interactState;
-        animator.SetBool("isInteracting", interacting);
+        state = interactState ? States.interacting : States.idle;
+        animator.SetBool("isInteracting", interactState);
     }
 
     //Used for the door controller to set exit direction

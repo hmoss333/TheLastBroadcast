@@ -76,12 +76,12 @@ public class RatAbility : RadioAbilityController
             print("End rat ability");
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
             Destroy(ratObj);
-            PlayerController.instance.usingRadio = false;
+            PlayerController.instance.state = PlayerController.States.idle;//.usingRadio = false;
             isRat = false;
         }
 
         //Toggle player interaction state based on invisibility status
         if (RadioController.instance.abilityMode)
-            PlayerController.instance.interacting = isRat;
+            PlayerController.instance.state = isRat ? PlayerController.States.interacting : PlayerController.States.idle; //This may cause issues. Needs review
     }
 }

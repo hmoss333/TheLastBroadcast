@@ -46,7 +46,8 @@ public class ElevatorController : InteractObject
             StartCoroutine(CloseDoors(false, doorDelay));
         }
 
-        doorCollider.SetActive(moving);
+        if (doorCollider)
+            doorCollider.SetActive(moving);
     }
 
     public void CallElevator(bool moveDir)

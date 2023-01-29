@@ -63,6 +63,6 @@ public class TriggerObject : InteractObject
         //yield return new WaitForSeconds(delayTime);
 
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
-        PlayerController.instance.interacting = false;
+        PlayerController.instance.state = PlayerController.States.idle;
     }
 }

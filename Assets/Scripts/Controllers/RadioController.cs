@@ -83,7 +83,7 @@ public class RadioController : MonoBehaviour
         }
 
         staticSource.mute = !isActive;
-        overlayPanel.SetActive(SaveDataController.instance.saveData.abilities.radio && !PlayerController.instance.interacting);
+        overlayPanel.SetActive(SaveDataController.instance.saveData.abilities.radio && PlayerController.instance.state == PlayerController.States.radio);//!PlayerController.instance.interacting);
 
         //if (stunEnemy)
         //    stationBackground.color = enemyColor;
