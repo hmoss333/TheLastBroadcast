@@ -7,7 +7,6 @@ public class Health : MonoBehaviour
     [SerializeField] int health;
     [SerializeField] bool shockEffect;
 
-
     public void Hurt(int value)
     {
         health -= value;

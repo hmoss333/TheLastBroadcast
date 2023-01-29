@@ -18,6 +18,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] float zOff;
     [SerializeField] float zOffMin, zOffMax;
     float xTemp;
+    [SerializeField] Vector3 camRotMod;
     Quaternion baseRot;
 
     [SerializeField] bool focus, setRot;
@@ -96,6 +97,7 @@ public class CameraController : MonoBehaviour
         //transform.LookAt(target);
         transform.position = Vector3.Lerp(transform.position, pos, smoothTime * Time.deltaTime); //update camera position
         transform.rotation = Quaternion.Lerp(transform.rotation, focus || setRot ? target.rotation : baseRot, focusRotRate * Time.deltaTime); //update camera rotation based on focus state
+        transform.rotation *= Quaternion.Euler(camRotMod.x, camRotMod.y, camRotMod.z); //Apply additional rotation modifyers; default 0
         Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, focus ? 60f : 20f, focusRate * Time.deltaTime); //update camera field of view based on focus state
     }
 

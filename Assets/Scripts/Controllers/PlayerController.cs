@@ -216,7 +216,7 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.attacking:
-                if (!isPlaying("Melee"))
+                if (!isPlaying("Melee") || hurt)
                 {
                     state = States.idle;
                 }
@@ -229,7 +229,6 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.hurt:
-                print("Player hurt");
                 if (!hurt && !isPlaying("Hurt"))
                     state = States.idle;
                 break;
@@ -238,7 +237,7 @@ public class PlayerController : CharacterController
         }
 
         animator.SetBool("isMoving", state == States.moving);
-        animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false); //toggle falling animation
+        animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false);
     }
 
 

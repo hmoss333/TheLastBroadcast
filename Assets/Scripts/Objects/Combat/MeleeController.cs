@@ -6,7 +6,18 @@ public class MeleeController : MonoBehaviour
 {
     [SerializeField] List<string> tags;
     public int damage;
+    Collider meleeCollider;
 
+
+    private void Start()
+    {
+        meleeCollider = GetComponent<Collider>();
+    }
+
+    private void OnEnable()
+    {
+        meleeCollider.enabled = true;
+    }
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -16,6 +27,7 @@ public class MeleeController : MonoBehaviour
             if (targetHealth != null)
             {
                 targetHealth.Hurt(damage);
+                meleeCollider.enabled = false;
             }
         }
     }
