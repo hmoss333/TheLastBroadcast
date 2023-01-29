@@ -5,31 +5,50 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] int health;
-    [SerializeField] bool shockEffect;
+    [SerializeField] bool shockEffect, isHit;
+    [SerializeField] float cooldownTime;
+    CharacterController character;
+
+    private void Start()
+    {
+        character = GetComponent<CharacterController>();
+    }
 
     public void Hurt(int value)
     {
-        health -= value;
-        print($"{gameObject.name} health = {health}");
-        CharacterController character = GetComponent<CharacterController>();
-
-        if (shockEffect)
+        if (!isHit)
         {
-            CamEffectController.instance.ShockEffect(0.25f);
-        }
+            isHit = true;
+            health -= value;
+            print($"{gameObject.name} health = {health}");
 
-        if (health <= 0)
-        {
-            if (character != null)
-                character.dead = true;
+            if (shockEffect)
+            {
+                CamEffectController.instance.ShockEffect(0.25f);
+            }
+
+            if (health <= 0)
+            {
+                if (character != null)
+                    character.dead = true;
+                else
+                    gameObject.SetActive(false);
+            }
             else
-                gameObject.SetActive(false);
+            {
+                if (character != null)
+                    character.hurt = true;
+            }
+
+            StartCoroutine(HitCooldown(cooldownTime));
         }
-        else
-        {
-            if (character != null)
-                character.hurt = true;
-        }
+    }
+
+    IEnumerator HitCooldown(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+
+        isHit = false;
     }
 
     public int CurrentHealth()
