@@ -16,7 +16,7 @@ public class PlayerController : CharacterController
     private Vector3 lastDir, lastDir1, lastDir2;
 
     //[Header("Player State Variables")]
-    public enum States { idle, interacting, talking, moving, attacking, radio, hurt, dead }
+    public enum States { idle, interacting, moving, attacking, radio, hurt, dead }
     public States state;
     public bool onLadder, isSeen, invisible;
 
@@ -94,9 +94,9 @@ public class PlayerController : CharacterController
         //Manage Player Inputs
         if (state == States.idle || state == States.moving)
         {
-            if (PlayerController.instance.inputMaster.Player.Interact.triggered)
+            if (interactObj != null
+                && PlayerController.instance.inputMaster.Player.Interact.triggered)
             {
-                interactObj.Interact();
                 state = States.interacting;
             }
 
@@ -116,6 +116,20 @@ public class PlayerController : CharacterController
                 CameraController.instance.SetTarget(radioObj);
             }
         }
+        if (state == States.interacting)
+        {
+            if (PlayerController.instance.inputMaster.Player.Interact.triggered)
+            {
+                interactObj.Interact();
+            }
+        }
+
+
+        //Player hurt/death triggers
+        if (hurt)
+            state = States.hurt;
+        if (dead)
+            state = States.dead;
 
 
         //Pause ladder climbing animation if there is no input
@@ -134,10 +148,10 @@ public class PlayerController : CharacterController
         //Bag
         bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
         //Ladder
-        animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder
+        animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder      
 
 
-        //base.Update(); //Handles hurt and dead controller state overrides
+        base.Update();
     }
 
     // Update is called once per frame
@@ -158,15 +172,6 @@ public class PlayerController : CharacterController
                 {
                     state = States.moving;
                 }
-                break;
-            case States.interacting:
-                if (PlayerController.instance.inputMaster.Player.Interact.triggered)
-                {
-                    interactObj.Interact();
-                }
-                break;
-            case States.talking:
-                //TODO add state logic here
                 break;
             case States.moving:
                 speed = storedSpeed;
@@ -224,20 +229,9 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.hurt:
-                print($"{gameObject.name} is hurt");
-                animator.SetTrigger("isHurt");
-                if (!isPlaying("Hurt"))
-                {
+                print("Player hurt");
+                if (!hurt && !isPlaying("Hurt"))
                     state = States.idle;
-                }
-                break;
-            case States.dead:
-                //TODO add state logic
-                print($"{gameObject.name} is dead");
-                animator.SetTrigger("isDead");
-                rb.useGravity = false;
-                rb.isKinematic = true;
-                col.enabled = false;
                 break;
             default:
                 break;
