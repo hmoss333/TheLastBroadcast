@@ -58,7 +58,7 @@ public class TVController : SavePointController
         if (active)
         {
             interacting = !interacting;
-            PlayerController.instance.InteractToggle(interacting);
+            //layerController.instance.InteractToggle(interacting);
             PlayerController.instance.GetComponent<Health>().SetHealth(5); //set health back to max
 
             if (interacting)

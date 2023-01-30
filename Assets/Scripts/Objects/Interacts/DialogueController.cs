@@ -11,9 +11,20 @@ public class DialogueController : InteractObject
     //[SerializeField] private TMP_Text textObj;
     [SerializeField] private int index;
 
+    private void Update()
+    {
+        if (interacting)
+        {
+            if (!PlayerController.instance.inputMaster.Player.Interact.IsPressed())
+            {
+                interacting = false;
+            }
+        }
+    }
+
     public override void Interact()
     {
-        if (!hasActivated)
+        if (!interacting)
         {
             if (index < lines.Length)
             {

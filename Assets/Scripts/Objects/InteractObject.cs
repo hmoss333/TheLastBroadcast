@@ -10,7 +10,7 @@ public class InteractObject : MonoBehaviour
     public virtual void Interact()
     {
         interacting = !interacting;
-        PlayerController.instance.InteractToggle(interacting);
+        //PlayerController.instance.InteractToggle(interacting);
 
         if (interacting)
         {

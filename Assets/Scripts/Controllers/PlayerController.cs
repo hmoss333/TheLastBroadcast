@@ -96,7 +96,9 @@ public class PlayerController : CharacterController
             if (interactObj != null
                 && PlayerController.instance.inputMaster.Player.Interact.triggered)
             {
-                state = States.interacting;
+                interactObj.Interact();
+                if (interactObj.active)
+                    state = States.interacting;              
             }
 
             if (SaveDataController.instance.saveData.abilities.crowbar == true
@@ -138,16 +140,17 @@ public class PlayerController : CharacterController
             animator.enabled = true;
 
 
-        //Melee
-        melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
+        //Interacting
+        animator.SetBool("isInteracting", state == States.interacting);
+        //Ladder
+        animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder  
         //Radio
         animator.SetBool("isRadio", state == States.radio); //play radio animation while button is held
         RadioController.instance.SetActive(state == States.radio); //toggle radio controller active state if player is pressing the corresponding input
         radioObj.SetActive(state == States.radio); //toggle radioObj based on usingRadio state
-        //Bag
         bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
-        //Ladder
-        animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder      
+        //Melee
+        melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state    
 
 
         base.Update();
@@ -215,6 +218,12 @@ public class PlayerController : CharacterController
                     state = States.idle;
                 }
                 break;
+            //case States.interacting:
+            //    if (PlayerController.instance.inputMaster.Player.Interact.triggered)
+            //    {
+            //        interactObj.Interact();
+            //    }
+            //    break;
             case States.attacking:
                 if (!isPlaying("Melee") || hurt)
                 {
@@ -248,11 +257,11 @@ public class PlayerController : CharacterController
         playerAvatar.SetActive(!playerAvatar.activeSelf);
     }
 
-    public void InteractToggle(bool interactState)
-    {
-        state = interactState ? States.interacting : States.idle;
-        animator.SetBool("isInteracting", interactState);
-    }
+    //public void InteractToggle(bool interactState)
+    //{
+    //    state = interactState ? States.interacting : States.idle;
+    //    animator.SetBool("isInteracting", interactState);
+    //}
 
     //Used for the door controller to set exit direction
     public void SetLastDir(Vector3 newDir)
