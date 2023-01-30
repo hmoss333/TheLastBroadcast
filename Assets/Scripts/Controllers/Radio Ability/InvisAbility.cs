@@ -114,7 +114,7 @@ public class InvisAbility : RadioAbilityController
         //If the player is currently using the ability
         if (isInvis)
         {
-            PlayerController.instance.state = PlayerController.States.idle;//.usingRadio = false;
+            //PlayerController.instance.state = PlayerController.States.idle;//.usingRadio = false;
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
 
             invisTime -= Time.deltaTime;

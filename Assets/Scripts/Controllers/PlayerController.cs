@@ -18,7 +18,7 @@ public class PlayerController : CharacterController
     //[Header("Player State Variables")]
     public enum States { idle, interacting, moving, attacking, radio, hurt, dead }
     public States state;
-    public bool onLadder, isSeen, invisible;
+    public bool onLadder, isSeen, invisible, isRat;
 
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
@@ -222,7 +222,7 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.radio:
-                if (PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() <= 0)
+                if (PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() <= 0 && !isRat)
                 {
                     CameraController.instance.LoadLastTarget();
                     state = States.idle;
