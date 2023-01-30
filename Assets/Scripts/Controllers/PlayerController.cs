@@ -162,6 +162,25 @@ public class PlayerController : CharacterController
             speed = 0; //stop all player movement
         }
 
+        // Determine which direction to rotate towards
+        Vector3 targetDirection = lastDir;
+
+        // The step size is equal to speed times frame time.
+        float singleStep = rotSpeed * Time.deltaTime;
+
+        // Rotate the forward vector towards the target direction by one step
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+        lastDir1 = (2 * transform.forward - transform.right).normalized; //Left ray
+        lastDir2 = (2 * transform.forward + transform.right).normalized; //Right ray
+
+        // Draw rays pointing in all interact directions
+        Debug.DrawRay(transform.position, newDirection, Color.green);
+        Debug.DrawRay(transform.position, lastDir1, Color.green);
+        Debug.DrawRay(transform.position, lastDir2, Color.green);
+
+        // Calculate a rotation a step closer to the target and applies rotation to this object
+        transform.rotation = Quaternion.LookRotation(newDirection);
+
 
         //Store player move values
         Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
@@ -190,25 +209,6 @@ public class PlayerController : CharacterController
                 if (tempMove.magnitude > 1)
                     tempMove = tempMove.normalized;
                 rb.velocity = new Vector3(tempMove.x * speed, rb.velocity.y, tempMove.z * speed);
-
-                // Determine which direction to rotate towards
-                Vector3 targetDirection = lastDir;
-
-                // The step size is equal to speed times frame time.
-                float singleStep = rotSpeed * Time.deltaTime;
-
-                // Rotate the forward vector towards the target direction by one step
-                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
-                lastDir1 = (2 * transform.forward - transform.right).normalized; //Left ray
-                lastDir2 = (2 * transform.forward + transform.right).normalized; //Right ray
-
-                // Draw rays pointing in all interact directions
-                Debug.DrawRay(transform.position, newDirection, Color.green);
-                Debug.DrawRay(transform.position, lastDir1, Color.green);
-                Debug.DrawRay(transform.position, lastDir2, Color.green);
-
-                // Calculate a rotation a step closer to the target and applies rotation to this object
-                transform.rotation = Quaternion.LookRotation(newDirection);
 
                 if (move.x == 0f && move.y == 0f)
                 {

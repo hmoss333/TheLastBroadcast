@@ -18,7 +18,7 @@ public class PlayerHealthUI : MonoBehaviour
     [SerializeField] Color low;
 
     [SerializeField] Vector2 activePos, inactivePos;
-    bool isActive;
+    bool isActive = true;
     float slideSpeed = 5f;
 
 

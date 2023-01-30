@@ -6,7 +6,7 @@ public class Health : MonoBehaviour
 {
     [SerializeField] int health;
     [SerializeField] bool shockEffect, isHit;
-    [SerializeField] float cooldownTime;
+    [SerializeField] float cooldownTime = 1f;
     CharacterController character;
 
     private void Start()
@@ -54,5 +54,10 @@ public class Health : MonoBehaviour
     public int CurrentHealth()
     {
         return health;
+    }
+
+    public void SetHealth(int value)
+    {
+        health = value;
     }
 }
