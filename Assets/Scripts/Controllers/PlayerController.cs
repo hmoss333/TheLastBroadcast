@@ -83,7 +83,6 @@ public class PlayerController : CharacterController
         }
 
         if (interactObj != null
-            //&& interactObj.active
             && !interactObj.hasActivated
             && !interactObj.GetComponent<Outline>())
         {
@@ -116,7 +115,7 @@ public class PlayerController : CharacterController
                 CameraController.instance.SetTarget(radioObj);
             }
         }
-        if (state == States.interacting)
+        if (state == States.interacting) //needs to be in Update for accurate timing
         {
             if (PlayerController.instance.inputMaster.Player.Interact.triggered)
             {
@@ -183,6 +182,7 @@ public class PlayerController : CharacterController
 
 
         //Store player move values
+        //Used in FixedUpdate for correct timing with animation flags
         Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
         switch (state)
         {
