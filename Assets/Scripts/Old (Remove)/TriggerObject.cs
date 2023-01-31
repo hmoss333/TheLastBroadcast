@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TriggerObject : InteractObject
 {
-    [SerializeField] bool interacted;
+    [SerializeField] bool interacted, hide;
     [SerializeField] List<GameObject> objectsToTrigger;
     [SerializeField] float delayTime;
 
@@ -16,12 +16,16 @@ public class TriggerObject : InteractObject
     void Start()
     {
         buttonMat = buttonObj.GetComponent<MeshRenderer>().material;
+
+        if (hide)
+            gameObject.SetActive(hasActivated);
     }
 
     // Update is called once per frame
     void Update()
     {
-        buttonMat.color = interacted ? Color.green : Color.red;
+        if (buttonMat)
+            buttonMat.color = interacted ? Color.green : Color.red;
     }
 
     public override void Interact()
@@ -31,7 +35,7 @@ public class TriggerObject : InteractObject
             base.Interact();
 
             interacted = true;
-
+            hasActivated = true;
             StartCoroutine(TriggerEvent());
         }
     }
@@ -64,5 +68,8 @@ public class TriggerObject : InteractObject
 
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         PlayerController.instance.state = PlayerController.States.idle;
+
+        if (hide)
+            gameObject.SetActive(false);
     }
 }
