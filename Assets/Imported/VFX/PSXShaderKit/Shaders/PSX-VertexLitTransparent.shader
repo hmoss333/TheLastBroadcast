@@ -6,6 +6,9 @@
 		_EmissionColor("Emissive Color(RGBA)", Color) = (0,0,0,0)
 		_MainTex("Texture", 2D) = "white" {}
 		_EmissiveTex("Emissive", 2D) = "black" {}
+		_ObjectDithering("Per-Object Dithering Enable", Range(0,1)) = 1
+		_FlatShading("Flat Shading", Range(0,1)) = 0
+        _CustomDepthOffset("Custom Depth Offset", Float) = 0
 	}
 		SubShader
 	{
@@ -22,7 +25,9 @@
 			#pragma geometry geom
 			#pragma fragment frag
 			#pragma multi_compile_fog
-			#pragma multi_compile __ PSX_ENABLE_TRIANGLE_SORTING
+			#pragma multi_compile_geometry __ PSX_ENABLE_CUSTOM_VERTEX_LIGHTING
+			#pragma multi_compile_geometry __ PSX_FLAT_SHADING_MODE_CENTER
+			#pragma multi_compile PSX_TRIANGLE_SORT_OFF PSX_TRIANGLE_SORT_CENTER_Z PSX_TRIANGLE_SORT_CLOSEST_Z PSX_TRIANGLE_SORT_CENTER_VIEWDIST PSX_TRIANGLE_SORT_CLOSEST_VIEWDIST PSX_TRIANGLE_SORT_CUSTOM
 
 			#include "UnityCG.cginc"
 			#include "PSX-Utils.cginc"
@@ -41,7 +46,9 @@
 			#pragma geometry geom
 			#pragma fragment frag
 			#pragma multi_compile_fog
-			#pragma multi_compile __ PSX_ENABLE_TRIANGLE_SORTING
+			#pragma multi_compile_geometry __ PSX_ENABLE_CUSTOM_VERTEX_LIGHTING
+			#pragma multi_compile_geometry __ PSX_FLAT_SHADING_MODE_CENTER
+			#pragma multi_compile PSX_TRIANGLE_SORT_OFF PSX_TRIANGLE_SORT_CENTER_Z PSX_TRIANGLE_SORT_CLOSEST_Z PSX_TRIANGLE_SORT_CENTER_VIEWDIST PSX_TRIANGLE_SORT_CLOSEST_VIEWDIST PSX_TRIANGLE_SORT_CUSTOM
 
 			#include "UnityCG.cginc"
 			#include "PSX-Utils.cginc"
@@ -52,5 +59,5 @@
 		ENDCG
 		}
 	}
-		Fallback "PSX/Unlit Transparent"
+		Fallback "PSX/Lite/Vertex Lit Transparent"
 }

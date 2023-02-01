@@ -6,6 +6,7 @@ public class TriggerObject : InteractObject
 {
     [SerializeField] bool interacted, hide;
     [SerializeField] List<GameObject> objectsToTrigger;
+    [SerializeField] string triggerText;
     [SerializeField] float delayTime;
 
 
@@ -42,14 +43,16 @@ public class TriggerObject : InteractObject
 
     IEnumerator TriggerEvent()
     {
+        if (triggerText != "")
+            UIController.instance.DialogueUI(triggerText, 3f);
+
         yield return new WaitForSeconds(0.5f);
 
         for (int i = 0; i < objectsToTrigger.Count; i++)
         {
             try
             {
-                Debug.Log("Put trigger activation here");
-                objectsToTrigger[i].GetComponent<InteractObject>().active = true; //testing for now
+                objectsToTrigger[i].GetComponent<InteractObject>().active = true;
             }
             catch
             {

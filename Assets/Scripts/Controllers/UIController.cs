@@ -14,10 +14,12 @@ public class UIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI loreText;
 
     [Header("Ability Variables")]
-    [SerializeField] GameObject abilityObject;
+    [SerializeField] GameObject abilityObject, dialogueObject;
     [SerializeField] Image abilityBackground;
-    [SerializeField] TextMeshProUGUI abilityText;
+    [SerializeField] TextMeshProUGUI abilityText, dialogueText;
     [SerializeField] Image abilityIcon;
+
+    Coroutine df;
 
     bool uiActive;
 
@@ -42,5 +44,22 @@ public class UIController : MonoBehaviour
         abilityText.text = text;
         abilityIcon.sprite = icon;
         abilityObject.SetActive(uiActive);
+    }
+
+    public void DialogueUI(string text, float fadeTime)
+    {
+        dialogueText.text = text;
+        dialogueObject.SetActive(true);
+
+        if (df != null)
+            StopCoroutine(df);
+        df = StartCoroutine(DialogueFade(fadeTime));
+    }
+
+    IEnumerator DialogueFade(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        dialogueObject.SetActive(false);
     }
 }

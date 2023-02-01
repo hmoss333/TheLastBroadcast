@@ -117,13 +117,13 @@ public class PlayerController : CharacterController
                 CameraController.instance.SetTarget(radioObj);
             }
         }
-        if (state == States.interacting) //needs to be in Update for accurate timing
-        {
-            if (PlayerController.instance.inputMaster.Player.Interact.triggered)
-            {
-                interactObj.Interact();
-            }
-        }
+        //if (state == States.interacting) //needs to be in Update for accurate timing
+        //{
+        //    if (PlayerController.instance.inputMaster.Player.Interact.triggered)
+        //    {
+        //        interactObj.Interact();
+        //    }
+        //}
 
 
         //Player hurt/death triggers

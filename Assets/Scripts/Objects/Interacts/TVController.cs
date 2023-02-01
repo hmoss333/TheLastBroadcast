@@ -63,7 +63,8 @@ public class TVController : SavePointController
 
             if (interacting)
             {
-                Debug.Log("Saving game");
+                //Debug.Log("Saving game");
+                UIController.instance.DialogueUI("Saving game", 1.5f);
                 SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);
                 SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
                 SaveDataController.instance.SaveFile();

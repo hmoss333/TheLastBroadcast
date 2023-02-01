@@ -8,36 +8,39 @@ using UnityEngine.SceneManagement;
 public class DialogueController : InteractObject
 {
     [SerializeField] private string[] lines;
-    //[SerializeField] private TMP_Text textObj;
     [SerializeField] private int index;
+    private bool canInteract;
 
     private void Update()
     {
         if (interacting)
         {
+            //On button up, reset interact state
             if (!PlayerController.instance.inputMaster.Player.Interact.IsPressed())
+            {             
+                canInteract = false;
+            }
+            else if (PlayerController.instance.inputMaster.Player.Interact.IsPressed() && !canInteract)
             {
-                interacting = false;
+                Interact();
             }
         }
     }
 
     public override void Interact()
     {
-        if (!interacting)
+        if (!canInteract)
         {
             if (index < lines.Length)
             {
-                interacting = true;
-                Debug.Log(lines[index]);
-                //textObj.text = lines[index];
+                interacting = true; //Still in the dialogue tree
+                canInteract = true; //Ready for next input
+                UIController.instance.DialogueUI(lines[index], 3f);
             }
             else
             {
-                hasActivated = true;
-                interacting = false;
-                SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
-                SaveDataController.instance.SaveFile();
+                interacting = false; //Exited the dialogue tree
+                hasActivated = true; //Dialogue event has completed
                 PlayerController.instance.state = PlayerController.States.idle;
             }
 
