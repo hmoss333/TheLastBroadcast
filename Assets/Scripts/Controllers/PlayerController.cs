@@ -16,9 +16,9 @@ public class PlayerController : CharacterController
     private Vector3 lastDir, lastDir1, lastDir2;
 
     //[Header("Player State Variables")]
-    public enum States { idle, interacting, moving, attacking, radio, hurt, dead }
+    public enum States { idle, interacting, moving, attacking, listening, radio, hurt, dead }
     public States state;
-    public bool onLadder, isSeen, invisible, isRat;
+    public bool isListening, onLadder, isSeen, invisible, isRat;
 
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
@@ -150,7 +150,9 @@ public class PlayerController : CharacterController
         radioObj.SetActive(state == States.radio); //toggle radioObj based on usingRadio state
         bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
         //Melee
-        melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state    
+        melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
+        //Listening
+        animator.SetBool("isListening", isListening); //toggle listening animation based on bool value
 
 
         base.Update();

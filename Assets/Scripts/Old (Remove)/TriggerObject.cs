@@ -16,7 +16,8 @@ public class TriggerObject : InteractObject
     // Start is called before the first frame update
     void Start()
     {
-        buttonMat = buttonObj.GetComponent<MeshRenderer>().material;
+        if (buttonObj)
+            buttonMat = buttonObj.GetComponent<MeshRenderer>().material;
 
         if (hide)
             gameObject.SetActive(hasActivated);
@@ -44,7 +45,9 @@ public class TriggerObject : InteractObject
     IEnumerator TriggerEvent()
     {
         if (triggerText != "")
-            UIController.instance.DialogueUI(triggerText, 3f);
+        {
+            UIController.instance.DialogueUI(triggerText);//, 3f);
+        }
 
         yield return new WaitForSeconds(0.5f);
 
@@ -62,15 +65,14 @@ public class TriggerObject : InteractObject
             if (objectsToTrigger[i].transform.parent.gameObject.activeSelf)
             {
                 CameraController.instance.SetTarget(objectsToTrigger[i]);
-
-                yield return new WaitForSeconds(delayTime);
             }
-        }
 
-        //yield return new WaitForSeconds(delayTime);
+            yield return new WaitForSeconds(delayTime);
+        }
 
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         PlayerController.instance.state = PlayerController.States.idle;
+        UIController.instance.FadeUI(0f);
 
         if (hide)
             gameObject.SetActive(false);

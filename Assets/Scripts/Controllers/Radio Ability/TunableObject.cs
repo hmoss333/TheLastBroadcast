@@ -246,7 +246,8 @@ public class TunableObject : MonoBehaviour
     IEnumerator ActivateObject()
     {
         //Debug.Log($"Activating {baseObject.name}");
-        UIController.instance.DialogueUI($"Activating {baseObject.name}", 3f);
+        UIController.instance.DialogueUI($"Activating {baseObject.name}");//, 3f);
+        UIController.instance.FadeUI(3f);
         baseObject.Activate();
 
         yield return new WaitForSeconds(1f);

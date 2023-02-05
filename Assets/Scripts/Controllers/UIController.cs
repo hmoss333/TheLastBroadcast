@@ -46,11 +46,18 @@ public class UIController : MonoBehaviour
         abilityObject.SetActive(uiActive);
     }
 
-    public void DialogueUI(string text, float fadeTime)
+    public void DialogueUI(string text)//, float fadeTime)
     {
         dialogueText.text = text;
         dialogueObject.SetActive(true);
 
+        //if (df != null)
+        //    StopCoroutine(df);
+        //df = StartCoroutine(DialogueFade(fadeTime));
+    }
+
+    public void FadeUI(float fadeTime)
+    {
         if (df != null)
             StopCoroutine(df);
         df = StartCoroutine(DialogueFade(fadeTime));

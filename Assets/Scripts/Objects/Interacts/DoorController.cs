@@ -27,7 +27,8 @@ public class DoorController : InteractObject
         else
         {
             print("Door is locked");
-            UIController.instance.DialogueUI("Door is locked", 3f);
+            UIController.instance.DialogueUI("Door is locked");//, 3f);
+            UIController.instance.FadeUI(1.5f);
         }
     }
 

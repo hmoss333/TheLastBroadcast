@@ -139,7 +139,8 @@ public class TranscieverController : SavePointController
         else
         {
             //Debug.Log($"The {name} doesn't appear to have any power");
-            UIController.instance.DialogueUI($"The {name} doesn't appear to have any power", 3f);
+            UIController.instance.DialogueUI($"The {name} doesn't appear to have any power");//, 3f);
+            UIController.instance.FadeUI(3f);
         }
 
         staticSource.mute = !interacting;
