@@ -35,17 +35,18 @@ public class DialogueController : InteractObject
             {
                 interacting = true; //Still in the dialogue tree
                 canInteract = true; //Ready for next input
-                UIController.instance.DialogueUI(lines[index]);//, 3f);
+                UIController.instance.SetDialogueText(lines[index]);
             }
             else
             {
                 interacting = false; //Exited the dialogue tree
                 hasActivated = true; //Dialogue event has completed
-                UIController.instance.FadeUI(0f);
+                //UIController.instance.FadeUI(0f);
                 PlayerController.instance.isListening = false;
                 PlayerController.instance.state = PlayerController.States.idle;
             }
 
+            UIController.instance.ToggleDialogueUI(interacting);
             index++;
         }
     }

@@ -58,14 +58,11 @@ public class TVController : SavePointController
         if (active)
         {
             interacting = !interacting;
-            //layerController.instance.InteractToggle(interacting);
             PlayerController.instance.GetComponent<Health>().SetHealth(5); //set health back to max
 
             if (interacting)
             {
-                //Debug.Log("Saving game");
-                UIController.instance.DialogueUI("Saving game");//, 1.5f);
-                UIController.instance.FadeUI(1f);
+                Debug.Log("Saving game");
                 SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);
                 SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
                 SaveDataController.instance.SaveFile();

@@ -46,27 +46,26 @@ public class UIController : MonoBehaviour
         abilityObject.SetActive(uiActive);
     }
 
-    public void DialogueUI(string text)//, float fadeTime)
+    //public void DialogueUI(string text)//, float fadeTime)
+    //{
+    //    //dialogueText.text = text;
+    //    //dialogueObject.SetActive(true);
+
+    //    //if (df != null)
+    //    //    StopCoroutine(df);
+    //    //df = StartCoroutine(DialogueFade(fadeTime));
+
+    //    SetDialogueText(text);
+    //    ToggleDialogueUI();
+    //}
+
+    public void SetDialogueText(string text)
     {
         dialogueText.text = text;
-        dialogueObject.SetActive(true);
-
-        //if (df != null)
-        //    StopCoroutine(df);
-        //df = StartCoroutine(DialogueFade(fadeTime));
     }
 
-    public void FadeUI(float fadeTime)
+    public void ToggleDialogueUI(bool forceValue)
     {
-        if (df != null)
-            StopCoroutine(df);
-        df = StartCoroutine(DialogueFade(fadeTime));
-    }
-
-    IEnumerator DialogueFade(float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        dialogueObject.SetActive(false);
+        dialogueObject.SetActive(forceValue);
     }
 }

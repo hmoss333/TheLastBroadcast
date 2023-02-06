@@ -44,4 +44,15 @@ public class CharacterController : MonoBehaviour
         else
             return false;
     }
+
+    public float GetClipLength(string stateName)
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+            return animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        else
+        {
+            print($"Clip for {stateName} not found");
+            return 0;
+        }
+    }
 }

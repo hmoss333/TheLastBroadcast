@@ -220,12 +220,6 @@ public class PlayerController : CharacterController
                     state = States.idle;
                 }
                 break;
-            //case States.interacting:
-            //    if (PlayerController.instance.inputMaster.Player.Interact.triggered)
-            //    {
-            //        interactObj.Interact();
-            //    }
-            //    break;
             case States.attacking:
                 if (!isPlaying("Melee") || hurt)
                 {
@@ -258,12 +252,6 @@ public class PlayerController : CharacterController
         print($"Toggle avatar {!playerAvatar.activeSelf}");
         playerAvatar.SetActive(!playerAvatar.activeSelf);
     }
-
-    //public void InteractToggle(bool interactState)
-    //{
-    //    state = interactState ? States.interacting : States.idle;
-    //    animator.SetBool("isInteracting", interactState);
-    //}
 
     //Used for the door controller to set exit direction
     public void SetLastDir(Vector3 newDir)

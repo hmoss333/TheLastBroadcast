@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//This class has been depreciated in favor of the ButtonController
+//Please refrain from using this script in the future unless re-worked into a trigger field
+ 
 public class TriggerObject : InteractObject
 {
-    [SerializeField] bool interacted, hide;
+    [SerializeField] bool interacted;
     [SerializeField] List<GameObject> objectsToTrigger;
-    [SerializeField] string triggerText;
-    [SerializeField] float delayTime;
+    //[SerializeField] float delayTime;
 
 
     [SerializeField] GameObject buttonObj;
@@ -18,9 +21,6 @@ public class TriggerObject : InteractObject
     {
         if (buttonObj)
             buttonMat = buttonObj.GetComponent<MeshRenderer>().material;
-
-        if (hide)
-            gameObject.SetActive(hasActivated);
     }
 
     // Update is called once per frame
@@ -44,10 +44,11 @@ public class TriggerObject : InteractObject
 
     IEnumerator TriggerEvent()
     {
-        if (triggerText != "")
-        {
-            UIController.instance.DialogueUI(triggerText);//, 3f);
-        }
+        //if (triggerText != "")
+        //{
+        //    UIController.instance.SetDialogueText(triggerText);
+        //    UIController.instance.ToggleDialogueUI(true);
+        //}
 
         yield return new WaitForSeconds(0.5f);
 
@@ -67,14 +68,11 @@ public class TriggerObject : InteractObject
                 CameraController.instance.SetTarget(objectsToTrigger[i]);
             }
 
-            yield return new WaitForSeconds(delayTime);
+            //yield return new WaitForSeconds(delayTime);
         }
 
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         PlayerController.instance.state = PlayerController.States.idle;
-        UIController.instance.FadeUI(0f);
-
-        if (hide)
-            gameObject.SetActive(false);
+        //UIController.instance.ToggleDialogueUI(false);
     }
 }
