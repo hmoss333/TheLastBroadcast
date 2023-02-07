@@ -83,6 +83,7 @@ public class PlayerController : CharacterController
         }
 
         if (interactObj != null
+            && interactObj.active
             && !interactObj.hasActivated
             && !interactObj.GetComponent<Outline>())
         {

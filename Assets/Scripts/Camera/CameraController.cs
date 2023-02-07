@@ -105,13 +105,13 @@ public class CameraController : MonoBehaviour
     //Get/Set functions
     public void SetTarget(GameObject newTargetObj)
     {
-        print($"Setting cam target to {newTargetObj.name}");
+        //print($"Setting cam target to {newTargetObj.name}");
         target = newTargetObj.transform;
     }
 
     public void SetLastTarget(GameObject newLastTarget)
     {
-        print($"Setting lastTarget to {newLastTarget.name}");
+        //print($"Setting lastTarget to {newLastTarget.name}");
         lastTarget = newLastTarget.transform;
     }
 
