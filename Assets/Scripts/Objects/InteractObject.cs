@@ -10,16 +10,25 @@ public class InteractObject : MonoBehaviour
     public virtual void Interact()
     {
         interacting = !interacting;
-        //PlayerController.instance.InteractToggle(interacting);
 
         if (interacting)
         {
-            Debug.Log($"Started interacting with {name}");
+            StartInteract();
         }
         else
         {
-            Debug.Log($"Finished interacting with {name}");
+            EndInteract();
         }
+    }
+
+    public virtual void StartInteract()
+    {
+        //Debug.Log($"Started interacting with {name}");
+    }
+
+    public virtual void EndInteract()
+    {
+        //Debug.Log($"Finished interacting with {name}");
     }
 
     public virtual void Activate()

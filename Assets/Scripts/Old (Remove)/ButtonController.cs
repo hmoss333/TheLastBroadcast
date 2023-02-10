@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class ButtonController : InteractObject
 {
-    //[SerializeField] bool isActivated;
     PlayerController player;
     [SerializeField] GameObject[] objectsToActivate;
     [SerializeField] string triggerText;
-    float delayTime;
 
 
     void Start()
@@ -18,40 +16,22 @@ public class ButtonController : InteractObject
         gameObject.SetActive(!hasActivated);
     }
 
-    private void Update()
+    public override void StartInteract()
     {
-        if (interacting)
-        {
-            delayTime -= Time.deltaTime;
-            if (delayTime <= 0f)
-            {
-                print("Delay complete");
-                interacting = false;
-            }
-        }
+        UIController.instance.SetDialogueText(triggerText);
+        UIController.instance.ToggleDialogueUI(true);
+        StartCoroutine(ActivateObjects());
     }
 
-    public override void Interact()
+    public override void EndInteract()
     {
-        if (!hasActivated)
-        {
-            hasActivated = true;         
-
-            StartCoroutine(ActivateObjects());
-        }
+        UIController.instance.ToggleDialogueUI(false);
+        CameraController.instance.SetTarget(player.gameObject);
     }
 
     IEnumerator ActivateObjects()
     {
-        //Set player state and display UI overlay
-        PlayerController.instance.state = PlayerController.States.interacting;
-        UIController.instance.SetDialogueText(triggerText);
-        UIController.instance.ToggleDialogueUI(true);
-
         yield return new WaitForSeconds(0.65f); //brief pause for cinematic effect
-
-        delayTime = PlayerController.instance.GetClipLength("Interact");
-        interacting = true;
 
         //Activate all interact objects in list
         for (int i = 0; i < objectsToActivate.Length; i++)
@@ -87,13 +67,6 @@ public class ButtonController : InteractObject
             }
         }
 
-        //Reset camera to player
-        CameraController.instance.SetTarget(player.gameObject);
-
-        while (interacting)
-            yield return null;
-
-        PlayerController.instance.state = PlayerController.States.idle;
-        UIController.instance.ToggleDialogueUI(false);
+        hasActivated = true;
     }
 }

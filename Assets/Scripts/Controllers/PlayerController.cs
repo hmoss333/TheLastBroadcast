@@ -61,7 +61,7 @@ public class PlayerController : CharacterController
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (state == States.radio || state == States.attacking || invisible)
+        if (state == States.radio || state == States.attacking || isListening || invisible || isRat) 
         {
             interactObj = null;
         }
@@ -94,16 +94,6 @@ public class PlayerController : CharacterController
         //Manage Player Inputs
         if ((state == States.idle || state == States.moving) && !invisible)
         {
-            if (interactObj != null
-                && interactObj.active
-                && !interactObj.hasActivated
-                && PlayerController.instance.inputMaster.Player.Interact.triggered)
-            {
-                interactObj.Interact();
-                if (interactObj.active)
-                    state = States.interacting;              
-            }
-
             if (SaveDataController.instance.saveData.abilities.crowbar == true
                 && PlayerController.instance.inputMaster.Player.Melee.triggered)
             {
@@ -119,6 +109,18 @@ public class PlayerController : CharacterController
                 CameraController.instance.SetRotation(false);
                 CameraController.instance.SetTarget(radioObj);
             }
+        }
+
+        //Handle player interaction inputs
+        if (interactObj != null
+            && interactObj.active
+            && PlayerController.instance.inputMaster.Player.Interact.triggered)
+        {
+            interactObj.Interact();
+            if (interactObj.active && !interactObj.hasActivated && interactObj.interacting)
+                state = States.interacting;
+            else
+                state = States.idle;
         }
 
 

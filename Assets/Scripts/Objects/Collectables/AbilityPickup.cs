@@ -19,29 +19,24 @@ public class AbilityPickup : InteractObject
     [SerializeField] Sprite abilityIcon;
 
 
-
-    private void Update()
+    private void Start()
     {
         gameObject.SetActive(!hasActivated);
     }
 
-    public override void Interact()
+    public override void StartInteract()
     {
+        UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
+        SaveDataController.instance.GiveAbility(collectType.ToString());
         print("Collected " + gameObject.name);
-        base.Interact();
+    }
 
-        if (interacting)
-        {
-            UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
-            SaveDataController.instance.GiveAbility(collectType.ToString());
-        }
-        else
-        {
-            hasActivated = true;
-            SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
-            SaveDataController.instance.SaveFile();
-            UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
-            gameObject.SetActive(false);
-        }
+    public override void EndInteract()
+    {
+        hasActivated = true;
+        SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
+        SaveDataController.instance.SaveFile();
+        UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
+        gameObject.SetActive(false);
     }
 }

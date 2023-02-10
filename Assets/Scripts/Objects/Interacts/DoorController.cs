@@ -46,12 +46,10 @@ public class DoorController : InteractObject
 
         PlayerController.instance.transform.position = exitPoint.position;
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);
-
         transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
 
         FadeController.instance.StartFade(0.0f, 1f);
 
-        //PlayerController.instance.InteractToggle(false);
         PlayerController.instance.state = PlayerController.States.idle;
     }
 }

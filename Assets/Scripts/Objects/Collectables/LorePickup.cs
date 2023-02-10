@@ -10,28 +10,24 @@ public class LorePickup : InteractObject
     [SerializeField] int id;
 
 
-    private void Update()
+    private void Start()
     {
         gameObject.SetActive(!hasActivated);
     }
 
-    public override void Interact()
+    public override void StartInteract()
     {
-        print ("Collected " + gameObject.name);
-        base.Interact();
+        UIController.instance.ToggleLoreUI(loreText);
+        print("Collected " + gameObject.name);
+    }
 
-        if (interacting)
-        {
-            UIController.instance.ToggleLoreUI(loreText);
-        }
-        else
-        {
-            hasActivated = true;
-            SaveDataController.instance.SaveLoreData(id);
-            SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
-            SaveDataController.instance.SaveFile();
-            UIController.instance.ToggleLoreUI(loreText);
-            gameObject.SetActive(false);
-        }
+    public override void EndInteract()
+    {
+        hasActivated = true;
+        SaveDataController.instance.SaveLoreData(id);
+        SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
+        SaveDataController.instance.SaveFile();
+        UIController.instance.ToggleLoreUI(loreText);
+        gameObject.SetActive(false);
     }
 }

@@ -41,7 +41,6 @@ public class DialogueController : InteractObject
             {
                 interacting = false; //Exited the dialogue tree
                 hasActivated = true; //Dialogue event has completed
-                //UIController.instance.FadeUI(0f);
                 PlayerController.instance.isListening = false;
                 PlayerController.instance.state = PlayerController.States.idle;
             }
