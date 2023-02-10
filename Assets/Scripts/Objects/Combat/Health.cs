@@ -14,7 +14,7 @@ public class Health : MonoBehaviour
         character = GetComponent<CharacterController>();
     }
 
-    public void Hurt(int value)
+    public void Hurt(int value, bool stagger)
     {
         if (!isHit)
         {
@@ -36,7 +36,7 @@ public class Health : MonoBehaviour
             }
             else
             {
-                if (character != null)
+                if (character != null && stagger == true)
                     character.hurt = true;
             }
 

@@ -225,6 +225,7 @@ public class SaveDataController : MonoBehaviour
         Abilities tempAbilities = new Abilities();
         tempAbilities.radio = false;
         tempAbilities.crowbar = false;
+        tempAbilities.gasmask = false;
         tempAbilities.book = false;
         tempAbilities.hand = false;
         tempAbilities.mirror = false;
@@ -281,6 +282,9 @@ public class SaveDataController : MonoBehaviour
             case "crowbar":
                 saveData.abilities.crowbar = true;
                 break;
+            case "gasmask":
+                saveData.abilities.gasmask = true;
+                break;
             case "book":
                 saveData.abilities.book = true;
                 break;
@@ -331,6 +335,7 @@ public class Abilities
     public bool radio;
     public bool radio_special;
     public bool crowbar;
+    public bool gasmask;
     public bool book;
     public bool hand;
     public bool mirror;

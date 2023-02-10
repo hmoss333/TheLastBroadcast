@@ -28,7 +28,7 @@ public class PlayerController : CharacterController
     [Header("Player Avatar Variables")]
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
-    [SerializeField] private GameObject playerAvatar, bagObj, radioObj;
+    [SerializeField] private GameObject playerAvatar, bagObj, radioObj, gasMaskObj;
 
     public InputMaster inputMaster { get; private set; }
     private InputControlScheme controlScheme;
@@ -95,6 +95,8 @@ public class PlayerController : CharacterController
         if ((state == States.idle || state == States.moving) && !invisible)
         {
             if (interactObj != null
+                && interactObj.active
+                && !interactObj.hasActivated
                 && PlayerController.instance.inputMaster.Player.Interact.triggered)
             {
                 interactObj.Interact();

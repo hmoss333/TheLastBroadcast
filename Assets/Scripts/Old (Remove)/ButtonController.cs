@@ -6,7 +6,7 @@ public class ButtonController : InteractObject
 {
     //[SerializeField] bool isActivated;
     PlayerController player;
-    [SerializeField] InteractObject[] objectsToActivate;
+    [SerializeField] GameObject[] objectsToActivate;
     [SerializeField] string triggerText;
     float delayTime;
 
@@ -56,7 +56,23 @@ public class ButtonController : InteractObject
         //Activate all interact objects in list
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            if (!objectsToActivate[i].active)
+            if (objectsToActivate[i].GetComponent<InteractObject>())
+            {
+                if (!objectsToActivate[i].GetComponent<InteractObject>().active)
+                {
+                    if (objectsToActivate[i].transform.parent.gameObject.activeSelf)
+                    {
+                        CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
+
+                        yield return new WaitForSeconds(1f);
+                    }
+
+                    objectsToActivate[i].GetComponent<InteractObject>().Activate();
+
+                    yield return new WaitForSeconds(0.65f);
+                }
+            }
+            else
             {
                 if (objectsToActivate[i].transform.parent.gameObject.activeSelf)
                 {
@@ -65,7 +81,7 @@ public class ButtonController : InteractObject
                     yield return new WaitForSeconds(1f);
                 }
 
-                objectsToActivate[i].Activate();
+                objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
 
                 yield return new WaitForSeconds(0.65f);
             }

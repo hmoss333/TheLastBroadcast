@@ -14,7 +14,7 @@ public class MeleeController : MonoBehaviour
             Health targetHealth = collision.GetComponent<Health>();
             if (targetHealth != null)
             {
-                targetHealth.Hurt(damage);
+                targetHealth.Hurt(damage, true);
             }
         }
     }
