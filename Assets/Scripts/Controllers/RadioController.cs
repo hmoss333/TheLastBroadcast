@@ -19,12 +19,13 @@ public class RadioController : MonoBehaviour
 
 
     [Header("UI Elements")]
-    [SerializeField] private GameObject overlayPanel;
+    [SerializeField] private GameObject overlayPanel, abilityPanel;
+    [SerializeField] private GameObject tuneAbility, staticAbility, ratAbility;
     [SerializeField] private Slider radioSlider;
     [SerializeField] private Image stationBackground;
     private float xInput;
     [SerializeField] private Color onColor, offColor, abilityColor, enemyColor;
-    [SerializeField] private Vector2 inactivePos, activePos;
+    [SerializeField] private Vector2 inactivePos, activePos, abilityInactivePos, abilityActivePos;
     [SerializeField] private float slideSpeed;
 
 
@@ -95,6 +96,12 @@ public class RadioController : MonoBehaviour
 
         //Move radio panel into position based on active state
         overlayPanel.transform.localPosition = Vector2.Lerp(overlayPanel.transform.localPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
+        abilityPanel.transform.localPosition = Vector2.Lerp(abilityPanel.transform.localPosition, abilityMode ? abilityActivePos : abilityInactivePos, slideSpeed * Time.deltaTime);//abilityInactivePos;
+
+        //Toggle ability sprites
+        tuneAbility.SetActive(SaveDataController.instance.GetRadioAbility("Tune").isActive);
+        staticAbility.SetActive(SaveDataController.instance.GetRadioAbility("Invisibility").isActive);
+        ratAbility.SetActive(SaveDataController.instance.GetRadioAbility("Rats").isActive);
     }
 
     public void SetActive(bool activeVal)

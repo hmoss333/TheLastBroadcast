@@ -61,7 +61,7 @@ public class PlayerController : CharacterController
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (state == States.radio || state == States.attacking)
+        if (state == States.radio || state == States.attacking || invisible)
         {
             interactObj = null;
         }
@@ -92,7 +92,7 @@ public class PlayerController : CharacterController
 
 
         //Manage Player Inputs
-        if (state == States.idle || state == States.moving)
+        if ((state == States.idle || state == States.moving) && !invisible)
         {
             if (interactObj != null
                 && PlayerController.instance.inputMaster.Player.Interact.triggered)
@@ -118,13 +118,6 @@ public class PlayerController : CharacterController
                 CameraController.instance.SetTarget(radioObj);
             }
         }
-        //if (state == States.interacting) //needs to be in Update for accurate timing
-        //{
-        //    if (PlayerController.instance.inputMaster.Player.Interact.triggered)
-        //    {
-        //        interactObj.Interact();
-        //    }
-        //}
 
 
         //Player hurt/death triggers
@@ -228,7 +221,7 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.radio:
-                if (PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() <= 0 && !isRat)
+                if (PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() <= 0 && !isRat || invisible)
                 {
                     CameraController.instance.LoadLastTarget();
                     state = States.idle;
