@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class PauseMenuController : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && PlayerController.instance.state != PlayerController.States.interacting)//.interacting)
+        if (PlayerController.instance.inputMaster.Player.Pause.triggered && PlayerController.instance.state != PlayerController.States.interacting)
         {
             isPaused = !isPaused;
 
@@ -30,12 +31,17 @@ public class PauseMenuController : MonoBehaviour
         Time.timeScale = paused ? 0f : 1f;
     }
 
+    public void MainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+    }
 
     //TODO design pause menu
     /// <summary>
     /// Toggle through menus
-    /// Settings/Control Scheme/Quit
-    /// Inventory/Abilities/Stations
-    /// Lore
+    ///// Settings/Control Scheme/Quit/Load last save
+    ///// Inventory/Abilities/Stations
+    ///// Lore
     /// </summary>
 }

@@ -98,6 +98,15 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""dbc4c7d0-6c24-48c9-b92e-f1df031657f9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -430,6 +439,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""action"": ""Health"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""050725b0-9945-4eaf-858a-5ca3a7a84362"",
+                    ""path"": ""<SwitchProControllerHID>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ec484e9-7a65-4f83-b634-0c9e027e84fb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -469,6 +500,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         m_Player_ShiftCamera = m_Player.FindAction("ShiftCamera", throwIfNotFound: true);
         m_Player_TuneRadio = m_Player.FindAction("TuneRadio", throwIfNotFound: true);
         m_Player_Health = m_Player.FindAction("Health", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -536,6 +568,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ShiftCamera;
     private readonly InputAction m_Player_TuneRadio;
     private readonly InputAction m_Player_Health;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -548,6 +581,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         public InputAction @ShiftCamera => m_Wrapper.m_Player_ShiftCamera;
         public InputAction @TuneRadio => m_Wrapper.m_Player_TuneRadio;
         public InputAction @Health => m_Wrapper.m_Player_Health;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -581,6 +615,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Health.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHealth;
                 @Health.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHealth;
                 @Health.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHealth;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -609,6 +646,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Health.started += instance.OnHealth;
                 @Health.performed += instance.OnHealth;
                 @Health.canceled += instance.OnHealth;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -641,5 +681,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         void OnShiftCamera(InputAction.CallbackContext context);
         void OnTuneRadio(InputAction.CallbackContext context);
         void OnHealth(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }
