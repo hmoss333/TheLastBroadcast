@@ -71,7 +71,7 @@ public class SaveDataController : MonoBehaviour
 
         if (File.Exists(tempDest))
         {
-            print("Loading object data");
+            print($"Loading object data for {sceneName}");
             SceneObjectsContainer tempContainer = new SceneObjectsContainer();
             string jsonData = File.ReadAllText(tempDest);
             tempContainer = JsonUtility.FromJson<SceneObjectsContainer>(jsonData);

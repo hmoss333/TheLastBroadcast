@@ -9,6 +9,7 @@ public class RadioLockController : InteractObject
     [SerializeField] private float checkTime = 2f; //time the radio must stay within the frequency range to activate
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
+    //[SerializeField] private GameObject focusPoint;
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private GameObject[] objectsToActivate;//InteractObject[] objectsToActivate;
 
@@ -42,6 +43,8 @@ public class RadioLockController : InteractObject
                 && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
             {
                 interacting = true;
+                //CameraController.instance.SetLastTarget(CameraController.instance.GetTarget().gameObject);
+                CameraController.instance.SetTarget(this.gameObject);
                 mesh.material.color = Color.yellow;
                 checkTime -= Time.deltaTime;
                 if (checkTime < 0)
@@ -49,9 +52,10 @@ public class RadioLockController : InteractObject
                     hasActivated = true;
                 }
             }
-            else
+            else if (interacting)
             {
                 interacting = false;
+                CameraController.instance.LoadLastTarget();
                 mesh.material.color = Color.red;
                 checkTime = 2f;
             }
