@@ -42,7 +42,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""id"": ""1c8cb5b7-eebc-4d5d-a6cc-6f5b13cf6ffa"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
@@ -180,7 +180,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""9063cdf3-a1f6-4974-a821-0df1690a922a"",
                     ""path"": ""<SwitchProControllerHID>/rightTrigger"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Switch Pro Controller"",
                     ""action"": ""RadioSpecial"",
@@ -446,7 +446,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""path"": ""<SwitchProControllerHID>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Switch Pro Controller"",
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -457,7 +457,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

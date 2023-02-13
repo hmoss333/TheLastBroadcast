@@ -5,9 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
-    [SerializeField] GameObject pauseMenu;
-    [SerializeField] bool isPaused;
+    public static PauseMenuController instance;
 
+    [SerializeField] GameObject pauseMenu, settingMenu, controlMenu;
+    [SerializeField] public bool isPaused;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+    }
 
     private void Start()
     {
@@ -31,16 +39,28 @@ public class PauseMenuController : MonoBehaviour
         Time.timeScale = paused ? 0f : 1f;
     }
 
+    public void SettingMenu()
+    {
+        print("Load setting menu here");
+        settingMenu.SetActive(!settingMenu.activeSelf);
+    }
+
+    public void ControlMenu()
+    {
+        print("Load control menu here");
+        controlMenu.SetActive(!controlMenu.activeSelf);
+    }
+
     public void MainMenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
-    }
+    }    
 
     //TODO design pause menu
     /// <summary>
     /// Toggle through menus
-    ///// Settings/Control Scheme/Quit/Load last save
+    ///// Settings/Control Scheme/Quit
     ///// Inventory/Abilities/Stations
     ///// Lore
     /// </summary>
