@@ -144,7 +144,7 @@ public class PlayerController : CharacterController
         animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder  
         //Radio
         animator.SetBool("isRadio", state == States.radio); //play radio animation while button is held
-        RadioController.instance.SetActive(state == States.radio); //toggle radio controller active state if player is pressing the corresponding input
+        RadioController.instance.SetActive(state == States.radio && !isRat); //toggle radio controller active state if player is pressing the corresponding input; hide radio UI if isRat
         radioObj.SetActive(state == States.radio); //toggle radioObj based on usingRadio state
         bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
         //Melee
