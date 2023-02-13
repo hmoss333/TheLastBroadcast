@@ -60,7 +60,7 @@ public class PauseMenuController : MonoBehaviour
     //TODO design pause menu
     /// <summary>
     /// Toggle through menus
-    ///// Settings/Control Scheme/Quit
+    ///// Settings/Control Scheme/Quit (done)
     ///// Inventory/Abilities/Stations
     ///// Lore
     /// </summary>
