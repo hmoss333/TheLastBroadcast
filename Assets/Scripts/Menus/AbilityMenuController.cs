@@ -25,12 +25,21 @@ public class AbilityMenuController : MonoBehaviour
 
         for (int i = 0; i < radioAbilities.Count; i++)
         {
-            if (radioAbilities[i].name == "Tune")
-                tuneAbility.SetActive(radioAbilities[i].isActive);
-            else if (radioAbilities[i].name == "Invisibility")
-                invisAbility.SetActive(radioAbilities[i].isActive);
-            else if (radioAbilities[i].name == "Rats")
-                ratAbility.SetActive(radioAbilities[i].isActive);
+            switch (radioAbilities[i].name)
+            {
+                case "Tune":
+                    tuneAbility.SetActive(radioAbilities[i].isActive);
+                    break;
+                case "Invisibility":
+                    invisAbility.SetActive(radioAbilities[i].isActive);
+                    break;
+                case "Rats":
+                    ratAbility.SetActive(radioAbilities[i].isActive);
+                    break;
+                default:
+                    print($"Unable to find ability {radioAbilities[i]}");
+                    break;
+            }
         }
     }
 }
