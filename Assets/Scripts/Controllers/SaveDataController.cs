@@ -133,6 +133,7 @@ public class SaveDataController : MonoBehaviour
                 tempData.type = "Placeholder";
                 tempData.id = i;
                 tempData.collected = false;
+                tempData.text = $"Placeholder {i}";
                 tempContainer.loreData.Add(tempData);
             }
 
@@ -389,4 +390,5 @@ public class LoreData
     public string type;
     public int id;
     public bool collected;
+    public string text; //placeholder
 }

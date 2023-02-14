@@ -102,7 +102,6 @@ public class PlayerController : CharacterController
             }
 
             if (SaveDataController.instance.saveData.abilities.radio == true
-                && !PauseMenuController.instance.isPaused
                 && PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() > 0)
             {
                 state = States.radio;

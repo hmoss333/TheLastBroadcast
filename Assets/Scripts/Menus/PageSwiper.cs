@@ -25,14 +25,14 @@ public class PageSwiper : MonoBehaviour
     {
         if (PauseMenuController.instance.isPaused && !changingPanel)
         {
-            if (PlayerController.instance.inputMaster.Player.RadioSpecial.triggered && currentChild < transform.childCount - 1)
+            if (PlayerController.instance.inputMaster.Player.MenuRight.triggered && currentChild < transform.childCount - 1)
             {
                 currentChild++;
                 panelLocation -= new Vector3(Screen.width, 0, 0);
                 StartCoroutine(SmoothMove(transform.position, panelLocation, easing));
             }
 
-            if (PlayerController.instance.inputMaster.Player.Radio.triggered && currentChild > 0)
+            if (PlayerController.instance.inputMaster.Player.MenuLeft.triggered && currentChild > 0)
             {
                 currentChild--;
                 panelLocation += new Vector3(Screen.width, 0, 0);
