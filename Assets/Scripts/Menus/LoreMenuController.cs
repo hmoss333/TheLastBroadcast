@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UI.Extensions;
 
 public class LoreMenuController : MonoBehaviour
 {
     [SerializeField] List<LoreData> loreData = new List<LoreData>();
     [SerializeField] List<LoreData> currentLoreData = new List<LoreData>();
     [SerializeField] UnityEngine.UI.Button loreButtonPrefab;
-    [SerializeField] GameObject scrollContent;
+    [SerializeField] GameObject scrollButtonContent;
     [SerializeField] TMP_Text loreText;
 
     // Start is called before the first frame update
@@ -17,7 +18,7 @@ public class LoreMenuController : MonoBehaviour
     {
         loreData = SaveDataController.instance.loreSaveData.loreData;
 
-        foreach (Transform child in scrollContent.transform)
+        foreach (Transform child in scrollButtonContent.transform)
         {
             Destroy(child.gameObject);
         }
@@ -35,7 +36,7 @@ public class LoreMenuController : MonoBehaviour
             {
                 currentLoreData.Add(loreData[i]);
                 int index = loreData[i].id; //needed for 'variable capturing' to ensure the value is consistent
-                UnityEngine.UI.Button newLoreButton = Instantiate(loreButtonPrefab, scrollContent.transform);
+                UnityEngine.UI.Button newLoreButton = Instantiate(loreButtonPrefab, scrollButtonContent.transform);
                 newLoreButton.onClick.AddListener(delegate { LoadLoreData(index); });
             }
         }
@@ -53,4 +54,8 @@ public class LoreMenuController : MonoBehaviour
             }
         }
     }
+
+    //TODO
+    //Design best way to view long text files for lore menu
+    //Probably want to use button inputs to cycle pages
 }

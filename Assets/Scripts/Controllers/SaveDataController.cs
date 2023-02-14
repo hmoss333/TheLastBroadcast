@@ -133,7 +133,7 @@ public class SaveDataController : MonoBehaviour
                 tempData.type = "Placeholder";
                 tempData.id = i;
                 tempData.collected = false;
-                tempData.text = $"Placeholder {i}";
+                tempData.text = "Update this to use a list of strings";
                 tempContainer.loreData.Add(tempData);
             }
 
