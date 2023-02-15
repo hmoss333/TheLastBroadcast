@@ -95,8 +95,8 @@ public class RadioController : MonoBehaviour
             stationBackground.color = abilityColor; //usingAbility ? abilityOnColor : abilityOffColor;
 
         //Move radio panel into position based on active state
-        overlayPanel.transform.localPosition = Vector2.Lerp(overlayPanel.transform.localPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
-        abilityPanel.transform.localPosition = Vector2.Lerp(abilityPanel.transform.localPosition, abilityMode ? abilityActivePos : abilityInactivePos, slideSpeed * Time.deltaTime);//abilityInactivePos;
+        overlayPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(overlayPanel.GetComponent<RectTransform>().anchoredPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
+        abilityPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(abilityPanel.GetComponent<RectTransform>().anchoredPosition, abilityMode ? abilityActivePos : abilityInactivePos, slideSpeed * Time.deltaTime);//abilityInactivePos;
 
         //Toggle ability sprites
         tuneAbility.SetActive(SaveDataController.instance.GetRadioAbility("Tune").isActive);

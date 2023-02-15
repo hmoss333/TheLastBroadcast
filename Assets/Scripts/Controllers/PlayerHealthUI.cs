@@ -53,6 +53,6 @@ public class PlayerHealthUI : MonoBehaviour
         //    isActive = !isActive; //toggle health UI on button press
         //}
 
-        transform.localPosition = Vector2.Lerp(transform.localPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
+        GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(GetComponent<RectTransform>().anchoredPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
     }
 }
