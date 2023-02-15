@@ -43,8 +43,6 @@ public class RadioLockController : InteractObject
                 && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
             {
                 interacting = true;
-                //CameraController.instance.SetLastTarget(CameraController.instance.GetTarget().gameObject);
-                CameraController.instance.SetTarget(this.gameObject);
                 mesh.material.color = Color.yellow;
                 checkTime -= Time.deltaTime;
                 if (checkTime < 0)
@@ -55,7 +53,7 @@ public class RadioLockController : InteractObject
             else if (interacting)
             {
                 interacting = false;
-                CameraController.instance.LoadLastTarget();
+                //CameraController.instance.LoadLastTarget();
                 mesh.material.color = Color.red;
                 checkTime = 2f;
             }
