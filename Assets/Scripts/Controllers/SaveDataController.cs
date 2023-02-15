@@ -130,22 +130,25 @@ public class SaveDataController : MonoBehaviour
             for (int i = 0; i < 20; i++) //arbitrary number here; need to update once we have an actual number of lore objects
             {
                 LoreData tempData = new LoreData();
+                tempData.type = "Placeholder";
                 tempData.id = i;
                 tempData.collected = false;
+                tempData.text = "Update this to use a list of strings";
                 tempContainer.loreData.Add(tempData);
             }
 
             loreSaveData = tempContainer;
-            SaveLoreData(-1);
+            SaveLoreData(-1, "null");
         }
     }
 
-    public void SaveLoreData(int id)
+    public void SaveLoreData(int id, string loreType)
     {
         for (int i = 0; i < loreSaveData.loreData.Count; i++)
         {
             if (loreSaveData.loreData[i].id == id)
             {
+                loreSaveData.loreData[i].type = loreType;
                 loreSaveData.loreData[i].collected = true;
                 break;
             }
@@ -384,6 +387,8 @@ public class LoreSaveData
 [System.Serializable]
 public class LoreData
 {
+    public string type;
     public int id;
     public bool collected;
+    public string text; //placeholder
 }

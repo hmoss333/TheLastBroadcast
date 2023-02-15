@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class LorePickup : InteractObject
 {
+    public enum Type { personalLogs, researchNotes, secretHistory }
+    public Type loreType;
     [SerializeField] string loreText; //this should be loaded from csv file
     [SerializeField] int id;
 
@@ -24,7 +26,7 @@ public class LorePickup : InteractObject
     public override void EndInteract()
     {
         hasActivated = true;
-        SaveDataController.instance.SaveLoreData(id);
+        SaveDataController.instance.SaveLoreData(id, loreType.ToString());
         SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
         SaveDataController.instance.SaveFile();
         UIController.instance.ToggleLoreUI(loreText);

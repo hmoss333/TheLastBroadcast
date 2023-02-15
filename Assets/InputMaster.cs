@@ -42,7 +42,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""id"": ""1c8cb5b7-eebc-4d5d-a6cc-6f5b13cf6ffa"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
@@ -103,6 +103,24 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""dbc4c7d0-6c24-48c9-b92e-f1df031657f9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MenuLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""c3916fc7-210d-42e7-a545-501112da6354"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MenuRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""732f7471-f6a3-42ce-ab97-9d7ab8a34114"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -180,7 +198,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""9063cdf3-a1f6-4974-a821-0df1690a922a"",
                     ""path"": ""<SwitchProControllerHID>/rightTrigger"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Switch Pro Controller"",
                     ""action"": ""RadioSpecial"",
@@ -443,10 +461,10 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""050725b0-9945-4eaf-858a-5ca3a7a84362"",
-                    ""path"": ""<SwitchProControllerHID>/start"",
+                    ""path"": ""<SwitchProControllerHID>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Switch Pro Controller"",
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -457,8 +475,52 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34312987-11c7-452d-8262-f831a6f0cbda"",
+                    ""path"": ""<SwitchProControllerHID>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""MenuLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1977a220-95f6-4dac-83e9-1d5f1c0c7f93"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MenuLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""869d3bd7-187a-40e7-a1e3-bf33539ca477"",
+                    ""path"": ""<SwitchProControllerHID>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""MenuRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ed2d36b6-8d0a-4288-8e78-c98a254f4ea1"",
+                    ""path"": ""<Keyboard>/rightShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MenuRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -501,6 +563,8 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         m_Player_TuneRadio = m_Player.FindAction("TuneRadio", throwIfNotFound: true);
         m_Player_Health = m_Player.FindAction("Health", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_MenuLeft = m_Player.FindAction("MenuLeft", throwIfNotFound: true);
+        m_Player_MenuRight = m_Player.FindAction("MenuRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -569,6 +633,8 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_TuneRadio;
     private readonly InputAction m_Player_Health;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_MenuLeft;
+    private readonly InputAction m_Player_MenuRight;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -582,6 +648,8 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         public InputAction @TuneRadio => m_Wrapper.m_Player_TuneRadio;
         public InputAction @Health => m_Wrapper.m_Player_Health;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @MenuLeft => m_Wrapper.m_Player_MenuLeft;
+        public InputAction @MenuRight => m_Wrapper.m_Player_MenuRight;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -618,6 +686,12 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @MenuLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuLeft;
+                @MenuLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuLeft;
+                @MenuLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuLeft;
+                @MenuRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuRight;
+                @MenuRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuRight;
+                @MenuRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuRight;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -649,6 +723,12 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @MenuLeft.started += instance.OnMenuLeft;
+                @MenuLeft.performed += instance.OnMenuLeft;
+                @MenuLeft.canceled += instance.OnMenuLeft;
+                @MenuRight.started += instance.OnMenuRight;
+                @MenuRight.performed += instance.OnMenuRight;
+                @MenuRight.canceled += instance.OnMenuRight;
             }
         }
     }
@@ -682,5 +762,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         void OnTuneRadio(InputAction.CallbackContext context);
         void OnHealth(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnMenuLeft(InputAction.CallbackContext context);
+        void OnMenuRight(InputAction.CallbackContext context);
     }
 }

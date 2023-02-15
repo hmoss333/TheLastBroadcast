@@ -92,7 +92,7 @@ public class PlayerController : CharacterController
 
 
         //Manage Player Inputs
-        if ((state == States.idle || state == States.moving) && !invisible)
+        if ((state == States.idle || state == States.moving) && !invisible && !PauseMenuController.instance.isPaused)
         {
             if (SaveDataController.instance.saveData.abilities.crowbar == true
                 && PlayerController.instance.inputMaster.Player.Melee.triggered)
@@ -114,6 +114,7 @@ public class PlayerController : CharacterController
         //Handle player interaction inputs
         if (interactObj != null
             && interactObj.active
+            && !PauseMenuController.instance.isPaused
             && PlayerController.instance.inputMaster.Player.Interact.triggered)
         {
             interactObj.Interact();

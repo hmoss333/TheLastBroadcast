@@ -48,10 +48,10 @@ public class PlayerHealthUI : MonoBehaviour
         //    isActive = false; //hide health UI if interacting
         //}
         //else
-        if (PlayerController.instance.inputMaster.Player.Health.triggered)
-        {
-            isActive = !isActive; //toggle health UI on button press
-        }
+        //if (PlayerController.instance.inputMaster.Player.Health.triggered)
+        //{
+        //    isActive = !isActive; //toggle health UI on button press
+        //}
 
         transform.localPosition = Vector2.Lerp(transform.localPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
     }
