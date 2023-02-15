@@ -26,7 +26,7 @@ public class LorePickup : InteractObject
     public override void EndInteract()
     {
         hasActivated = true;
-        SaveDataController.instance.SaveLoreData(id, loreType.ToString());
+        SaveDataController.instance.SaveLoreData(id);
         SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
         SaveDataController.instance.SaveFile();
         UIController.instance.ToggleLoreUI(loreText);

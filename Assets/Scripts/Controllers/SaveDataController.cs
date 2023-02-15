@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class SaveDataController : MonoBehaviour
 {
@@ -122,33 +123,24 @@ public class SaveDataController : MonoBehaviour
         }
         else
         {
-            print("Creating new lore file");
+            print("Creating new lore file from resources");
+            tempDest = "Assets/Resources/Lore/loreData.json";
             LoreSaveData tempContainer = new LoreSaveData();
-            tempContainer.loreData = new List<LoreData>();
-
-            //TODO read lore data values from csv file
-            for (int i = 0; i < 20; i++) //arbitrary number here; need to update once we have an actual number of lore objects
-            {
-                LoreData tempData = new LoreData();
-                tempData.type = "Placeholder";
-                tempData.id = i;
-                tempData.collected = false;
-                tempData.text = "Update this to use a list of strings";
-                tempContainer.loreData.Add(tempData);
-            }
+            string jsonData = File.ReadAllText(tempDest);
+            tempContainer = JsonUtility.FromJson<LoreSaveData>(jsonData);
 
             loreSaveData = tempContainer;
-            SaveLoreData(-1, "null");
+            SaveLoreData(-1);
         }
     }
 
-    public void SaveLoreData(int id, string loreType)
+    public void SaveLoreData(int id)
     {
         for (int i = 0; i < loreSaveData.loreData.Count; i++)
         {
             if (loreSaveData.loreData[i].id == id)
             {
-                loreSaveData.loreData[i].type = loreType;
+                //loreSaveData.loreData[i].type = loreType;
                 loreSaveData.loreData[i].collected = true;
                 break;
             }
@@ -165,74 +157,80 @@ public class SaveDataController : MonoBehaviour
     //Initialize save file with correct formatting/values
     public void CreateNewSaveFile()
     {
+        //TODO generate save file from base file in Resources folder
+        string resourcesPath = "Assets/Resources/Save/save.json";
         saveData = new SaveData();
-
-        saveData.currentScene = "Forest"; //Set BroadcastRoom as default for new save files
-        saveData.savePointID = 0; //Set default spawn position
-
-        //Set all station values here
-        List<Station> tempStations = new List<Station>();
-
-        //Station station0 = new Station();
-        //station0.frequency = 2.02f;
-        //station0.sceneToLoad = "Facility";
-        //station0.isActive = true;
-        //tempStations.Add(station0);
-
-        //Station station1 = new Station();
-        //station1.frequency = 8.20f;
-        //station1.sceneToLoad = "Apartment";
-        //station1.isActive = false;
-        //tempStations.Add(station1);
-
-        //Station station2 = new Station();
-        //station2.frequency = 3.330f;
-        //station2.sceneToLoad = "Backrooms";
-        //station2.isActive = false;
-        //tempStations.Add(station2);
-
-        //Station station3 = new Station();
-        //station3.frequency = 9.30f;
-        //station3.sceneToLoad = "Library";
-        //station3.isActive = false;
-        //tempStations.Add(station3);
-
-        saveData.stations = tempStations;
+        string jsonData = File.ReadAllText(resourcesPath);
+        saveData = JsonUtility.FromJson<SaveData>(jsonData);
 
 
-        //Set radio ability values here
-        List<RadioAbility> tempRadioAbilities = new List<RadioAbility>();
+        //TODO determine if this old generation code is still necessary
+        //saveData.currentScene = "Forest"; //Set BroadcastRoom as default for new save files
+        //saveData.savePointID = 0; //Set default spawn position
 
-        RadioAbility rb0 = new RadioAbility();
-        rb0.name = "Tune";
-        rb0.frequency = 2.5f;
-        rb0.isActive = false;
-        tempRadioAbilities.Add(rb0);
+        ////Set all station values here
+        //List<Station> tempStations = new List<Station>();
 
-        RadioAbility rb1 = new RadioAbility();
-        rb1.name = "Invisibility";
-        rb1.frequency = 5.0f;
-        rb1.isActive = false;
-        tempRadioAbilities.Add(rb1);
+        ////Station station0 = new Station();
+        ////station0.frequency = 2.02f;
+        ////station0.sceneToLoad = "Facility";
+        ////station0.isActive = true;
+        ////tempStations.Add(station0);
 
-        RadioAbility rb2 = new RadioAbility();
-        rb2.name = "Rats";
-        rb2.frequency = 7.5f;
-        rb2.isActive = false;
-        tempRadioAbilities.Add(rb2);
+        ////Station station1 = new Station();
+        ////station1.frequency = 8.20f;
+        ////station1.sceneToLoad = "Apartment";
+        ////station1.isActive = false;
+        ////tempStations.Add(station1);
 
-        saveData.radioAbilities = tempRadioAbilities;
+        ////Station station2 = new Station();
+        ////station2.frequency = 3.330f;
+        ////station2.sceneToLoad = "Backrooms";
+        ////station2.isActive = false;
+        ////tempStations.Add(station2);
+
+        ////Station station3 = new Station();
+        ////station3.frequency = 9.30f;
+        ////station3.sceneToLoad = "Library";
+        ////station3.isActive = false;
+        ////tempStations.Add(station3);
+
+        //saveData.stations = tempStations;
 
 
-        //Set Ability defaults
-        Abilities tempAbilities = new Abilities();
-        tempAbilities.radio = false;
-        tempAbilities.crowbar = false;
-        tempAbilities.gasmask = false;
-        tempAbilities.book = false;
-        tempAbilities.hand = false;
-        tempAbilities.mirror = false;
-        saveData.abilities = tempAbilities;
+        ////Set radio ability values here
+        //List<RadioAbility> tempRadioAbilities = new List<RadioAbility>();
+
+        //RadioAbility rb0 = new RadioAbility();
+        //rb0.name = "Tune";
+        //rb0.frequency = 2.5f;
+        //rb0.isActive = false;
+        //tempRadioAbilities.Add(rb0);
+
+        //RadioAbility rb1 = new RadioAbility();
+        //rb1.name = "Invisibility";
+        //rb1.frequency = 5.0f;
+        //rb1.isActive = false;
+        //tempRadioAbilities.Add(rb1);
+
+        //RadioAbility rb2 = new RadioAbility();
+        //rb2.name = "Rats";
+        //rb2.frequency = 7.5f;
+        //rb2.isActive = false;
+        //tempRadioAbilities.Add(rb2);
+
+        //saveData.radioAbilities = tempRadioAbilities;
+
+
+        ////Set Ability defaults
+        //Abilities tempAbilities = new Abilities();
+        //tempAbilities.radio = false;
+        //tempAbilities.crowbar = false;
+        //tempAbilities.gasmask = false;
+        //tempAbilities.book = false;
+        //tempAbilities.hand = false;
+        //tempAbilities.mirror = false;
+        //saveData.abilities = tempAbilities;
     }
 
 
@@ -329,7 +327,6 @@ public class SaveData
     public List<Station> stations = new List<Station>();
     public Abilities abilities;
     public List<RadioAbility> radioAbilities;
-    //    public List<SceneInteractObj> objectStates = new List<SceneInteractObj>();
 }
 
 [System.Serializable]
@@ -390,5 +387,5 @@ public class LoreData
     public string type;
     public int id;
     public bool collected;
-    public string text; //placeholder
+    public string text;
 }
