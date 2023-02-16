@@ -33,9 +33,8 @@ public class AbilityPickup : InteractObject
 
     public override void EndInteract()
     {
-        hasActivated = true;
-        SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
-        SaveDataController.instance.SaveFile();
+        //hasActivated = true;
+        SetHasActivated();
         UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
         gameObject.SetActive(false);
     }

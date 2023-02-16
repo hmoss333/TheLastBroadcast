@@ -67,6 +67,6 @@ public class ButtonController : InteractObject
             }
         }
 
-        hasActivated = true;
+        SetHasActivated();
     }
 }

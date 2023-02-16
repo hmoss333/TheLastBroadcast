@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractObject : MonoBehaviour
+public class InteractObject : SaveObject
 {
-    //public int objID;
-    public bool interacting, active = true, hasActivated;
+    public bool interacting;
 
     public virtual void Interact()
     {
@@ -29,10 +28,5 @@ public class InteractObject : MonoBehaviour
     public virtual void EndInteract()
     {
         //Debug.Log($"Finished interacting with {name}");
-    }
-
-    public virtual void Activate()
-    {
-        active = true;
     }
 }

@@ -2,36 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestructableObject : MonoBehaviour
+public class DestructableObject : SaveObject
 {
-    [SerializeField] int health;
+    private Health health;
+
+    private void Start()
+    {
+        health = GetComponent<Health>();
+    }
 
     private void Update()
     {
-        if (health <= 0)
+        if (health.CurrentHealth() <= 0 || hasActivated)
         {
-            this.gameObject.SetActive(false);
+            SetHasActivated();
+            gameObject.SetActive(false);
         }
-    }
-
-    public virtual void Hit()
-    {
-        health--;
-
-        StartCoroutine(DamageFlash());
-    }
-
-    public virtual void Interact()
-    {
-        Debug.Log("Interacting with " + this.gameObject.name);
-    }
-
-    IEnumerator DamageFlash()
-    {
-        GetComponent<Renderer>().material.color = Color.red;
-
-        yield return new WaitForSeconds(0.35f);
-
-        GetComponent<Renderer>().material.color = Color.white;
     }
 }

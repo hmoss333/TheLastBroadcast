@@ -31,16 +31,14 @@ public class Health : MonoBehaviour
             {
                 if (character != null)
                     character.dead = true;
-                else
-                    gameObject.SetActive(false);
             }
             else
             {
                 if (character != null && stagger == true)
                     character.hurt = true;
-            }
 
-            StartCoroutine(HitCooldown(cooldownTime));
+                StartCoroutine(HitCooldown(cooldownTime));
+            }
         }
     }
 

@@ -47,7 +47,8 @@ public class RadioLockController : InteractObject
                 checkTime -= Time.deltaTime;
                 if (checkTime < 0)
                 {
-                    hasActivated = true;
+                    //hasActivated = true;
+                    SetHasActivated();
                 }
             }
             else if (interacting)

@@ -58,10 +58,10 @@ public class SceneInitController : MonoBehaviour
         }
     }
 
-    void GetInteractObjs()
+    void GetSaveObjs()
     {      
-        InteractObject[] tempObjArray = (InteractObject[])FindObjectsOfType(typeof(InteractObject), true);
-        foreach (InteractObject tempObj in tempObjArray)
+        SaveObject[] tempObjArray = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
+        foreach (SaveObject tempObj in tempObjArray)
         {
             foreach (SceneInteractObj tempSceneObj in currentScenario.sceneObjects)
             {
@@ -75,11 +75,10 @@ public class SceneInitController : MonoBehaviour
 
         //Create list of all interactObjects in scene
         currentInteractObjects = new List<SceneInteractObj>();
-        foreach (InteractObject tempObj in tempObjArray)
+        foreach (SaveObject tempObj in tempObjArray)
         {
             SceneInteractObj newObj = new SceneInteractObj();
             newObj.name = tempObj.gameObject.name;
-            //newObj.ID = tempObj.objID;
             newObj.active = tempObj.active;
             newObj.hasActivated = tempObj.hasActivated;
             //TODO add more values to track here
@@ -111,7 +110,7 @@ public class SceneInitController : MonoBehaviour
         SaveDataController.instance.LoadObjectData(currentScene);
         currentScenario = SaveDataController.instance.sceneObjectContainer;
 
-        GetInteractObjs();
+        GetSaveObjs();
         GetAllSavePoints();
         HideAllRooms();
 
@@ -123,7 +122,7 @@ public class SceneInitController : MonoBehaviour
                     point.transform.parent.gameObject.SetActive(true);
                 PlayerController.instance.transform.position = point.initPoint.position;
                 PlayerController.instance.transform.rotation = point.initPoint.rotation;
-                PlayerController.instance.state = PlayerController.States.idle;//.interacting = false;
+                PlayerController.instance.state = PlayerController.States.idle;
                 break;
             }
         }

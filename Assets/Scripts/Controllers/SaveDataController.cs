@@ -91,7 +91,7 @@ public class SaveDataController : MonoBehaviour
         SceneObjectsContainer tempContainer = new SceneObjectsContainer();
         tempContainer.sceneName = sceneName;
 
-        InteractObject[] sceneObjects = (InteractObject[])FindObjectsOfType(typeof(InteractObject), true);
+        SaveObject[] sceneObjects = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
         for (int i = 0; i < sceneObjects.Length; i++)
         {
             SceneInteractObj tempObj = new SceneInteractObj();

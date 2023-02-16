@@ -20,7 +20,8 @@ public class TriggerZone : InteractObject
     {
         if (other.tag == "Player" && active && !hasActivated)
         {
-            hasActivated = true;
+            //hasActivated = true;
+            SetHasActivated();
             StartCoroutine(UnlockObjects(focusCam));
         }
     }

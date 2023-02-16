@@ -40,7 +40,8 @@ public class DialogueController : InteractObject
             else
             {
                 interacting = false; //Exited the dialogue tree
-                hasActivated = true; //Dialogue event has completed
+                //hasActivated = true; //Dialogue event has completed
+                SetHasActivated();
                 PlayerController.instance.isListening = false;
                 PlayerController.instance.state = PlayerController.States.idle;
             }

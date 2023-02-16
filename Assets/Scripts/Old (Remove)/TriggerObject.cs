@@ -37,7 +37,7 @@ public class TriggerObject : InteractObject
             base.Interact();
 
             interacted = true;
-            hasActivated = true;
+            //hasActivated = true;
             StartCoroutine(TriggerEvent());
         }
     }
@@ -74,5 +74,6 @@ public class TriggerObject : InteractObject
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         PlayerController.instance.state = PlayerController.States.idle;
         //UIController.instance.ToggleDialogueUI(false);
+        SetHasActivated();
     }
 }
