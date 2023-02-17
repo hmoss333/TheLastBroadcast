@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class FlashlightController : MonoBehaviour
 {
@@ -9,6 +11,9 @@ public class FlashlightController : MonoBehaviour
     public bool isOn { get; private set; }
     [SerializeField] Light lightSource;
     [SerializeField] GameObject flashlightObj;
+    [SerializeField] float checkDist;
+    [SerializeField] private LayerMask layer;
+    [SerializeField] ZombieController enemy;
 
 
     private void Awake()
@@ -35,6 +40,29 @@ public class FlashlightController : MonoBehaviour
             isOn = PlayerController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0
                 ? true
                 : false;
+
+            if (isOn)
+            {
+                Vector3 forwardDir = transform.forward;
+                Ray ray = new Ray(transform.position, forwardDir);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, checkDist, layer))
+                {
+                    enemy = hit.transform.gameObject.GetComponent<ZombieController>();
+                }
+                else
+                {
+                    enemy = null;
+                }
+
+                if (enemy != null && enemy.SeePlayer())
+                {
+                    enemy.Stun();
+                }
+
+                Debug.DrawRay(transform.position, forwardDir, Color.yellow);
+            }
         }
 
         lightSource.enabled = isOn;
