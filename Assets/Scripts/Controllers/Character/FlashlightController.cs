@@ -30,20 +30,13 @@ public class FlashlightController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SaveDataController.instance.saveData.abilities.flashlight && PlayerController.instance.inputMaster.Player.Flashlight.triggered)
+        if (SaveDataController.instance.saveData.abilities.flashlight && PlayerController.instance.state != PlayerController.States.radio)
         {
-            ToggleLight();
+            isOn = PlayerController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0
+                ? true
+                : false;
         }
 
-        if (isOn)
-        {
-            flashlightObj.SetActive(PlayerController.instance.state != PlayerController.States.attacking);
-        }
-    }
-
-    public void ToggleLight()
-    {
-        isOn = !isOn;
         lightSource.enabled = isOn;
         flashlightObj.SetActive(isOn);
         PlayerController.instance.animator.SetBool("flashlight", isOn);

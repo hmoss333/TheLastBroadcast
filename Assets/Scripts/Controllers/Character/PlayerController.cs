@@ -92,7 +92,7 @@ public class PlayerController : CharacterController
 
 
         //Manage Player Inputs
-        if ((state == States.idle || state == States.moving) && !invisible && !PauseMenuController.instance.isPaused)
+        if ((state == States.idle || state == States.moving) && !invisible && !PauseMenuController.instance.isPaused && !FlashlightController.instance.isOn)
         {
             if (SaveDataController.instance.saveData.abilities.crowbar == true
                 && PlayerController.instance.inputMaster.Player.Melee.triggered)
