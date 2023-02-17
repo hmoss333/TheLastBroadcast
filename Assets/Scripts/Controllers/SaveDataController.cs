@@ -286,6 +286,9 @@ public class SaveDataController : MonoBehaviour
             case "gasmask":
                 saveData.abilities.gasmask = true;
                 break;
+            case "flashlight":
+                saveData.abilities.flashlight = true;
+                break;
             case "book":
                 saveData.abilities.book = true;
                 break;
@@ -336,6 +339,7 @@ public class Abilities
     public bool radio_special;
     public bool crowbar;
     public bool gasmask;
+    public bool flashlight;
     public bool book;
     public bool hand;
     public bool mirror;
