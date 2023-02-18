@@ -536,7 +536,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""cf2a0795-f532-480b-a064-8d3ebc4bf100"",
-                    ""path"": ""<SwitchProControllerHID>/rightStick/down"",
+                    ""path"": ""<SwitchProControllerHID>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Switch Pro Controller"",
@@ -547,7 +547,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0dd75e0b-ca10-4b60-9ce4-e78c3e414a66"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/rightShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",

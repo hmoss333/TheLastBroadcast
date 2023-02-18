@@ -92,7 +92,7 @@ public class PlayerController : CharacterController
 
 
         //Manage Player Inputs
-        if ((state == States.idle || state == States.moving) && !invisible && !PauseMenuController.instance.isPaused)
+        if ((state == States.idle || state == States.moving) && !invisible && !PauseMenuController.instance.isPaused && !FlashlightController.instance.isOn)
         {
             if (SaveDataController.instance.saveData.abilities.crowbar == true
                 && PlayerController.instance.inputMaster.Player.Melee.triggered)
@@ -177,9 +177,9 @@ public class PlayerController : CharacterController
         lastDir2 = (2 * transform.forward + transform.right).normalized; //Right ray
 
         // Draw rays pointing in all interact directions
-        Debug.DrawRay(transform.position, newDirection, Color.green);
-        Debug.DrawRay(transform.position, lastDir1, Color.green);
-        Debug.DrawRay(transform.position, lastDir2, Color.green);
+        //Debug.DrawRay(transform.position, newDirection, Color.green);
+        //Debug.DrawRay(transform.position, lastDir1, Color.green);
+        //Debug.DrawRay(transform.position, lastDir2, Color.green);
 
         // Calculate a rotation a step closer to the target and applies rotation to this object
         transform.rotation = Quaternion.LookRotation(newDirection);
