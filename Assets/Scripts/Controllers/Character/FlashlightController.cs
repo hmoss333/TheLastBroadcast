@@ -13,7 +13,6 @@ public class FlashlightController : MonoBehaviour
     [SerializeField] GameObject flashlightObj;
     [SerializeField] float checkDist;
     [SerializeField] private LayerMask layer;
-    [SerializeField] ZombieController enemy;
 
 
     private void Awake()
@@ -21,8 +20,7 @@ public class FlashlightController : MonoBehaviour
         if (instance == null)
             instance = this;
         //else
-        //    Destroy(this.gameObject);
-            
+        //    Destroy(this.gameObject);            
     }
 
     private void Start()
@@ -45,23 +43,19 @@ public class FlashlightController : MonoBehaviour
             {
                 Vector3 forwardDir = transform.forward;
                 Ray ray = new Ray(transform.position, forwardDir);
-                RaycastHit hit;
+                //RaycastHit hit;
+                RaycastHit[] hits;
+                Debug.DrawLine(transform.position, forwardDir * checkDist, Color.blue);
 
-                if (Physics.Raycast(ray, out hit, checkDist, layer))
-                {
-                    enemy = hit.transform.gameObject.GetComponent<ZombieController>();
-                }
-                else
-                {
-                    enemy = null;
-                }
 
-                if (enemy != null && enemy.SeePlayer())
+                hits = Physics.RaycastAll(transform.position, transform.forward, checkDist, layer);
+                hits = Physics.RaycastAll(transform.position, transform.forward, checkDist, layer);
+                for (int i = 0; i < hits.Length; i++)
                 {
-                    enemy.Stun();
+                    RaycastHit hit = hits[i];
+                    ZombieController tempEnemy = hit.transform.gameObject.GetComponent<ZombieController>();
+                    tempEnemy.Stun();
                 }
-
-                Debug.DrawRay(transform.position, forwardDir, Color.yellow);
             }
         }
 

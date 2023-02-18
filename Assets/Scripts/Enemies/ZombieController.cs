@@ -7,7 +7,7 @@ using UnityEngine;
 public class ZombieController : CharacterController
 {
     [Header("Zombie Interact Variables")]
-    private bool seePlayer, attacking, colliding, stunned;
+    [SerializeField] private bool seePlayer, attacking, colliding, stunned;
     [SerializeField] private float seeDist, attackDist, loseDist, focusTime;
     private float tempFocusTime, dist;
     [SerializeField] private LayerMask layer;
@@ -32,30 +32,9 @@ public class ZombieController : CharacterController
 
     override public void Update()
     {
-        if (stunned)
-        {
-            animator.SetBool("isStunning", true);
-            tempStunTime -= Time.deltaTime;
-            if (tempStunTime <= 0)
-            {
-                stunned = false;
-                tempStunTime = stunTime;
-            }
-        }
-        else
-        {
-            animator.SetBool("isStunning", false);
-        }
-
-        base.Update();
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
-        if (PlayerController.instance.invisible || dead)
+        if (PlayerController.instance.invisible || dead || stunned)
         {
             seePlayer = false;
         }
@@ -69,7 +48,7 @@ public class ZombieController : CharacterController
 
             if (dist <= seeDist || (seePlayer && dist <= loseDist))
             {
-                if (hits[0].collider.gameObject.tag == "Player")
+                if (hits[0].collider.gameObject.CompareTag("Player"))
                 {
                     if (!seePlayer)
                     {
@@ -110,6 +89,30 @@ public class ZombieController : CharacterController
             }
         }
 
+
+        //Stun Logic
+        if (stunned)
+        {
+            seePlayer = false;
+            animator.SetBool("isStunning", true);
+            tempStunTime -= Time.deltaTime;
+            if (tempStunTime <= 0)
+            {
+                stunned = false;
+                tempStunTime = stunTime;
+            }
+        }
+        else
+        {
+            animator.SetBool("isStunning", false);
+        }
+
+        base.Update();
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
         storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed;
         rb.velocity = transform.forward * storedSpeed;
 
@@ -129,7 +132,7 @@ public class ZombieController : CharacterController
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer != layer && seePlayer)
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Floor") && seePlayer)
         {
             colliding = true;
         }
