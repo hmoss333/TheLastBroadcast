@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    public float speed;
-    [HideInInspector] public float storedSpeed;
-    [HideInInspector] public bool hurt, dead;
+    public float speed, stunTime;
+    [HideInInspector] public float storedSpeed, tempStunTime;
+    [HideInInspector] public bool hurt, dead, stunned;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public Collider col;
     public Animator animator;
@@ -17,6 +17,7 @@ public class CharacterController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
         animator = GetComponentInChildren<Animator>();
+        tempStunTime = stunTime;
     }
 
     virtual public void Update()
@@ -54,5 +55,10 @@ public class CharacterController : MonoBehaviour
             print($"Clip for {stateName} not found");
             return 0;
         }
+    }
+
+    public void StunCharacter()
+    {
+        stunned = true;
     }
 }

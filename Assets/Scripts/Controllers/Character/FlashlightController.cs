@@ -53,8 +53,8 @@ public class FlashlightController : MonoBehaviour
                 for (int i = 0; i < hits.Length; i++)
                 {
                     RaycastHit hit = hits[i];
-                    ZombieController tempEnemy = hit.transform.gameObject.GetComponent<ZombieController>();
-                    tempEnemy.Stun();
+                    CharacterController tempEnemy = hit.transform.gameObject.GetComponent<CharacterController>();
+                    tempEnemy.StunCharacter();
                 }
             }
         }
