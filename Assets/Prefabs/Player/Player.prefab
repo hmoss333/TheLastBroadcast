@@ -765,8 +765,8 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 5
   m_Range: 10
-  m_SpotAngle: 65
-  m_InnerSpotAngle: 5
+  m_SpotAngle: 100
+  m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -831,7 +831,6 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 8192
-  enemy: {fileID: 0}
 --- !u!1 &2620357245112452162
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,9 +2381,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
+  stunTime: 0
   storedSpeed: 0
+  tempStunTime: 0
   hurt: 0
   dead: 0
+  stunned: 0
   rb: {fileID: 0}
   col: {fileID: 0}
   animator: {fileID: 199947665006198363}
