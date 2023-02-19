@@ -6,17 +6,13 @@ using UnityEngine;
 
 public class ZombieController : CharacterController
 {
-    [Header("Zombie Interact Variables")]
-    [SerializeField] private bool seePlayer, attacking, colliding, stunned;
+    //[Header("Zombie Interact Variables")]
     [SerializeField] private float seeDist, attackDist, loseDist, focusTime;
     private float tempFocusTime, dist;
+    private bool seePlayer, attacking, colliding;
     [SerializeField] private LayerMask layer;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
-
-    [Header("Stun Values")]
-    [SerializeField] private float stunTime;
-    float tempStunTime;
 
 
     // Start is called before the first frame update
@@ -25,7 +21,6 @@ public class ZombieController : CharacterController
         melee.damage = damage;
         storedSpeed = speed;
         tempFocusTime = focusTime;
-        tempStunTime = stunTime;
 
         base.Start();
     }
@@ -94,17 +89,12 @@ public class ZombieController : CharacterController
         if (stunned)
         {
             seePlayer = false;
-            animator.SetBool("isStunning", true);
             tempStunTime -= Time.deltaTime;
             if (tempStunTime <= 0)
             {
                 stunned = false;
                 tempStunTime = stunTime;
             }
-        }
-        else
-        {
-            animator.SetBool("isStunning", false);
         }
 
         base.Update();
@@ -118,6 +108,7 @@ public class ZombieController : CharacterController
 
         PlayerController.instance.isSeen = seePlayer;
         animator.SetBool("seePlayer", seePlayer);
+        animator.SetBool("isStunning", stunned);
         animator.SetBool("isAttacking", attacking);
         melee.gameObject.SetActive(isPlaying("Melee"));
 
@@ -136,10 +127,5 @@ public class ZombieController : CharacterController
         {
             colliding = true;
         }
-    }
-
-    public void Stun()
-    {
-        stunned = true;
     }
 }
