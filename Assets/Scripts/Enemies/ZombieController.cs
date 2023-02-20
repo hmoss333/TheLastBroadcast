@@ -52,11 +52,11 @@ public class ZombieController : CharacterController
                 {
                     if (!seePlayer)
                     {
-                        tempFocusTime -= Time.deltaTime;
-                        if (tempFocusTime <= 0f)
+                        tempFocusTime += Time.deltaTime;
+                        if (tempFocusTime >= focusTime)
                         {
                             seePlayer = true;
-                            tempFocusTime = focusTime;
+                            tempFocusTime = 0f;
                         }
                     }
                 }
@@ -64,12 +64,12 @@ public class ZombieController : CharacterController
                 {
                     if (seePlayer)
                     {
-                        tempFocusTime -= Time.deltaTime;
-                        if (tempFocusTime <= 0f)
+                        tempFocusTime += Time.deltaTime;
+                        if (tempFocusTime >= focusTime)
                         {
                             seePlayer = false;
                             colliding = false;
-                            tempFocusTime = focusTime;
+                            tempFocusTime = 0f;
                         }
                     }
                 }
@@ -95,11 +95,11 @@ public class ZombieController : CharacterController
         {
             seePlayer = false;
             animator.SetBool("isStunning", true);
-            tempStunTime -= Time.deltaTime;
-            if (tempStunTime <= 0)
+            tempStunTime += Time.deltaTime;
+            if (tempStunTime >= stunTime)
             {
                 stunned = false;
-                tempStunTime = stunTime;
+                tempStunTime = 0;
             }
         }
         else

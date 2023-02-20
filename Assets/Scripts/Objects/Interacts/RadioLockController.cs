@@ -12,7 +12,7 @@ public class RadioLockController : InteractObject
     //[SerializeField] private GameObject focusPoint;
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private GameObject[] objectsToActivate;//InteractObject[] objectsToActivate;
-
+    float tempTime = 0f;
 
     void Start()
     {
@@ -44,8 +44,8 @@ public class RadioLockController : InteractObject
             {
                 interacting = true;
                 mesh.material.color = Color.yellow;
-                checkTime -= Time.deltaTime;
-                if (checkTime < 0)
+                tempTime += Time.deltaTime;
+                if (tempTime >= checkTime)
                 {
                     //hasActivated = true;
                     SetHasActivated();
@@ -56,7 +56,7 @@ public class RadioLockController : InteractObject
                 interacting = false;
                 //CameraController.instance.LoadLastTarget();
                 mesh.material.color = Color.red;
-                checkTime = 2f;
+                tempTime = 0f;
             }
         }
 

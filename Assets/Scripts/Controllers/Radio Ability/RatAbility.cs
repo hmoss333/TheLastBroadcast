@@ -10,10 +10,10 @@ public class RatAbility : RadioAbilityController
     private GameObject ratObj;
 
     [SerializeField] bool isRat;
-    private float checkFrequency;
+    [SerializeField] private float checkFrequency;
     private float checkOffset = 0.5f;
     [SerializeField] float checkTime;
-    private float tempCheckTime;
+    private float tempCheckTime = 0f;
     [HideInInspector] public bool isUsing;
 
 
@@ -29,7 +29,6 @@ public class RatAbility : RadioAbilityController
     {
         base.Start();
 
-        tempCheckTime = checkTime;
         checkFrequency = abilityData.frequency;
     }
 
@@ -49,20 +48,20 @@ public class RatAbility : RadioAbilityController
                 && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
             {
                 isUsing = true;
-                checkTime -= Time.deltaTime;
-                if (checkTime < 0)
+                tempCheckTime += Time.deltaTime;
+                if (tempCheckTime > checkTime)
                 {
                     isRat = true;
                     Vector3 newPos = new Vector3(PlayerController.instance.transform.position.x, 0.5f, PlayerController.instance.transform.position.z);
                     ratObj = Instantiate(ratPrefab, newPos, Quaternion.identity);
                     CameraController.instance.SetTarget(ratObj);
-                    checkTime = tempCheckTime;
+                    tempCheckTime = 0f;
                 }
             }
             else
             {
                 isUsing = false;
-                checkTime = tempCheckTime;
+                tempCheckTime = 0f;
             }
         }
         else if (!RadioController.instance.abilityMode && !isRat)

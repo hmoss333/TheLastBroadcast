@@ -30,7 +30,7 @@ public class TunableObject : MonoBehaviour
 
     private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
     [SerializeField] private float checkTime = 3f; //time the radio must stay within the frequency range to activate
-    private float tempTime;
+    private float tempTime = 0f;
     private float checkFrequency; //frequency that must be matched on field radio
     private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
 
@@ -38,7 +38,6 @@ public class TunableObject : MonoBehaviour
     void Awake()
     {
         baseObject = gameObject.GetComponent<InteractObject>();
-        tempTime = checkTime;
 
         // Cache renderers
         renderers = GetComponentsInChildren<Renderer>();
@@ -112,8 +111,8 @@ public class TunableObject : MonoBehaviour
                     CameraController.instance.SetTarget(this.gameObject); //If the radio is set to the correct station, focus on tunable object
                     TuneAbility.instance.isUsing = true;
 
-                    checkTime -= Time.deltaTime;
-                    if (checkTime < 0)
+                    tempTime += Time.deltaTime;
+                    if (tempTime > checkTime)
                     {
                         StartCoroutine(ActivateObject());
                     }
@@ -121,7 +120,7 @@ public class TunableObject : MonoBehaviour
                 else
                 {
                     CameraController.instance.SetTarget(PlayerController.instance.gameObject); //If the radio is not set to the correct station, re-focus the camera on the player
-                    checkTime = tempTime;
+                    tempTime = 0f;
                     TuneAbility.instance.isUsing = false;
                 }
             }
