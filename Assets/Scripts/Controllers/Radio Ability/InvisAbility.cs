@@ -16,7 +16,7 @@ public class InvisAbility : RadioAbilityController
     private float checkFrequency;
     private float checkOffset = 0.5f;
     [SerializeField] float checkTime, invisTime;
-    private float tempCheckTime, tempInvisTime;
+    private float tempCheckTime = 0f, tempInvisTime = 0f;
     [HideInInspector] public bool isUsing; //used to toggle camera after effect for special abilities
 
 
@@ -71,12 +71,7 @@ public class InvisAbility : RadioAbilityController
     {
         base.Start();
 
-        tempCheckTime = checkTime;
-        tempInvisTime = invisTime;
-
         oldLayer = LayerMask.NameToLayer("Player");
-        tempCheckTime = checkTime;
-        tempInvisTime = invisTime;
         checkFrequency = abilityData.frequency;
     }
 
@@ -91,18 +86,18 @@ public class InvisAbility : RadioAbilityController
                 && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
             {
                 isUsing = true;
-                checkTime -= Time.deltaTime;
-                if (checkTime < 0)
+                tempCheckTime += Time.deltaTime;
+                if (tempCheckTime >= checkTime)
                 {
                     AddMaterials();
                     isInvis = true;
-                    checkTime = tempCheckTime;
+                    tempCheckTime = 0;
                 }
             }
             else
             {
                 isUsing = false;
-                checkTime = tempCheckTime;
+                tempCheckTime = 0;
             }
         }
         else if (!RadioController.instance.abilityMode && !isInvis)
@@ -117,11 +112,11 @@ public class InvisAbility : RadioAbilityController
             //PlayerController.instance.state = PlayerController.States.idle;//.usingRadio = false;
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
 
-            invisTime -= Time.deltaTime;
-            if (invisTime < 0)
+            tempInvisTime += Time.deltaTime;
+            if (tempInvisTime > invisTime)
             {
                 RemoveMaterials();
-                invisTime = tempInvisTime;
+                tempInvisTime = 0;
                 isInvis = false;
                 isUsing = false;
                 CameraController.instance.LoadLastTarget();

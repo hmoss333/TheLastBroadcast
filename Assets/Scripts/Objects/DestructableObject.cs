@@ -9,11 +9,13 @@ public class DestructableObject : SaveObject
     private void Start()
     {
         health = GetComponent<Health>();
+
+        gameObject.SetActive(!hasActivated);
     }
 
     private void Update()
     {
-        if (health.CurrentHealth() <= 0 || hasActivated)
+        if (health.CurrentHealth() <= 0 && !hasActivated)
         {
             SetHasActivated();
             gameObject.SetActive(false);

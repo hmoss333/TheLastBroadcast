@@ -6,19 +6,13 @@ using UnityEngine;
 
 public class ZombieController : CharacterController
 {
-    [Header("Zombie Interact Variables")]
-    private bool seePlayer, attacking, colliding;//, stunned;
+    //[Header("Zombie Interact Variables")]
     [SerializeField] private float seeDist, attackDist, loseDist, focusTime;
     private float tempFocusTime, dist;
+    private bool seePlayer, attacking, colliding;
     [SerializeField] private LayerMask layer;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
-
-    //[Header("Stun Values")]
-    //[SerializeField] private float tuneTime = 1.5f;
-    //private float tuneDist, tuneFrequency, tuneOffset = 0.5f;
-    //[SerializeField] private float stunTime;
-    //float tempTuneTime, tempStunTime;
 
 
     // Start is called before the first frame update
@@ -27,61 +21,15 @@ public class ZombieController : CharacterController
         melee.damage = damage;
         storedSpeed = speed;
         tempFocusTime = focusTime;
-        //tempTuneTime = tuneTime;
-        //tempStunTime = stunTime;
-        //tuneDist = seeDist * 1.25f;
-        //tuneFrequency = Random.Range(1.5f, 7.5f);
 
         base.Start();
     }
 
-    //override public void Update()
-    //{
-    //    if (!stunned)
-    //    {
-    //        if (dist <= tuneDist
-    //            && (RadioController.instance.currentFrequency < tuneFrequency + tuneOffset && RadioController.instance.currentFrequency > tuneFrequency - tuneOffset)
-    //            && !RadioController.instance.abilityMode //ability mode is not active                                                       
-    //            && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
-    //        {
-    //            //TODO add animator toggle here to play "stunning" animation
-    //            animator.SetBool("isStunning", true);
-    //            RadioController.instance.StunEnemy(true);
-    //            tempTuneTime -= Time.deltaTime;
-    //            if (tempTuneTime <= 0)
-    //            {
-    //                stunned = true;
-    //                tempTuneTime = tuneTime;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            //TODO add animator toggle here to stop "stunning" animation
-    //            animator.SetBool("isStunning", false);
-    //            RadioController.instance.StunEnemy(false);
-    //            tempTuneTime = tuneTime;
-    //        }
-    //    }
-
-    //    if (stunned)
-    //    {
-    //        tempStunTime -= Time.deltaTime;
-    //        if (tempStunTime <= 0)
-    //        {
-    //            stunned = false;
-    //            tempStunTime = stunTime;
-    //        }
-    //    }
-
-    //    base.Update();
-    //}
-
-    // Update is called once per frame
-    void FixedUpdate()
+    override public void Update()
     {
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
-        if (PlayerController.instance.invisible || dead)// || stunned)
+        if (PlayerController.instance.invisible || dead || stunned)
         {
             seePlayer = false;
         }
@@ -95,8 +43,7 @@ public class ZombieController : CharacterController
 
             if (dist <= seeDist || (seePlayer && dist <= loseDist))
             {
-                //seePlayer = hits[0].collider.gameObject.tag == "Player" ? true : false;
-                if (hits[0].collider.gameObject.tag == "Player")
+                if (hits[0].collider.gameObject.CompareTag("Player"))
                 {
                     if (!seePlayer)
                     {
@@ -137,13 +84,32 @@ public class ZombieController : CharacterController
             }
         }
 
+
+        //Stun Logic
+        if (stunned)
+        {
+            seePlayer = false;
+            tempStunTime -= Time.deltaTime;
+            if (tempStunTime <= 0)
+            {
+                stunned = false;
+                tempStunTime = stunTime;
+            }
+        }
+
+        base.Update();
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
         storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed;
         rb.velocity = transform.forward * storedSpeed;
 
         PlayerController.instance.isSeen = seePlayer;
         animator.SetBool("seePlayer", seePlayer);
+        animator.SetBool("isStunning", stunned);
         animator.SetBool("isAttacking", attacking);
-        //animator.SetBool("isStunned", stunned);
         melee.gameObject.SetActive(isPlaying("Melee"));
 
         if (colliding)
@@ -157,7 +123,7 @@ public class ZombieController : CharacterController
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer != layer && seePlayer)
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Floor") && seePlayer)
         {
             colliding = true;
         }

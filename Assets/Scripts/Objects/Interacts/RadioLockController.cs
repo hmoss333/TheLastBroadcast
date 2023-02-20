@@ -12,23 +12,24 @@ public class RadioLockController : InteractObject
     //[SerializeField] private GameObject focusPoint;
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private GameObject[] objectsToActivate;//InteractObject[] objectsToActivate;
-
+    float tempTime = 0f;
 
     void Start()
     {
         mesh.material.color = Color.red;
         checkFrequency = Random.Range(1f, 7.5f);
+        hasActivated = false;
     }
 
-    private void OnEnable()
-    {
-        //If radioLock has already been triggered previously, interact with all objectsToActivate
-        if (hasActivated)
-        {
-            StartCoroutine(UnlockDoor(false));
-            unlocked = true;
-        }
-    }
+    //private void OnEnable()
+    //{
+    //    //If radioLock has already been triggered previously, interact with all objectsToActivate
+    //    if (hasActivated)
+    //    {
+    //        StartCoroutine(UnlockObjects(false));
+    //        unlocked = true;
+    //    }
+    //}
 
     void Update()
     {
@@ -44,32 +45,31 @@ public class RadioLockController : InteractObject
             {
                 interacting = true;
                 mesh.material.color = Color.yellow;
-                checkTime -= Time.deltaTime;
-                if (checkTime < 0)
+                tempTime += Time.deltaTime;
+                if (tempTime >= checkTime)
                 {
-                    //hasActivated = true;
-                    SetHasActivated();
+                    hasActivated = true;
+                    //SetHasActivated(); //Not using this so the player must reactivate lock when returning to areas
                 }
             }
             else if (interacting)
             {
                 interacting = false;
-                //CameraController.instance.LoadLastTarget();
                 mesh.material.color = Color.red;
-                checkTime = 2f;
+                tempTime = 0f;
             }
         }
 
         if (!unlocked && hasActivated)
         {
-            StartCoroutine(UnlockDoor(true));
+            StartCoroutine(UnlockObjects(true));
             unlocked = true;
         }
 
         mesh.material.color = unlocked ? Color.green : mesh.material.color;
     }
 
-    IEnumerator UnlockDoor(bool focusCamera)
+    IEnumerator UnlockObjects(bool focusCamera)
     {
         print("unlocking objects");
         for (int i = 0; i < objectsToActivate.Length; i++)
