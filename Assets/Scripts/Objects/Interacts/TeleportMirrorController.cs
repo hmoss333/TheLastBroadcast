@@ -1,14 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class DoorController : InteractObject
+public class TeleportMirrorController : InteractObject
 {
-    //public bool locked;
     [SerializeField] Transform exitPoint;
-    RoomController exitRoom;
-
+    private RoomController exitRoom;
 
     private void Awake()
     {
@@ -18,21 +15,19 @@ public class DoorController : InteractObject
 
     public override void Interact()
     {
-        if (active)
+        if (SaveDataController.instance.saveData.abilities.mirror)
         {
             base.Interact();
 
-            StartCoroutine(DoorTrigger());
+            StartCoroutine(TeleportTrigger());
         }
         else
         {
-            print("Door is locked");
-            //UIController.instance.DialogueUI("Door is locked");//, 3f);
-            //UIController.instance.FadeUI(1.5f);
+            print("It's just a mirror...");
         }
     }
 
-    IEnumerator DoorTrigger()
+    IEnumerator TeleportTrigger()
     {
         yield return new WaitForSeconds(0.5f);
 
@@ -40,6 +35,9 @@ public class DoorController : InteractObject
 
         while (FadeController.instance.isFading)
             yield return null;
+
+        //if (exitRoom)
+        //    exitRoom.gameObject.SetActive(true);
 
         PlayerController.instance.transform.position = exitPoint.position;
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);
