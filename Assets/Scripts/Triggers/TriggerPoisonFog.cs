@@ -12,7 +12,7 @@ public class TriggerPoisonFog : MonoBehaviour
         if (other.tag == "Player")
         {
             gasmask = SaveDataController.instance.saveData.abilities.gasmask;
-            other.GetComponent<PlayerController>().ToggleGasMask();
+            other.GetComponent<PlayerController>().ToggleGasMask(gasmask);
         }
     }
 
@@ -28,7 +28,7 @@ public class TriggerPoisonFog : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<PlayerController>().ToggleGasMask();
+            other.GetComponent<PlayerController>().ToggleGasMask(false);
         }
     }
 }

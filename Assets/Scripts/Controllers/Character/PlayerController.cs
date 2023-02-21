@@ -253,9 +253,9 @@ public class PlayerController : CharacterController
         playerAvatar.SetActive(!playerAvatar.activeSelf);
     }
 
-    public void ToggleGasMask()
+    public void ToggleGasMask(bool maskState)
     {
-        gasMaskObj.SetActive(!gasMaskObj.activeSelf);
+        gasMaskObj.SetActive(maskState);
     }
 
     //Used for the door controller to set exit direction
