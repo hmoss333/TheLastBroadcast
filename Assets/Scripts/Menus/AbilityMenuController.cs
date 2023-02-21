@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AbilityMenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject crowbarText, radioText, specialText, gasmaskText, bookText, mirrorText;
+    [SerializeField] private GameObject crowbarText, flashlightText, radioText, specialText, gasmaskText, bookText, mirrorText;
     [SerializeField] private GameObject tuneAbility, invisAbility, ratAbility;
     Abilities abilityData;
     List<RadioAbility> radioAbilities;
@@ -17,6 +17,7 @@ public class AbilityMenuController : MonoBehaviour
         radioAbilities = SaveDataController.instance.saveData.radioAbilities;
 
         crowbarText.SetActive(abilityData.crowbar);
+        flashlightText.SetActive(abilityData.flashlight);
         radioText.SetActive(abilityData.radio);
         specialText.SetActive(abilityData.radio_special);
         gasmaskText.SetActive(abilityData.gasmask);
