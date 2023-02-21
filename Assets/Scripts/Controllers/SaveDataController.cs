@@ -289,14 +289,14 @@ public class SaveDataController : MonoBehaviour
             case "flashlight":
                 saveData.abilities.flashlight = true;
                 break;
+            case "mirror":
+                saveData.abilities.mirror = true;
+                break;
             case "book":
                 saveData.abilities.book = true;
                 break;
             case "hand":
                 saveData.abilities.hand = true;
-                break;
-            case "mirror":
-                saveData.abilities.mirror = true;
                 break;
             default:
                 Debug.Log($"Ability not found: {abilityName}");
@@ -340,9 +340,9 @@ public class Abilities
     public bool crowbar;
     public bool gasmask;
     public bool flashlight;
+    public bool mirror;
     public bool book;
     public bool hand;
-    public bool mirror;
 }
 
 [System.Serializable]
