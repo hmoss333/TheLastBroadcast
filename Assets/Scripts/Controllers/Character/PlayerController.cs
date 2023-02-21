@@ -49,6 +49,7 @@ public class PlayerController : CharacterController
     {
         storedSpeed = speed;
         melee.damage = damage;
+        gasMaskObj.SetActive(false);
 
         base.Start();
     }
@@ -250,6 +251,11 @@ public class PlayerController : CharacterController
     {
         print($"Toggle avatar {!playerAvatar.activeSelf}");
         playerAvatar.SetActive(!playerAvatar.activeSelf);
+    }
+
+    public void ToggleGasMask()
+    {
+        gasMaskObj.SetActive(!gasMaskObj.activeSelf);
     }
 
     //Used for the door controller to set exit direction
