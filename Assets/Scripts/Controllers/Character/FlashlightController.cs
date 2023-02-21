@@ -43,12 +43,9 @@ public class FlashlightController : MonoBehaviour
             {
                 Vector3 forwardDir = transform.forward;
                 Ray ray = new Ray(transform.position, forwardDir);
-                //RaycastHit hit;
                 RaycastHit[] hits;
-                Debug.DrawLine(transform.position, forwardDir * checkDist, Color.blue);
+                Debug.DrawRay(transform.position, forwardDir * checkDist, Color.blue);
 
-
-                hits = Physics.RaycastAll(transform.position, transform.forward, checkDist, layer);
                 hits = Physics.RaycastAll(transform.position, transform.forward, checkDist, layer);
                 for (int i = 0; i < hits.Length; i++)
                 {
