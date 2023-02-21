@@ -13,6 +13,12 @@ public class TeleportMirrorController : InteractObject
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
     }
 
+    private void Update()
+    {
+        //Object active state checks if the player has collected the mirror object
+        active = SaveDataController.instance.saveData.abilities.mirror;
+    }
+
     public override void Interact()
     {
         if (SaveDataController.instance.saveData.abilities.mirror)
@@ -35,9 +41,6 @@ public class TeleportMirrorController : InteractObject
 
         while (FadeController.instance.isFading)
             yield return null;
-
-        //if (exitRoom)
-        //    exitRoom.gameObject.SetActive(true);
 
         PlayerController.instance.transform.position = exitPoint.position;
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);
