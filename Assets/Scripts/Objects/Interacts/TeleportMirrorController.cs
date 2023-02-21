@@ -1,14 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class DoorController : InteractObject
+public class TeleportMirrorController : InteractObject
 {
-    //public bool locked;
     [SerializeField] Transform exitPoint;
-    RoomController exitRoom;
-
+    private RoomController exitRoom;
 
     private void Awake()
     {
@@ -16,23 +13,27 @@ public class DoorController : InteractObject
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
     }
 
+    private void Update()
+    {
+        //Object active state checks if the player has collected the mirror object
+        active = SaveDataController.instance.saveData.abilities.mirror;
+    }
+
     public override void Interact()
     {
-        if (active)
+        if (SaveDataController.instance.saveData.abilities.mirror)
         {
             base.Interact();
 
-            StartCoroutine(DoorTrigger());
+            StartCoroutine(TeleportTrigger());
         }
         else
         {
-            print("Door is locked");
-            //UIController.instance.DialogueUI("Door is locked");//, 3f);
-            //UIController.instance.FadeUI(1.5f);
+            print("It's just a mirror...");
         }
     }
 
-    IEnumerator DoorTrigger()
+    IEnumerator TeleportTrigger()
     {
         yield return new WaitForSeconds(0.5f);
 
