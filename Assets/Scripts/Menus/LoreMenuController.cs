@@ -11,7 +11,7 @@ public class LoreMenuController : MonoBehaviour
     [SerializeField] List<LoreData> currentLoreData = new List<LoreData>();
     [SerializeField] UnityEngine.UI.Button loreButtonPrefab;
     [SerializeField] GameObject scrollButtonContent;
-    [SerializeField] TMP_Text loreText;
+    [SerializeField] TMP_Text loreTitle, loreText;
 
     // Start is called before the first frame update
     private void OnEnable()
@@ -49,7 +49,8 @@ public class LoreMenuController : MonoBehaviour
             if (currentLoreData[i].id == id)
             {
                 print($"Loading lore data for index {currentLoreData[i].id}");
-                loreText.text = currentLoreData[i].text;
+                loreTitle.text = currentLoreData[i].title != "" ? currentLoreData[i].title : $"Missing Title: {currentLoreData[i].id}";
+                loreText.text = currentLoreData[i].text != "" ? currentLoreData[i].text : $"Missing Text: {currentLoreData[i].id}";
                 break;
             }
         }
