@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class DialogueController : InteractObject
 {
+    [SerializeField] bool talkOnce;
     [SerializeField] private string[] lines;
     [SerializeField] private int index;
     private bool canInteract;
@@ -40,8 +41,10 @@ public class DialogueController : InteractObject
             else
             {
                 interacting = false; //Exited the dialogue tree
-                //hasActivated = true; //Dialogue event has completed
-                SetHasActivated();
+                if (talkOnce)
+                    SetHasActivated(); //Dialogue event has completed
+                else
+                    index = -1; //Reset dialogue
                 PlayerController.instance.isListening = false;
                 PlayerController.instance.state = PlayerController.States.idle;
             }

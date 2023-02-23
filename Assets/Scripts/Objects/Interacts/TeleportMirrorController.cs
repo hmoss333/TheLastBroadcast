@@ -8,7 +8,7 @@ public class TeleportMirrorController : InteractObject
 {
     [SerializeField] Transform exitPoint;
     private RoomController exitRoom;
-    [SerializeField] bool teleporting;
+    private bool teleporting;
     [SerializeField] float dissolveVal = 1f;
 
 
@@ -25,7 +25,8 @@ public class TeleportMirrorController : InteractObject
     private Renderer[] renderers;
 
 
-    private void Awake()
+
+    private void Start()
     {
         if (exitPoint)
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
