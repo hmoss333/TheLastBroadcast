@@ -391,5 +391,6 @@ public class LoreData
     public string type;
     public int id;
     public bool collected;
+    public string title;
     public string text;
 }
