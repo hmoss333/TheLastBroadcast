@@ -14,6 +14,7 @@ public class SaveDataController : MonoBehaviour
     private string destination;
 
     public LoreSaveData loreSaveData;
+    [SerializeField] LorePickup[] lorePickups;
     public SceneObjectsContainer sceneObjectContainer;
 
 
@@ -120,6 +121,19 @@ public class SaveDataController : MonoBehaviour
             string jsonData = File.ReadAllText(tempDest);
             tempContainer = JsonUtility.FromJson<LoreSaveData>(jsonData);
             loreSaveData = tempContainer;
+
+            //LorePickup[]
+                lorePickups = GameObject.FindObjectsOfType<LorePickup>();
+            for (int i = 0; i < lorePickups.Length; i++)
+            {
+                foreach (LoreData lore in loreSaveData.loreData)
+                {
+                    if (lorePickups[i].GetID() == lore.id)
+                    {
+                        lorePickups[i].SetValue(lore.text, lore.title);
+                    }
+                }
+            }
         }
         else
         {
@@ -140,7 +154,6 @@ public class SaveDataController : MonoBehaviour
         {
             if (loreSaveData.loreData[i].id == id)
             {
-                //loreSaveData.loreData[i].type = loreType;
                 loreSaveData.loreData[i].collected = true;
                 break;
             }
@@ -388,7 +401,6 @@ public class LoreSaveData
 [System.Serializable]
 public class LoreData
 {
-    public string type;
     public int id;
     public bool collected;
     public string title;
