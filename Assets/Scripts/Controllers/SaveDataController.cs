@@ -11,9 +11,10 @@ public class SaveDataController : MonoBehaviour
     public static SaveDataController instance;
 
     public SaveData saveData; //requires public for serialization
-    private string destination;
+    private string saveDestination, levelDestination, loreDestination;
 
     public LoreSaveData loreSaveData;
+    [SerializeField] LorePickup[] lorePickups;
     public SceneObjectsContainer sceneObjectContainer;
 
 
@@ -25,9 +26,9 @@ public class SaveDataController : MonoBehaviour
         else
             Destroy(this.gameObject);
 
-        //DontDestroyOnLoad(this.gameObject);
-
-        destination = $"{Application.persistentDataPath}/save.json";
+        saveDestination = $"{Application.persistentDataPath}/Save/save.json";
+        levelDestination = $"{Application.persistentDataPath}/LevelData";
+        loreDestination = $"{Application.persistentDataPath}/Lore/loreData.json";
         saveData = new SaveData();
 
         LoadFile();
@@ -39,11 +40,11 @@ public class SaveDataController : MonoBehaviour
     //File Save/Load functions
     public void LoadFile()
     {
-        if (File.Exists(destination))
+        if (File.Exists(saveDestination))
         {
             print("Loading save data");
             string jsonData = "";
-            jsonData = File.ReadAllText(destination);
+            jsonData = File.ReadAllText(saveDestination);
             saveData = JsonUtility.FromJson<SaveData>(jsonData);
         }
         else
@@ -58,7 +59,7 @@ public class SaveDataController : MonoBehaviour
     {
         string jsonData = JsonUtility.ToJson(saveData);
         print("Saving Data:" + jsonData);
-        File.WriteAllText(destination, jsonData);
+        File.WriteAllText(saveDestination, jsonData);
     }
 
     public SaveData GetSaveData()
@@ -68,7 +69,7 @@ public class SaveDataController : MonoBehaviour
 
     public void LoadObjectData(string sceneName)
     {
-        string tempDest = $"{Application.persistentDataPath}/{sceneName}.json";
+        string tempDest = $"{levelDestination}/{sceneName}.json";
 
         if (File.Exists(tempDest))
         {
@@ -82,6 +83,7 @@ public class SaveDataController : MonoBehaviour
         else
         {
             print("Creating new file");
+            Directory.CreateDirectory($"{Application.persistentDataPath}/LevelData/");
             SaveObjectData(sceneName);
         }
     }
@@ -102,7 +104,7 @@ public class SaveDataController : MonoBehaviour
             tempContainer.sceneObjects.Add(tempObj);
         }
 
-        string tempPath = $"{Application.persistentDataPath}/{sceneName}.json";
+        string tempPath = $"{levelDestination}/{sceneName}.json";
         string jsonData = JsonUtility.ToJson(tempContainer);
         print("Saving Object Data:" + jsonData);
         File.WriteAllText(tempPath, jsonData);
@@ -110,21 +112,32 @@ public class SaveDataController : MonoBehaviour
 
     public void LoadLoreData()
     {
-        //TODO load data from lore save file
-        string tempDest = $"{Application.persistentDataPath}/loreData.json";
-
-        if (File.Exists(tempDest))
+        if (File.Exists(loreDestination))
         {
             print("Loading lore data");
             LoreSaveData tempContainer = new LoreSaveData();
-            string jsonData = File.ReadAllText(tempDest);
+            string jsonData = File.ReadAllText(loreDestination);
             tempContainer = JsonUtility.FromJson<LoreSaveData>(jsonData);
             loreSaveData = tempContainer;
+
+            //LorePickup[]
+                lorePickups = GameObject.FindObjectsOfType<LorePickup>();
+            for (int i = 0; i < lorePickups.Length; i++)
+            {
+                foreach (LoreData lore in loreSaveData.loreData)
+                {
+                    if (lorePickups[i].GetID() == lore.id)
+                    {
+                        lorePickups[i].SetValue(lore.text, lore.title);
+                    }
+                }
+            }
         }
         else
         {
             print("Creating new lore file from resources");
-            tempDest = "Assets/Resources/Lore/loreData.json";
+            Directory.CreateDirectory($"{Application.persistentDataPath}/Lore/");
+            string tempDest = "Assets/Resources/Lore/loreData.json";
             LoreSaveData tempContainer = new LoreSaveData();
             string jsonData = File.ReadAllText(tempDest);
             tempContainer = JsonUtility.FromJson<LoreSaveData>(jsonData);
@@ -140,17 +153,15 @@ public class SaveDataController : MonoBehaviour
         {
             if (loreSaveData.loreData[i].id == id)
             {
-                //loreSaveData.loreData[i].type = loreType;
                 loreSaveData.loreData[i].collected = true;
                 break;
             }
         }
 
         //TODO save lore data for specified ID
-        string tempPath = $"{Application.persistentDataPath}/loreData.json";
         string jsonData = JsonUtility.ToJson(loreSaveData);
         print("Saving Lore Data:" + jsonData);
-        File.WriteAllText(tempPath, jsonData);
+        File.WriteAllText(loreDestination, jsonData);
     }
 
 
@@ -158,79 +169,11 @@ public class SaveDataController : MonoBehaviour
     public void CreateNewSaveFile()
     {
         //TODO generate save file from base file in Resources folder
+        Directory.CreateDirectory($"{Application.persistentDataPath}/Save/");
         string resourcesPath = "Assets/Resources/Save/save.json";
         saveData = new SaveData();
         string jsonData = File.ReadAllText(resourcesPath);
         saveData = JsonUtility.FromJson<SaveData>(jsonData);
-
-
-        //TODO determine if this old generation code is still necessary
-        //saveData.currentScene = "Forest"; //Set BroadcastRoom as default for new save files
-        //saveData.savePointID = 0; //Set default spawn position
-
-        ////Set all station values here
-        //List<Station> tempStations = new List<Station>();
-
-        ////Station station0 = new Station();
-        ////station0.frequency = 2.02f;
-        ////station0.sceneToLoad = "Facility";
-        ////station0.isActive = true;
-        ////tempStations.Add(station0);
-
-        ////Station station1 = new Station();
-        ////station1.frequency = 8.20f;
-        ////station1.sceneToLoad = "Apartment";
-        ////station1.isActive = false;
-        ////tempStations.Add(station1);
-
-        ////Station station2 = new Station();
-        ////station2.frequency = 3.330f;
-        ////station2.sceneToLoad = "Backrooms";
-        ////station2.isActive = false;
-        ////tempStations.Add(station2);
-
-        ////Station station3 = new Station();
-        ////station3.frequency = 9.30f;
-        ////station3.sceneToLoad = "Library";
-        ////station3.isActive = false;
-        ////tempStations.Add(station3);
-
-        //saveData.stations = tempStations;
-
-
-        ////Set radio ability values here
-        //List<RadioAbility> tempRadioAbilities = new List<RadioAbility>();
-
-        //RadioAbility rb0 = new RadioAbility();
-        //rb0.name = "Tune";
-        //rb0.frequency = 2.5f;
-        //rb0.isActive = false;
-        //tempRadioAbilities.Add(rb0);
-
-        //RadioAbility rb1 = new RadioAbility();
-        //rb1.name = "Invisibility";
-        //rb1.frequency = 5.0f;
-        //rb1.isActive = false;
-        //tempRadioAbilities.Add(rb1);
-
-        //RadioAbility rb2 = new RadioAbility();
-        //rb2.name = "Rats";
-        //rb2.frequency = 7.5f;
-        //rb2.isActive = false;
-        //tempRadioAbilities.Add(rb2);
-
-        //saveData.radioAbilities = tempRadioAbilities;
-
-
-        ////Set Ability defaults
-        //Abilities tempAbilities = new Abilities();
-        //tempAbilities.radio = false;
-        //tempAbilities.crowbar = false;
-        //tempAbilities.gasmask = false;
-        //tempAbilities.book = false;
-        //tempAbilities.hand = false;
-        //tempAbilities.mirror = false;
-        //saveData.abilities = tempAbilities;
     }
 
 
@@ -388,7 +331,6 @@ public class LoreSaveData
 [System.Serializable]
 public class LoreData
 {
-    public string type;
     public int id;
     public bool collected;
     public string title;

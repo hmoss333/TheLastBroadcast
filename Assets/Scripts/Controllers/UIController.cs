@@ -11,7 +11,7 @@ public class UIController : MonoBehaviour
     [Header("Lore Variables")]
     [SerializeField] GameObject loreObject;
     [SerializeField] Image loreBackground;
-    [SerializeField] TextMeshProUGUI loreText;
+    [SerializeField] TextMeshProUGUI loreText, loreTitle;
 
     [Header("Ability Variables")]
     [SerializeField] GameObject abilityObject, dialogueObject;
@@ -31,10 +31,11 @@ public class UIController : MonoBehaviour
             Destroy(this);
     }
 
-    public void ToggleLoreUI(string text)
+    public void ToggleLoreUI(string text, string title)
     {
         uiActive = !uiActive;
         loreText.text = text;
+        loreTitle.text = title;
         loreObject.SetActive(uiActive);
     }
 
