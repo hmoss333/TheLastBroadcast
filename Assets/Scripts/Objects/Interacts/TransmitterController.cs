@@ -24,9 +24,9 @@ public class TransmitterController : InteractObject
 
             if (!hasActivated)
             {
-                Debug.Log($"Actived transmitter for {sceneToActivate} station");
+                Debug.Log($"Actived transmitter for {abilityToGive} station");
                 hasActivated = true;
-                active = false;
+                //active = false;
                 SaveDataController.instance.EnableStation(sceneToActivate); //Activate new scene station
                 SaveDataController.instance.GiveRadioAbility(abilityToGive.ToString()); //Give new ability station
                 SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name); //Save object states
@@ -34,8 +34,12 @@ public class TransmitterController : InteractObject
                     SaveDataController.instance.GiveAbility("radio_special"); //If radio_special has not already been unlocked, set to true
                 SaveDataController.instance.SaveFile();
             }
+            else
+            {
+                active = false;
+            }
 
-            StartCoroutine(LoadBroadcastRoom());
+            //StartCoroutine(LoadBroadcastRoom());
         }
     }
 

@@ -15,11 +15,10 @@ public class UIController : MonoBehaviour
 
     [Header("Ability Variables")]
     [SerializeField] GameObject abilityObject, dialogueObject;
-    [SerializeField] Image abilityBackground;
+    [SerializeField] Image abilityBackground, abilityIcon;
     [SerializeField] TextMeshProUGUI abilityText, dialogueText;
-    [SerializeField] Image abilityIcon;
 
-    Coroutine df;
+    //Coroutine df;
 
     bool uiActive;
 

@@ -9,8 +9,9 @@ public class AbilityPickup : InteractObject
     {
         radio,
         crowbar,
+        gasmask,
+        flashlight,
         book,
-        hand,
         mirror
     }
     public CollectType collectType;

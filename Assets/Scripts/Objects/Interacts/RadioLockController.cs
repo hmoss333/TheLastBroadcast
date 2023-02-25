@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RadioLockController : InteractObject
 {
-    [SerializeField] private bool unlocked = false; //has controller been triggered
+    [SerializeField] private bool unlocked = false, focus = false; //has controller been triggered
     [SerializeField] private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
     [SerializeField] private float checkTime = 2f; //time the radio must stay within the frequency range to activate
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
@@ -62,7 +62,7 @@ public class RadioLockController : InteractObject
 
         if (!unlocked && hasActivated)
         {
-            StartCoroutine(UnlockObjects(true));
+            StartCoroutine(UnlockObjects(focus));
             unlocked = true;
         }
 
