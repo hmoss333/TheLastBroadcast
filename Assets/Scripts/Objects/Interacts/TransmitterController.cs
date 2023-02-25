@@ -6,7 +6,7 @@ using TMPro;
 
 public class TransmitterController : InteractObject
 {
-    [SerializeField] GameObject focusPoint;
+    //[SerializeField] GameObject focusPoint;
     [SerializeField] enum AbilityToGive { Tune, Invisibility, Rats };
     [SerializeField] AbilityToGive abilityToGive;
     [SerializeField] string sceneToActivate;
@@ -14,7 +14,7 @@ public class TransmitterController : InteractObject
 
     public override void Interact()
     {
-        if (active)
+        if (active && !hasActivated)
         {
             base.Interact();
 
@@ -22,43 +22,23 @@ public class TransmitterController : InteractObject
             CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
             CameraController.instance.FocusTarget();
 
-            if (!hasActivated)
-            {
-                Debug.Log($"Actived transmitter for {abilityToGive} station");
-                hasActivated = true;
-                //active = false;
-                SaveDataController.instance.EnableStation(sceneToActivate); //Activate new scene station
-                SaveDataController.instance.GiveRadioAbility(abilityToGive.ToString()); //Give new ability station
-                SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name); //Save object states
-                if (!SaveDataController.instance.GetSaveData().abilities.radio_special)
-                    SaveDataController.instance.GiveAbility("radio_special"); //If radio_special has not already been unlocked, set to true
-                SaveDataController.instance.SaveFile();
-            }
-            else
-            {
-                active = false;
-            }
-
-            //StartCoroutine(LoadBroadcastRoom());
+            CamEffectController.instance.SetEffectValues(interacting);
         }
     }
 
-    IEnumerator LoadBroadcastRoom()
+    public override void StartInteract()
     {
-        yield return new WaitForSeconds(1f);
+        Debug.Log($"Actived transmitter for {abilityToGive} station");
+        SaveDataController.instance.EnableStation(sceneToActivate); //Activate new scene station
+        if (!SaveDataController.instance.GetSaveData().abilities.radio_special)
+            SaveDataController.instance.GiveAbility("radio_special"); //If radio_special has not already been unlocked, set to true
+        SaveDataController.instance.GiveRadioAbility(abilityToGive.ToString()); //Give new ability station
+        SaveDataController.instance.SaveFile();
+    }
 
-        CamEffectController.instance.SetEffectValues(true);
-
-        yield return new WaitForSeconds(2.5f); //change this to wait while any dialogue is playing
-
-        FadeController.instance.StartFade(1.0f, 1f);
-
-        while (FadeController.instance.isFading)
-            yield return null;
-
-        CamEffectController.instance.SetEffectValues(false);
-        SaveDataController.instance.SetSavePoint("BroadcastRoom", 0);
-        PlayerController.instance.ToggleAvatar();
-        SceneManager.LoadSceneAsync("BroadcastRoom");
+    public override void EndInteract()
+    {
+        hasActivated = true;
+        SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name); //Save object states
     }
 }

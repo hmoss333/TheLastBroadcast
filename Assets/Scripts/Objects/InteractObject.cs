@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InteractObject : SaveObject
 {
+    public GameObject focusPoint;
     public bool interacting;
 
     public virtual void Interact()

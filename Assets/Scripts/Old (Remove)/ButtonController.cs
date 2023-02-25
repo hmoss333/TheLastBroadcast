@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class ButtonController : InteractObject
 {
-    PlayerController player;
+    [SerializeField] bool focus;
     [SerializeField] GameObject[] objectsToActivate;
     [SerializeField] string triggerText;
 
 
-    void Start()
-    {
-        player = FindObjectOfType<PlayerController>();
+    //void Start()
+    //{
+    //    gameObject.SetActive(!hasActivated);
+    //}
 
-        gameObject.SetActive(!hasActivated);
+    public override void Interact()
+    {
+        if (active && !hasActivated)
+            base.Interact();
     }
 
     public override void StartInteract()
@@ -26,7 +30,8 @@ public class ButtonController : InteractObject
     public override void EndInteract()
     {
         UIController.instance.ToggleDialogueUI(false);
-        CameraController.instance.SetTarget(player.gameObject);
+        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+        SetHasActivated();
     }
 
     IEnumerator ActivateObjects()
@@ -36,37 +41,21 @@ public class ButtonController : InteractObject
         //Activate all interact objects in list
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            if (objectsToActivate[i].GetComponent<InteractObject>())
-            {
-                if (!objectsToActivate[i].GetComponent<InteractObject>().active)
-                {
-                    if (objectsToActivate[i].transform.parent.gameObject.activeSelf)
-                    {
-                        CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
+            InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
+            if (focus)
+                CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null ? tempInteract.focusPoint : objectsToActivate[i].gameObject);
 
-                        yield return new WaitForSeconds(1f);
-                    }
-
-                    objectsToActivate[i].GetComponent<InteractObject>().Activate();
-
-                    yield return new WaitForSeconds(0.65f);
-                }
-            }
+            if (tempInteract != null)
+                tempInteract.Activate();
             else
-            {
-                if (objectsToActivate[i].transform.parent.gameObject.activeSelf)
-                {
-                    CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
-
-                    yield return new WaitForSeconds(1f);
-                }
-
                 objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
 
-                yield return new WaitForSeconds(0.65f);
-            }
+            yield return new WaitForSeconds(1.25f);
         }
 
-        SetHasActivated();
+        if (CameraController.instance.GetLastTarget() != null)
+            CameraController.instance.LoadLastTarget();
+        else
+            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
     }
 }

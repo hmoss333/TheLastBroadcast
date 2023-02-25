@@ -74,10 +74,8 @@ public class RadioLockController : InteractObject
         print("unlocking objects");
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            if (focusCamera)
-                CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
-
             InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
+            CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null ? tempInteract.focusPoint : objectsToActivate[i].gameObject);
             if (tempInteract != null)
                 tempInteract.Activate();
             else
