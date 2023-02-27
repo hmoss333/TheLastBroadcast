@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     //[SerializeField] Vector3 camRotMod;
     Quaternion baseRot;
 
-    [SerializeField] bool focus, setRot;
+    [SerializeField] bool focus, setRot, lockCam;
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
     [SerializeField] float focusRate;
@@ -148,5 +148,15 @@ public class CameraController : MonoBehaviour
     public bool GetRotState()
     {
         return setRot;
+    }
+
+    public void SetCamLock(bool lockState)
+    {
+        lockCam = lockState;
+    }
+
+    public bool GetCamLockState()
+    {
+        return lockCam;
     }
 }

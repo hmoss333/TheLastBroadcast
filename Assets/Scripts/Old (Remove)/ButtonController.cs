@@ -27,7 +27,6 @@ public class ButtonController : InteractObject
         UIController.instance.ToggleDialogueUI(false);
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         SetHasActivated();
-        //hasActivated = true;
     }
 
     IEnumerator ActivateObjects()
@@ -36,12 +35,6 @@ public class ButtonController : InteractObject
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             objectsToActivate[i].Activate();
-
-            //SaveObject tempObject = objectsToActivate[i].GetComponent<SaveObject>();
-            //if (tempObject != null)
-            //    tempObject.Activate();
-            //else
-            //    objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
 
             yield return new WaitForSeconds(1.5f);
         }

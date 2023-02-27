@@ -11,13 +11,11 @@ public class SaveObject : MonoBehaviour
     {
         active = !active;
         SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
-        SaveDataController.instance.SaveFile();
     }
 
     public virtual void SetHasActivated()
     {
         hasActivated = true;
         SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
-        SaveDataController.instance.SaveFile();
     }
 }

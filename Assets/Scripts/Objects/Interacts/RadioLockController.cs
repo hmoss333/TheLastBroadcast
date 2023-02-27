@@ -11,7 +11,7 @@ public class RadioLockController : SaveObject
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private MeshRenderer mesh;
-    [SerializeField] private SaveObject[] objectsToActivate;//InteractObject[] objectsToActivate;
+    [SerializeField] private SaveObject[] objectsToActivate;
     float tempTime = 0f;
 
     void Start()
@@ -43,9 +43,9 @@ public class RadioLockController : SaveObject
                 tempTime += Time.deltaTime;
                 if (tempTime >= checkTime)
                 {
-                    hasActivated = true;
+                    //hasActivated = true;
+                    SetHasActivated(); //Not using this so the player must reactivate lock when returning to areas
                     StartCoroutine(UnlockObjects());
-                    //SetHasActivated(); //Not using this so the player must reactivate lock when returning to areas
                 }
             }
             else if (interacting)
@@ -61,7 +61,8 @@ public class RadioLockController : SaveObject
 
     IEnumerator UnlockObjects()
     {
-        print("unlocking objects");
+        CameraController.instance.SetCamLock(true);
+
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
@@ -70,14 +71,10 @@ public class RadioLockController : SaveObject
 
             objectsToActivate[i].Activate();
 
-            //SaveObject tempObject = objectsToActivate[i].GetComponent<SaveObject>();
-            //if (tempObject != null)
-            //    tempObject.Activate();
-            //else
-            //    objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
-
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2f);
         }
+
+        CameraController.instance.SetCamLock(false);
 
         if (CameraController.instance.GetLastTarget() != null)
             CameraController.instance.LoadLastTarget();

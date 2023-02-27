@@ -36,6 +36,7 @@ public class AbilityPickup : InteractObject
     {
         //hasActivated = true;
         SetHasActivated();
+        SaveDataController.instance.SaveFile();
         UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
         gameObject.SetActive(false);
     }
