@@ -251,7 +251,6 @@ public class PlayerController : CharacterController
     //Toggle Functions
     public void ToggleAvatar()
     {
-        print($"Toggle avatar {!playerAvatar.activeSelf}");
         playerAvatar.SetActive(!playerAvatar.activeSelf);
     }
 

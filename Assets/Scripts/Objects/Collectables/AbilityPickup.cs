@@ -29,14 +29,13 @@ public class AbilityPickup : InteractObject
     {
         UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
         SaveDataController.instance.GiveAbility(collectType.ToString());
+        SaveDataController.instance.SaveFile();
         print("Collected " + gameObject.name);
     }
 
     public override void EndInteract()
     {
-        //hasActivated = true;
         SetHasActivated();
-        SaveDataController.instance.SaveFile();
         UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
         gameObject.SetActive(false);
     }

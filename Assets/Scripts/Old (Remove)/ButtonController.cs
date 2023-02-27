@@ -36,7 +36,7 @@ public class ButtonController : InteractObject
         {
             objectsToActivate[i].Activate();
 
-            yield return new WaitForSeconds(1.5f);
+            yield return null; //new WaitForSeconds(1.5f);
         }
 
         if (CameraController.instance.GetLastTarget() != null)

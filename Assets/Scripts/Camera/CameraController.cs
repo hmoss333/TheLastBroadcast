@@ -69,7 +69,8 @@ public class CameraController : MonoBehaviour
             zOff = zOffMax;
     }
 
-    // Update is called once per frame
+    //Late Update should always be used for camera follow logic
+    //This calculates after all other update logic to ensure that it uses the most accurate position values
     void LateUpdate()
     {
         Vector3 pos = target.transform.position;
@@ -104,7 +105,7 @@ public class CameraController : MonoBehaviour
     }
 
 
-    //Get/Set functions
+    //Target Get/Sets
     public void SetTarget(GameObject newTargetObj)
     {
         target = newTargetObj.transform;
@@ -130,6 +131,8 @@ public class CameraController : MonoBehaviour
         target = lastTarget;
     }
 
+
+    //Focus Get/Set
     public void FocusTarget()
     {
         focus = !focus;
@@ -140,6 +143,8 @@ public class CameraController : MonoBehaviour
         return focus;
     }
 
+
+    //Object Rot Get/Set
     public void SetRotation(bool rotState)
     {
         setRot = rotState;
@@ -150,6 +155,8 @@ public class CameraController : MonoBehaviour
         return setRot;
     }
 
+
+    //Cam Lock Get/Set
     public void SetCamLock(bool lockState)
     {
         lockCam = lockState;
