@@ -57,7 +57,7 @@ public class CameraController : MonoBehaviour
             xOff = xTemp;
 
         //Manualy shift xOff with button press
-        if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)//Input.GetKeyDown(KeyCode.RightShift))
+        if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)
         {
             xOff = xOff * -1f;
         }
@@ -70,7 +70,7 @@ public class CameraController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void LateUpdate()
     {
         Vector3 pos = target.transform.position;
         if (!focus)
@@ -97,7 +97,7 @@ public class CameraController : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, pos, smoothTime * Time.deltaTime); //update camera position
         transform.rotation = Quaternion.Lerp(transform.rotation, focus || setRot ? target.rotation : baseRot, focusRotRate * Time.deltaTime); //update camera rotation based on focus state
         //transform.rotation *= Quaternion.Euler(camRotMod.x, camRotMod.y, camRotMod.z); //Apply additional rotation modifyers; default 0
-        if (!focus)
+        if (!focus && !setRot)
             transform.LookAt(target);
 
         Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, focus ? 60f : 20f, focusRate * Time.deltaTime); //update camera field of view based on focus state
@@ -107,19 +107,17 @@ public class CameraController : MonoBehaviour
     //Get/Set functions
     public void SetTarget(GameObject newTargetObj)
     {
-        //print($"Setting cam target to {newTargetObj.name}");
         target = newTargetObj.transform;
-    }
-
-    public void SetLastTarget(GameObject newLastTarget)
-    {
-        //print($"Setting lastTarget to {newLastTarget.name}");
-        lastTarget = newLastTarget.transform;
     }
 
     public Transform GetTarget()
     {
         return target;
+    }
+
+    public void SetLastTarget(GameObject newLastTarget)
+    {
+        lastTarget = newLastTarget.transform;
     }
 
     public Transform GetLastTarget()
@@ -129,7 +127,6 @@ public class CameraController : MonoBehaviour
 
     public void LoadLastTarget()
     {
-        print($"Loading last target {lastTarget}");
         target = lastTarget;
     }
 
