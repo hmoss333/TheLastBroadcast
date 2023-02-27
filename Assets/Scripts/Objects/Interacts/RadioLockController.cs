@@ -33,6 +33,11 @@ public class RadioLockController : InteractObject
 
     void Update()
     {
+        if (!active)
+            mesh.material.color = Color.black;
+        else if (active && !unlocked && !interacting)
+            mesh.material.color = Color.red;
+
         if (!unlocked && active)
         {
             float dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
@@ -75,7 +80,9 @@ public class RadioLockController : InteractObject
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
-            CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null ? tempInteract.focusPoint : objectsToActivate[i].gameObject);
+            if (objectsToActivate[i].transform.parent.gameObject.activeSelf)
+                CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null ? tempInteract.focusPoint : objectsToActivate[i].gameObject);
+
             if (tempInteract != null)
                 tempInteract.Activate();
             else

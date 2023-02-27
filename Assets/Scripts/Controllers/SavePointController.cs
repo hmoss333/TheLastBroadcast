@@ -9,7 +9,7 @@ public class SavePointController : InteractObject
 {
     public int ID;
     public Transform initPoint;
-    [SerializeField] GameObject focusPoint;
+    //[SerializeField] GameObject focusPoint;
     //[SerializeField] TextMeshPro saveText;
     //[SerializeField] AudioSource staticSource;
     //[SerializeField] float audioDist;

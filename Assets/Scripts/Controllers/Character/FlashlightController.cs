@@ -31,7 +31,9 @@ public class FlashlightController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SaveDataController.instance.saveData.abilities.flashlight && PlayerController.instance.state != PlayerController.States.radio)
+        if (SaveDataController.instance.saveData.abilities.flashlight
+            && PlayerController.instance.state != PlayerController.States.radio
+            && !PlayerController.instance.invisible)
         {
             isOn = PlayerController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0
                 ? true

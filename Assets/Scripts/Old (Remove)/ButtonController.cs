@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ButtonController : InteractObject
 {
-    //[SerializeField] bool focus;
-    [SerializeField] bool activating;
     [SerializeField] GameObject[] objectsToActivate;
     [SerializeField] string triggerText;
 
@@ -13,7 +11,7 @@ public class ButtonController : InteractObject
 
     public override void Interact()
     {
-        if (active && !hasActivated && !activating)
+        if (active && !hasActivated)
             base.Interact();
     }
 
@@ -30,18 +28,15 @@ public class ButtonController : InteractObject
         UIController.instance.ToggleDialogueUI(false);
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         SetHasActivated();
+        //hasActivated = true;
     }
 
     IEnumerator ActivateObjects()
     {
-        activating = true;
-
         //Activate all interact objects in list
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
-            CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null ? tempInteract.focusPoint : objectsToActivate[i].gameObject);
-
             if (tempInteract != null)
                 tempInteract.Activate();
             else
@@ -54,7 +49,5 @@ public class ButtonController : InteractObject
             CameraController.instance.LoadLastTarget();
         else
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
-
-        activating = false;
     }
 }

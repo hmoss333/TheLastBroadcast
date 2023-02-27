@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Intro_TransmitterController : InteractObject
 {
-    [SerializeField] GameObject focusPoint;
+    //[SerializeField] GameObject focusPoint;
     [SerializeField] string nextScene;
 
 

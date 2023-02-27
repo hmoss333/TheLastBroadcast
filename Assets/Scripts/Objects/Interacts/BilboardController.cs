@@ -8,8 +8,6 @@ public class BilboardController : InteractObject
 {
     public static BilboardController instance;
 
-    [SerializeField] GameObject focusPoint;
-
 
     private void Awake()
     {
