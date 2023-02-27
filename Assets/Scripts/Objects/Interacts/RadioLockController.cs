@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 public class RadioLockController : InteractObject
 {
-    [SerializeField] private bool unlocked = false, focus = false; //has controller been triggered
     [SerializeField] private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
     [SerializeField] private float checkTime = 2f; //time the radio must stay within the frequency range to activate
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
-    //[SerializeField] private GameObject focusPoint;
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private GameObject[] objectsToActivate;//InteractObject[] objectsToActivate;
     float tempTime = 0f;
@@ -21,24 +20,14 @@ public class RadioLockController : InteractObject
         hasActivated = false;
     }
 
-    //private void OnEnable()
-    //{
-    //    //If radioLock has already been triggered previously, interact with all objectsToActivate
-    //    if (hasActivated)
-    //    {
-    //        StartCoroutine(UnlockObjects(false));
-    //        unlocked = true;
-    //    }
-    //}
-
     void Update()
     {
         if (!active)
             mesh.material.color = Color.black;
-        else if (active && !unlocked && !interacting)
+        else if (active && !hasActivated && !interacting)
             mesh.material.color = Color.red;
 
-        if (!unlocked && active)
+        if (!hasActivated && active)
         {
             float dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
@@ -54,6 +43,7 @@ public class RadioLockController : InteractObject
                 if (tempTime >= checkTime)
                 {
                     hasActivated = true;
+                    StartCoroutine(UnlockObjects());
                     //SetHasActivated(); //Not using this so the player must reactivate lock when returning to areas
                 }
             }
@@ -65,16 +55,10 @@ public class RadioLockController : InteractObject
             }
         }
 
-        if (!unlocked && hasActivated)
-        {
-            StartCoroutine(UnlockObjects(focus));
-            unlocked = true;
-        }
-
-        mesh.material.color = unlocked ? Color.green : mesh.material.color;
+        mesh.material.color = hasActivated ? Color.green : mesh.material.color;
     }
 
-    IEnumerator UnlockObjects(bool focusCamera)
+    IEnumerator UnlockObjects()
     {
         print("unlocking objects");
         for (int i = 0; i < objectsToActivate.Length; i++)
