@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class AbilityPickup : InteractObject
 {
-    public new enum CollectType
+    public enum CollectType
     {
         radio,
         crowbar,

@@ -636,8 +636,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   hasActivated: 0
-  focusPoint: {fileID: 0}
   interacting: 0
+  focusPoint: {fileID: 0}
   talkOnce: 1
   lines:
   - 'TODO: Make path to Labs'
@@ -5004,16 +5004,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82fdbe047811041218f67963f71fdd16, type: 3}
---- !u!1 &174683630 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8307618191507288903, guid: 82fdbe047811041218f67963f71fdd16, type: 3}
-  m_PrefabInstance: {fileID: 174683629}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &174683631 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8307618191507288902, guid: 82fdbe047811041218f67963f71fdd16, type: 3}
   m_PrefabInstance: {fileID: 174683629}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &174683632 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -4708609872370275275, guid: 82fdbe047811041218f67963f71fdd16, type: 3}
+  m_PrefabInstance: {fileID: 174683629}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5731172a350a4f6b88f6cca55416fba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &175121376
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9897,8 +9903,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   hasActivated: 0
-  focusPoint: {fileID: 0}
   interacting: 0
+  focusPoint: {fileID: 0}
   objectsToActivate:
   - {fileID: 1718979785}
   triggerText: A door unlocked somewhere
@@ -10076,8 +10082,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   hasActivated: 0
-  focusPoint: {fileID: 0}
   interacting: 0
+  focusPoint: {fileID: 0}
   objectsToActivate:
   - {fileID: 626838396}
   triggerText: Turned off the gas valve
@@ -16785,7 +16791,7 @@ PrefabInstance:
       objectReference: {fileID: 254907055}
     - target: {fileID: 7686404432064426030, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: m_Name
-      value: Radio_Lock
+      value: Radio_Lock (1)
       objectReference: {fileID: 0}
     - target: {fileID: 7686404432064916494, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: m_RootOrder
@@ -26420,10 +26426,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   hasActivated: 0
-  focusPoint: {fileID: 0}
   interacting: 0
+  focusPoint: {fileID: 0}
   objectsToActivate:
-  - {fileID: 1450206465}
+  - {fileID: 1302308818}
   triggerText: A door unlocked somewhere
 --- !u!1001 &921948902
 PrefabInstance:
@@ -28921,8 +28927,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   hasActivated: 0
-  focusPoint: {fileID: 0}
   interacting: 0
+  focusPoint: {fileID: 0}
   talkOnce: 1
   lines:
   - 'TODO: Make path to Library'
@@ -34574,7 +34580,7 @@ PrefabInstance:
       objectReference: {fileID: 1672780369}
     - target: {fileID: 7686404432064426030, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: m_Name
-      value: Radio_Lock
+      value: Radio_Lock (2)
       objectReference: {fileID: 0}
     - target: {fileID: 7686404432064916494, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: m_RootOrder
@@ -35323,8 +35329,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   hasActivated: 0
-  focusPoint: {fileID: 0}
   interacting: 0
+  focusPoint: {fileID: 0}
   focusCam: 0
   objectsToActivate:
   - {fileID: 1292456970}
@@ -38034,12 +38040,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6505529831997096470, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: objectsToActivate.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6505529831997096470, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: objectsToActivate.Array.data[0]
       value: 
-      objectReference: {fileID: 174683630}
+      objectReference: {fileID: 174683632}
+    - target: {fileID: 6505529831997096470, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
+      propertyPath: objectsToActivate.Array.data[1]
+      value: 
+      objectReference: {fileID: 1450206466}
+    - target: {fileID: 6505529831997096470, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
+      propertyPath: objectsToActivate.Array.data[2]
+      value: 
+      objectReference: {fileID: 981933747}
     - target: {fileID: 7686404432064426030, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: m_Name
       value: Radio_Lock
@@ -38103,6 +38117,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7686404432064916494, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
   m_PrefabInstance: {fileID: 1302308816}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1302308818 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6505529831997096470, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
+  m_PrefabInstance: {fileID: 1302308816}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8c04d2685fb46d1801f79cefdd3a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1302373620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41751,11 +41776,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1495439044732132120, guid: d5d8a4f170def41c2819961fba6d8ff6, type: 3}
   m_PrefabInstance: {fileID: 1448884732}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1450206465 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4446532677641110252, guid: de1b9288a5367499f9556e1559c59193, type: 3}
+--- !u!114 &1450206466 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
   m_PrefabInstance: {fileID: 995489855}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3361299280484deb94b219159283df9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1454591551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48114,8 +48145,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   hasActivated: 0
-  focusPoint: {fileID: 0}
   interacting: 0
+  focusPoint: {fileID: 0}
   talkOnce: 1
   lines:
   - 'TODO: Make path to Facilities'
@@ -62547,8 +62578,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   hasActivated: 0
-  focusPoint: {fileID: 0}
   interacting: 0
+  focusPoint: {fileID: 0}
   talkOnce: 0
   lines:
   - Hello! Welcome to the test room!

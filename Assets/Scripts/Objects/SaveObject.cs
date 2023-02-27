@@ -9,7 +9,9 @@ public class SaveObject : MonoBehaviour
 
     public virtual void Activate()
     {
-        active = true;
+        active = !active;
+        SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
+        SaveDataController.instance.SaveFile();
     }
 
     public virtual void SetHasActivated()

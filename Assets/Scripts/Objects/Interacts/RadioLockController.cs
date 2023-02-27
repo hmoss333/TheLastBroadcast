@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
 
-public class RadioLockController : InteractObject
+public class RadioLockController : SaveObject
 {
+    [SerializeField] private bool interacting;
     [SerializeField] private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
     [SerializeField] private float checkTime = 2f; //time the radio must stay within the frequency range to activate
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private MeshRenderer mesh;
-    [SerializeField] private GameObject[] objectsToActivate;//InteractObject[] objectsToActivate;
+    [SerializeField] private SaveObject[] objectsToActivate;//InteractObject[] objectsToActivate;
     float tempTime = 0f;
 
     void Start()
@@ -67,12 +68,15 @@ public class RadioLockController : InteractObject
             if (objectsToActivate[i].transform.parent.gameObject.activeSelf)
                 CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null ? tempInteract.focusPoint : objectsToActivate[i].gameObject);
 
-            if (tempInteract != null)
-                tempInteract.Activate();
-            else
-                objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
+            objectsToActivate[i].Activate();
 
-            yield return new WaitForSeconds(1.25f);
+            //SaveObject tempObject = objectsToActivate[i].GetComponent<SaveObject>();
+            //if (tempObject != null)
+            //    tempObject.Activate();
+            //else
+            //    objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
+
+            yield return new WaitForSeconds(1.5f);
         }
 
         if (CameraController.instance.GetLastTarget() != null)

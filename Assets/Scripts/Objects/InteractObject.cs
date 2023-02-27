@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class InteractObject : SaveObject
 {
-    public GameObject focusPoint;
     public bool interacting;
+    public GameObject focusPoint;
 
     public virtual void Interact()
     {

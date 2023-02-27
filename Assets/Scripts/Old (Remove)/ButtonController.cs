@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class ButtonController : InteractObject
 {
-    [SerializeField] GameObject[] objectsToActivate;
+    [SerializeField] SaveObject[] objectsToActivate;
     [SerializeField] string triggerText;
-
 
 
     public override void Interact()
@@ -36,11 +35,13 @@ public class ButtonController : InteractObject
         //Activate all interact objects in list
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
-            if (tempInteract != null)
-                tempInteract.Activate();
-            else
-                objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
+            objectsToActivate[i].Activate();
+
+            //SaveObject tempObject = objectsToActivate[i].GetComponent<SaveObject>();
+            //if (tempObject != null)
+            //    tempObject.Activate();
+            //else
+            //    objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
 
             yield return new WaitForSeconds(1.5f);
         }
