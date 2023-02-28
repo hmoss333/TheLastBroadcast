@@ -10,6 +10,7 @@ public class SaveObject : MonoBehaviour
     public virtual void Activate()
     {
         active = !active;
+        print($"Set active state of {gameObject.name} to {active}");
         SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
     }
 
