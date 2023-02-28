@@ -98,7 +98,7 @@ public class TeleportMirrorController : InteractObject
 
         yield return new WaitForSeconds(0.5f);
 
-        FadeController.instance.StartFade(1.0f, 1f);
+        FadeController.instance.StartFade(1.0f, 0.5f);
 
         while (FadeController.instance.isFading)
             yield return null;
@@ -111,10 +111,9 @@ public class TeleportMirrorController : InteractObject
         if (exitRoom)
             exitRoom.gameObject.SetActive(true);
 
-        //Remove disolve material from Player
-        teleporting = false;
+        FadeController.instance.StartFade(0.0f, 0.5f);
 
-        FadeController.instance.StartFade(0.0f, 1f);
+        teleporting = false;
 
         PlayerController.instance.state = PlayerController.States.idle;
     }

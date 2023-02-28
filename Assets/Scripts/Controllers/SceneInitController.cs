@@ -121,8 +121,7 @@ public class SceneInitController : MonoBehaviour
                 if (!point.transform.parent.gameObject.activeSelf)
                     point.transform.parent.gameObject.SetActive(true);
                 PlayerController.instance.transform.position = point.initPoint.position;
-                PlayerController.instance.transform.rotation = point.initPoint.rotation;
-                //CameraController.instance.transform.position = point.initPoint.position;
+                PlayerController.instance.transform.rotation = point.initPoint.rotation;             
                 PlayerController.instance.state = PlayerController.States.idle;
                 break;
             }
@@ -131,6 +130,16 @@ public class SceneInitController : MonoBehaviour
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         if (CameraController.instance.GetLastTarget() == null)
             CameraController.instance.SetLastTarget(PlayerController.instance.gameObject);
+
+        StartCoroutine(LateStart());
+
         FadeController.instance.StartFade(0.0f, 1.5f);
+    }
+
+    IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(0.01f);
+
+        CameraController.instance.transform.position = PlayerController.instance.gameObject.transform.position;
     }
 }
