@@ -5,7 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class SaveObject : MonoBehaviour
 {
+    public string id;
     public bool active = true, hasActivated;
+
+    //private void Awake()
+    //{
+    //    id = Mathf.Abs(GetHashCode()).ToString().PadLeft(6, '0');
+    //}
 
     public virtual void Activate()
     {

@@ -79,6 +79,15 @@ public class SaveDataController : MonoBehaviour
             tempContainer = JsonUtility.FromJson<SceneObjectsContainer>(jsonData);
 
             sceneObjectContainer = tempContainer;
+
+            SaveObject[] sceneObjects = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
+            for (int i = 0; i < sceneObjects.Length; i++)
+            {
+                if (sceneObjects[i].id == "")
+                {
+                    sceneObjects[i].id = Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0');
+                }
+            }
         }
         else
         {
@@ -97,7 +106,11 @@ public class SaveDataController : MonoBehaviour
         for (int i = 0; i < sceneObjects.Length; i++)
         {
             SceneInteractObj tempObj = new SceneInteractObj();
-            tempObj.name = sceneObjects[i].name;
+            if (sceneObjects[i].id == "")
+            {
+                sceneObjects[i].id = Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0');
+            }
+            tempObj.id = sceneObjects[i].id;
             tempObj.active = sceneObjects[i].active;
             tempObj.hasActivated = sceneObjects[i].hasActivated;
 
@@ -317,7 +330,7 @@ public class SceneObjectsContainer
 public class SceneInteractObj
 {
     //public int ID;
-    public string name;
+    public string id;
     public bool active;
     public bool hasActivated;
 }

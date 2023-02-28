@@ -9,7 +9,7 @@ public class LorePickup : InteractObject
     //public enum Type { personalLogs, researchNotes, secretHistory }
     //public Type loreType;
     [SerializeField] string loreText, loreTitle; //this should be loaded from csv file
-    [SerializeField] int id;
+    [SerializeField] int loreId;
 
 
     private void Start()
@@ -21,7 +21,7 @@ public class LorePickup : InteractObject
 
     public int GetID()
     {
-        return id;
+        return loreId;
     }
 
     public void SetValue(string text, string title)
@@ -38,7 +38,7 @@ public class LorePickup : InteractObject
 
     public override void EndInteract()
     {
-        SaveDataController.instance.SaveLoreData(id);
+        SaveDataController.instance.SaveLoreData(loreId);
         UIController.instance.ToggleLoreUI(loreText, loreTitle);
         SetHasActivated();
         gameObject.SetActive(false);

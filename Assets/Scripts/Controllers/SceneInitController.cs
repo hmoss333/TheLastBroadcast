@@ -65,7 +65,7 @@ public class SceneInitController : MonoBehaviour
         {
             foreach (SceneInteractObj tempSceneObj in currentScenario.sceneObjects)
             {
-                if (tempObj.name == tempSceneObj.name)
+                if (tempSceneObj.id == tempObj.id)
                 {
                     tempObj.active = tempSceneObj.active;
                     tempObj.hasActivated = tempSceneObj.hasActivated;
@@ -78,7 +78,7 @@ public class SceneInitController : MonoBehaviour
         foreach (SaveObject tempObj in tempObjArray)
         {
             SceneInteractObj newObj = new SceneInteractObj();
-            newObj.name = tempObj.gameObject.name;
+            newObj.id = tempObj.id;//.gameObject.name;
             newObj.active = tempObj.active;
             newObj.hasActivated = tempObj.hasActivated;
             //TODO add more values to track here
