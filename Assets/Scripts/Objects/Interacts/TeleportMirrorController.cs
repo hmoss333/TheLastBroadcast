@@ -103,8 +103,9 @@ public class TeleportMirrorController : InteractObject
         while (FadeController.instance.isFading)
             yield return null;
 
-        PlayerController.instance.transform.position = exitPoint.position;
+        PlayerController.instance.transform.position = exitPoint.position;       
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);
+        CameraController.instance.transform.position = exitPoint.position;
         transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
 
         if (exitRoom)
