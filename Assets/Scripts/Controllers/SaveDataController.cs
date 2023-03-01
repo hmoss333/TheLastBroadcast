@@ -81,10 +81,10 @@ public class SaveDataController : MonoBehaviour
             SaveObject[] sceneObjects = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
             for (int i = 0; i < sceneObjects.Length; i++)
             {
-                if (sceneObjects[i].id == "")
-                {
-                    sceneObjects[i].id = sceneObjects[i].name;//Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0');
-                }
+                //if (sceneObjects[i].id == "")
+                //{
+                //    sceneObjects[i].id = sceneObjects[i].name;//Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0');
+                //}
 
                 foreach (SceneInteractObj obj in sceneObjectContainer.sceneObjects)
                 {
@@ -114,10 +114,10 @@ public class SaveDataController : MonoBehaviour
         for (int i = 0; i < sceneObjects.Length; i++)
         {
             SceneInteractObj tempObj = new SceneInteractObj();
-            if (sceneObjects[i].id == "")
-            {
-                sceneObjects[i].id = sceneObjects[i].name;//Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0'); //value changes between sessions
-            }
+            //if (sceneObjects[i].id == "")
+            //{
+            //    sceneObjects[i].id = sceneObjects[i].name;//Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0'); //value changes between sessions
+            //}
             tempObj.id = sceneObjects[i].id;
             tempObj.active = sceneObjects[i].active;
             tempObj.hasActivated = sceneObjects[i].hasActivated;
