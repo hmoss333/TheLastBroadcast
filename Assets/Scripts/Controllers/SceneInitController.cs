@@ -15,7 +15,6 @@ public class SceneInitController : MonoBehaviour
     [SerializeField] private RoomController[] rooms;
 
     [SerializeField] private SceneObjectsContainer currentScenario;
-    [SerializeField] private List<SceneInteractObj> currentInteractObjects;
 
 
     float fadeTime = 3f;
@@ -32,19 +31,11 @@ public class SceneInitController : MonoBehaviour
     void Start()
     {
         saveData = SaveDataController.instance.GetSaveData();
-        currentInteractObjects = new List<SceneInteractObj>();
-        currentScene = SceneManager.GetActiveScene().name;
         InitializeGame();
     }
 
     private void Update()
     {
-        //Initialize game on scene change
-        if (currentScene != SceneManager.GetActiveScene().name)
-        {
-            InitializeGame();
-        }
-
         //Reload scene on Player death
         if (PlayerController.instance.dead)
         {
@@ -55,35 +46,6 @@ public class SceneInitController : MonoBehaviour
             {
                 SceneManager.LoadScene(currentScene);
             }
-        }
-    }
-
-    void GetSaveObjs()
-    {      
-        SaveObject[] tempObjArray = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
-        foreach (SaveObject tempObj in tempObjArray)
-        {
-            foreach (SceneInteractObj tempSceneObj in currentScenario.sceneObjects)
-            {
-                if (tempSceneObj.id == tempObj.id)
-                {
-                    tempObj.active = tempSceneObj.active;
-                    tempObj.hasActivated = tempSceneObj.hasActivated;
-                }
-            }
-        }
-
-        //Create list of all interactObjects in scene
-        currentInteractObjects = new List<SceneInteractObj>();
-        foreach (SaveObject tempObj in tempObjArray)
-        {
-            SceneInteractObj newObj = new SceneInteractObj();
-            newObj.id = tempObj.id;//.gameObject.name;
-            newObj.active = tempObj.active;
-            newObj.hasActivated = tempObj.hasActivated;
-            //TODO add more values to track here
-
-            currentInteractObjects.Add(newObj);
         }
     }
 
@@ -110,13 +72,13 @@ public class SceneInitController : MonoBehaviour
         SaveDataController.instance.LoadObjectData(currentScene);
         currentScenario = SaveDataController.instance.sceneObjectContainer;
 
-        GetSaveObjs();
+        //GetSaveObjs();
         GetAllSavePoints();
         HideAllRooms();
 
         foreach (SavePointController point in savePoints)
         {
-            if (point.ID == saveData.savePointID)
+            if (point.ID == currentScenario.savePointID)
             {
                 if (!point.transform.parent.gameObject.activeSelf)
                     point.transform.parent.gameObject.SetActive(true);
@@ -127,9 +89,12 @@ public class SceneInitController : MonoBehaviour
             }
         }
 
-        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
-        if (CameraController.instance.GetLastTarget() == null)
-            CameraController.instance.SetLastTarget(PlayerController.instance.gameObject);
+        if (CameraController.instance != null)
+        {
+            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+            if (CameraController.instance.GetLastTarget() == null)
+                CameraController.instance.SetLastTarget(PlayerController.instance.gameObject);
+        }
 
         StartCoroutine(LateStart());
 

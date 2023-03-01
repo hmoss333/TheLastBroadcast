@@ -18,7 +18,6 @@ public class SaveDataController : MonoBehaviour
     public SceneObjectsContainer sceneObjectContainer;
 
 
-
     private void Awake()
     {
         if (instance == null)
@@ -77,7 +76,6 @@ public class SaveDataController : MonoBehaviour
             SceneObjectsContainer tempContainer = new SceneObjectsContainer();
             string jsonData = File.ReadAllText(tempDest);
             tempContainer = JsonUtility.FromJson<SceneObjectsContainer>(jsonData);
-
             sceneObjectContainer = tempContainer;
 
             SaveObject[] sceneObjects = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
@@ -85,7 +83,17 @@ public class SaveDataController : MonoBehaviour
             {
                 if (sceneObjects[i].id == "")
                 {
-                    sceneObjects[i].id = Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0');
+                    sceneObjects[i].id = sceneObjects[i].name;//Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0');
+                }
+
+                foreach (SceneInteractObj obj in sceneObjectContainer.sceneObjects)
+                {
+                    if (sceneObjects[i].id == obj.id)
+                    {
+                        sceneObjects[i].active = obj.active;
+                        sceneObjects[i].hasActivated = obj.hasActivated;
+                        break;
+                    }
                 }
             }
         }
@@ -108,7 +116,7 @@ public class SaveDataController : MonoBehaviour
             SceneInteractObj tempObj = new SceneInteractObj();
             if (sceneObjects[i].id == "")
             {
-                sceneObjects[i].id = Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0');
+                sceneObjects[i].id = sceneObjects[i].name;//Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0'); //value changes between sessions
             }
             tempObj.id = sceneObjects[i].id;
             tempObj.active = sceneObjects[i].active;
@@ -194,9 +202,13 @@ public class SaveDataController : MonoBehaviour
     public void SetSavePoint(string sceneName, int ID)
     {
         saveData.currentScene = sceneName;
-        saveData.savePointID = ID;
+        sceneObjectContainer.savePointID = ID;
 
         SaveFile();
+        string tempPath = $"{levelDestination}/{sceneName}.json";
+        string jsonData = JsonUtility.ToJson(sceneObjectContainer);
+        print("Updating Save Point:" + jsonData);
+        File.WriteAllText(tempPath, jsonData);
     }
 
 
@@ -282,7 +294,7 @@ public class SaveDataController : MonoBehaviour
 public class SaveData
 {
     public string currentScene;
-    public int savePointID;
+    //public int savePointID;
     public List<Station> stations = new List<Station>();
     public Abilities abilities;
     public List<RadioAbility> radioAbilities;
@@ -323,6 +335,7 @@ public class Station
 public class SceneObjectsContainer
 {
     public string sceneName;
+    public int savePointID;
     public List<SceneInteractObj> sceneObjects = new List<SceneInteractObj>();
 }
 

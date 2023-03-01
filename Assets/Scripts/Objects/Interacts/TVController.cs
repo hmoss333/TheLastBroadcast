@@ -64,8 +64,6 @@ public class TVController : SavePointController
             {
                 Debug.Log("Saving game");
                 SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);
-                SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name);
-                SaveDataController.instance.SaveFile();
             }
         }
     }

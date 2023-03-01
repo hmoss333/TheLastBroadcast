@@ -62,7 +62,7 @@ public class MainMenuController : MonoBehaviour
 
         eventSystem.SetSelectedGameObject(loadButton);
 
-        int saveID = SaveDataController.instance.saveData.savePointID;
+        int saveID = SaveDataController.instance.sceneObjectContainer.savePointID;//saveData.savePointID;
         loadGameText.text = $"{SaveDataController.instance.saveData.currentScene}: \nSaveID: {saveID}";
     }
 
