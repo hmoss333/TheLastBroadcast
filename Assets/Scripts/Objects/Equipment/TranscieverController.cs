@@ -30,6 +30,8 @@ public class TranscieverController : InteractObject
     [SerializeField] GameObject dialObj;
     [SerializeField] Color stationColor;
     [SerializeField] Color presetColor;
+    [SerializeField] string abilityText;
+    [SerializeField] Sprite abilityIcon;
 
     [Header("Audio Values")]
     [SerializeField] AudioSource staticSource;
@@ -134,6 +136,7 @@ public class TranscieverController : InteractObject
         {
             hasActivated = true;
             SaveDataController.instance.SaveObjectData(SaveDataController.instance.saveData.currentScene);
+            UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
         }
     }
 
@@ -144,6 +147,8 @@ public class TranscieverController : InteractObject
             SaveDataController.instance.GiveAbility("radio_special"); //If radio_special has not already been unlocked, set to true
         SaveDataController.instance.GiveRadioAbility(abilityName); //Give new ability station
         SaveDataController.instance.SaveFile();
+
+        UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
     }
 
     void GetStationdata(string abilityName)
