@@ -620,6 +620,7 @@ GameObject:
   - component: {fileID: 3412513304071608442}
   - component: {fileID: 1832722906}
   - component: {fileID: -3697334038151069493}
+  - component: {fileID: 5609891110450693666}
   m_Layer: 8
   m_Name: Transciever
   m_TagString: Untagged
@@ -766,24 +767,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6348de5eeb544fbbe613274bb0d165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interacting: 0
+  id: 0fd18486-47d4-4240-9da6-87b3bcbe18bb
   active: 1
   hasActivated: 0
+  interacting: 0
+  focusPoint: {fileID: 659703838}
   ID: 0
   initPoint: {fileID: 2976158349546481}
-  focusPoint: {fileID: 659703838}
-  staticSource: {fileID: 1832722906}
+  targetFrequency: 0
+  abilityToGive: 0
   currentFrequency: 0
+  rotSpeed: 0.5
+  countdownTime: 3
   frequencyText: {fileID: 4288431}
   lightMesh: {fileID: 3743755534448971611}
   dialObj: {fileID: 1220505859}
-  rotSpeed: 0.5
-  startCountdown: 0
-  loadScene: 0
-  countdownTime: 2
-  sceneToLoad: 
   stationColor: {r: 0.02745098, g: 0.6431373, b: 0.26666668, a: 1}
   presetColor: {r: 0.25490198, g: 0.9019608, b: 1, a: 1}
+  staticSource: {fileID: 1832722906}
+--- !u!114 &5609891110450693666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3412513304071608443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id:
+    Value: 
 --- !u!1 &7533186260088929356
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class TeleportMirrorController : InteractObject
 {
     [SerializeField] Transform exitPoint;
-    private RoomController exitRoom;
+    [SerializeField] private RoomController exitRoom;
     private bool teleporting;
     [SerializeField] float dissolveVal = 1f;
 
@@ -124,9 +124,7 @@ public class TeleportMirrorController : InteractObject
         {
             // Append outline shaders
             var materials = renderer.sharedMaterials.ToList();
-
             materials.Add(dissolveMat);
-
             renderer.materials = materials.ToArray();
         }
     }
@@ -137,9 +135,7 @@ public class TeleportMirrorController : InteractObject
         {
             // Remove outline shaders
             var materials = renderer.sharedMaterials.ToList();
-
             materials.Remove(dissolveMat);
-
             renderer.materials = materials.ToArray();
         }
     }
@@ -186,7 +182,6 @@ public class TeleportMirrorController : InteractObject
         // Average normals for grouped vertices
         foreach (var group in groups)
         {
-
             // Skip single vertices
             if (group.Count() == 1)
             {

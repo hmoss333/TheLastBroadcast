@@ -6,42 +6,35 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class TranscieverController : SavePointController
+public class TranscieverController : InteractObject
 {
-    public static TranscieverController instance;
+    [Header("Ability Values")]
+    [SerializeField] float targetFrequency;
+    [SerializeField] enum AbilityToGive { Tune, Invisibility, Rats };
+    [SerializeField] AbilityToGive abilityToGive;
 
-    [SerializeField] AudioSource staticSource;
-
+    [Header("Transmitter Frequency Values")]
     [SerializeField] [Range(0f, 10f)] float currentFrequency;
-    [SerializeField] TextMeshPro frequencyText;
-    [SerializeField] MeshRenderer lightMesh;
-
-    [SerializeField] GameObject dialObj;
     [SerializeField] float rotSpeed;
     private float xInput;
-    Dictionary<float, Station> presetVals;
-    [SerializeField] bool startCountdown = false;
-    [SerializeField] bool loadScene = false;
-    [SerializeField] float countdownTime = 2f;
-    [SerializeField] string sceneToLoad;
+    private bool startCountdown = false, gaveAbility = false;
+    [SerializeField] float countdownTime = 3f;
 
-
+    [Header("UI Values")]
+    [SerializeField] TextMeshPro frequencyText;
+    [SerializeField] MeshRenderer lightMesh;
+    [SerializeField] GameObject dialObj;
     [SerializeField] Color stationColor;
     [SerializeField] Color presetColor;
 
+    [Header("Audio Values")]
+    [SerializeField] AudioSource staticSource;
 
-    private void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this.gameObject);
-    }
+
 
     private void Start()
     {
-        presetVals = new Dictionary<float, Station>();
-        UpdatedStationList();
+        GetStationdata(abilityToGive.ToString());
     }
 
     private void Update()
@@ -50,16 +43,16 @@ public class TranscieverController : SavePointController
 
         //Lock rotation once the player reaches either end of frequency spectrum
         float tempSpeed = rotSpeed;
-        if (currentFrequency < 0.0f)
+        if (currentFrequency < 0.0f || currentFrequency > 10f)
         {
             tempSpeed = 0.0f;
-            currentFrequency = 0.0f;
+            //currentFrequency = 0.0f;
         }
-        else if (currentFrequency > 10f)
-        {
-            tempSpeed = 0.0f;
-            currentFrequency = 10f;
-        }
+        //else if (currentFrequency > 10f)
+        //{
+        //    tempSpeed = 0.0f;
+        //    currentFrequency = 10f;
+        //}
         else
         {
             tempSpeed = rotSpeed;
@@ -68,31 +61,22 @@ public class TranscieverController : SavePointController
 
 
         //Interact Logic
-        if (interacting)
+        if (interacting && !gaveAbility)
         {
             frequencyText.color = stationColor;
-            xInput = Input.GetAxis("Horizontal");
+            xInput = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x;
             dialObj.transform.Rotate(0.0f, xInput * tempSpeed, 0.0f);
             currentFrequency += (float)(xInput * Time.deltaTime);
 
-            //Compare current frequency to available stations
-            ///Very gross, but works for now
-            foreach (float frequency in presetVals.Keys)
+            if (currentFrequency >= targetFrequency - 0.15f && currentFrequency <= targetFrequency + 0.15f)
             {
-                if (presetVals[frequency].sceneToLoad != SceneManager.GetActiveScene().name &&
-                    presetVals[frequency].isActive &&
-                    currentFrequency >= frequency - 0.015f && currentFrequency <= frequency + 0.015f)
-                {
-                    frequencyText.color = presetColor;
-                    lightMesh.material.color = presetColor;
-                    sceneToLoad = presetVals[frequency].sceneToLoad;
-                    startCountdown = true;
-                    break;
-                }
-                else
-                {
-                    startCountdown = false;
-                }
+                frequencyText.color = presetColor;
+                lightMesh.material.color = presetColor;
+                startCountdown = true;
+            }
+            else
+            {
+                startCountdown = false;
             }
 
             float displayFrequency = currentFrequency * 10f;
@@ -104,56 +88,66 @@ public class TranscieverController : SavePointController
         if (startCountdown)
         {
             countdownTime -= Time.deltaTime;
-            if (countdownTime < 0 && !loadScene)
+            if (countdownTime < 0)
             {
-                loadScene = true;
-                interacting = false;
-                StartCoroutine(LoadStation(sceneToLoad));
+                startCountdown = false;
+                gaveAbility = true;
+                GiveStationAbility(abilityToGive.ToString());
             }
         }
         else
         {
-            countdownTime = 2f;
+            countdownTime = 3f;
         }
-    }
 
-    IEnumerator LoadStation(string sceneToLoad)
-    {
-        FadeController.instance.StartFade(1.0f, 1f);
-
-        while (FadeController.instance.isFading)
-            yield return null;
-
-        SaveDataController.instance.SetSavePoint(sceneToLoad, 0);
-        PlayerController.instance.ToggleAvatar();
-        //SceneInitController.instance.SaveInteractObjs();
-        SceneManager.LoadSceneAsync(sceneToLoad);
+        frequencyText.gameObject.SetActive(interacting);
+        CamEffectController.instance.SetEffectValues(interacting && startCountdown);
     }
 
     public override void Interact()
     {
-        if (active)
+        if (active && !hasActivated)
         {
             base.Interact();
-        }
-        //else
-        //{
-        //    //Debug.Log($"The {name} doesn't appear to have any power");
-        //    //UIController.instance.SetDialogueText($"The {name} doesn't appear to have any power");
-        //    //UIController.instance.FadeUI(3f);
-        //}
 
-        //UIController.instance.ToggleDialogueUI(interacting);
+            PlayerController.instance.ToggleAvatar();
+            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            CameraController.instance.FocusTarget();
+        }
+
         staticSource.mute = !interacting;
-        UpdatedStationList();
     }
 
-    void UpdatedStationList()
+    public override void EndInteract()
     {
-        foreach (Station station in SaveDataController.instance.saveData.stations)
+        if (gaveAbility)
         {
-            if (!presetVals.ContainsKey(station.frequency))
-                presetVals.Add(station.frequency, station);
+            hasActivated = true;
+            SaveDataController.instance.SaveObjectData(SaveDataController.instance.saveData.currentScene);
+        }
+    }
+
+    void GiveStationAbility(string abilityName)
+    {
+        Debug.Log($"Actived transmitter for {abilityToGive} station");
+        if (!SaveDataController.instance.GetSaveData().abilities.radio_special)
+            SaveDataController.instance.GiveAbility("radio_special"); //If radio_special has not already been unlocked, set to true
+        SaveDataController.instance.GiveRadioAbility(abilityName); //Give new ability station
+        SaveDataController.instance.SaveFile();
+    }
+
+    void GetStationdata(string abilityName)
+    {
+        List<RadioAbility> radioAbilities = new List<RadioAbility>();
+        radioAbilities = SaveDataController.instance.saveData.radioAbilities;
+
+        for (int i = 0; i < radioAbilities.Count; i++)
+        {
+            if (radioAbilities[i].name == abilityName)
+            {
+                targetFrequency = radioAbilities[i].frequency;
+                break;
+            }
         }
     }
 }

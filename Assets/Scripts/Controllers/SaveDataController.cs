@@ -85,6 +85,7 @@ public class SaveDataController : MonoBehaviour
                 {
                     if (sceneObjects[i].id == obj.id)
                     {
+                        sceneObjects[i].name = obj.name;
                         sceneObjects[i].active = obj.active;
                         sceneObjects[i].hasActivated = obj.hasActivated;
                         break;
@@ -112,6 +113,7 @@ public class SaveDataController : MonoBehaviour
         {
             SceneInteractObj tempObj = new SceneInteractObj();
             tempObj.id = sceneObjects[i].id;
+            tempObj.name = sceneObjects[i].name;
             tempObj.active = sceneObjects[i].active;
             tempObj.hasActivated = sceneObjects[i].hasActivated;
 
@@ -333,6 +335,7 @@ public class SceneInteractObj
 {
     //public int ID;
     public string id;
+    public string name;
     public bool active;
     public bool hasActivated;
 }
