@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AntennaController : MonoBehaviour
+public class AntennaController : InteractObject
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Interact()
     {
-        
+        if (active && !hasActivated)
+        {
+            base.Interact();
+
+            PlayerController.instance.ToggleAvatar();
+            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            CameraController.instance.FocusTarget();
+        }
+
+        //staticSource.mute = !interacting;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void EndInteract()
     {
-        
+        //if (activated)
+        //{
+        hasActivated = true;
+        SaveDataController.instance.SaveObjectData(SaveDataController.instance.saveData.currentScene);
+        //}
     }
 }

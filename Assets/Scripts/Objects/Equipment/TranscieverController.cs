@@ -8,6 +8,10 @@ using System.Linq;
 
 public class TranscieverController : InteractObject
 {
+    [Header("Equipment References")]
+    [SerializeField] GeneratorController generator;
+    [SerializeField] AntennaController antenna;
+
     [Header("Ability Values")]
     [SerializeField] float targetFrequency;
     [SerializeField] enum AbilityToGive { Tune, Invisibility, Rats };
@@ -35,6 +39,7 @@ public class TranscieverController : InteractObject
     private void Start()
     {
         GetStationdata(abilityToGive.ToString());
+        frequencyText.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -43,16 +48,11 @@ public class TranscieverController : InteractObject
 
         //Lock rotation once the player reaches either end of frequency spectrum
         float tempSpeed = rotSpeed;
-        if (currentFrequency < 0.0f || currentFrequency > 10f)
+        if (currentFrequency <= 0.0f || currentFrequency >= 10f)
         {
             tempSpeed = 0.0f;
-            //currentFrequency = 0.0f;
+            currentFrequency = currentFrequency <= 0.0f ? 0.0f : 10f;
         }
-        //else if (currentFrequency > 10f)
-        //{
-        //    tempSpeed = 0.0f;
-        //    currentFrequency = 10f;
-        //}
         else
         {
             tempSpeed = rotSpeed;
@@ -68,11 +68,20 @@ public class TranscieverController : InteractObject
             dialObj.transform.Rotate(0.0f, xInput * tempSpeed, 0.0f);
             currentFrequency += (float)(xInput * Time.deltaTime);
 
-            if (currentFrequency >= targetFrequency - 0.15f && currentFrequency <= targetFrequency + 0.15f)
+            if (currentFrequency >= targetFrequency - 1f && currentFrequency <= targetFrequency + 1f
+                && generator.hasActivated
+                && antenna.hasActivated)
             {
                 frequencyText.color = presetColor;
                 lightMesh.material.color = presetColor;
-                startCountdown = true;
+                if (currentFrequency >= targetFrequency - 0.15f && currentFrequency <= targetFrequency + 0.15f)
+                {
+                    startCountdown = true;
+                }
+                else
+                {
+                    startCountdown = false;
+                }
             }
             else
             {
@@ -106,10 +115,11 @@ public class TranscieverController : InteractObject
 
     public override void Interact()
     {
-        if (active && !hasActivated)
+        if (active && !hasActivated && !startCountdown)
         {
             base.Interact();
 
+            currentFrequency = 0.0f;
             PlayerController.instance.ToggleAvatar();
             CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
             CameraController.instance.FocusTarget();
