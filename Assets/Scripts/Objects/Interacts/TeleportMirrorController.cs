@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class TeleportMirrorController : InteractObject
 {
     [SerializeField] Transform exitPoint;
-    [SerializeField] private RoomController exitRoom;
+    private RoomController exitRoom;
     private bool teleporting;
     [SerializeField] float dissolveVal = 1f;
 
@@ -25,12 +25,14 @@ public class TeleportMirrorController : InteractObject
     private Renderer[] renderers;
 
 
-
-    private void Start()
+    private void Awake()
     {
         if (exitPoint)
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
+    }
 
+    private void Start()
+    {
         // Cache renderers
         renderers = PlayerController.instance.gameObject.GetComponentsInChildren<Renderer>();
 
