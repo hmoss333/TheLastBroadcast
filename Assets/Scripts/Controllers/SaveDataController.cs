@@ -81,11 +81,6 @@ public class SaveDataController : MonoBehaviour
             SaveObject[] sceneObjects = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
             for (int i = 0; i < sceneObjects.Length; i++)
             {
-                //if (sceneObjects[i].id == "")
-                //{
-                //    sceneObjects[i].id = sceneObjects[i].name;//Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0');
-                //}
-
                 foreach (SceneInteractObj obj in sceneObjectContainer.sceneObjects)
                 {
                     if (sceneObjects[i].id == obj.id)
@@ -110,14 +105,12 @@ public class SaveDataController : MonoBehaviour
         SceneObjectsContainer tempContainer = new SceneObjectsContainer();
         tempContainer.sceneName = sceneName;
 
+        ///TODO as scene sizes get larger this sort will take more time to complete
+        ///May be worth it to change to a per-object system
         SaveObject[] sceneObjects = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
         for (int i = 0; i < sceneObjects.Length; i++)
         {
             SceneInteractObj tempObj = new SceneInteractObj();
-            //if (sceneObjects[i].id == "")
-            //{
-            //    sceneObjects[i].id = sceneObjects[i].name;//Mathf.Abs(sceneObjects[i].GetHashCode()).ToString().PadLeft(6, '0'); //value changes between sessions
-            //}
             tempObj.id = sceneObjects[i].id;
             tempObj.active = sceneObjects[i].active;
             tempObj.hasActivated = sceneObjects[i].hasActivated;
@@ -141,16 +134,13 @@ public class SaveDataController : MonoBehaviour
             tempContainer = JsonUtility.FromJson<LoreSaveData>(jsonData);
             loreSaveData = tempContainer;
 
-            //LorePickup[]
-                lorePickups = GameObject.FindObjectsOfType<LorePickup>();
+            lorePickups = GameObject.FindObjectsOfType<LorePickup>();
             for (int i = 0; i < lorePickups.Length; i++)
             {
                 foreach (LoreData lore in loreSaveData.loreData)
                 {
                     if (lorePickups[i].GetID() == lore.id)
-                    {
                         lorePickups[i].SetValue(lore.text, lore.title);
-                    }
                 }
             }
         }
@@ -189,11 +179,10 @@ public class SaveDataController : MonoBehaviour
     //Initialize save file with correct formatting/values
     public void CreateNewSaveFile()
     {
-        //TODO generate save file from base file in Resources folder
         Directory.CreateDirectory($"{Application.persistentDataPath}/Save/");
         string resourcesPath = "Assets/Resources/Save/save.json";
-        saveData = new SaveData();
         string jsonData = File.ReadAllText(resourcesPath);
+        saveData = new SaveData();
         saveData = JsonUtility.FromJson<SaveData>(jsonData);
     }
 
@@ -204,7 +193,7 @@ public class SaveDataController : MonoBehaviour
         saveData.currentScene = sceneName;
         sceneObjectContainer.savePointID = ID;
 
-        SaveFile();
+        //SaveFile();
         string tempPath = $"{levelDestination}/{sceneName}.json";
         string jsonData = JsonUtility.ToJson(sceneObjectContainer);
         print("Updating Save Point:" + jsonData);

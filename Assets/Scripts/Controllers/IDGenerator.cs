@@ -18,7 +18,7 @@ public class IDGenerator : MonoBehaviour
     private void ResetId()
     {
         _id.Value = Guid.NewGuid().ToString();
-        print("Setting new ID on object: " + gameObject.name);//, gameObject);
+        //print("Setting new ID on object: " + gameObject.name);
     }
 
     //Need to check for duplicates when copying a gameobject/component

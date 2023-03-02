@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
 public class StaticBarrier : MonoBehaviour
 {
     private BoxCollider col;
@@ -13,7 +14,6 @@ public class StaticBarrier : MonoBehaviour
     Material tempMat;
     float dissolveVal;
     bool dissolving, activated;
-
 
     // Start is called before the first frame update
     void Start()
