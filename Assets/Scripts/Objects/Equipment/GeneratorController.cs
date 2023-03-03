@@ -13,19 +13,7 @@ public class GeneratorController : InteractObject
         if (active && !hasActivated)
         {
             base.Interact();
-
-            //PlayerController.instance.ToggleAvatar();
-            //CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
-            //CameraController.instance.FocusTarget();
-
-            //transciever.Activate();
-            //antenna.Activate();
-
-            //UIController.instance.SetDialogueText("Power has been restored");
-            //UIController.instance.ToggleDialogueUI(true);
         }
-
-        //staticSource.mute = !interacting;
     }
 
     public override void StartInteract()
