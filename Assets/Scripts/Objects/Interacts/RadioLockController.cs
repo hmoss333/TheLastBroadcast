@@ -43,8 +43,7 @@ public class RadioLockController : SaveObject
                 tempTime += Time.deltaTime;
                 if (tempTime >= checkTime)
                 {
-                    //hasActivated = true;
-                    SetHasActivated(); //Not using this so the player must reactivate lock when returning to areas
+                    SetHasActivated();
                     StartCoroutine(UnlockObjects());
                 }
             }
@@ -67,7 +66,12 @@ public class RadioLockController : SaveObject
         {
             InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
             if (objectsToActivate[i].transform.parent.gameObject.activeSelf)
-                CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null ? tempInteract.focusPoint : objectsToActivate[i].gameObject);
+            {
+                CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null
+                    ? tempInteract.focusPoint : objectsToActivate[i].gameObject);
+                CameraController.instance.transform.position = tempInteract != null && tempInteract.focusPoint != null
+                    ? tempInteract.focusPoint.transform.position : objectsToActivate[i].gameObject.transform.position;
+            }
 
             objectsToActivate[i].Activate();
 
