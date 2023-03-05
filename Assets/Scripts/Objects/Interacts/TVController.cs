@@ -8,49 +8,49 @@ using UnityEngine.SceneManagement;
 public class TVController : SavePointController
 {
     [SerializeField] Material tvMat;
-    MeshRenderer renderer;
-    GameObject light;
+    MeshRenderer meshRenderer;
+    GameObject tvLight;
 
 
     private void Awake()
     {
-        renderer = GetComponent<MeshRenderer>();
-        light = GetComponentInChildren<Light>().gameObject;
+        meshRenderer = GetComponent<MeshRenderer>();
+        tvLight = GetComponentInChildren<Light>().gameObject;
     }
 
     private void Start()
     {
         if (!active)
         {
-            var materials = renderer.sharedMaterials.ToList();
+            var materials = meshRenderer.sharedMaterials.ToList();
 
             if (materials.Contains(tvMat))
                 materials.Remove(tvMat);
 
-            renderer.materials = materials.ToArray();
+            meshRenderer.materials = materials.ToArray();
         }
 
-        light.SetActive(active);
+        tvLight.SetActive(active);
     }
 
     void AddMaterial()
     {
-        var materials = renderer.sharedMaterials.ToList();
+        var materials = meshRenderer.sharedMaterials.ToList();
 
         if (!materials.Contains(tvMat))
             materials.Add(tvMat);
 
-        renderer.materials = materials.ToArray();
+        meshRenderer.materials = materials.ToArray();
     }
 
     public override void Activate()
     {
         base.Activate();
 
-        if (renderer != null)
+        if (meshRenderer != null)
             AddMaterial();
 
-        light.SetActive(true);
+        tvLight.SetActive(true);
     }
 
     public override void Interact()

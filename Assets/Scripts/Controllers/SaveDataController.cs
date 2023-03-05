@@ -204,18 +204,6 @@ public class SaveDataController : MonoBehaviour
 
 
     //Ability Setters
-    public void EnableStation(string stationName)
-    {
-        for (int i = 0; i < saveData.stations.Count; i++)
-        {
-            if (saveData.stations[i].sceneToLoad == stationName)
-            {
-                saveData.stations[i].isActive = true;
-                break;
-            }
-        }
-    }
-
     public void GiveRadioAbility(string abilityName)
     {
         for (int i = 0; i < saveData.radioAbilities.Count; i++)
@@ -285,8 +273,6 @@ public class SaveDataController : MonoBehaviour
 public class SaveData
 {
     public string currentScene;
-    //public int savePointID;
-    public List<Station> stations = new List<Station>();
     public Abilities abilities;
     public List<RadioAbility> radioAbilities;
 }
@@ -309,16 +295,6 @@ public class RadioAbility
 {
     public string name;
     public float frequency;
-    public bool isActive;
-}
-
-[System.Serializable]
-public class Station
-{
-    //TODO initialize these values from a csv file and audio clip folder
-    public float frequency;
-    //public AudioClip audioClip;
-    public string sceneToLoad;
     public bool isActive;
 }
 

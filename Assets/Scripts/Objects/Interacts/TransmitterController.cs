@@ -29,7 +29,6 @@ public class TransmitterController : InteractObject
     public override void StartInteract()
     {
         Debug.Log($"Actived transmitter for {abilityToGive} station");
-        SaveDataController.instance.EnableStation(sceneToActivate); //Activate new scene station
         if (!SaveDataController.instance.GetSaveData().abilities.radio_special)
             SaveDataController.instance.GiveAbility("radio_special"); //If radio_special has not already been unlocked, set to true
         SaveDataController.instance.GiveRadioAbility(abilityToGive.ToString()); //Give new ability station
