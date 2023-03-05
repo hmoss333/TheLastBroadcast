@@ -20,8 +20,7 @@ public class DialogueTriggerZone : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            PlayerController.instance.isListening = true;
-            PlayerController.instance.state = PlayerController.States.interacting;
+            PlayerController.instance.SetState(PlayerController.States.listening);
             dialogueObj.Interact();
         }
     }

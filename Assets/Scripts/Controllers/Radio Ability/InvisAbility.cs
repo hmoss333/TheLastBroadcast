@@ -37,8 +37,8 @@ public class InvisAbility : RadioAbilityController
     {
         if (instance == null)
             instance = this;
-        else
-            Destroy(this.gameObject);
+        //else
+        //    Destroy(this.gameObject);
 
 
         // Cache renderers
@@ -109,7 +109,6 @@ public class InvisAbility : RadioAbilityController
         //If the player is currently using the ability
         if (isInvis)
         {
-            //PlayerController.instance.state = PlayerController.States.idle;//.usingRadio = false;
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
 
             tempInvisTime += Time.deltaTime;
@@ -124,18 +123,15 @@ public class InvisAbility : RadioAbilityController
         }
 
         //Toggle player interaction state based on invisibility status
-        PlayerController.instance.invisible = isInvis;
+        PlayerController.instance.SetAbilityState(isInvis ? PlayerController.AbilityStates.invisible : PlayerController.AbilityStates.none);
     }
 
     void AddMaterials()
     {
         foreach (var renderer in renderers)
         {
-            // Append outline shaders
             var materials = renderer.sharedMaterials.ToList();
-
             materials.Add(invisMat);
-
             renderer.materials = materials.ToArray();
         }
     }
@@ -144,11 +140,8 @@ public class InvisAbility : RadioAbilityController
     {
         foreach (var renderer in renderers)
         {
-            // Remove outline shaders
             var materials = renderer.sharedMaterials.ToList();
-
             materials.Remove(invisMat);
-
             renderer.materials = materials.ToArray();
         }
     }

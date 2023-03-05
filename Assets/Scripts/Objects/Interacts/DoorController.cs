@@ -49,6 +49,6 @@ public class DoorController : InteractObject
 
         FadeController.instance.StartFade(0.0f, 1f);
 
-        PlayerController.instance.state = PlayerController.States.idle;
+        PlayerController.instance.SetState(PlayerController.States.idle);
     }
 }

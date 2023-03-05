@@ -29,7 +29,9 @@ public class ZombieController : CharacterController
     {
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
-        if (PlayerController.instance.invisible || dead || stunned)
+        if (PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible//.invisible
+            || dead
+            || stunned)
         {
             seePlayer = false;
         }

@@ -117,7 +117,8 @@ public class TeleportMirrorController : InteractObject
 
         teleporting = false;
 
-        PlayerController.instance.state = PlayerController.States.idle;
+        PlayerController.instance.SetState(PlayerController.States.idle);
+        //PlayerController.instance.state = PlayerController.States.idle;
     }
 
     void AddMaterials()

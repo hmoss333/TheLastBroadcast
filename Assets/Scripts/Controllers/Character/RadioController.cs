@@ -14,21 +14,21 @@ public class RadioController : MonoBehaviour
     [SerializeField] private float maxFrequency;
     //[Range(0.0f, 10.0f)]
     public float currentFrequency { get; private set; }
-    [HideInInspector] public bool isActive { get; private set; }
-    [HideInInspector] public bool abilityMode { get; private set; }//, stunEnemy;
+    public bool isActive { get; private set; }
+    public bool abilityMode { get; private set; }
 
-
+    [NaughtyAttributes.HorizontalLine]
     [Header("UI Elements")]
     [SerializeField] private GameObject overlayPanel, abilityPanel;
     [SerializeField] private GameObject tuneAbility, staticAbility, ratAbility;
     [SerializeField] private Slider radioSlider;
     [SerializeField] private Image stationBackground;
     private float xInput;
-    [SerializeField] private Color onColor, offColor, abilityColor, enemyColor;
+    [SerializeField] private Color onColor, offColor, abilityColor;
     [SerializeField] private Vector2 inactivePos, activePos, abilityInactivePos, abilityActivePos;
     [SerializeField] private float slideSpeed;
 
-
+    [NaughtyAttributes.HorizontalLine]
     [Header("Audio Elements")]
     [SerializeField] private AudioSource staticSource;
     [SerializeField] private AudioSource stationSource;
@@ -86,13 +86,10 @@ public class RadioController : MonoBehaviour
         staticSource.mute = !isActive;
         overlayPanel.SetActive(SaveDataController.instance.saveData.abilities.radio);
 
-        //if (stunEnemy)
-        //    stationBackground.color = enemyColor;
-        //else
         if (!abilityMode)
             stationBackground.color = isActive ? onColor : offColor;
         else
-            stationBackground.color = abilityColor; //usingAbility ? abilityOnColor : abilityOffColor;
+            stationBackground.color = abilityColor;
 
         //Move radio panel into position based on active state
         overlayPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(overlayPanel.GetComponent<RectTransform>().anchoredPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
@@ -108,9 +105,4 @@ public class RadioController : MonoBehaviour
     {
         isActive = activeVal;
     }
-
-    //public void StunEnemy(bool isStunning)
-    //{
-    //    stunEnemy = isStunning;
-    //}
 }

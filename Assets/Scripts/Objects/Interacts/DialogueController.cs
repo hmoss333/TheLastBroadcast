@@ -45,8 +45,7 @@ public class DialogueController : InteractObject
                     SetHasActivated(); //Dialogue event has completed
                 else
                     index = -1; //Reset dialogue
-                PlayerController.instance.isListening = false;
-                PlayerController.instance.state = PlayerController.States.idle;
+                PlayerController.instance.SetState(PlayerController.States.idle);
             }
 
             UIController.instance.ToggleDialogueUI(interacting);

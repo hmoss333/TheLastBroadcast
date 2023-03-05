@@ -8,28 +8,33 @@ public class PlayerController : CharacterController
 {
     public static PlayerController instance;
 
-
-    [Header("Player Movement Variables")]
     [SerializeField] float rotSpeed;
     private float horizontal, vertical;
-    //private Vector2 move;
     private Vector3 lastDir, lastDir1, lastDir2;
 
-    //[Header("Player State Variables")]
-    public enum States { idle, interacting, moving, attacking, listening, radio, hurt, dead }
-    public States state;
-    public bool isListening, onLadder, isSeen, invisible, isRat;
 
+    [NaughtyAttributes.HorizontalLine]
+    [Header("Player State Variables")]
+    public bool isSeen;
+    public enum States { idle, interacting, moving, attacking, listening, radio, hurt, dead }
+    public States state { get; private set; }
+    public enum AbilityStates { none, invisible, isRat }
+    public AbilityStates abilityState { get; private set; }
+
+    [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
     [HideInInspector] public InteractObject interactObj { get; private set; }
 
+    [NaughtyAttributes.HorizontalLine]
     [Header("Player Avatar Variables")]
+    [SerializeField] private GameObject playerAvatar;
+    [SerializeField] private GameObject bagObj;
+    [SerializeField] private GameObject radioObj;
+    [SerializeField] private GameObject gasMaskObj;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
-    [SerializeField] private GameObject playerAvatar, bagObj, radioObj, gasMaskObj;
-
     public InputMaster inputMaster { get; private set; }
     private InputControlScheme controlScheme;
 
@@ -62,7 +67,8 @@ public class PlayerController : CharacterController
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (state == States.radio || state == States.attacking || isListening || invisible || isRat) 
+        if (state == States.radio || state == States.attacking || state == States.listening
+            || abilityState == AbilityStates.invisible || abilityState == AbilityStates.isRat)
         {
             interactObj = null;
         }
@@ -93,7 +99,9 @@ public class PlayerController : CharacterController
 
 
         //Manage Player Inputs
-        if ((state == States.idle || state == States.moving) && !invisible && !PauseMenuController.instance.isPaused && !FlashlightController.instance.isOn)
+        if ((state == States.idle || state == States.moving)
+            && abilityState == AbilityStates.none /*!invisible*/
+            && !PauseMenuController.instance.isPaused && !FlashlightController.instance.isOn)
         {
             if (SaveDataController.instance.saveData.abilities.crowbar == true
                 && PlayerController.instance.inputMaster.Player.Melee.triggered)
@@ -133,26 +141,18 @@ public class PlayerController : CharacterController
             state = States.dead;
 
 
-        //Pause ladder climbing animation if there is no input
-        if (onLadder)
-            animator.enabled = inputMaster.Player.Move.ReadValue<Vector2>().y != 0 ? true : false;
-        else
-            animator.enabled = true;
-
 
         //Interacting
         animator.SetBool("isInteracting", state == States.interacting);
-        //Ladder
-        animator.SetBool("ladderMove", onLadder); //play ladder climbing animation while onLadder  
         //Radio
         animator.SetBool("isRadio", state == States.radio); //play radio animation while button is held
-        RadioController.instance.SetActive(state == States.radio && !isRat); //toggle radio controller active state if player is pressing the corresponding input; hide radio UI if isRat
+        RadioController.instance.SetActive(state == States.radio && abilityState != AbilityStates.isRat); //toggle radio controller active state if player is pressing the corresponding input; hide radio UI if isRat
         radioObj.SetActive(state == States.radio); //toggle radioObj based on usingRadio state
         bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
         //Melee
         melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
         //Listening
-        animator.SetBool("isListening", isListening); //toggle listening animation based on bool value
+        animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
 
 
         base.Update();
@@ -176,11 +176,6 @@ public class PlayerController : CharacterController
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
         lastDir1 = (2 * transform.forward - transform.right).normalized; //Left ray
         lastDir2 = (2 * transform.forward + transform.right).normalized; //Right ray
-
-        // Draw rays pointing in all interact directions
-        //Debug.DrawRay(transform.position, newDirection, Color.green);
-        //Debug.DrawRay(transform.position, lastDir1, Color.green);
-        //Debug.DrawRay(transform.position, lastDir2, Color.green);
 
         // Calculate a rotation a step closer to the target and applies rotation to this object
         transform.rotation = Quaternion.LookRotation(newDirection);
@@ -229,7 +224,7 @@ public class PlayerController : CharacterController
             case States.radio:
                 if (PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() <= 0
                     && !CameraController.instance.GetCamLockState()
-                    && !isRat || invisible)
+                    && abilityState != AbilityStates.isRat || abilityState == AbilityStates.invisible)
                 {
                     CameraController.instance.LoadLastTarget();
                     state = States.idle;
@@ -263,5 +258,16 @@ public class PlayerController : CharacterController
     public void SetLastDir(Vector3 newDir)
     {
         lastDir = newDir;
+    }
+
+
+    public void SetState(States stateToSet)
+    {
+        state = stateToSet;
+    }
+
+    public void SetAbilityState(AbilityStates abilityStateToSet)
+    {
+        abilityState = abilityStateToSet;
     }
 }

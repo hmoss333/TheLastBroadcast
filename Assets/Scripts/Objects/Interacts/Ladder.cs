@@ -29,7 +29,7 @@ public class Ladder : InteractObject
                 Interact();
         }
 
-        PlayerController.instance.onLadder = onLadder;
+        //PlayerController.instance.onLadder = onLadder;
     }
 
     public override void Interact()
@@ -37,7 +37,7 @@ public class Ladder : InteractObject
         PlayerController.instance.inputMaster.Disable();
         interacting = !interacting;
         onLadder = interacting;
-        PlayerController.instance.state = onLadder ? PlayerController.States.interacting : PlayerController.States.moving; //This may not work properly. Needs review
+        PlayerController.instance.SetState(onLadder ? PlayerController.States.interacting : PlayerController.States.moving); //This may not work properly. Needs review
         PlayerController.instance.transform.position = new Vector3(transform.position.x, PlayerController.instance.transform.position.y, transform.position.z);
         PlayerController.instance.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles);
         playerRb.useGravity = !interacting;

@@ -27,7 +27,7 @@ public class StaticBarrier : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        col.isTrigger = PlayerController.instance.invisible;
+        col.isTrigger = PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible;
             
         if (dissolving)
         {

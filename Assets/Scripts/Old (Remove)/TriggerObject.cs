@@ -72,7 +72,7 @@ public class TriggerObject : InteractObject
         }
 
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
-        PlayerController.instance.state = PlayerController.States.idle;
+        PlayerController.instance.SetState(PlayerController.States.idle);
         //UIController.instance.ToggleDialogueUI(false);
         SetHasActivated();
     }
