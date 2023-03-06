@@ -97,14 +97,15 @@ public class SaveDataController : MonoBehaviour
         {
             print("Creating new file");
             Directory.CreateDirectory($"{Application.persistentDataPath}/LevelData/");
-            SaveObjectData(sceneName);
+            SaveObjectData();
         }
     }
 
-    public void SaveObjectData(string sceneName)
+    public void SaveObjectData()
     {
         SceneObjectsContainer tempContainer = new SceneObjectsContainer();
-        tempContainer.sceneName = sceneName;
+        tempContainer.sceneName = SaveDataController.instance.saveData.currentScene;
+        tempContainer.savePointID = sceneObjectContainer.savePointID;
 
         ///TODO as scene sizes get larger this sort will take more time to complete
         ///May be worth it to change to a per-object system
@@ -120,7 +121,7 @@ public class SaveDataController : MonoBehaviour
             tempContainer.sceneObjects.Add(tempObj);
         }
 
-        string tempPath = $"{levelDestination}/{sceneName}.json";
+        string tempPath = $"{levelDestination}/{tempContainer.sceneName}.json";
         string jsonData = JsonUtility.ToJson(tempContainer);
         print("Saving Object Data:" + jsonData);
         File.WriteAllText(tempPath, jsonData);

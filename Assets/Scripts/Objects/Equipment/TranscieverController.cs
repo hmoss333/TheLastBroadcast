@@ -135,7 +135,7 @@ public class TranscieverController : InteractObject
         if (gaveAbility)
         {
             hasActivated = true;
-            SaveDataController.instance.SaveObjectData(SaveDataController.instance.saveData.currentScene);
+            SaveDataController.instance.SaveObjectData();
             UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
         }
     }

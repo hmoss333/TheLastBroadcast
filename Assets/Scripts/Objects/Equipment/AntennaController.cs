@@ -15,7 +15,7 @@ public class AntennaController : InteractObject
 
     private void Start()
     {
-        targetValue = Random.Range(0f, 10f);
+        targetValue = Random.Range(4.5f, 10f);
         miniGameSlider.maxValue = 10f;
     }
 
@@ -32,6 +32,7 @@ public class AntennaController : InteractObject
                 checkTime += Time.deltaTime;
                 if (checkTime >= waitTime)
                 {
+                    interacting = false;
                     TurnOn();
                 }
             }
@@ -63,21 +64,24 @@ public class AntennaController : InteractObject
         checkTime = 0f;
     }
 
-    public override void EndInteract()
-    {
-        if (turnedOn)
-        {
-            hasActivated = true;
-            SaveDataController.instance.SaveObjectData(SaveDataController.instance.saveData.currentScene);
-            UIController.instance.ToggleDialogueUI(false);
-        }
-    }
-
     void TurnOn()
     {
         miniGameLight.color = Color.green;
-        UIController.instance.SetDialogueText("Antenna configured");
-        UIController.instance.ToggleDialogueUI(true);
         turnedOn = true;
+        SetHasActivated();
+        SaveDataController.instance.SaveObjectData();
+
+        StartCoroutine(TurnOnRoutine());
+    }
+
+    IEnumerator TurnOnRoutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        turnedOn = true;
+        PlayerController.instance.ToggleAvatar();
+        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+        CameraController.instance.FocusTarget();
+        PlayerController.instance.SetState(PlayerController.States.idle);
     }
 }

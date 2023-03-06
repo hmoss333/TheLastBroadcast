@@ -7,36 +7,35 @@ public class GeneratorController : InteractObject
 {
     [NaughtyAttributes.HorizontalLine]
     [Header("Equipment References")]
-    [SerializeField] TranscieverController transciever;
-    [SerializeField] AntennaController antenna;
+    [SerializeField] private TranscieverController transciever;
+    [SerializeField] private AntennaController antenna;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
-    [SerializeField] GameObject miniGameUI;
-    [SerializeField] Image miniGameRotObj, buttonIcon;
-    [SerializeField] bool playing, turnedOn;
-    int hitCount;
-    float turnSpeed, angle = 0, radius = 7.5f;
+    [SerializeField] private GameObject miniGameUI;
+    [SerializeField] private Image miniGameRotObj, buttonIcon;
+    private bool turnedOn;
+    private int hitCount;
+    [SerializeField] private float turnSpeed, angle = 0, radius = 7.5f;
 
-    Coroutine resetColor;
+    private Coroutine resetColor;
 
 
     private void Update()
     {
-        if (playing)
+        if (interacting)
         {
-            turnSpeed = (2f * Mathf.PI) * (hitCount + radius);
+            turnSpeed = (2f * Mathf.PI) * (2f * hitCount + radius);
             angle -= turnSpeed * Time.deltaTime;
             miniGameRotObj.transform.rotation = Quaternion.Euler(0, 0, angle * radius);
         }
 
-        miniGameUI.SetActive(playing);
+        miniGameUI.SetActive(interacting);
     }
 
     public override void Interact()
     {
-        if (active && !hasActivated && !playing
-            || turnedOn)
+        if (active && !hasActivated && !interacting)
         {
             base.Interact();
         }
@@ -47,22 +46,6 @@ public class GeneratorController : InteractObject
         PlayerController.instance.ToggleAvatar();
         CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
         CameraController.instance.FocusTarget();
-
-        playing = true;
-    }
-
-    public override void EndInteract()
-    {
-        if (turnedOn)
-        {
-            PlayerController.instance.ToggleAvatar();
-            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
-            CameraController.instance.FocusTarget();
-
-            hasActivated = true;
-            SaveDataController.instance.SaveObjectData(SaveDataController.instance.saveData.currentScene);
-            UIController.instance.ToggleDialogueUI(false);
-        }
     }
 
     public void Hit()
@@ -73,8 +56,8 @@ public class GeneratorController : InteractObject
 
         if (hitCount >= 3)
         {
+            interacting = false;
             TurnOn();
-            playing = false;
         }
 
         ResetColor();
@@ -109,10 +92,14 @@ public class GeneratorController : InteractObject
 
     void TurnOn()
     {
+        turnedOn = true;
         transciever.Activate();
         antenna.Activate();
-        UIController.instance.SetDialogueText("Power has been restored");
-        UIController.instance.ToggleDialogueUI(true);
-        turnedOn = true;
+        SetHasActivated();
+
+        PlayerController.instance.ToggleAvatar();
+        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+        CameraController.instance.FocusTarget();
+        PlayerController.instance.SetState(PlayerController.States.idle);
     }
 }

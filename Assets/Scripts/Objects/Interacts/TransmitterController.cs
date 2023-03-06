@@ -38,6 +38,6 @@ public class TransmitterController : InteractObject
     public override void EndInteract()
     {
         hasActivated = true;
-        SaveDataController.instance.SaveObjectData(SceneManager.GetActiveScene().name); //Save object states
+        SaveDataController.instance.SaveObjectData();
     }
 }
