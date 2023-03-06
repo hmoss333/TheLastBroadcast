@@ -12,7 +12,6 @@ public class RadioController : MonoBehaviour
     [Header("Radio Control Variables")]
     [SerializeField] private float speed;
     [SerializeField] private float maxFrequency;
-    //[Range(0.0f, 10.0f)]
     public float currentFrequency { get; private set; }
     public bool isActive { get; private set; }
     public bool abilityMode { get; private set; }
