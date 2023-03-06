@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GeneratorController : InteractObject
 {
@@ -10,44 +11,24 @@ public class GeneratorController : InteractObject
 
     [Header("Interact Variables")]
     [SerializeField] GameObject miniGameUI;
-    [SerializeField] bool playing, activated;
-    [SerializeField] int hitCount;
-    [SerializeField] [Range(0f, 10f)] float turnVal;
-    [SerializeField] float turnSpeed, targetVal, offset;
+    [SerializeField] Image miniGameRotObj;
+    [SerializeField] bool playing, turnedOn;
+    int hitCount;
+    float turnSpeed, angle = 0, radius = 5;
 
+    Coroutine resetColor;
 
-    private void Start()
-    {
-        targetVal = Random.Range(0f, 10f);
-    }
 
     private void Update()
     {
         if (playing)
         {
-            turnVal += turnSpeed * Time.deltaTime;
-            if (turnVal >= 10f)
-            {
-                turnVal = 0f;
-            }
-
-            if (turnVal >= targetVal - offset && turnVal <= targetVal + offset
-                && PlayerController.instance.inputMaster.Player.Interact.triggered)
-            {
-                hitCount--;
-                if (hitCount <= 0)
-                {
-                    TurnOn();
-                    playing = false;
-                }
-            }
-            else if (PlayerController.instance.inputMaster.Player.Interact.triggered)
-            {
-                hitCount = 3;
-            }
+            turnSpeed = (2f * Mathf.PI) * (hitCount + radius);
+            angle -= turnSpeed * Time.deltaTime;
+            miniGameRotObj.transform.rotation = Quaternion.Euler(0, 0, angle * radius);
         }
 
-        //miniGameUI.SetActive(playing);
+        miniGameUI.SetActive(playing);
     }
 
     public override void Interact()
@@ -69,7 +50,7 @@ public class GeneratorController : InteractObject
 
     public override void EndInteract()
     {
-        if (activated)
+        if (turnedOn)
         {
             PlayerController.instance.ToggleAvatar();
             CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
@@ -81,12 +62,54 @@ public class GeneratorController : InteractObject
         }
     }
 
+    public void Hit()
+    {
+        print("Hit");
+        miniGameRotObj.color = Color.green;
+        hitCount++;
+
+        if (hitCount >= 3)
+        {
+            TurnOn();
+            playing = false;
+        }
+
+        ResetColor();
+    }
+
+    public void Miss()
+    {
+        print("Miss");
+        miniGameRotObj.color = Color.red;
+        hitCount = 0;
+
+        ResetColor();
+    }
+
+    public void ResetColor()
+    {
+        if (resetColor == null)
+            resetColor = StartCoroutine(ResetColorCoroutine());
+        else
+        {
+            StopCoroutine(resetColor);
+            resetColor = StartCoroutine(ResetColorCoroutine());
+        }
+    }
+
+    IEnumerator ResetColorCoroutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        miniGameRotObj.color = Color.white;
+    }
+
     void TurnOn()
     {
         transciever.Activate();
         antenna.Activate();
         UIController.instance.SetDialogueText("Power has been restored");
         UIController.instance.ToggleDialogueUI(true);
-        activated = true;
+        turnedOn = true;
     }
 }
