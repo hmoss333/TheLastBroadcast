@@ -30,7 +30,7 @@ public class FlashlightController : MonoBehaviour
     void Update()
     {
         if (SaveDataController.instance.saveData.abilities.flashlight
-            && PlayerController.instance.state != PlayerController.States.radio
+            && (PlayerController.instance.state == PlayerController.States.idle || PlayerController.instance.state == PlayerController.States.moving)
             && PlayerController.instance.abilityState == PlayerController.AbilityStates.none)
         {
             isOn = PlayerController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0

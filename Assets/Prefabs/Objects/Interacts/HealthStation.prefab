@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6712563670586094477}
   - component: {fileID: 6712563670586094476}
   - component: {fileID: 6712563670586094479}
+  - component: {fileID: 2923099215595588597}
   m_Layer: 8
   m_Name: HealthStation
   m_TagString: Untagged
@@ -97,7 +98,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.75}
+  m_Size: {x: 1, y: 1.5, z: 0.75}
   m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!114 &6712563670586094479
 MonoBehaviour:
@@ -111,10 +112,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9f1afb6fe77c4165a37d060092457d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 14e2ef89-ae2b-4746-856a-8b640201f609
   active: 1
   hasActivated: 0
   interacting: 0
+  focusPoint: {fileID: 0}
   waitTime: 1.5
+--- !u!114 &2923099215595588597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6712563670586094465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id:
+    Value: 
 --- !u!1001 &5224314087288495717
 PrefabInstance:
   m_ObjectHideFlags: 0

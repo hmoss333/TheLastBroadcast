@@ -16,7 +16,7 @@ public class PlayerController : CharacterController
     [NaughtyAttributes.HorizontalLine]
     [Header("Player State Variables")]
     public bool isSeen;
-    public enum States { idle, interacting, moving, attacking, listening, radio, hurt, dead }
+    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, hurt, dead }
     public States state { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
@@ -55,6 +55,7 @@ public class PlayerController : CharacterController
         storedSpeed = speed;
         melee.damage = damage;
         gasMaskObj.SetActive(false);
+        animator.SetTrigger("wakeUp");
 
         base.Start();
     }
@@ -142,6 +143,8 @@ public class PlayerController : CharacterController
 
 
 
+        //Standing Up
+        if (isPlaying("Wake Up")) { state = States.wakeUp; }
         //Interacting
         animator.SetBool("isInteracting", state == States.interacting);
         //Radio
@@ -186,6 +189,12 @@ public class PlayerController : CharacterController
         Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
         switch (state)
         {
+            case States.wakeUp:
+                if (!isPlaying("Wake Up"))
+                {
+                    state = States.idle;
+                }
+                break;
             case States.idle:
                 if (move.x != 0f || move.y != 0f)
                 {
