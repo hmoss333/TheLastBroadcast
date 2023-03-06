@@ -33,7 +33,8 @@ public class GeneratorController : InteractObject
 
     public override void Interact()
     {
-        if (active && !hasActivated && !playing)
+        if (active && !hasActivated && !playing
+            || turnedOn)
         {
             base.Interact();
         }
