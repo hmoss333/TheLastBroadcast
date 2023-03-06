@@ -5,16 +5,18 @@ using UnityEngine.UI;
 
 public class GeneratorController : InteractObject
 {
+    [NaughtyAttributes.HorizontalLine]
     [Header("Equipment References")]
     [SerializeField] TranscieverController transciever;
     [SerializeField] AntennaController antenna;
 
+    [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
     [SerializeField] GameObject miniGameUI;
-    [SerializeField] Image miniGameRotObj;
+    [SerializeField] Image miniGameRotObj, buttonIcon;
     [SerializeField] bool playing, turnedOn;
     int hitCount;
-    float turnSpeed, angle = 0, radius = 5;
+    float turnSpeed, angle = 0, radius = 7.5f;
 
     Coroutine resetColor;
 
@@ -66,7 +68,7 @@ public class GeneratorController : InteractObject
     public void Hit()
     {
         print("Hit");
-        miniGameRotObj.color = Color.green;
+        buttonIcon.color = Color.green;
         hitCount++;
 
         if (hitCount >= 3)
@@ -81,7 +83,7 @@ public class GeneratorController : InteractObject
     public void Miss()
     {
         print("Miss");
-        miniGameRotObj.color = Color.red;
+        buttonIcon.color = Color.red;
         hitCount = 0;
 
         ResetColor();
@@ -102,7 +104,7 @@ public class GeneratorController : InteractObject
     {
         yield return new WaitForSeconds(0.5f);
 
-        miniGameRotObj.color = Color.white;
+        buttonIcon.color = Color.white;
     }
 
     void TurnOn()
