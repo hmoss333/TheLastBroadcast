@@ -7,8 +7,7 @@ public class GeneratorController : InteractObject
 {
     [NaughtyAttributes.HorizontalLine]
     [Header("Equipment References")]
-    [SerializeField] private TranscieverController transciever;
-    [SerializeField] private AntennaController antenna;
+    [SerializeField] private SaveObject[] objectsToActivate;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
@@ -93,8 +92,10 @@ public class GeneratorController : InteractObject
     void TurnOn()
     {
         turnedOn = true;
-        transciever.Activate();
-        antenna.Activate();
+        for (int i = 0; i < objectsToActivate.Length; i++)
+        {
+            objectsToActivate[i].Activate();
+        }
         SetHasActivated();
 
         PlayerController.instance.ToggleAvatar();
