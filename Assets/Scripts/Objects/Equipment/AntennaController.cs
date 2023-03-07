@@ -16,7 +16,6 @@ public class AntennaController : InteractObject
     {
         targetValue = Random.Range(4.5f, 10f);
         miniGameSlider.maxValue = 10f;
-        miniGameLight.GetComponent<Renderer>().material.color = hasActivated ? Color.green : Color.red;
     }
 
     private void Update()
@@ -44,6 +43,9 @@ public class AntennaController : InteractObject
         }
 
         miniGameUI.SetActive(interacting && !turnedOn);
+        miniGameLight.GetComponent<Renderer>().material.color =
+            !active ? Color.black :
+            hasActivated ? Color.green : Color.red;
     }
 
     public override void Interact()
