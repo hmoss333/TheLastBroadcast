@@ -266,6 +266,16 @@ public class SaveDataController : MonoBehaviour
         print("No matching ability found for " + abilityName);
         return null;
     }
+
+    public void SetSecurityLevel(int levelVal)
+    {
+        saveData.securityLevel = levelVal;
+    }
+
+    public int GetSecurityLevel()
+    {
+        return saveData.securityLevel;
+    }
 }
 
 
@@ -274,6 +284,7 @@ public class SaveDataController : MonoBehaviour
 public class SaveData
 {
     public string currentScene;
+    public int securityLevel;
     public Abilities abilities;
     public List<RadioAbility> radioAbilities;
 }

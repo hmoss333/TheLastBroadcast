@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class DoorController : InteractObject
 {
-    //public bool locked;
+    [SerializeField] private int securityLevel;
+    [SerializeField] private string lockedText = "Current security level is too low";
     [SerializeField] Transform exitPoint;
     RoomController exitRoom;
 
@@ -22,11 +23,15 @@ public class DoorController : InteractObject
         {
             base.Interact();
 
-            StartCoroutine(DoorTrigger());
-        }
-        else
-        {
-            print("Door is locked");
+            if (SaveDataController.instance.GetSecurityLevel() >= securityLevel)
+            {
+                StartCoroutine(DoorTrigger());
+            }
+            else
+            {
+                UIController.instance.SetDialogueText(lockedText);
+                UIController.instance.ToggleDialogueUI(interacting);
+            }
         }
     }
 
