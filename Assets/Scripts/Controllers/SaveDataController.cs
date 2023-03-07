@@ -267,14 +267,14 @@ public class SaveDataController : MonoBehaviour
         return null;
     }
 
-    public void SetSecurityLevel(int levelVal)
+    public void SetSecurityCardLevel(int levelVal)
     {
-        saveData.securityLevel = levelVal;
+        saveData.cardLevel = levelVal;
     }
 
-    public int GetSecurityLevel()
+    public int GetSecurityCardLevel()
     {
-        return saveData.securityLevel;
+        return saveData.cardLevel;
     }
 }
 
@@ -284,7 +284,7 @@ public class SaveDataController : MonoBehaviour
 public class SaveData
 {
     public string currentScene;
-    public int securityLevel;
+    public int cardLevel;
     public Abilities abilities;
     public List<RadioAbility> radioAbilities;
 }

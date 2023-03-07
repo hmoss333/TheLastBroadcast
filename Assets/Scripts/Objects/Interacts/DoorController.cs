@@ -23,7 +23,7 @@ public class DoorController : InteractObject
         {
             base.Interact();
 
-            if (SaveDataController.instance.GetSecurityLevel() >= securityLevel)
+            if (SaveDataController.instance.GetSecurityCardLevel() >= securityLevel)
             {
                 StartCoroutine(DoorTrigger());
             }
