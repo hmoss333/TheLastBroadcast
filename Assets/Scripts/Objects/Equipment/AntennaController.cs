@@ -8,8 +8,7 @@ public class AntennaController : InteractObject
     [SerializeField] private bool turnedOn;
     [SerializeField] private float speed, currentValue, targetValue, offset;
     [SerializeField] float waitTime, checkTime;
-    [SerializeField] GameObject miniGameUI;
-    [SerializeField] Image miniGameLight;
+    [SerializeField] GameObject miniGameUI, miniGameLight;
     [SerializeField] Slider miniGameSlider;
 
 
@@ -17,6 +16,7 @@ public class AntennaController : InteractObject
     {
         targetValue = Random.Range(4.5f, 10f);
         miniGameSlider.maxValue = 10f;
+        miniGameLight.GetComponent<Renderer>().material.color = hasActivated ? Color.green : Color.red;
     }
 
     private void Update()
@@ -28,7 +28,7 @@ public class AntennaController : InteractObject
             miniGameSlider.value = currentValue;
             if (currentValue <= targetValue + offset && currentValue >= targetValue - offset)
             {
-                miniGameLight.color = Color.yellow;
+                miniGameLight.GetComponent<Renderer>().material.color = Color.yellow;
                 checkTime += Time.deltaTime;
                 if (checkTime >= waitTime)
                 {
@@ -38,7 +38,7 @@ public class AntennaController : InteractObject
             }
             else
             {
-                miniGameLight.color = Color.red;
+                miniGameLight.GetComponent<Renderer>().material.color = Color.red;
                 checkTime = 0f;
             }
         }
@@ -66,7 +66,7 @@ public class AntennaController : InteractObject
 
     void TurnOn()
     {
-        miniGameLight.color = Color.green;
+        miniGameLight.GetComponent<Renderer>().material.color = Color.green;
         turnedOn = true;
         SetHasActivated();
         SaveDataController.instance.SaveObjectData();
