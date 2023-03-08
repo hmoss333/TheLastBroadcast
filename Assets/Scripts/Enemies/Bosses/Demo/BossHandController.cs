@@ -10,9 +10,15 @@ public class BossHandController : MonoBehaviour
     [SerializeField] float yOff;
     [SerializeField] int damage;
     private Vector3 handPos;
+    [SerializeField] GameObject partnerHand;
 
     float tempDelay = 0f;
 
+
+    private void OnEnable()
+    {
+        SetState(State.idle);
+    }
 
     private void FixedUpdate()
     {
@@ -36,6 +42,7 @@ public class BossHandController : MonoBehaviour
 
                 if (transform.position.y <= 0f)
                 {
+                    partnerHand.SetActive(true);
                     SetState(State.reset);
                 }
                 break;
@@ -47,7 +54,8 @@ public class BossHandController : MonoBehaviour
                 {
                     handPos.y = yOff;
                     transform.localPosition = handPos;
-                    SetState(State.idle);
+                    gameObject.SetActive(false);
+                    //SetState(State.idle);
                 }           
                 break;
             case State.hurt:
