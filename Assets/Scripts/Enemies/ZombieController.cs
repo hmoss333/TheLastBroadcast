@@ -29,7 +29,7 @@ public class ZombieController : CharacterController
     {
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
-        if (PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible//.invisible
+        if (PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible
             || dead
             || stunned)
         {
