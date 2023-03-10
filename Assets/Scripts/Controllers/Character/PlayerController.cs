@@ -55,7 +55,6 @@ public class PlayerController : CharacterController
         storedSpeed = speed;
         melee.damage = damage;
         gasMaskObj.SetActive(false);
-        animator.SetTrigger("wakeUp");
 
         base.Start();
     }
