@@ -38,8 +38,11 @@ public class BossZombieController : CharacterController
     {
         bossCollider.enabled = bossState != BossState.dead ? !shieldObject.activeSelf : false;
 
-        if (bossState == BossState.aggro && hurt)
+        if (hurt && bossState == BossState.aggro)
+        {
+            animator.SetTrigger("isHurt");
             bossState = BossState.hurt;
+        }
         if (dead || saveObj.hasActivated)
         {
             dead = true;          
@@ -75,7 +78,8 @@ public class BossZombieController : CharacterController
                 case BossState.hurt:
                     if (hurt && !isPlaying("Hurt"))
                     {
-                        bossHitNum++;
+                        animator.SetTrigger("isHurt");
+                        bossHitNum++;                       
                         hurt = false;
                         if (bossHitNum == 3)
                         {
@@ -94,6 +98,7 @@ public class BossZombieController : CharacterController
                     {
                         handLeft.SetActive(false);
                         handRight.SetActive(false);
+                        shieldObject.SetActive(true);
                         foreach (BossRadioTower tower in radioTowers)
                         {
                             tower.DeActivate();

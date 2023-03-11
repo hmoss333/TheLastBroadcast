@@ -477,7 +477,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6692620300395483362
 Transform:
   m_ObjectHideFlags: 0
@@ -3462,7 +3462,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2403018244001266967
 Transform:
   m_ObjectHideFlags: 0
@@ -4549,7 +4549,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2071129745227201676
 Transform:
   m_ObjectHideFlags: 0
@@ -14185,6 +14185,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6353914816815506089}
+  - {fileID: 8546515121853030949}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -14256,13 +14257,12 @@ MonoBehaviour:
   rb: {fileID: 0}
   col: {fileID: 0}
   animator: {fileID: 3938292446302408659}
-  bossHealth: 15
   bossHitNum: 0
   towerNum: 0
   bossStage: 0
   bossState: 0
   shieldObject: {fileID: 0}
-  radioTowerPrefab: {fileID: -6903225887762334051, guid: 3aa0e6a11b8cb4f858ec64bb3263a4c7, type: 3}
+  radioTowers: []
   zombiePrefab: {fileID: 2882855802416228443, guid: 8dbd8fe52253647d2aa9a39c177e55a3, type: 3}
   handLeft: {fileID: 0}
   handRight: {fileID: 0}
@@ -14271,7 +14271,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  currentRadioTowers: []
 --- !u!114 &5007337799337901794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14298,7 +14297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3b0c891667c4a3a974d9c69edc3457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 97bf00f5-8c1b-4c2f-87d1-9ae19f945bd3
+  id: fbbe788b-8e91-45df-81c4-3565b74e5b02
   active: 1
   hasActivated: 0
 --- !u!1 &5014819817063052611
@@ -15307,7 +15306,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4552552197903498856
 Transform:
   m_ObjectHideFlags: 0
@@ -18553,7 +18552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1890086119483955185
 Transform:
   m_ObjectHideFlags: 0
@@ -21497,7 +21496,7 @@ Animator:
   m_GameObject: {fileID: 7959824288305369274}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: cae523a6121e87f41afa719d2a118c88, type: 3}
-  m_Controller: {fileID: 9100000, guid: d01ac86f5dd11482c9c99eab0d6e4619, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2b4101563baa2466885850231e3968ca, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -21516,12 +21515,11 @@ Animation:
   m_GameObject: {fileID: 7959824288305369274}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: -203655887218126122, guid: 50e0deb34972a44b1b88f6e13a2a802d, type: 3}
+  m_Animation: {fileID: -203655887218126122, guid: d2bead09fd5074d34b2432832b840ab7, type: 3}
   m_Animations:
-  - {fileID: -203655887218126122, guid: 50e0deb34972a44b1b88f6e13a2a802d, type: 3}
-  - {fileID: -203655887218126122, guid: 980c44328619e4235a4fda86aa4a261d, type: 3}
-  - {fileID: -203655887218126122, guid: 945b0618edc784836be9d0c180919057, type: 3}
-  - {fileID: -203655887218126122, guid: 138ab692d58954f36b6d78619740f17b, type: 3}
+  - {fileID: -203655887218126122, guid: d2bead09fd5074d34b2432832b840ab7, type: 3}
+  - {fileID: -203655887218126122, guid: ac5eb9208946b4b79b3d8d90c40f1297, type: 3}
+  - {fileID: -203655887218126122, guid: f799dcf1cafeb428db458ed79b6f8555, type: 3}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -22118,7 +22116,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4834951840376159295
 Transform:
   m_ObjectHideFlags: 0
@@ -23026,6 +23024,89 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 22be62b7ee89a6b4ea4926cc75b6bf7b, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8546515121852808709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8546515121853030949}
+  - component: {fileID: 8546515121855898117}
+  - component: {fileID: 8546515121854800069}
+  m_Layer: 0
+  m_Name: WheelChair
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8546515121853030949
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8546515121852808709}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0}
+  m_LocalScale: {x: 1.125, y: 1.125, z: 1.125}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5007337799337901817}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!33 &8546515121855898117
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8546515121852808709}
+  m_Mesh: {fileID: 4300000, guid: 3db535f25818f4c439d2f29837353c6a, type: 3}
+--- !u!23 &8546515121854800069
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8546515121852808709}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 79eb64d5ebb3e1c4bba73ed7a0ac975b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24881,7 +24962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4644836314494612004
 Transform:
   m_ObjectHideFlags: 0
