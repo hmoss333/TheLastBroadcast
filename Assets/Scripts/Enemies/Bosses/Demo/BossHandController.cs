@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossHandController : MonoBehaviour
 {
-    enum State { idle, attacking, reset, hurt, dead }
+    enum State { idle, attacking, reset }
     [SerializeField] State bossState;
     [SerializeField] float attackDelay, attackSpeed, resetSpeed, transperancy;
     [SerializeField] float yOff;
@@ -58,10 +58,6 @@ public class BossHandController : MonoBehaviour
                     //SetState(State.idle);
                 }           
                 break;
-            case State.hurt:
-                break;
-            case State.dead:
-                break;
             default:
                 break;
         }
@@ -76,7 +72,7 @@ public class BossHandController : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<Health>().Hurt(damage, false);
+            other.GetComponent<Health>().Hurt(damage, true);
         }
     }
 }

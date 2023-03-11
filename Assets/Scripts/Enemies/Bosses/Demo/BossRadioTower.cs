@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class BossRadioTower : MonoBehaviour
 {
-    [SerializeField] private bool interacting, triggered;
+    [SerializeField] private bool active, interacting, triggered;
     [SerializeField] private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
     [SerializeField] private float checkTime = 2f; //time the radio must stay within the frequency range to activate
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private MeshRenderer mesh;
-    [SerializeField] private SaveObject[] objectsToActivate;
     float tempTime = 0f;
     [SerializeField] BossZombieController bossController;
 
@@ -18,14 +17,13 @@ public class BossRadioTower : MonoBehaviour
     private void Start()
     {
         bossController = GameObject.FindObjectOfType<BossZombieController>();
-        mesh.material.color = Color.red;
-        checkFrequency = Random.Range(1f, 7.5f);
+        mesh.material.color = Color.black;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!triggered)
+        if (active && !triggered)
         {
             float dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
@@ -52,6 +50,23 @@ public class BossRadioTower : MonoBehaviour
             }
         }
 
-        mesh.material.color = triggered ? Color.green : mesh.material.color;
+        mesh.material.color = triggered ? Color.green : active ? interacting ? Color.yellow : Color.red : Color.black;
+    }
+
+    public bool GetActiveState()
+    {
+        return active;
+    }
+
+    public void Activate()
+    {
+        active = true;
+        checkFrequency = Random.Range(1.5f, 9f);
+    }
+
+    public void DeActivate()
+    {
+        active = false;
+        triggered = false;
     }
 }

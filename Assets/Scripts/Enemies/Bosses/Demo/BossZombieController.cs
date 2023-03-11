@@ -6,7 +6,6 @@ public class BossZombieController : CharacterController
 {
     [NaughtyAttributes.HorizontalLine]
     [Header("Boss State Variables")]
-    [SerializeField] private int bossHealth;
     [SerializeField] private int bossHitNum = 0;
     [SerializeField] private int towerNum = 0;
     [SerializeField] private int bossStage;
@@ -19,11 +18,10 @@ public class BossZombieController : CharacterController
     [NaughtyAttributes.HorizontalLine]
     [Header("Boss Prefab Variables")]
     [SerializeField] GameObject shieldObject;
-    [SerializeField] BossRadioTower radioTowerPrefab;
+    [SerializeField] BossRadioTower[] radioTowers;
     [SerializeField] ZombieController zombiePrefab;
     [SerializeField] GameObject handLeft, handRight;
     [SerializeField] Transform[] spawnPoints;
-    [SerializeField] List<BossRadioTower> currentRadioTowers;
     SaveObject saveObj;
 
 
@@ -31,7 +29,6 @@ public class BossZombieController : CharacterController
     {
         health = GetComponent<Health>();
         bossCollider = GetComponent<Collider>();
-        bossHealth = health.CurrentHealth();
         saveObj = GetComponent<SaveObject>();
 
         base.Start();
@@ -39,7 +36,6 @@ public class BossZombieController : CharacterController
 
     private void Update()
     {
-        bossHealth = health.CurrentHealth();
         bossCollider.enabled = bossState != BossState.dead ? !shieldObject.activeSelf : false;
 
         if (bossState == BossState.aggro && hurt)
@@ -49,7 +45,6 @@ public class BossZombieController : CharacterController
             dead = true;          
             bossState = BossState.dead;
         }
-
 
         if (saveObj.active && !saveObj.hasActivated)
         {
@@ -82,7 +77,7 @@ public class BossZombieController : CharacterController
                     {
                         bossHitNum++;
                         hurt = false;
-                        if (bossHitNum > 3)
+                        if (bossHitNum == 3)
                         {
                             bossHitNum = 0;
                             bossStage++;
@@ -99,11 +94,10 @@ public class BossZombieController : CharacterController
                     {
                         handLeft.SetActive(false);
                         handRight.SetActive(false);
-                        foreach (BossRadioTower tower in currentRadioTowers)
+                        foreach (BossRadioTower tower in radioTowers)
                         {
-                            Destroy(tower.gameObject);
+                            tower.DeActivate();
                         }
-                        currentRadioTowers.Clear();
                         saveObj.SetHasActivated();
                     }
                     break;
@@ -117,11 +111,12 @@ public class BossZombieController : CharacterController
 
     IEnumerator Setup()
     {
-        foreach (BossRadioTower tower in currentRadioTowers)
+        PlayerController.instance.SetState(PlayerController.States.listening);
+
+        foreach (BossRadioTower tower in radioTowers)
         {
-            Destroy(tower.gameObject);
+            tower.DeActivate();
         }
-        currentRadioTowers.Clear();
         shieldObject.SetActive(true);
         CameraController.instance.SetTarget(shieldObject);
 
@@ -129,14 +124,22 @@ public class BossZombieController : CharacterController
 
         for (int i = 0; i < bossStage; i++)
         {
-            BossRadioTower radioTower = Instantiate(radioTowerPrefab, spawnPoints[i].position, Quaternion.identity);
-            currentRadioTowers.Add(radioTower);
-            CameraController.instance.SetTarget(radioTower.gameObject);
+            int randVal = Random.Range(0, radioTowers.Length);
+            if (!radioTowers[randVal].GetActiveState())
+            {
+                radioTowers[randVal].Activate();
+                CameraController.instance.SetTarget(radioTowers[randVal].gameObject);
 
-            //if (bossStage > 2)
-            //{
-            //    ZombieController zombie = Instantiate(zombiePrefab, spawnPoints[i].position, Quaternion.identity);
-            //}
+                yield return new WaitForSeconds(1f);
+            }
+            else { i--; }      
+        }
+       
+        for (int i = 0; i < bossStage - 1; i++)
+        {
+            int randVal = Random.Range(0, radioTowers.Length);
+            ZombieController zombie = Instantiate(zombiePrefab, spawnPoints[randVal].position, Quaternion.identity);
+            CameraController.instance.SetTarget(zombie.gameObject);
 
             yield return new WaitForSeconds(1f);
         }
@@ -148,6 +151,8 @@ public class BossZombieController : CharacterController
         handLeft.SetActive(true);
         SetState(BossState.aggro);
         settingUp = false;
+
+        PlayerController.instance.SetState(PlayerController.States.idle);
     }
 
     public void SetState(BossState stateToSet)
@@ -158,10 +163,30 @@ public class BossZombieController : CharacterController
     public void SetTower()
     {
         towerNum++;
-        if (towerNum >= currentRadioTowers.Count)
+        if (towerNum >= bossStage)
         {
             towerNum = 0;
-            shieldObject.SetActive(false);
+            handLeft.SetActive(false);
+            handRight.SetActive(false);
+
+            StartCoroutine(SetTowerStun());
         }
+    }
+
+    IEnumerator SetTowerStun()
+    {
+        PlayerController.instance.SetState(PlayerController.States.listening);
+        yield return new WaitForSeconds(0.5f);
+
+        CameraController.instance.SetTarget(this.gameObject);
+
+        yield return new WaitForSeconds(1f);
+
+        shieldObject.SetActive(false);
+
+        yield return new WaitForSeconds(1f);
+
+        PlayerController.instance.SetState(PlayerController.States.idle);
+        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
     }
 }

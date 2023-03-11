@@ -17,7 +17,7 @@ public class PlayerController : CharacterController
     [Header("Player State Variables")]
     public bool isSeen;
     public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, hurt, dead }
-    public States state { get; private set; }
+    public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
 
@@ -98,27 +98,45 @@ public class PlayerController : CharacterController
         }
 
 
+
+        //Player hurt/death triggers
+        if (hurt)
+            SetState(States.hurt);
+        if (dead)
+            SetState(States.dead);
+
+        //Force player to hurt state for animation
+        //The issue is that the switch is in fixed update, causing a slight delay when changing states
+        if (state != States.hurt
+            && abilityState == AbilityStates.none
+            && hurt || isPlaying("Hurt"))
+        {
+            CameraController.instance.LoadLastTarget();
+            SetState(States.hurt);
+        }
+
         //Manage Player Inputs
-        if ((state == States.idle || state == States.moving)
-            && abilityState == AbilityStates.none /*!invisible*/
+        if (state == States.idle || state == States.moving
+            && abilityState == AbilityStates.none
             && !PauseMenuController.instance.isPaused && !FlashlightController.instance.isOn)
         {
             if (SaveDataController.instance.saveData.abilities.crowbar == true
                 && PlayerController.instance.inputMaster.Player.Melee.triggered)
             {
                 animator.SetTrigger("isMelee");
-                state = States.attacking;
+                SetState(States.attacking);
             }
 
             if (SaveDataController.instance.saveData.abilities.radio == true
                 && PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() > 0)
             {
-                state = States.radio;
+                SetState(States.radio);
                 CameraController.instance.SetLastTarget(CameraController.instance.GetTarget().gameObject);
                 CameraController.instance.SetRotation(false);
                 CameraController.instance.SetTarget(radioObj);
             }
         }
+
 
         //Handle player interaction inputs
         if (interactObj != null
@@ -128,17 +146,10 @@ public class PlayerController : CharacterController
         {
             interactObj.Interact();
             if (interactObj.active && !interactObj.hasActivated && interactObj.interacting)
-                state = States.interacting;
+                SetState(States.interacting);
             else
-                state = States.idle;
+                SetState(States.idle);
         }
-
-
-        //Player hurt/death triggers
-        if (hurt)
-            state = States.hurt;
-        if (dead)
-            state = States.dead;
 
 
 
@@ -156,16 +167,15 @@ public class PlayerController : CharacterController
         //Listening
         animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
 
-
         base.Update();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (state != States.moving)
+        if (state != States.moving || isPlaying("Hurt"))
         {
-            speed = 0; //stop all player movement
+            speed = 0; //stop all player movement 
         }
 
         // Determine which direction to rotate towards
@@ -191,13 +201,13 @@ public class PlayerController : CharacterController
             case States.wakeUp:
                 if (!isPlaying("Wake Up"))
                 {
-                    state = States.idle;
+                    SetState(States.idle);
                 }
                 break;
             case States.idle:
                 if (move.x != 0f || move.y != 0f)
                 {
-                    state = States.moving;
+                    SetState(States.moving);
                 }
                 break;
             case States.moving:
@@ -220,13 +230,13 @@ public class PlayerController : CharacterController
 
                 if (move.x == 0f && move.y == 0f)
                 {
-                    state = States.idle;
+                    SetState(States.idle);
                 }
                 break;
             case States.attacking:
                 if (!isPlaying("Melee") || hurt)
                 {
-                    state = States.idle;
+                    SetState(States.idle);
                 }
                 break;
             case States.radio:
@@ -235,12 +245,15 @@ public class PlayerController : CharacterController
                     && abilityState != AbilityStates.isRat || abilityState == AbilityStates.invisible)
                 {
                     CameraController.instance.LoadLastTarget();
-                    state = States.idle;
+                    SetState(States.idle);
                 }
                 break;
             case States.hurt:
                 if (!hurt && !isPlaying("Hurt"))
-                    state = States.idle;
+                {
+                    CameraController.instance.SetTarget(this.gameObject);
+                    SetState(States.idle);
+                }
                 break;
             default:
                 break;
