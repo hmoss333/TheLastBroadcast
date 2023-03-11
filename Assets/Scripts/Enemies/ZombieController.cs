@@ -9,7 +9,7 @@ public class ZombieController : CharacterController
     //[Header("Zombie Interact Variables")]
     [SerializeField] private float seeDist, attackDist, loseDist, focusTime;
     private float tempFocusTime, dist;
-    private bool seePlayer, attacking, colliding;
+    private bool seePlayer, attacking;
     [SerializeField] private LayerMask layer;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
@@ -65,7 +65,7 @@ public class ZombieController : CharacterController
                         if (tempFocusTime <= 0f)
                         {
                             seePlayer = false;
-                            colliding = false;
+                            //colliding = false;
                             tempFocusTime = focusTime;
                         }
                     }
@@ -113,21 +113,10 @@ public class ZombieController : CharacterController
         animator.SetBool("isStunning", stunned);
         animator.SetBool("isAttacking", attacking);
         melee.gameObject.SetActive(isPlaying("Melee"));
-
-        if (colliding)
-            animator.SetBool("isAttacking", true);
     }
 
     public bool SeePlayer()
     {
         return seePlayer;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer != LayerMask.NameToLayer("Floor") && seePlayer)
-        {
-            colliding = true;
-        }
     }
 }
