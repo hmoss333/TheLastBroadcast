@@ -7,6 +7,7 @@ public class BossZombieController : CharacterController
     [NaughtyAttributes.HorizontalLine]
     [Header("Boss State Variables")]
     [SerializeField] private float seeDist;
+    private float countDownTime = 15f;
     [SerializeField] private int bossHitNum = 0;
     [SerializeField] private int towerNum = 0;
     [SerializeField] private int bossStage = 1;
@@ -71,13 +72,22 @@ public class BossZombieController : CharacterController
                 case BossState.aggro:
                     //TODO
                     //Fire projectiles at player on set intervals
+                    //If player takes too long to deal damage, reset the scenario
+                    if (!shieldObject.activeSelf)
+                    {
+                        countDownTime -= Time.deltaTime;
+                        if (countDownTime <= 0f)
+                        {
+                            countDownTime = 15f;
+                            SetState(BossState.setup);
+                        }
+                    }
                     break;
                 case BossState.hurt:
                     if (!isPlaying("Hurt"))
                     {
                         animator.SetTrigger("isHurt");
                         bossHitNum++;                       
-                        hurt = false;
                         if (bossHitNum == 3)
                         {
                             bossHitNum = 0;
@@ -148,8 +158,11 @@ public class BossZombieController : CharacterController
         {
             tower.DeActivate();
         }
-        shieldObject.SetActive(true);
         CameraController.instance.SetTarget(this.gameObject);
+
+        yield return new WaitForSeconds(1f);
+
+        shieldObject.SetActive(true);
 
         yield return new WaitForSeconds(1f);
 
@@ -166,13 +179,19 @@ public class BossZombieController : CharacterController
             else { i--; }
         }
 
+        List<int> randPos = new List<int>();
         for (int i = 0; i < bossStage - 1; i++)
         {
             int randVal = Random.Range(0, radioTowers.Length);
-            ZombieController zombie = Instantiate(zombiePrefab, spawnPoints[randVal].position, Quaternion.identity);
-            CameraController.instance.SetTarget(zombie.gameObject);
+            if (!randPos.Contains(randVal))
+            {
+                ZombieController zombie = Instantiate(zombiePrefab, spawnPoints[randVal].position, Quaternion.identity);
+                CameraController.instance.SetTarget(zombie.gameObject);
+                randPos.Add(randVal);
 
-            yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1f);
+            }
+            else { i--; }
         }
 
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);

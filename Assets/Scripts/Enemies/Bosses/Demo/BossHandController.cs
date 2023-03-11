@@ -40,7 +40,7 @@ public class BossHandController : MonoBehaviour
                 handPos = new Vector3(handPos.x, handPos.y -= attackSpeed * Time.deltaTime, handPos.z);
                 transform.position = handPos;
 
-                if (transform.position.y <= 0f)
+                if (transform.position.y <= 0.05f)
                 {
                     partnerHand.SetActive(true);
                     SetState(State.reset);
