@@ -263,6 +263,11 @@ public class PlayerController : CharacterController
         animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false);
     }
 
+    //private void LateUpdate()
+    //{
+    //    isSeen = false;
+    //}
+
 
     //Toggle Functions
     public void ToggleAvatar()

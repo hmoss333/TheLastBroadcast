@@ -40,7 +40,10 @@ public class BossZombieController : CharacterController
 
     private void Update()
     {
+        if (bossState != BossState.dead && bossState != BossState.idle) { PlayerController.instance.isSeen = true; }
         bossCollider.enabled = bossState != BossState.dead ? !shieldObject.activeSelf : false;
+
+
         if (hurt)
         {
             SetState(BossState.hurt);
@@ -50,6 +53,7 @@ public class BossZombieController : CharacterController
             dead = true;          
             bossState = BossState.dead;
         }
+
 
         if (saveObj.active && !saveObj.hasActivated)
         {
@@ -185,7 +189,7 @@ public class BossZombieController : CharacterController
             int randVal = Random.Range(0, radioTowers.Length);
             if (!randPos.Contains(randVal))
             {
-                ZombieController zombie = Instantiate(zombiePrefab, spawnPoints[randVal].position, Quaternion.identity);
+                ZombieController zombie = Instantiate(zombiePrefab, spawnPoints[randVal].position, Quaternion.identity, GetComponentInParent<RoomController>().gameObject.transform);
                 CameraController.instance.SetTarget(zombie.gameObject);
                 randPos.Add(randVal);
 
