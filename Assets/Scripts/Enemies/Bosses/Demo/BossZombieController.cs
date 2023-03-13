@@ -40,7 +40,7 @@ public class BossZombieController : CharacterController
 
     private void Update()
     {
-        if (bossState != BossState.dead && bossState != BossState.idle) { PlayerController.instance.isSeen = true; }
+        if (bossState != BossState.dead && bossState != BossState.idle) { PlayerController.instance.SeePlayer(); }
         bossCollider.enabled = bossState != BossState.dead ? !shieldObject.activeSelf : false;
 
 

@@ -29,7 +29,7 @@ public class ZombieController : CharacterController
     {
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
-        if (PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible || dead || stunned)
+        if (PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible || stunned)
         {
             seePlayer = false;
         }
@@ -106,7 +106,8 @@ public class ZombieController : CharacterController
         storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed;
         rb.velocity = transform.forward * storedSpeed;
 
-        PlayerController.instance.isSeen = seePlayer;
+        if (!dead && seePlayer)
+            PlayerController.instance.SeePlayer();
         animator.SetBool("seePlayer", seePlayer);
         animator.SetBool("isStunning", stunned);
         animator.SetBool("isAttacking", attacking);

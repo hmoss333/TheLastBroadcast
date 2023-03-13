@@ -78,17 +78,17 @@ public class CameraController : MonoBehaviour
         {
             pos.x += target != PlayerController.instance.transform
                 || PlayerController.instance.state == PlayerController.States.radio
-                || PlayerController.instance.isSeen
+                || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
                 ? camXOffset + xOff : camXOffset;// + xOff;
             pos.y += target != PlayerController.instance.transform
                 || PlayerController.instance.state == PlayerController.States.radio
-                || PlayerController.instance.isSeen
+                || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
                 ? camYOffset + yOff : camYOffset;// + yOff;
             pos.z += target != PlayerController.instance.transform
                 || PlayerController.instance.state == PlayerController.States.radio
-                || PlayerController.instance.isSeen
+                || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
                 ? camZOffset + zOff : camZOffset;// + zOff;
         }
