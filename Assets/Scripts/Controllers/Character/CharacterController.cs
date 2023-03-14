@@ -24,7 +24,6 @@ public class CharacterController : MonoBehaviour
     {
         if (dead && !isPlaying("Dead"))
         {
-            //print($"{gameObject.name} is dead");
             animator.SetTrigger("isDead");
             rb.useGravity = false;
             rb.isKinematic = true;

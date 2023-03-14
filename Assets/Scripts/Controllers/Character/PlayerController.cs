@@ -15,7 +15,7 @@ public class PlayerController : CharacterController
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Player State Variables")]
-    public bool isSeen;
+    private bool isSeen;// { get; private set; }
     public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, hurt, dead }
     public States state { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
@@ -55,7 +55,6 @@ public class PlayerController : CharacterController
         storedSpeed = speed;
         melee.damage = damage;
         gasMaskObj.SetActive(false);
-        animator.SetTrigger("wakeUp");
 
         base.Start();
     }
@@ -99,89 +98,40 @@ public class PlayerController : CharacterController
         }
 
 
+
+        //Player hurt/death triggers
+        if (hurt)
+        {
+            RadioController.instance.SetActive(false);
+            CameraController.instance.LoadLastTarget();
+            SetState(States.hurt);
+        }
+        if (dead)
+            SetState(States.dead);
+
+
         //Manage Player Inputs
         if ((state == States.idle || state == States.moving)
-            && abilityState == AbilityStates.none /*!invisible*/
-            && !PauseMenuController.instance.isPaused && !FlashlightController.instance.isOn)
+            && abilityState == AbilityStates.none
+            && !PauseMenuController.instance.isPaused && !FlashlightController.instance.isOn
+            && !hurt)
         {
             if (SaveDataController.instance.saveData.abilities.crowbar == true
                 && PlayerController.instance.inputMaster.Player.Melee.triggered)
             {
                 animator.SetTrigger("isMelee");
-                state = States.attacking;
+                SetState(States.attacking);
             }
 
             if (SaveDataController.instance.saveData.abilities.radio == true
                 && PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() > 0)
             {
-                state = States.radio;
+                SetState(States.radio);
                 CameraController.instance.SetLastTarget(CameraController.instance.GetTarget().gameObject);
                 CameraController.instance.SetRotation(false);
                 CameraController.instance.SetTarget(radioObj);
             }
         }
-
-        //Handle player interaction inputs
-        if (interactObj != null
-            && interactObj.active
-            && !PauseMenuController.instance.isPaused
-            && PlayerController.instance.inputMaster.Player.Interact.triggered)
-        {
-            interactObj.Interact();
-            if (interactObj.active && !interactObj.hasActivated && interactObj.interacting)
-                state = States.interacting;
-            else
-                state = States.idle;
-        }
-
-
-        //Player hurt/death triggers
-        if (hurt)
-            state = States.hurt;
-        if (dead)
-            state = States.dead;
-
-
-
-        //Standing Up
-        if (isPlaying("Wake Up")) { state = States.wakeUp; }
-        //Interacting
-        animator.SetBool("isInteracting", state == States.interacting);
-        //Radio
-        animator.SetBool("isRadio", state == States.radio); //play radio animation while button is held
-        RadioController.instance.SetActive(state == States.radio && abilityState != AbilityStates.isRat); //toggle radio controller active state if player is pressing the corresponding input; hide radio UI if isRat
-        radioObj.SetActive(state == States.radio); //toggle radioObj based on usingRadio state
-        bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
-        //Melee
-        melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
-        //Listening
-        animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
-
-
-        base.Update();
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (state != States.moving)
-        {
-            speed = 0; //stop all player movement
-        }
-
-        // Determine which direction to rotate towards
-        Vector3 targetDirection = lastDir;
-
-        // The step size is equal to speed times frame time.
-        float singleStep = rotSpeed * Time.deltaTime;
-
-        // Rotate the forward vector towards the target direction by one step
-        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
-        lastDir1 = (2 * transform.forward - transform.right).normalized; //Left ray
-        lastDir2 = (2 * transform.forward + transform.right).normalized; //Right ray
-
-        // Calculate a rotation a step closer to the target and applies rotation to this object
-        transform.rotation = Quaternion.LookRotation(newDirection);
 
 
         //Store player move values
@@ -192,13 +142,13 @@ public class PlayerController : CharacterController
             case States.wakeUp:
                 if (!isPlaying("Wake Up"))
                 {
-                    state = States.idle;
+                    SetState(States.idle);
                 }
                 break;
             case States.idle:
                 if (move.x != 0f || move.y != 0f)
                 {
-                    state = States.moving;
+                    SetState(States.moving);
                 }
                 break;
             case States.moving:
@@ -221,13 +171,13 @@ public class PlayerController : CharacterController
 
                 if (move.x == 0f && move.y == 0f)
                 {
-                    state = States.idle;
+                    SetState(States.idle);
                 }
                 break;
             case States.attacking:
-                if (!isPlaying("Melee") || hurt)
+                if (!isPlaying("Melee"))
                 {
-                    state = States.idle;
+                    SetState(States.idle);
                 }
                 break;
             case States.radio:
@@ -236,19 +186,95 @@ public class PlayerController : CharacterController
                     && abilityState != AbilityStates.isRat || abilityState == AbilityStates.invisible)
                 {
                     CameraController.instance.LoadLastTarget();
-                    state = States.idle;
+                    SetState(States.idle);
                 }
                 break;
             case States.hurt:
+                RadioController.instance.SetActive(false);
+                CameraController.instance.SetTarget(this.gameObject);
+
                 if (!hurt && !isPlaying("Hurt"))
-                    state = States.idle;
+                {
+                    SetState(States.idle);
+                }
                 break;
             default:
                 break;
         }
 
+
+        //Handle player interaction inputs
+        if (interactObj != null
+            && interactObj.active
+            && !PauseMenuController.instance.isPaused
+            && PlayerController.instance.inputMaster.Player.Interact.triggered)
+        {
+            interactObj.Interact();
+            if (interactObj.active && !interactObj.hasActivated && interactObj.interacting)
+                SetState(States.interacting);
+            else
+                SetState(States.idle);
+        }
+
+        base.Update();
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (state != States.moving || isPlaying("Hurt"))
+        {
+            speed = 0;
+        }
+
+        // Determine which direction to rotate towards
+        Vector3 targetDirection = lastDir;
+
+        // The step size is equal to speed times frame time.
+        float singleStep = rotSpeed * Time.deltaTime;
+
+        // Rotate the forward vector towards the target direction by one step
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+        lastDir1 = (2 * transform.forward - transform.right).normalized; //Left ray
+        lastDir2 = (2 * transform.forward + transform.right).normalized; //Right ray
+
+        // Calculate a rotation a step closer to the target and applies rotation to this object
+        transform.rotation = Quaternion.LookRotation(newDirection);
+
+
+
+        if (isPlaying("Wake Up"))
+        {
+            SetState(States.wakeUp);
+        }
+        if (isPlaying("Melee"))
+        {
+            SetState(States.attacking);
+        }
+        if (isPlaying("Hurt"))
+        {
+            SetState(States.hurt);
+        }
+
+
+        //Moving
         animator.SetBool("isMoving", state == States.moving);
+        //Falling
         animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false);
+        //Standing Up
+        if (isPlaying("Wake Up")) { state = States.wakeUp; }
+        //Interacting
+        animator.SetBool("isInteracting", state == States.interacting);
+        //Radio
+        animator.SetBool("isRadio", state == States.radio); //play radio animation while button is held
+        RadioController.instance.SetActive(state == States.radio && abilityState != AbilityStates.isRat); //toggle radio controller active state if player is pressing the corresponding input; hide radio UI if isRat
+        radioObj.SetActive(state == States.radio); //toggle radioObj based on usingRadio state
+        bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
+        //Melee
+        melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
+        //Listening
+        animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
+        isSeen = false; //reset seen state if no enemies are currently seeing the player (this is ues for the dynamic camera)
     }
 
 
@@ -278,5 +304,17 @@ public class PlayerController : CharacterController
     public void SetAbilityState(AbilityStates abilityStateToSet)
     {
         abilityState = abilityStateToSet;
+    }
+
+
+    //Handle isSeen bool
+    public bool IsSeen()
+    {
+        return isSeen;
+    }
+
+    public void SeePlayer()
+    {
+        isSeen = true;
     }
 }

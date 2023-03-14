@@ -8,7 +8,6 @@ public class TeleportMirrorController : InteractObject
 {
     [SerializeField] Transform exitPoint;
     private RoomController exitRoom;
-    private bool teleporting;
     [SerializeField] float dissolveVal = 1f;
 
 
@@ -64,12 +63,12 @@ public class TeleportMirrorController : InteractObject
         //Object active state checks if the player has collected the mirror object
         active = SaveDataController.instance.saveData.abilities.mirror;
 
-        if (teleporting && dissolveVal > 0)
+        if (interacting && dissolveVal > 0)
         {
             dissolveVal -= Time.deltaTime;
             dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
         }
-        else if (!teleporting && dissolveVal <= 1f)
+        else if (!interacting && dissolveVal <= 1f)
         {
             dissolveVal += Time.deltaTime;
             dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
@@ -82,9 +81,10 @@ public class TeleportMirrorController : InteractObject
     {
         if (SaveDataController.instance.saveData.abilities.mirror)
         {
-            base.Interact();
-
-            StartCoroutine(TeleportTrigger());
+            if (!interacting)
+            {
+                base.Interact();
+            }
         }
         else
         {
@@ -92,11 +92,15 @@ public class TeleportMirrorController : InteractObject
         }
     }
 
+    public override void StartInteract()
+    {
+        StartCoroutine(TeleportTrigger());
+    }
+
     IEnumerator TeleportTrigger()
     {
         //Add dissolve material to Player
         AddMaterials();
-        teleporting = true;
 
         yield return new WaitForSeconds(0.5f);
 
@@ -114,11 +118,8 @@ public class TeleportMirrorController : InteractObject
             exitRoom.gameObject.SetActive(true);
 
         FadeController.instance.StartFade(0.0f, 0.5f);
-
-        teleporting = false;
-
+        interacting = false;
         PlayerController.instance.SetState(PlayerController.States.idle);
-        //PlayerController.instance.state = PlayerController.States.idle;
     }
 
     void AddMaterials()
