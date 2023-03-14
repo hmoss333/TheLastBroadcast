@@ -210,7 +210,7 @@ public class PlayerController : CharacterController
             && PlayerController.instance.inputMaster.Player.Interact.triggered)
         {
             interactObj.Interact();
-            if (interactObj.active && !interactObj.hasActivated || interactObj.interacting)
+            if (interactObj.active && !interactObj.hasActivated && interactObj.interacting)
                 SetState(States.interacting);
             else
                 SetState(States.idle);
