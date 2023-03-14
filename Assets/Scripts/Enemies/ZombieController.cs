@@ -9,7 +9,7 @@ public class ZombieController : CharacterController
     //[Header("Zombie Interact Variables")]
     [SerializeField] private float seeDist, attackDist, loseDist, focusTime;
     private float tempFocusTime, dist;
-    private bool seePlayer, attacking, colliding;
+    private bool seePlayer, attacking;
     [SerializeField] private LayerMask layer;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
@@ -29,9 +29,7 @@ public class ZombieController : CharacterController
     {
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
-        if (PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible//.invisible
-            || dead
-            || stunned)
+        if (PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible || stunned)
         {
             seePlayer = false;
         }
@@ -65,7 +63,7 @@ public class ZombieController : CharacterController
                         if (tempFocusTime <= 0f)
                         {
                             seePlayer = false;
-                            colliding = false;
+                            //colliding = false;
                             tempFocusTime = focusTime;
                         }
                     }
@@ -108,26 +106,16 @@ public class ZombieController : CharacterController
         storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed;
         rb.velocity = transform.forward * storedSpeed;
 
-        PlayerController.instance.isSeen = seePlayer;
+        if (!dead && seePlayer)
+            PlayerController.instance.SeePlayer();
         animator.SetBool("seePlayer", seePlayer);
         animator.SetBool("isStunning", stunned);
         animator.SetBool("isAttacking", attacking);
         melee.gameObject.SetActive(isPlaying("Melee"));
-
-        if (colliding)
-            animator.SetBool("isAttacking", true);
     }
 
     public bool SeePlayer()
     {
         return seePlayer;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer != LayerMask.NameToLayer("Floor") && seePlayer)
-        {
-            colliding = true;
-        }
     }
 }

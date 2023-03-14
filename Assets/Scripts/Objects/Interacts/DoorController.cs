@@ -19,13 +19,13 @@ public class DoorController : InteractObject
 
     public override void Interact()
     {
-        if (active)
+        if (active && !interacting)
         {
-            base.Interact();
+            //base.Interact();
 
             if (SaveDataController.instance.GetSecurityCardLevel() >= securityLevel)
             {
-                StartCoroutine(DoorTrigger());
+                base.Interact();
             }
             else
             {
@@ -33,6 +33,11 @@ public class DoorController : InteractObject
                 UIController.instance.ToggleDialogueUI(interacting);
             }
         }
+    }
+
+    public override void StartInteract()
+    {
+        StartCoroutine(DoorTrigger());
     }
 
     IEnumerator DoorTrigger()
@@ -52,8 +57,8 @@ public class DoorController : InteractObject
         if (exitRoom)
             exitRoom.gameObject.SetActive(true);
 
+        interacting = false;
         FadeController.instance.StartFade(0.0f, 1f);
-
         PlayerController.instance.SetState(PlayerController.States.idle);
     }
 }
