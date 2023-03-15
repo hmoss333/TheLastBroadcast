@@ -80,17 +80,17 @@ public class CameraController : MonoBehaviour
                 || PlayerController.instance.state == PlayerController.States.radio
                 || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
-                ? camXOffset + xOff : camXOffset;// + xOff;
+                ? camXOffset : camXOffset + xOff;
             pos.y += target != PlayerController.instance.transform
                 || PlayerController.instance.state == PlayerController.States.radio
                 || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
-                ? camYOffset + yOff : camYOffset;// + yOff;
+                ? camYOffset : camYOffset + yOff;
             pos.z += target != PlayerController.instance.transform
                 || PlayerController.instance.state == PlayerController.States.radio
                 || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
-                ? camZOffset + zOff : camZOffset;// + zOff;
+                ? camZOffset : camZOffset + zOff;
         }
 
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
