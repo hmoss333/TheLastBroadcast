@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     //[SerializeField] Vector3 camRotMod;
     Quaternion baseRot;
 
-    [SerializeField] bool focus, setRot, lockCam;
+    [SerializeField] bool focus, lockCam, setRot;
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
     [SerializeField] float focusRate;
@@ -97,7 +97,6 @@ public class CameraController : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, pos, smoothTime * Time.deltaTime); //update camera position
         transform.rotation = Quaternion.Lerp(transform.rotation, focus || setRot ? target.rotation : baseRot, focusRotRate * Time.deltaTime); //update camera rotation based on focus state
-        //transform.rotation *= Quaternion.Euler(camRotMod.x, camRotMod.y, camRotMod.z); //Apply additional rotation modifyers; default 0
         if (!focus && !setRot)
             transform.LookAt(target);
 
@@ -133,6 +132,8 @@ public class CameraController : MonoBehaviour
 
 
     //Focus Get/Set
+    //Used to determine if the camera should be focused on the current target
+    //Will adjust camera view angle for better visuals
     public void FocusTarget()
     {
         focus = !focus;
@@ -145,6 +146,8 @@ public class CameraController : MonoBehaviour
 
 
     //Object Rot Get/Set
+    //Used to force target-specific rotations
+    //without forcing the camera into a focus-zoom
     public void SetRotation(bool rotState)
     {
         setRot = rotState;
@@ -157,6 +160,8 @@ public class CameraController : MonoBehaviour
 
 
     //Cam Lock Get/Set
+    //Used for locking the camera in place
+    //specifically when enabling/disabling objects
     public void SetCamLock(bool lockState)
     {
         lockCam = lockState;

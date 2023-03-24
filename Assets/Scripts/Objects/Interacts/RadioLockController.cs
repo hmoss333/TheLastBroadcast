@@ -83,15 +83,10 @@ public class RadioLockController : SaveObject
 
         CameraController.instance.SetCamLock(false);
 
-        if (CameraController.instance.GetLastTarget() != null)
+        if (CameraController.instance.GetTarget() != PlayerController.instance.transform)
         {
             CameraController.instance.LoadLastTarget();
             CameraController.instance.transform.position = CameraController.instance.GetLastTarget().position;
-        }
-        else
-        {
-            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
-            CameraController.instance.transform.position = PlayerController.instance.transform.position;
         }
 
         unlockRoutine = null;

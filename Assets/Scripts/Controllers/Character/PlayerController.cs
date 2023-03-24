@@ -127,9 +127,6 @@ public class PlayerController : CharacterController
                 && PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() > 0)
             {
                 SetState(States.radio);
-                CameraController.instance.SetLastTarget(CameraController.instance.GetTarget().gameObject);
-                CameraController.instance.SetRotation(false);
-                CameraController.instance.SetTarget(radioObj);
             }
         }
 
