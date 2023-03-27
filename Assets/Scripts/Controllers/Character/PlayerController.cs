@@ -17,7 +17,7 @@ public class PlayerController : CharacterController
     [Header("Player State Variables")]
     private bool isSeen;// { get; private set; }
     public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, hurt, dead }
-    public States state { get; private set; }
+    public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
 
@@ -55,6 +55,7 @@ public class PlayerController : CharacterController
         storedSpeed = speed;
         melee.damage = damage;
         gasMaskObj.SetActive(false);
+        animator.SetTrigger("wakeUp");
 
         base.Start();
     }
@@ -127,9 +128,6 @@ public class PlayerController : CharacterController
                 && PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() > 0)
             {
                 SetState(States.radio);
-                CameraController.instance.SetLastTarget(CameraController.instance.GetTarget().gameObject);
-                CameraController.instance.SetRotation(false);
-                CameraController.instance.SetTarget(radioObj);
             }
         }
 
@@ -261,7 +259,7 @@ public class PlayerController : CharacterController
         animator.SetBool("isMoving", state == States.moving);
         //Falling
         animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false);
-        //Standing Up
+        //Waking Up
         if (isPlaying("Wake Up")) { state = States.wakeUp; }
         //Interacting
         animator.SetBool("isInteracting", state == States.interacting);

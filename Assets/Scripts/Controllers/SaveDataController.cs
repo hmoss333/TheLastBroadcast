@@ -104,7 +104,7 @@ public class SaveDataController : MonoBehaviour
     public void SaveObjectData()
     {
         SceneObjectsContainer tempContainer = new SceneObjectsContainer();
-        tempContainer.sceneName = SaveDataController.instance.saveData.currentScene;
+        tempContainer.sceneName = SceneManager.GetActiveScene().name;//SaveDataController.instance.saveData.currentScene;
         tempContainer.savePointID = sceneObjectContainer.savePointID;
 
         ///TODO as scene sizes get larger this sort will take more time to complete

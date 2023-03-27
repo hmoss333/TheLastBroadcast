@@ -5,8 +5,19 @@ using UnityEngine;
 public class ButtonController : InteractObject
 {
     [SerializeField] SaveObject[] objectsToActivate;
+    [SerializeField] GameObject[] normalObjectsToActivate;
     [SerializeField] string triggerText;
 
+    private void Start()
+    {
+        if (hasActivated)
+        {
+            for (int j = 0; j < normalObjectsToActivate.Length; j++)
+            {
+                normalObjectsToActivate[j].SetActive(!normalObjectsToActivate[j].activeSelf);
+            }
+        }
+    }
 
     public override void Interact()
     {
@@ -37,6 +48,11 @@ public class ButtonController : InteractObject
             objectsToActivate[i].Activate();
 
             yield return new WaitForSeconds(0.5f);
+        }
+
+        for (int j = 0; j < normalObjectsToActivate.Length; j++)
+        {
+            normalObjectsToActivate[j].SetActive(!normalObjectsToActivate[j].activeSelf);
         }
 
         if (CameraController.instance.GetLastTarget() != null)

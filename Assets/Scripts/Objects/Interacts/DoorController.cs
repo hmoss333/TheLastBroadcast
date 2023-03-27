@@ -7,6 +7,7 @@ public class DoorController : InteractObject
 {
     [SerializeField] private int securityLevel;
     [SerializeField] private string lockedText = "Current security level is too low";
+    [SerializeField] private MeshRenderer lightMesh;
     [SerializeField] Transform exitPoint;
     RoomController exitRoom;
 
@@ -15,29 +16,36 @@ public class DoorController : InteractObject
     {
         if (exitPoint)
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
+
+        SetLightColor(active ? Color.green : Color.black);
+    }
+
+    public override void Activate()
+    {
+        SetLightColor(Color.green);
+
+        base.Activate();
     }
 
     public override void Interact()
     {
-        if (active && !interacting)
+        if (active)
         {
-            //base.Interact();
+            base.Interact();
 
             if (SaveDataController.instance.GetSecurityCardLevel() >= securityLevel)
             {
-                base.Interact();
+                interacting = true; //force interacting state so player cannot exit animation prematurely
+                SetLightColor(Color.green); //visually show that door can be opened
+                StartCoroutine(DoorTrigger()); //Start door opening coroutine
             }
             else
             {
+                SetLightColor(Color.red);
                 UIController.instance.SetDialogueText(lockedText);
                 UIController.instance.ToggleDialogueUI(interacting);
             }
         }
-    }
-
-    public override void StartInteract()
-    {
-        StartCoroutine(DoorTrigger());
     }
 
     IEnumerator DoorTrigger()
@@ -60,5 +68,11 @@ public class DoorController : InteractObject
         interacting = false;
         FadeController.instance.StartFade(0.0f, 1f);
         PlayerController.instance.SetState(PlayerController.States.idle);
+    }
+
+    public void SetLightColor(Color colorToSet)
+    {
+        if (lightMesh)
+            lightMesh.material.color = colorToSet;
     }
 }

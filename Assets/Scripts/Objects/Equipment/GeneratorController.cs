@@ -8,6 +8,7 @@ public class GeneratorController : InteractObject
     [NaughtyAttributes.HorizontalLine]
     [Header("Equipment References")]
     [SerializeField] private SaveObject[] objectsToActivate;
+    [SerializeField] private GameObject[] normalObjectsToActivate;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
@@ -19,6 +20,17 @@ public class GeneratorController : InteractObject
 
     private Coroutine resetColor;
 
+
+    private void Start()
+    {
+        if (hasActivated)
+        {
+            for (int j = 0; j < normalObjectsToActivate.Length; j++)
+            {
+                normalObjectsToActivate[j].SetActive(!normalObjectsToActivate[j].activeSelf);
+            }
+        }
+    }
 
     private void Update()
     {
@@ -95,6 +107,11 @@ public class GeneratorController : InteractObject
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             objectsToActivate[i].Activate();
+        }
+
+        for (int j = 0; j < normalObjectsToActivate.Length; j++)
+        {
+            normalObjectsToActivate[j].SetActive(!normalObjectsToActivate[j].activeSelf);
         }
         SetHasActivated();
 

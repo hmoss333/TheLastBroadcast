@@ -6,6 +6,7 @@ using UnityEngine.ProBuilder.Shapes;
 public class RadioLockController : SaveObject
 {
     [SerializeField] private bool interacting;
+    [SerializeField] private bool focusOnActivate;
     [SerializeField] private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
     [SerializeField] private float checkTime = 2f; //time the radio must stay within the frequency range to activate
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
@@ -13,12 +14,13 @@ public class RadioLockController : SaveObject
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private SaveObject[] objectsToActivate;
     float tempTime = 0f;
+    Coroutine unlockRoutine;
 
     void Start()
     {
         mesh.material.color = Color.red;
         checkFrequency = Random.Range(1f, 7.5f);
-        hasActivated = false;
+        //hasActivated = false;
     }
 
     void Update()
@@ -44,7 +46,8 @@ public class RadioLockController : SaveObject
                 if (tempTime >= checkTime)
                 {
                     SetHasActivated();
-                    StartCoroutine(UnlockObjects());
+                    if (unlockRoutine == null)
+                        StartCoroutine(UnlockObjects());
                 }
             }
             else if (interacting)
@@ -65,7 +68,7 @@ public class RadioLockController : SaveObject
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
-            if (objectsToActivate[i].transform.parent.gameObject.activeSelf)
+            if (focusOnActivate && objectsToActivate[i].transform.parent.gameObject.activeSelf)
             {
                 CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null
                     ? tempInteract.focusPoint : objectsToActivate[i].gameObject);
@@ -80,9 +83,12 @@ public class RadioLockController : SaveObject
 
         CameraController.instance.SetCamLock(false);
 
-        if (CameraController.instance.GetLastTarget() != null)
+        if (CameraController.instance.GetTarget() != PlayerController.instance.transform)
+        {
             CameraController.instance.LoadLastTarget();
-        else
-            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+            CameraController.instance.transform.position = CameraController.instance.GetLastTarget().position;
+        }
+
+        unlockRoutine = null;
     }
 }
