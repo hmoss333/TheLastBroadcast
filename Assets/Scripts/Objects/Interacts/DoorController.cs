@@ -7,6 +7,7 @@ public class DoorController : InteractObject
 {
     [SerializeField] private int securityLevel;
     [SerializeField] private string lockedText = "Current security level is too low";
+    [SerializeField] private MeshRenderer lightMesh;
     [SerializeField] Transform exitPoint;
     RoomController exitRoom;
 
@@ -15,14 +16,21 @@ public class DoorController : InteractObject
     {
         if (exitPoint)
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
+
+        lightMesh.material.color = active ? Color.green : Color.red;
+    }
+
+    public override void Activate()
+    {
+        lightMesh.material.color = Color.green;
+
+        base.Activate();
     }
 
     public override void Interact()
     {
         if (active && !interacting)
         {
-            //base.Interact();
-
             if (SaveDataController.instance.GetSecurityCardLevel() >= securityLevel)
             {
                 base.Interact();

@@ -2420,6 +2420,7 @@ MonoBehaviour:
   focusPoint: {fileID: 1235665917}
   securityLevel: 6
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030330059944897}
 --- !u!65 &89915966
 BoxCollider:
@@ -40957,6 +40958,10 @@ PrefabInstance:
       value: 5c118bc3-26a1-4c6a-aca0-ae2e1a4c7e36
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
+      propertyPath: active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: exitPoint
       value: 
       objectReference: {fileID: 2002116875}
@@ -50934,6 +50939,100 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1412061450486695273, guid: 11e52105a6a6d4add9d621b375cff9c2, type: 3}
   m_PrefabInstance: {fileID: 1436452175}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1437463201
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1437463202}
+  - component: {fileID: 1437463203}
+  m_Layer: 8
+  m_Name: Point Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1437463202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437463201}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2.3557892}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1443051798}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!108 &1437463203
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437463201}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 2
+  m_Shape: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 2
+  m_Range: 1
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 2
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &1439011029
 GameObject:
   m_ObjectHideFlags: 0
@@ -51200,6 +51299,104 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1495439044732132120, guid: d5d8a4f170def41c2819961fba6d8ff6, type: 3}
   m_PrefabInstance: {fileID: 1442661811}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1443051794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1443051798}
+  - component: {fileID: 1443051797}
+  - component: {fileID: 1443051795}
+  - component: {fileID: 1443051796}
+  m_Layer: 8
+  m_Name: Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &1443051795
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443051794}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1443051796
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443051794}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1443051797
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443051794}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1443051798
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443051794}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.35, z: 2.1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.125}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1437463202}
+  m_Father: {fileID: 7726571830253676874}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1443102394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63301,6 +63498,7 @@ MonoBehaviour:
   focusPoint: {fileID: 0}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 714025508}
 --- !u!114 &1838838257
 MonoBehaviour:
@@ -70854,6 +71052,10 @@ PrefabInstance:
       value: 773b9b28-cf7b-4a8c-98e0-554832dad0c3
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
+      propertyPath: active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: exitPoint
       value: 
       objectReference: {fileID: 93303257}
@@ -76925,6 +77127,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459111027891797}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030330309864555}
 --- !u!114 &4579179298709852471
 MonoBehaviour:
@@ -76945,6 +77148,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459111040971191}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030330350123019}
 --- !u!114 &4579179298759150114
 MonoBehaviour:
@@ -76965,6 +77169,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459110960179874}
   securityLevel: 1
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030329471432277}
 --- !u!114 &4579179298779569807
 MonoBehaviour:
@@ -76985,6 +77190,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459110990102031}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030330346182345}
 --- !u!114 &4579179299089157558
 MonoBehaviour:
@@ -77005,6 +77211,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459111164947766}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030330411296872}
 --- !u!114 &4579179299104960579
 MonoBehaviour:
@@ -77025,6 +77232,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459111168151747}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030331084093918}
 --- !u!114 &4579179299378708609
 MonoBehaviour:
@@ -77045,6 +77253,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459111445848065}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030331262625119}
 --- !u!114 &4579179299625042298
 MonoBehaviour:
@@ -77065,6 +77274,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459111688249850}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030330059944897}
 --- !u!114 &4579179299765525288
 MonoBehaviour:
@@ -77085,6 +77295,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459112101297064}
   securityLevel: 6
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 827813754}
 --- !u!114 &4579179299943072741
 MonoBehaviour:
@@ -77105,6 +77316,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459112005690213}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 0}
 --- !u!114 &4579179299984703008
 MonoBehaviour:
@@ -77125,6 +77337,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459112450481824}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030331002844774}
 --- !u!114 &4579179300005925090
 MonoBehaviour:
@@ -77145,6 +77358,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459112479584354}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030331084093918}
 --- !u!114 &4579179300015965314
 MonoBehaviour:
@@ -77165,6 +77379,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459112352064514}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030331132941884}
 --- !u!114 &4579179300126122795
 MonoBehaviour:
@@ -77185,6 +77400,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459112327922603}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030329854536183}
 --- !u!114 &4579179300318387900
 MonoBehaviour:
@@ -77205,6 +77421,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459112653635132}
   securityLevel: 1
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030331066311371}
 --- !u!114 &4579179300467244899
 MonoBehaviour:
@@ -77225,6 +77442,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459112538496995}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030331084093918}
 --- !u!114 &4579179300499669278
 MonoBehaviour:
@@ -77245,6 +77463,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459112977785246}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030330201869250}
 --- !u!114 &4579179300572069679
 MonoBehaviour:
@@ -77265,6 +77484,7 @@ MonoBehaviour:
   focusPoint: {fileID: 5189459112903434159}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 0}
   exitPoint: {fileID: 4900030331084093918}
 --- !u!4 &4698889692504047425
 Transform:
@@ -82233,6 +82453,7 @@ Transform:
   - {fileID: 7029012762340813588}
   - {fileID: 2469906365099948636}
   - {fileID: 714025508}
+  - {fileID: 1443051798}
   m_Father: {fileID: 389976958}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -82312,6 +82533,7 @@ MonoBehaviour:
   focusPoint: {fileID: 0}
   securityLevel: 0
   lockedText: Current security level is too low
+  lightMesh: {fileID: 1443051795}
   exitPoint: {fileID: 1108557625}
 --- !u!114 &7832029514723102398
 MonoBehaviour:
