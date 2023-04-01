@@ -137,6 +137,7 @@ public class CameraController : MonoBehaviour
     public void FocusTarget()
     {
         focus = !focus;
+        Camera.main.orthographic = focus ? false : true;
     }
 
     public bool isFocused()
