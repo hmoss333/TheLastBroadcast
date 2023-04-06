@@ -25,7 +25,7 @@ public class PlayerController : CharacterController
     [Header("Interact Variables")]
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
-    [HideInInspector] public InteractObject interactObj { get; private set; }
+    public InteractObject interactObj { get; private set; }
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Player Avatar Variables")]
@@ -55,7 +55,9 @@ public class PlayerController : CharacterController
         storedSpeed = speed;
         melee.damage = damage;
         gasMaskObj.SetActive(false);
-        //animator.SetTrigger("wakeUp");
+
+        if (state == States.wakeUp)
+            animator.SetTrigger("wakeUp");
 
         base.Start();
     }
@@ -240,11 +242,6 @@ public class PlayerController : CharacterController
         transform.rotation = Quaternion.LookRotation(newDirection);
 
 
-
-        if (isPlaying("Wake Up"))
-        {
-            SetState(States.wakeUp);
-        }
         if (isPlaying("Melee"))
         {
             SetState(States.attacking);
