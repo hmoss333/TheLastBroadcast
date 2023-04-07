@@ -9,6 +9,7 @@ public class FadeController : MonoBehaviour
 
     [SerializeField] Image objectToFade;
     [HideInInspector] public bool isFading;
+    Coroutine fadeRoutine;
 
 
     private void Awake()
@@ -22,7 +23,8 @@ public class FadeController : MonoBehaviour
     public void StartFade(float aValue, float aTime)
     {
         //print("Start fade");
-        StartCoroutine(FadeTo(aValue, aTime));
+        if (fadeRoutine == null)
+            fadeRoutine = StartCoroutine(FadeTo(aValue, aTime));
     }
 
     IEnumerator FadeTo(float aValue, float aTime)
@@ -38,5 +40,7 @@ public class FadeController : MonoBehaviour
         }
 
         isFading = false;
+
+        fadeRoutine = null;
     }
 }
