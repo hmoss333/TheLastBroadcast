@@ -18,7 +18,7 @@ public class DialogueTriggerZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && !dialogueObj.hasActivated)
         {
             PlayerController.instance.SetState(PlayerController.States.listening);
             dialogueObj.Interact();

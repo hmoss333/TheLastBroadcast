@@ -12,6 +12,7 @@ public class DialogueController : InteractObject
     [SerializeField] private int index;
     private bool canInteract;
 
+
     private void Update()
     {
         if (interacting)
