@@ -76,18 +76,21 @@ public class CameraController : MonoBehaviour
         Vector3 pos = target.transform.position;
         if (!focus)
         {
-            pos.x += target != PlayerController.instance.transform
-                || PlayerController.instance.state == PlayerController.States.radio
+            pos.x +=
+                //target != PlayerController.instance.transform
+                PlayerController.instance.state == PlayerController.States.radio
                 || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
                 ? camXOffset : camXOffset + xOff;
-            pos.y += target != PlayerController.instance.transform
-                || PlayerController.instance.state == PlayerController.States.radio
+            pos.y +=
+                //target != PlayerController.instance.transform
+                PlayerController.instance.state == PlayerController.States.radio
                 || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
                 ? camYOffset : camYOffset + yOff;
-            pos.z += target != PlayerController.instance.transform
-                || PlayerController.instance.state == PlayerController.States.radio
+            pos.z +=
+                //target != PlayerController.instance.transform
+                PlayerController.instance.state == PlayerController.States.radio
                 || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
                 ? camZOffset : camZOffset + zOff;

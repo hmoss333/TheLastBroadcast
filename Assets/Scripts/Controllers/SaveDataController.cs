@@ -192,16 +192,31 @@ public class SaveDataController : MonoBehaviour
 
 
     //Update Save Point Data
+    public void SetSavePoint(string sceneName)
+    {
+        saveData.currentScene = sceneName;
+
+        //Update currentScene value in save file
+        string saveJson = JsonUtility.ToJson(saveData);
+        print("Updating current scene");
+        File.WriteAllText(saveDestination, saveJson);
+    }
+
     public void SetSavePoint(string sceneName, int ID)
     {
         saveData.currentScene = sceneName;
         sceneObjectContainer.savePointID = ID;
 
-        //SaveFile();
+        //Update savePoint ID in level file
         string tempPath = $"{levelDestination}{separator}{sceneName}.json";
         string jsonData = JsonUtility.ToJson(sceneObjectContainer);
         print("Updating Save Point:" + jsonData);
         File.WriteAllText(tempPath, jsonData);
+
+        //Update currentScene value in save file
+        string saveJson = JsonUtility.ToJson(saveData);
+        print("Updating current scene");
+        File.WriteAllText(saveDestination, saveJson);
     }
 
 

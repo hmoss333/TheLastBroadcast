@@ -88,7 +88,7 @@ public class SceneInitController : MonoBehaviour
             }
         }
 
-        if (CameraController.instance != null)
+        if (CameraController.instance != null && CameraController.instance.GetTarget() == null)
         {
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
             if (CameraController.instance.GetLastTarget() == null)

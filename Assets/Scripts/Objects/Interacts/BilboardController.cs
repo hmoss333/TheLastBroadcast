@@ -4,10 +4,22 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class BilboardController : InteractObject
+public class BilboardController : MonoBehaviour
 {
     public static BilboardController instance;
 
+    [Header("Radio Values")]
+    [SerializeField] TMP_Text radioText;
+    [SerializeField] GameObject radioDial;
+
+    [Header("Scene Buttons")]
+    [SerializeField] GameObject site1Button;
+    [SerializeField] GameObject site2Button;
+    [SerializeField] GameObject site3Button;
+    [SerializeField] GameObject site4Button;
+    [SerializeField] GameObject site5Button;
+
+    Coroutine ls;
 
     private void Awake()
     {
@@ -17,12 +29,23 @@ public class BilboardController : InteractObject
             Destroy(this.gameObject);
     }
 
-    public override void Interact()
+    public void LoadScene(string sceneToLoad)
     {
-        base.Interact();
+        if (ls == null)
+            ls = StartCoroutine(LoadSceneRoutine(sceneToLoad));
+    }
 
-        PlayerController.instance.ToggleAvatar();
-        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
-        CameraController.instance.FocusTarget();
+    IEnumerator LoadSceneRoutine(string sceneToLoad)
+    {
+        print($"Loading scene {sceneToLoad}");
+        SaveDataController.instance.SetSavePoint(sceneToLoad);
+        FadeController.instance.StartFade(1f, 1f);
+
+        while (FadeController.instance.isFading)
+            yield return null;
+
+        SceneManager.LoadSceneAsync(sceneToLoad);
+
+        ls = null;
     }
 }
