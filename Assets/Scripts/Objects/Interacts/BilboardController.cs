@@ -26,7 +26,12 @@ public class BilboardController : MonoBehaviour
         if (instance == null)
             instance = this;
         else
-            Destroy(this.gameObject);
+            Destroy(this);
+    }
+
+    private void Start()
+    {
+        FadeController.instance.StartFade(0f, 1f); //TODO move this to a scene controller, if possible
     }
 
     public void LoadScene(string sceneToLoad)
