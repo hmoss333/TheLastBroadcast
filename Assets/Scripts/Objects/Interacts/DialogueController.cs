@@ -13,6 +13,7 @@ public class DialogueController : InteractObject
     private bool canInteract;
 
 
+
     private void Update()
     {
         if (interacting)
@@ -46,6 +47,8 @@ public class DialogueController : InteractObject
                     SetHasActivated(); //Dialogue event has completed
                 else
                     index = -1; //Reset dialogue
+                CameraController.instance.SetLastTarget(PlayerController.instance.gameObject); //Once out of the trigger, set the player to the last camera target
+                CameraController.instance.SetTarget(PlayerController.instance.gameObject); //Set the camera to focus on the player
                 PlayerController.instance.SetState(PlayerController.States.idle);
             }
 

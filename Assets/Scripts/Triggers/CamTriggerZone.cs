@@ -8,9 +8,9 @@ public class CamTriggerZone : MonoBehaviour
     [SerializeField] GameObject camPos;
 
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && PlayerController.instance.state != PlayerController.States.radio)
+        if (other.tag == "Player")// && PlayerController.instance.state != PlayerController.States.radio)
         {
             CameraController.instance.SetLastTarget(camPos); //Set the lat target to the camPos in case of reset
             CameraController.instance.SetTarget(camPos); //Set the new camera target to the camPos

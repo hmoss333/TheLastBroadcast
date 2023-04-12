@@ -18,13 +18,13 @@ public class CameraController : MonoBehaviour
     [SerializeField] float zOff;
     [SerializeField] float zOffMin, zOffMax;
     float xTemp;
-    //[SerializeField] Vector3 camRotMod;
     Quaternion baseRot;
 
     [SerializeField] bool focus, lockCam, setRot;
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
     [SerializeField] float focusRate;
+    [SerializeField] float rotRate;
     [SerializeField] float focusRotRate;
 
 
@@ -99,9 +99,13 @@ public class CameraController : MonoBehaviour
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
 
         transform.position = Vector3.Lerp(transform.position, pos, smoothTime * Time.deltaTime); //update camera position
-        transform.rotation = Quaternion.Lerp(transform.rotation, focus || setRot ? target.rotation : baseRot, focusRotRate * Time.deltaTime); //update camera rotation based on focus state
-        if (!focus && !setRot)
-            transform.LookAt(target);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, focus || setRot ? target.rotation : baseRot, focusRotRate * Time.deltaTime); //update camera rotation based on focus state
+        //if (!focus && !setRot && transform.position.z < target.transform.position.z + camZOffset + zOff)
+
+
+        Vector3 dir = target.position - transform.position;
+        Quaternion rot = Quaternion.LookRotation(dir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, focus || setRot ? target.rotation : rot, focus || setRot ? focusRotRate : rotRate * Time.deltaTime);
 
         Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, focus ? 60f : 20f, focusRate * Time.deltaTime); //update camera field of view based on focus state
     }
