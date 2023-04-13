@@ -13,7 +13,7 @@ public class RadioLockController : SaveObject
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private GameObject[] objectsToActivate;
-    //[SerializeField] private GameObject[] normalObjectsToActivate;
+
     float tempTime = 0f;
     Coroutine unlockRoutine;
 
@@ -21,7 +21,7 @@ public class RadioLockController : SaveObject
     {
         mesh.material.color = Color.red;
         checkFrequency = Random.Range(1f, 7.5f);
-        //hasActivated = false;
+        hasActivated = false;
     }
 
     void Update()
