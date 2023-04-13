@@ -27,6 +27,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] float rotRate;
     [SerializeField] float focusRotRate;
 
+    Coroutine resetRot;
+
 
     private void Awake()
     {
@@ -99,10 +101,6 @@ public class CameraController : MonoBehaviour
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
 
         transform.position = Vector3.Lerp(transform.position, pos, smoothTime * Time.deltaTime); //update camera position
-        //transform.rotation = Quaternion.Lerp(transform.rotation, focus || setRot ? target.rotation : baseRot, focusRotRate * Time.deltaTime); //update camera rotation based on focus state
-        //if (!focus && !setRot && transform.position.z < target.transform.position.z + camZOffset + zOff)
-
-
         Vector3 dir = target.position - transform.position;
         Quaternion rot = Quaternion.LookRotation(dir);
         transform.rotation = Quaternion.Slerp(transform.rotation, focus || setRot ? target.rotation : rot, focus || setRot ? focusRotRate : rotRate * Time.deltaTime);
@@ -164,6 +162,20 @@ public class CameraController : MonoBehaviour
     public bool GetRotState()
     {
         return setRot;
+    }
+
+    public void DelayResetRotState(float resetTime)
+    {
+        if (resetRot == null)
+            resetRot = StartCoroutine(DelayResetRotRoutine(resetTime));
+    }
+
+    IEnumerator DelayResetRotRoutine(float resetTime)
+    {
+        yield return new WaitForSeconds(resetTime);
+
+        setRot = false;
+        resetRot = null;
     }
 
 

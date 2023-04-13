@@ -12,7 +12,8 @@ public class RadioLockController : SaveObject
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private MeshRenderer mesh;
-    [SerializeField] private SaveObject[] objectsToActivate;
+    [SerializeField] private GameObject[] objectsToActivate;
+    //[SerializeField] private GameObject[] normalObjectsToActivate;
     float tempTime = 0f;
     Coroutine unlockRoutine;
 
@@ -76,7 +77,11 @@ public class RadioLockController : SaveObject
                     ? tempInteract.focusPoint.transform.position : objectsToActivate[i].gameObject.transform.position;
             }
 
-            objectsToActivate[i].Activate();
+            //objectsToActivate[i].Activate();
+            if (tempInteract != null)
+                tempInteract.Activate();
+            else
+                objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
 
             yield return new WaitForSeconds(2f);
         }
