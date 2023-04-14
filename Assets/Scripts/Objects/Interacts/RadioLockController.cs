@@ -21,7 +21,17 @@ public class RadioLockController : SaveObject
     {
         mesh.material.color = Color.red;
         checkFrequency = Random.Range(1f, 7.5f);
-        hasActivated = false;
+        
+        //This is gross; need to refactor the activation logic
+        if (hasActivated)
+        {
+            for (int i = 0; i < objectsToActivate.Length; i++)
+            {
+                SaveObject tempSaveObj = objectsToActivate[i].GetComponent<InteractObject>();
+                if (tempSaveObj == null)
+                    objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
+            }
+        }
     }
 
     void Update()
