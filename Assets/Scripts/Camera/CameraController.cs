@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] float focusSmoothTime;
     [SerializeField] float normalSmoothTime;
     private float camXOffset;
-    [SerializeField] private float camYOffset;
+    private float camYOffset;
     private float camZOffset;
     [SerializeField] float xOff;
     [SerializeField] float yOff;
@@ -54,7 +54,7 @@ public class CameraController : MonoBehaviour
     {
         //Shift xOff based on left/right movement
         if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x < 0)
-            xOff = -xTemp;
+            xOff = -xTemp * 3f; //needed to make sure left offset positions similarly to right offset
         else if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x > 0)
             xOff = xTemp;
 
@@ -79,19 +79,16 @@ public class CameraController : MonoBehaviour
         if (!focus)
         {
             pos.x +=
-                //target != PlayerController.instance.transform
                 PlayerController.instance.state == PlayerController.States.radio
                 || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
                 ? camXOffset : camXOffset + xOff;
             pos.y +=
-                //target != PlayerController.instance.transform
                 PlayerController.instance.state == PlayerController.States.radio
                 || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
                 ? camYOffset : camYOffset + yOff;
             pos.z +=
-                //target != PlayerController.instance.transform
                 PlayerController.instance.state == PlayerController.States.radio
                 || PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.interacting
@@ -100,18 +97,15 @@ public class CameraController : MonoBehaviour
 
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
 
+        //Force camera to be centered behind target uniformly
         Vector3 dir = target.position - transform.position;
         Quaternion rot = Quaternion.LookRotation(dir);
-        transform.rotation = Quaternion.Slerp(transform.rotation, focus || setRot ? target.rotation : rot, focus || setRot ? focusRotRate : rotRate * Time.deltaTime); //Update camera rotation
-        transform.position = Vector3.Lerp(transform.position, pos, smoothTime * Time.deltaTime); //Update camera position
+        Vector3 eulerRot = rot.eulerAngles; //modify the euler values for the camera rotation directly
+        eulerRot = new Vector3(eulerRot.x, Mathf.Clamp(eulerRot.y, -4, 4) + xOff, 0); //clamp y rotation and force z = 0
+        rot = Quaternion.Euler(eulerRot);
 
-        //Force camera to be centered behind target uniformly
-        if (!focus && !setRot)
-        {
-            Vector3 eulerAngles = transform.rotation.eulerAngles;
-            eulerAngles = new Vector3(eulerAngles.x, 0, 0);
-            transform.rotation = Quaternion.Euler(eulerAngles);
-        }
+        transform.rotation = Quaternion.Slerp(transform.rotation, setRot ? target.rotation : rot, setRot ? focusRotRate : rotRate * Time.deltaTime); //Update camera rotation
+        transform.position = Vector3.Lerp(transform.position, pos, smoothTime * Time.deltaTime); //Update camera position
 
         Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, focus ? 60f : 20f, focusRate * Time.deltaTime); //update camera field of view based on focus state
     }
@@ -150,7 +144,7 @@ public class CameraController : MonoBehaviour
     public void FocusTarget()
     {
         focus = !focus;
-        Camera.main.orthographic = focus ? false : true;
+        SetRotation(focus);
     }
 
     public bool isFocused()
@@ -170,20 +164,6 @@ public class CameraController : MonoBehaviour
     public bool GetRotState()
     {
         return setRot;
-    }
-
-    public void DelayResetRotState(float resetTime)
-    {
-        if (resetRot == null)
-            resetRot = StartCoroutine(DelayResetRotRoutine(resetTime));
-    }
-
-    IEnumerator DelayResetRotRoutine(float resetTime)
-    {
-        yield return new WaitForSeconds(resetTime);
-
-        setRot = false;
-        resetRot = null;
     }
 
 
