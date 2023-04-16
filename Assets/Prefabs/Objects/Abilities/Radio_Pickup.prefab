@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6354889270040295651}
   - component: {fileID: 8747523613895472370}
   - component: {fileID: 8917837546342689582}
+  - component: {fileID: 3275495324297054714}
   m_Layer: 8
   m_Name: Radio_Pickup
   m_TagString: Untagged
@@ -59,14 +60,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f0730b65cad49da8fc98252aa72a26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: de40a88a-448b-41ba-b62a-44d1fa3c534a
   active: 1
   hasActivated: 0
   interacting: 0
+  focusPoint: {fileID: 0}
   collectType: 0
-  abilityText: Strange signals can be heard coming from the static. This special
-    radio can be used to tune devices around this strange facility. Hold {Shift Left}
-    to activate
+  abilityText: This heavily modified radio can tune into strange stations. It can
+    be used to interact with certain locks.
   abilityIcon: {fileID: 21300000, guid: 5d804e56fd5af494fad54aa53ccd4442, type: 3}
+--- !u!114 &3275495324297054714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6354889270040650947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id:
+    Value: 
 --- !u!1001 &5706086154752054086
 PrefabInstance:
   m_ObjectHideFlags: 0
