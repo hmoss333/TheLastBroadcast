@@ -54,7 +54,7 @@ public class CameraController : MonoBehaviour
     {
         //Shift xOff based on left/right movement
         if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x < 0)
-            xOff = -xTemp * 3f; //needed to make sure left offset positions similarly to right offset
+            xOff = -xTemp * 5f; //needed to make sure left offset positions similarly to right offset
         else if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x > 0)
             xOff = xTemp;
 
@@ -101,7 +101,7 @@ public class CameraController : MonoBehaviour
         Vector3 dir = target.position - transform.position;
         Quaternion rot = Quaternion.LookRotation(dir);
         Vector3 eulerRot = rot.eulerAngles; //modify the euler values for the camera rotation directly
-        eulerRot = new Vector3(Mathf.Clamp(eulerRot.x, -20, 20), Mathf.Clamp(eulerRot.y, -4, 4), 0); //clamp y rotation and force z = 0
+        eulerRot = new Vector3(Mathf.Clamp(eulerRot.x, -20, 20) + yOff, Mathf.Clamp(eulerRot.y, -4, 4) + xOff, 0); //clamp y rotation and force z = 0
         rot = Quaternion.Euler(eulerRot);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, setRot ? target.rotation : rot, setRot ? focusRotRate : rotRate * Time.deltaTime); //Update camera rotation

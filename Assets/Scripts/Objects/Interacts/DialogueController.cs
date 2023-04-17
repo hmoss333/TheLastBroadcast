@@ -7,11 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class DialogueController : InteractObject
 {
-    //[SerializeField] float camResetTime;
     [SerializeField] bool talkOnce;
     [SerializeField] private string[] lines;
     [SerializeField] private int index;
-    private bool canInteract;
+    [SerializeField] private bool canInteract;
 
 
 
@@ -50,8 +49,8 @@ public class DialogueController : InteractObject
                     index = -1; //Reset dialogue
                 CameraController.instance.SetLastTarget(PlayerController.instance.gameObject); //Once out of the trigger, set the player to the last camera target
                 CameraController.instance.SetTarget(PlayerController.instance.gameObject); //Set the camera to focus on the player
-                CameraController.instance.SetRotation(false);//.DelayResetRotState(camResetTime);
-                PlayerController.instance.SetState(PlayerController.States.idle);
+                CameraController.instance.SetRotation(false); //Disable forced rotation
+                PlayerController.instance.SetState(PlayerController.States.idle); //Allow player to move freely
             }
 
             UIController.instance.ToggleDialogueUI(interacting);
@@ -62,6 +61,5 @@ public class DialogueController : InteractObject
     public override void Activate()
     {
         active = true;
-        index = 0;
     }
 }

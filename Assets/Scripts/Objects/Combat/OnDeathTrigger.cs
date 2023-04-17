@@ -5,9 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class OnDeathTrigger : MonoBehaviour
 {
+    [SerializeField] private bool triggered, focusOnActivate;
     [SerializeField] private GameObject[] objectsToActivate;
     Health objHealth;
-    [SerializeField] private bool focusOnActivate;
     Coroutine triggerObjs;
 
     private void Start()
@@ -17,7 +17,7 @@ public class OnDeathTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (objHealth.CurrentHealth() <= 0 && triggerObjs == null)
+        if (objHealth.CurrentHealth() <= 0 && !triggered)
         {
             TriggerObjects();
         }
@@ -25,6 +25,8 @@ public class OnDeathTrigger : MonoBehaviour
 
     void TriggerObjects()
     {
+        triggered = true;
+
         if (triggerObjs == null)
             StartCoroutine(TriggerObjectsRoutine());
     }

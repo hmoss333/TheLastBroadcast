@@ -69,6 +69,7 @@ public class SceneInitController : MonoBehaviour
     public void InitializeGame()
     {
         currentScene = SceneManager.GetActiveScene().name;
+        SaveDataController.instance.SetSavePoint(currentScene);
         SaveDataController.instance.LoadObjectData(currentScene);
         currentScenario = SaveDataController.instance.sceneObjectContainer;
 
