@@ -87,13 +87,13 @@ public class RadioLockController : SaveObject
                     ? tempInteract.focusPoint.transform.position : objectsToActivate[i].gameObject.transform.position;
             }
 
-            //objectsToActivate[i].Activate();
             if (tempInteract != null)
                 tempInteract.Activate();
             else
                 objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
 
-            yield return new WaitForSeconds(2f);
+            if (focusOnActivate)
+                yield return new WaitForSeconds(2f);
         }
 
         CameraController.instance.SetCamLock(false);

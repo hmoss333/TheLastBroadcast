@@ -64,5 +64,6 @@ public class OnDeathTrigger : MonoBehaviour
 
         triggerObjs = null;
         this.enabled = false;
+        //this.gameObject.SetActive(false);
     }
 }
