@@ -37,9 +37,16 @@ public class InvisAbility : RadioAbilityController
     {
         if (instance == null)
             instance = this;
-        //else
-        //    Destroy(this.gameObject);
+        else
+            Destroy(this);
+    }
 
+    override public void Start()
+    {
+        base.Start();
+
+        oldLayer = LayerMask.NameToLayer("Player");
+        checkFrequency = abilityData.frequency;
 
         // Cache renderers
         renderers = GetComponentsInChildren<Renderer>();
@@ -65,14 +72,6 @@ public class InvisAbility : RadioAbilityController
                 meshFilter.mesh.SetTriangles(meshFilter.mesh.triangles, meshFilter.mesh.subMeshCount - 1);
             }
         }
-    }
-
-    override public void Start()
-    {
-        base.Start();
-
-        oldLayer = LayerMask.NameToLayer("Player");
-        checkFrequency = abilityData.frequency;
     }
 
     private void Update()
