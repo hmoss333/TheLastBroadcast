@@ -37,8 +37,8 @@ public class InvisAbility : RadioAbilityController
     {
         if (instance == null)
             instance = this;
-        //else
-        //    Destroy(this.gameObject);
+        else
+            Destroy(this);
 
 
         // Cache renderers

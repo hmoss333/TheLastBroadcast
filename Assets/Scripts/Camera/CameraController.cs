@@ -10,14 +10,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] float smoothTime;
     [SerializeField] float focusSmoothTime;
     [SerializeField] float normalSmoothTime;
-    private float camXOffset;
-    private float camYOffset;
-    private float camZOffset;
-    [SerializeField] float xOff;
-    [SerializeField] float yOff;
-    [SerializeField] float zOff;
+    Vector3 camOffset;
+    [SerializeField] Vector3 offset;
     [SerializeField] float zOffMin, zOffMax;
-    float xTemp;
+    private float xTemp;
     Quaternion baseRot;
 
     [SerializeField] bool focus, lockCam, setRot;
@@ -35,74 +31,72 @@ public class CameraController : MonoBehaviour
         if (instance == null)
             instance = this;
         else
-            Destroy(this.gameObject);
+            Destroy(this);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Vector3 cameraPos = Camera.main.transform.position;
-        camXOffset = cameraPos.x;
-        camYOffset = cameraPos.y;
-        camZOffset = cameraPos.z;
+        Vector3 cameraPos = transform.position - target.position; //Camera.main.transform.position;
+        transform.position = cameraPos;
+        camOffset = cameraPos;
 
         baseRot = transform.rotation;
-        xTemp = xOff;
+        xTemp = offset.x;
     }
 
     private void Update()
     {
         //Shift xOff based on left/right movement
         if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x < 0)
-            xOff = -xTemp;
+            offset.x = -xTemp;
         else if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x > 0)
-            xOff = xTemp;
+            offset.x = xTemp;
 
         //Manualy shift xOff with button press
         if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)
         {
-            xOff = xOff * -1f;
+            offset.x = offset.x * -1f;
         }
 
         //Shift zOff based on forward/backwards movement
         if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y < 0)
-            zOff = zOffMin;
+            offset.z = zOffMin;
         else if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y > 0)
-            zOff = zOffMax;
+            offset.z = zOffMax;
     }
 
     //Late Update should always be used for camera follow logic
     //This calculates after all other update logic to ensure that it uses the most accurate position values
     void LateUpdate()
     {
-        Vector3 pos = target.transform.position;
-        if (!focus)
-        {
-            pos.x += 
-                PlayerController.instance.state == PlayerController.States.radio
-                || PlayerController.instance.IsSeen()
-                || PlayerController.instance.state == PlayerController.States.interacting
-                ? camXOffset : camXOffset + xOff;
-            pos.y +=
-                PlayerController.instance.state == PlayerController.States.radio
-                || PlayerController.instance.IsSeen()
-                || PlayerController.instance.state == PlayerController.States.interacting
-                ? camYOffset : camYOffset + yOff;
-            pos.z +=
-                PlayerController.instance.state == PlayerController.States.radio
-                || PlayerController.instance.IsSeen()
-                || PlayerController.instance.state == PlayerController.States.interacting
-                ? camZOffset : camZOffset + zOff;
-        }
-
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
+
+        Vector3 pos = target.position;
+        if (!focus && !setRot)
+        {
+            pos.x +=
+                PlayerController.instance.state == PlayerController.States.radio
+                || PlayerController.instance.IsSeen()
+                || PlayerController.instance.state == PlayerController.States.interacting
+                ? camOffset.x : camOffset.x + offset.x;
+            pos.y += 
+                PlayerController.instance.state == PlayerController.States.radio
+                || PlayerController.instance.IsSeen()
+                || PlayerController.instance.state == PlayerController.States.interacting
+                ? camOffset.y : camOffset.y + offset.y;
+            pos.z += 
+                PlayerController.instance.state == PlayerController.States.radio
+                || PlayerController.instance.IsSeen()
+                || PlayerController.instance.state == PlayerController.States.interacting
+                ? camOffset.z : camOffset.z + offset.z;
+        }
 
         //Force camera to be centered behind target uniformly
         Vector3 dir = target.position - transform.position;
         Quaternion rot = Quaternion.LookRotation(dir);
         Vector3 eulerRot = rot.eulerAngles; //modify the euler values for the camera rotation directly
-        print(eulerRot);
-        eulerRot = new Vector3(Mathf.Clamp(eulerRot.x, -20f, 20f), xOff < 0 ? -4 : 4, 0); //clamp rotation values
+        eulerRot = new Vector3(Mathf.Clamp(eulerRot.x, -15f, 15f), offset.x < 0 ? -4 : 4, 0); //clamp rotation values
         rot = Quaternion.Euler(eulerRot);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, setRot ? target.rotation : rot, setRot ? focusRotRate : rotRate * Time.deltaTime); //Update camera rotation
