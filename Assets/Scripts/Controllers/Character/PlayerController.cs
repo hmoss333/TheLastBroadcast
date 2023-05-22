@@ -19,7 +19,7 @@ public class PlayerController : CharacterController
     public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, hurt, dead }
     public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
-    public AbilityStates abilityState { get; private set; }
+    public AbilityStates abilityState;// { get; private set; }
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
@@ -181,7 +181,7 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.radio:
-                if (PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() <= 0
+                if (inputMaster.Player.Radio.ReadValue<float>() <= 0
                     && !CameraController.instance.GetCamLockState()
                     && abilityState != AbilityStates.isRat || abilityState == AbilityStates.invisible)
                 {

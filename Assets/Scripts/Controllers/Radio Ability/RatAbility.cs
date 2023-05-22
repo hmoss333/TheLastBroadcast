@@ -9,7 +9,7 @@ public class RatAbility : RadioAbilityController
     [SerializeField] GameObject ratPrefab;
     private GameObject ratObj;
 
-    private bool isRat;
+    [SerializeField] private bool isRat;
     [SerializeField] private float checkFrequency;
     private float checkOffset = 0.5f;
     [SerializeField] float checkTime;
@@ -21,8 +21,8 @@ public class RatAbility : RadioAbilityController
     {
         if (instance == null)
             instance = this;
-        //else
-        //    Destroy(this.gameObject);
+        else
+            Destroy(this);
     }
 
     override public void Start()
@@ -73,12 +73,14 @@ public class RatAbility : RadioAbilityController
         if (Input.GetButtonDown("RadioSpecial") && isRat)
         {
             print("End rat ability");
+            PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.none);
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
             Destroy(ratObj);
             PlayerController.instance.SetState(PlayerController.States.idle);
             isRat = false;
         }
 
-        PlayerController.instance.SetAbilityState(isRat ? PlayerController.AbilityStates.isRat : PlayerController.AbilityStates.none);
+        if (isRat)
+            PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.isRat);
     }
 }

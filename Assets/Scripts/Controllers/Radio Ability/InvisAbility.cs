@@ -113,6 +113,7 @@ public class InvisAbility : RadioAbilityController
             tempInvisTime += Time.deltaTime;
             if (tempInvisTime > invisTime)
             {
+                PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.none);
                 RemoveMaterials();
                 tempInvisTime = 0;
                 isInvis = false;
@@ -122,7 +123,8 @@ public class InvisAbility : RadioAbilityController
         }
 
         //Toggle player interaction state based on invisibility status
-        PlayerController.instance.SetAbilityState(isInvis ? PlayerController.AbilityStates.invisible : PlayerController.AbilityStates.none);
+        if (isInvis)
+            PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.invisible);
     }
 
     void AddMaterials()

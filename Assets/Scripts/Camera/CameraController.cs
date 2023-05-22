@@ -32,11 +32,8 @@ public class CameraController : MonoBehaviour
             instance = this;
         else
             Destroy(this);
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
+        //Run in awake for consistent behavior 
         Vector3 cameraPos = transform.position - target.position; //Camera.main.transform.position;
         transform.position = cameraPos;
         camOffset = cameraPos;
