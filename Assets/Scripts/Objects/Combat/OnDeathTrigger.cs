@@ -19,14 +19,13 @@ public class OnDeathTrigger : MonoBehaviour
     {
         if (objHealth.CurrentHealth() <= 0 && !triggered)
         {
+            triggered = true;
             TriggerObjects();
         }
     }
 
     void TriggerObjects()
     {
-        triggered = true;
-
         if (triggerObjs == null)
             StartCoroutine(TriggerObjectsRoutine());
     }
