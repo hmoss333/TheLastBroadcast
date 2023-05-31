@@ -6,14 +6,15 @@ public class FlashlightController : MonoBehaviour
 {
     public static FlashlightController instance;
 
-    public bool isOn;// { get; private set; }
+    public bool isOn, isCharging;// { get; private set; }
     [SerializeField] Light lightSource;
     [SerializeField] GameObject flashlightObj;
     [SerializeField] private LayerMask layer;
     [SerializeField] float checkDist;
     [Range(0, 10f)]
     [SerializeField] float flashlightTime;
-    [SerializeField] float flickerVal, offVal;
+    float flashLightTimeMax;
+    [SerializeField] float flickerVal, rechargeRate;//, offVal;
     Coroutine flickerRoutine;
 
 
@@ -37,7 +38,7 @@ public class FlashlightController : MonoBehaviour
             && (PlayerController.instance.state == PlayerController.States.idle || PlayerController.instance.state == PlayerController.States.moving)
             && PlayerController.instance.abilityState == PlayerController.AbilityStates.none)
         {
-            isOn = PlayerController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0 && flashlightTime > offVal
+            isOn = PlayerController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0 && flashlightTime > 0f && !isCharging
                 ? true
                 : false;
 
@@ -56,45 +57,46 @@ public class FlashlightController : MonoBehaviour
                     tempEnemy.StunCharacter();
                 }
 
-                flashlightTime -= Time.deltaTime;
+                flashlightTime -= 0.65f * Time.deltaTime;
                 if (flashlightTime <= flickerVal)
                 {
                     //Start randomly flickering flashlight
                     if (flickerRoutine == null)
                         flickerRoutine = StartCoroutine(FlickerLight());
                 }
-                if (flashlightTime <= offVal)
+
+                if (flashlightTime <= 0f)
                 {
+                    isCharging = true;
                     isOn = false;
                 }
             }
             else
             {
-                flashlightTime += Time.deltaTime / 2f;
+                flashlightTime += rechargeRate * Time.deltaTime;
+
                 if (flashlightTime > 10f)
-                    flashlightTime = 10f; //need to rewrite this to not use hard-coded values
+                {
+                    flashlightTime = 10f;
+                    isCharging = false;
+                }
             }
         }
 
-        lightSource.enabled = isOn;
+        lightSource.enabled = isOn && flashlightTime >= flickerVal;
         flashlightObj.SetActive(isOn);
         PlayerController.instance.animator.SetBool("flashlight", isOn);
     }
 
     IEnumerator FlickerLight()
     {
-        print("Start flickering");
-
-        while (isOn)
+        while (flashlightTime < flickerVal && isOn)
         {
-            print($"Light is {lightSource.gameObject.activeSelf}");
             lightSource.enabled = !lightSource.enabled;
-            float randVal = Random.Range(0, 0.5f);
-
+            float randVal = Random.Range(0f, 0.4f);
             yield return new WaitForSeconds(randVal);
         }
 
         flickerRoutine = null;
-        print("End flickering");
     }
 }

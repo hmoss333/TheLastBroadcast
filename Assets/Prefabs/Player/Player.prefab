@@ -825,12 +825,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981863c26f9cf4f1ea83e54ad7c70233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOn: 0
+  isCharging: 0
   lightSource: {fileID: 2559986687152422599}
   flashlightObj: {fileID: 2814638627080219208}
-  checkDist: 10
   layer:
     serializedVersion: 2
     m_Bits: 8192
+  checkDist: 10
+  flashlightTime: 10
+  flickerVal: 3.5
+  rechargeRate: 2
 --- !u!1 &2620357245112452162
 GameObject:
   m_ObjectHideFlags: 0
@@ -2391,7 +2396,7 @@ MonoBehaviour:
   col: {fileID: 0}
   animator: {fileID: 199947665006198363}
   rotSpeed: 15
-  state: 0
+  state: 1
   abilityState: 0
   layer:
     serializedVersion: 2
