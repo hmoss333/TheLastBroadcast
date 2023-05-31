@@ -19,10 +19,11 @@ public class PlayerController : CharacterController
     public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, hurt, dead }
     public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
-    public AbilityStates abilityState;// { get; private set; }
+    public AbilityStates abilityState { get; private set; }
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
+    [SerializeField] private GameObject interactIcon;
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
     public InteractObject interactObj { get; private set; }
@@ -94,10 +95,15 @@ public class PlayerController : CharacterController
 
         if (interactObj != null
             && interactObj.active
-            && !interactObj.hasActivated
-            && !interactObj.GetComponent<Outline>())
+            && !interactObj.hasActivated)
+            //&& !interactObj.GetComponent<Outline>())
         {
-            interactObj.gameObject.AddComponent<Outline>();
+            //interactObj.gameObject.AddComponent<Outline>();
+            interactIcon.SetActive(true);
+        }
+        else
+        {
+            interactIcon.SetActive(false);
         }
 
 
