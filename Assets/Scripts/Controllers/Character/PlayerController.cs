@@ -96,9 +96,7 @@ public class PlayerController : CharacterController
         if (interactObj != null
             && interactObj.active
             && !interactObj.hasActivated)
-            //&& !interactObj.GetComponent<Outline>())
         {
-            //interactObj.gameObject.AddComponent<Outline>();
             interactIcon.SetActive(true);
         }
         else
@@ -156,6 +154,9 @@ public class PlayerController : CharacterController
                 {
                     SetState(States.moving);
                 }
+                break;
+            case States.interacting:
+                interactIcon.SetActive(false); //hide interact icon while interacting
                 break;
             case States.moving:
                 speed = storedSpeed;
