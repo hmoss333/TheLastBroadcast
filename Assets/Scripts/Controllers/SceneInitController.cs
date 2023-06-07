@@ -73,6 +73,8 @@ public class SceneInitController : MonoBehaviour
         SaveDataController.instance.LoadObjectData(currentScene);
         currentScenario = SaveDataController.instance.sceneObjectContainer;
 
+        Resources.UnloadUnusedAssets();
+
         GetAllSavePoints();
         HideAllRooms();
 
