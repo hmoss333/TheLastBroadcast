@@ -20,7 +20,12 @@ public class InteractIcon_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, Mathf.PingPong(Time.time, fadeTime)/fadeTime);
+        icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, Mathf.PingPong(Time.time, fadeTime)/fadeTime);        
+    }
+
+    private void LateUpdate()
+    {
+        transform.LookAt(Camera.main.transform);
     }
 
     public void UpdateIcon(bool isInteracting, InteractObject interactObject)
