@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class InteractObject : SaveObject
 {
-    public bool interacting;
+    public bool interacting, hideOnLoad = false;
     public GameObject focusPoint;
+
+    private void OnEnable()
+    {
+        if (hasActivated && hideOnLoad)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 
     public virtual void Interact()
     {
@@ -23,11 +31,11 @@ public class InteractObject : SaveObject
 
     public virtual void StartInteract()
     {
-        //Debug.Log($"Started interacting with {name}");
+        //Used for logic at start of interaction
     }
 
     public virtual void EndInteract()
     {
-        //Debug.Log($"Finished interacting with {name}");
+        //Used for logic at end of interaction
     }
 }

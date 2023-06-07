@@ -23,9 +23,10 @@ public class PlayerController : CharacterController
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
+    [SerializeField] private GameObject interactIcon;
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
-    [HideInInspector] public InteractObject interactObj { get; private set; }
+    public InteractObject interactObj { get; private set; }
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Player Avatar Variables")]
@@ -55,7 +56,9 @@ public class PlayerController : CharacterController
         storedSpeed = speed;
         melee.damage = damage;
         gasMaskObj.SetActive(false);
-        animator.SetTrigger("wakeUp");
+
+        if (state == States.wakeUp)
+            animator.SetTrigger("wakeUp");
 
         base.Start();
     }
@@ -92,10 +95,13 @@ public class PlayerController : CharacterController
 
         if (interactObj != null
             && interactObj.active
-            && !interactObj.hasActivated
-            && !interactObj.GetComponent<Outline>())
+            && !interactObj.hasActivated)
         {
-            interactObj.gameObject.AddComponent<Outline>();
+            interactIcon.SetActive(true);
+        }
+        else
+        {
+            interactIcon.SetActive(false);
         }
 
 
@@ -149,6 +155,9 @@ public class PlayerController : CharacterController
                     SetState(States.moving);
                 }
                 break;
+            case States.interacting:
+                interactIcon.SetActive(false); //hide interact icon while interacting
+                break;
             case States.moving:
                 speed = storedSpeed;
 
@@ -179,7 +188,7 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.radio:
-                if (PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() <= 0
+                if (inputMaster.Player.Radio.ReadValue<float>() <= 0
                     && !CameraController.instance.GetCamLockState()
                     && abilityState != AbilityStates.isRat || abilityState == AbilityStates.invisible)
                 {
@@ -240,11 +249,6 @@ public class PlayerController : CharacterController
         transform.rotation = Quaternion.LookRotation(newDirection);
 
 
-
-        if (isPlaying("Wake Up"))
-        {
-            SetState(States.wakeUp);
-        }
         if (isPlaying("Melee"))
         {
             SetState(States.attacking);

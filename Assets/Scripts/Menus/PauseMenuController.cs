@@ -10,6 +10,7 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] GameObject pauseMenu, settingMenu, controlMenu;
     [SerializeField] public bool isPaused;
 
+    Coroutine ls;
 
     private void Awake()
     {
@@ -54,8 +55,29 @@ public class PauseMenuController : MonoBehaviour
     public void MainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
-    }    
+        SceneManager.LoadSceneAsync("MainMenu");
+    }
+
+    public void ReturnToOffice()
+    {
+        if (ls == null)
+            ls = StartCoroutine(LoadScene("Office"));
+    }
+
+    IEnumerator LoadScene(string sceneToLoad)
+    {
+        print($"Loading scene {sceneToLoad}");
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1f;
+        FadeController.instance.StartFade(1f, 1f);
+
+        while (FadeController.instance.isFading)
+            yield return null;
+
+        SceneManager.LoadSceneAsync(sceneToLoad);
+
+        ls = null;
+    }
 
     //TODO design pause menu
     /// <summary>

@@ -51,7 +51,7 @@ Camera:
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
-  m_projectionMatrixMode: 2
+  m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
@@ -65,9 +65,9 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 100
-  field of view: 26.991467
+  field of view: 25
   orthographic: 0
-  orthographic size: 4
+  orthographic size: 2.5
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -107,17 +107,17 @@ MonoBehaviour:
   lastTarget: {fileID: 0}
   smoothTime: 1.5
   focusSmoothTime: 8
-  normalSmoothTime: 1.5
-  xOff: 0.5
-  yOff: 3
-  zOff: -2
-  zOffMin: -2
-  zOffMax: -1
+  normalSmoothTime: 3
+  offset: {x: 0.125, y: 0, z: 2}
+  zOffMin: 0
+  zOffMax: 2
   focus: 0
+  lockCam: 0
   setRot: 0
   camFocusSize: 0.725
   camDefaultSize: 4
   focusRate: 25
+  rotRate: 2.5
   focusRotRate: 50
 --- !u!114 &593217357095946764
 MonoBehaviour:
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593217357095946755}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22c8435c7406147fd93d72c404ee88dc, type: 3}
   m_Name: 
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ColorEmulationMode: 1
-  _FullscreenColorDepth: {x: 20, y: 20, z: 10}
+  _FullscreenColorDepth: {x: 20, y: 20, z: 15}
   _FullscreenDitherDepth: {x: 5, y: 5, z: 5}
   _DitheringMatrixSize: 2
   _InterlacingSize: 1

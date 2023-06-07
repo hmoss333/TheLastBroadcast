@@ -14,11 +14,13 @@ public class UIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI loreText, loreTitle;
 
     [Header("Ability Variables")]
-    [SerializeField] GameObject abilityObject, dialogueObject;
+    [SerializeField] GameObject abilityObject;
     [SerializeField] Image abilityBackground, abilityIcon;
-    [SerializeField] TextMeshProUGUI abilityText, dialogueText;
+    [SerializeField] TextMeshProUGUI abilityText;
 
-    //Coroutine df;
+    [Header("Dialogue Variables")]
+    [SerializeField] Image dialogueBackground;
+    [SerializeField] TextMeshProUGUI dialogueText;
 
     bool uiActive;
 
@@ -46,19 +48,6 @@ public class UIController : MonoBehaviour
         abilityObject.SetActive(uiActive);
     }
 
-    //public void DialogueUI(string text)//, float fadeTime)
-    //{
-    //    //dialogueText.text = text;
-    //    //dialogueObject.SetActive(true);
-
-    //    //if (df != null)
-    //    //    StopCoroutine(df);
-    //    //df = StartCoroutine(DialogueFade(fadeTime));
-
-    //    SetDialogueText(text);
-    //    ToggleDialogueUI();
-    //}
-
     public void SetDialogueText(string text)
     {
         dialogueText.text = text;
@@ -66,6 +55,18 @@ public class UIController : MonoBehaviour
 
     public void ToggleDialogueUI(bool forceValue)
     {
-        dialogueObject.SetActive(forceValue);
+        dialogueText.gameObject.SetActive(forceValue);
+        StartCoroutine(FadeTo(forceValue ? 1f : 0f, 0.65f));
+    }
+
+    IEnumerator FadeTo(float aValue, float aTime)
+    {
+        float alpha = dialogueBackground.color.a;
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+        {
+            Color newColor = new Color(0, 0, 0, Mathf.Lerp(alpha, aValue, t));
+            dialogueBackground.color = newColor;
+            yield return null;
+        }
     }
 }

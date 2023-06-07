@@ -19,13 +19,13 @@ public class SaveObject : MonoBehaviour
     {
         active = !active;
         print($"Set active state of {gameObject.name} to {active}");
-        SaveDataController.instance.SaveObjectData();// SceneManager.GetActiveScene().name);
+        //SaveDataController.instance.SaveObjectData();
     }
 
     public virtual void SetHasActivated()
     {
         hasActivated = true;
         print($"Set hasActivated state of {gameObject.name} to {hasActivated}");
-        SaveDataController.instance.SaveObjectData();// SceneManager.GetActiveScene().name);
+        //SaveDataController.instance.SaveObjectData();
     }
 }

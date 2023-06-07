@@ -12,7 +12,8 @@ public class RadioLockController : SaveObject
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private MeshRenderer mesh;
-    [SerializeField] private SaveObject[] objectsToActivate;
+    [SerializeField] private GameObject[] objectsToActivate;
+
     float tempTime = 0f;
     Coroutine unlockRoutine;
 
@@ -20,7 +21,17 @@ public class RadioLockController : SaveObject
     {
         mesh.material.color = Color.red;
         checkFrequency = Random.Range(1f, 7.5f);
-        //hasActivated = false;
+        
+        //This is gross; need to refactor the activation logic
+        if (hasActivated)
+        {
+            for (int i = 0; i < objectsToActivate.Length; i++)
+            {
+                SaveObject tempSaveObj = objectsToActivate[i].GetComponent<InteractObject>();
+                if (tempSaveObj == null)
+                    objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
+            }
+        }
     }
 
     void Update()
@@ -76,9 +87,13 @@ public class RadioLockController : SaveObject
                     ? tempInteract.focusPoint.transform.position : objectsToActivate[i].gameObject.transform.position;
             }
 
-            objectsToActivate[i].Activate();
+            if (tempInteract != null)
+                tempInteract.Activate();
+            else
+                objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
 
-            yield return new WaitForSeconds(2f);
+            if (focusOnActivate)
+                yield return new WaitForSeconds(2f);
         }
 
         CameraController.instance.SetCamLock(false);

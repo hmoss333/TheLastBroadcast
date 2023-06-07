@@ -16,6 +16,7 @@ public class SaveDataController : MonoBehaviour
     public LoreSaveData loreSaveData;
     [SerializeField] LorePickup[] lorePickups;
     public SceneObjectsContainer sceneObjectContainer;
+    char separator = Path.DirectorySeparatorChar;
 
 
     private void Awake()
@@ -25,14 +26,14 @@ public class SaveDataController : MonoBehaviour
         else
             Destroy(this.gameObject);
 
-        saveDestination = $"{Application.persistentDataPath}/Save/save.json";
-        levelDestination = $"{Application.persistentDataPath}/LevelData";
-        loreDestination = $"{Application.persistentDataPath}/Lore/loreData.json";
+        saveDestination = $"{Application.persistentDataPath}{separator}Save{separator}save.json";
+        levelDestination = $"{Application.persistentDataPath}{separator}LevelData";
+        loreDestination = $"{Application.persistentDataPath}{separator}Lore{separator}loreData.json";
         saveData = new SaveData();
 
         LoadFile();
         LoadLoreData();
-        LoadObjectData(saveData.currentScene);
+        //LoadObjectData(saveData.currentScene);
     }
 
 
@@ -68,7 +69,7 @@ public class SaveDataController : MonoBehaviour
 
     public void LoadObjectData(string sceneName)
     {
-        string tempDest = $"{levelDestination}/{sceneName}.json";
+        string tempDest = $"{levelDestination}{separator}{sceneName}.json";
 
         if (File.Exists(tempDest))
         {
@@ -96,7 +97,7 @@ public class SaveDataController : MonoBehaviour
         else
         {
             print("Creating new file");
-            Directory.CreateDirectory($"{Application.persistentDataPath}/LevelData/");
+            Directory.CreateDirectory($"{Application.persistentDataPath}{separator}LevelData{separator}");
             SaveObjectData();
         }
     }
@@ -121,7 +122,7 @@ public class SaveDataController : MonoBehaviour
             tempContainer.sceneObjects.Add(tempObj);
         }
 
-        string tempPath = $"{levelDestination}/{tempContainer.sceneName}.json";
+        string tempPath = $"{levelDestination}{separator}{tempContainer.sceneName}.json";
         string jsonData = JsonUtility.ToJson(tempContainer);
         print("Saving Object Data:" + jsonData);
         File.WriteAllText(tempPath, jsonData);
@@ -150,8 +151,8 @@ public class SaveDataController : MonoBehaviour
         else
         {
             print("Creating new lore file from resources");
-            Directory.CreateDirectory($"{Application.persistentDataPath}/Lore/");
-            string tempDest = "Assets/Resources/Lore/loreData.json";
+            Directory.CreateDirectory($"{Application.persistentDataPath}{separator}Lore{separator}");
+            string tempDest = $"Assets{separator}Resources{separator}Lore{separator}loreData.json";
             LoreSaveData tempContainer = new LoreSaveData();
             string jsonData = File.ReadAllText(tempDest);
             tempContainer = JsonUtility.FromJson<LoreSaveData>(jsonData);
@@ -182,8 +183,8 @@ public class SaveDataController : MonoBehaviour
     //Initialize save file with correct formatting/values
     public void CreateNewSaveFile()
     {
-        Directory.CreateDirectory($"{Application.persistentDataPath}/Save/");
-        string resourcesPath = "Assets/Resources/Save/save.json";
+        Directory.CreateDirectory($"{Application.persistentDataPath}{separator}Save{separator}");
+        string resourcesPath = $"Assets{separator}Resources{separator}Save{separator}save.json";
         string jsonData = File.ReadAllText(resourcesPath);
         saveData = new SaveData();
         saveData = JsonUtility.FromJson<SaveData>(jsonData);
@@ -191,16 +192,31 @@ public class SaveDataController : MonoBehaviour
 
 
     //Update Save Point Data
+    public void SetSavePoint(string sceneName)
+    {
+        saveData.currentScene = sceneName;
+
+        //Update currentScene value in save file
+        string saveJson = JsonUtility.ToJson(saveData);
+        print("Updating current scene");
+        File.WriteAllText(saveDestination, saveJson);
+    }
+
     public void SetSavePoint(string sceneName, int ID)
     {
         saveData.currentScene = sceneName;
         sceneObjectContainer.savePointID = ID;
 
-        //SaveFile();
-        string tempPath = $"{levelDestination}/{sceneName}.json";
+        //Update savePoint ID in level file
+        string tempPath = $"{levelDestination}{separator}{sceneName}.json";
         string jsonData = JsonUtility.ToJson(sceneObjectContainer);
         print("Updating Save Point:" + jsonData);
         File.WriteAllText(tempPath, jsonData);
+
+        //Update currentScene value in save file
+        string saveJson = JsonUtility.ToJson(saveData);
+        print("Updating current scene");
+        File.WriteAllText(saveDestination, saveJson);
     }
 
 

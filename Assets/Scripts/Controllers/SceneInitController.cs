@@ -69,8 +69,11 @@ public class SceneInitController : MonoBehaviour
     public void InitializeGame()
     {
         currentScene = SceneManager.GetActiveScene().name;
+        SaveDataController.instance.SetSavePoint(currentScene);
         SaveDataController.instance.LoadObjectData(currentScene);
         currentScenario = SaveDataController.instance.sceneObjectContainer;
+
+        Resources.UnloadUnusedAssets();
 
         GetAllSavePoints();
         HideAllRooms();
@@ -88,7 +91,7 @@ public class SceneInitController : MonoBehaviour
             }
         }
 
-        if (CameraController.instance != null)
+        if (CameraController.instance != null && CameraController.instance.GetTarget() == null)
         {
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
             if (CameraController.instance.GetLastTarget() == null)

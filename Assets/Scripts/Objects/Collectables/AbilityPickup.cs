@@ -29,8 +29,9 @@ public class AbilityPickup : InteractObject
     {
         UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
         SaveDataController.instance.GiveAbility(collectType.ToString());
-        SaveDataController.instance.SaveFile();
+        //SaveDataController.instance.SaveFile();
         print("Collected " + gameObject.name);
+        PlayerController.instance.inputMaster.Player.Radio.bindings.ToString();
     }
 
     public override void EndInteract()
