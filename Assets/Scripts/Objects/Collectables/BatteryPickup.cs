@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class BatteryPickup : InteractObject
 {
-    //[SerializeField] int healthAdd;
+    [SerializeField] int chargeAdd;
 
     public override void Interact()
     {
-        //Health playerHealth = PlayerController.instance.gameObject.GetComponent<Health>();
-        //if (playerHealth.CurrentHealth() < 5)
-        //{
-        //    playerHealth.Hurt(-healthAdd, false);
-        //    this.gameObject.SetActive(false);
-        //}
+        float currentCharge = RadioController.instance.currentCharge;
+        float maxCharge = RadioController.instance.maxCharge;
+
+        if (currentCharge < maxCharge)
+        {
+            RadioController.instance.ModifyCharge(chargeAdd);
+            Destroy(gameObject);
+        }
 
         PlayerController.instance.SetState(PlayerController.States.idle);
     }

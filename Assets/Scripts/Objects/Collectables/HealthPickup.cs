@@ -9,10 +9,10 @@ public class HealthPickup : InteractObject
     public override void Interact()
     {
         Health playerHealth = PlayerController.instance.gameObject.GetComponent<Health>();
-        if (playerHealth.CurrentHealth() < 5)
+        if (playerHealth.CurrentHealth() < SaveDataController.instance.saveData.maxHealth)
         {
-            playerHealth.Hurt(-healthAdd, false);
-            this.gameObject.SetActive(false);
+            playerHealth.Hurt(-healthAdd, false); //beautiful, makes perfect sense
+            Destroy(gameObject);
         }
 
         PlayerController.instance.SetState(PlayerController.States.idle);
