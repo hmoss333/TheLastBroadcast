@@ -300,7 +300,7 @@ public class SaveDataController : MonoBehaviour
 public class SaveData
 {
     public string currentScene;
-    public int cardLevel;
+    public int maxHealth, maxCharge, cardLevel, healthParts, chargeParts;
     public Abilities abilities;
     public List<RadioAbility> radioAbilities;
 }
