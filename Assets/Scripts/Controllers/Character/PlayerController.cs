@@ -20,6 +20,7 @@ public class PlayerController : CharacterController
     public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
+    [SerializeField] private Health health;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
@@ -56,6 +57,7 @@ public class PlayerController : CharacterController
         storedSpeed = speed;
         melee.damage = damage;
         gasMaskObj.SetActive(false);
+        health.SetHealth(SaveDataController.instance.saveData.maxHealth);
 
         if (state == States.wakeUp)
             animator.SetTrigger("wakeUp");

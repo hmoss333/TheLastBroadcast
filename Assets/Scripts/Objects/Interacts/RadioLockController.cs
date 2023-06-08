@@ -57,6 +57,7 @@ public class RadioLockController : SaveObject
                 if (tempTime >= checkTime)
                 {
                     SetHasActivated();
+                    RadioController.instance.ModifyCharge(-10f);
                     if (unlockRoutine == null)
                         StartCoroutine(UnlockObjects());
                 }

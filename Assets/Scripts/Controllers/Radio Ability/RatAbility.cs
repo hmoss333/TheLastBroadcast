@@ -10,7 +10,7 @@ public class RatAbility : RadioAbilityController
     private GameObject ratObj;
 
     [SerializeField] private bool isRat;
-    [SerializeField] private float checkFrequency;
+    [SerializeField] private float checkFrequency, chargeCost;
     private float checkOffset = 0.5f;
     [SerializeField] float checkTime;
     private float tempCheckTime = 0f;
@@ -41,7 +41,8 @@ public class RatAbility : RadioAbilityController
     {
         if (RadioController.instance.abilityMode
             && abilityData.isActive
-            && !isRat)
+            && !isRat
+            && RadioController.instance.currentCharge > chargeCost)
         {
             if ((RadioController.instance.currentFrequency < checkFrequency + checkOffset && RadioController.instance.currentFrequency > checkFrequency - checkOffset)
                 && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)                                                      
@@ -51,6 +52,7 @@ public class RatAbility : RadioAbilityController
                 tempCheckTime += Time.deltaTime;
                 if (tempCheckTime > checkTime)
                 {
+                    RadioController.instance.ModifyCharge(-chargeCost);
                     isRat = true;
                     Vector3 newPos = new Vector3(PlayerController.instance.transform.position.x, 0.5f, PlayerController.instance.transform.position.z);
                     ratObj = Instantiate(ratPrefab, newPos, Quaternion.identity);

@@ -12,6 +12,8 @@ public class RadioController : MonoBehaviour
     [Header("Radio Control Variables")]
     [SerializeField] private float speed;
     [SerializeField] private float maxFrequency;
+    public float maxCharge;// { get; private set; }
+    public float currentCharge;// { get; private set; }
     public float currentFrequency { get; private set; }
     public bool isActive { get; private set; }
     public bool abilityMode { get; private set; }
@@ -26,6 +28,7 @@ public class RadioController : MonoBehaviour
     [SerializeField] private Color onColor, offColor, abilityColor;
     [SerializeField] private Vector2 inactivePos, activePos, abilityInactivePos, abilityActivePos;
     [SerializeField] private float slideSpeed;
+    [SerializeField] private Slider chargeSlider;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Audio Elements")]
@@ -40,6 +43,13 @@ public class RadioController : MonoBehaviour
             instance = this;
         else
             Destroy(this.gameObject);
+    }
+
+    private void Start()
+    {
+        maxCharge = SaveDataController.instance.saveData.maxCharge;
+        currentCharge = maxCharge;
+        chargeSlider.maxValue = maxCharge;
     }
 
     // Update is called once per frame
@@ -90,6 +100,9 @@ public class RadioController : MonoBehaviour
         else
             stationBackground.color = abilityColor;
 
+        //Modify slider to match charge level
+        chargeSlider.value = currentCharge;
+
         //Move radio panel into position based on active state
         overlayPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(overlayPanel.GetComponent<RectTransform>().anchoredPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
         abilityPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(abilityPanel.GetComponent<RectTransform>().anchoredPosition, abilityMode ? abilityActivePos : abilityInactivePos, slideSpeed * Time.deltaTime);//abilityInactivePos;
@@ -103,5 +116,14 @@ public class RadioController : MonoBehaviour
     public void SetActive(bool activeVal)
     {
         isActive = activeVal;
+    }
+
+    public void ModifyCharge(float chargeVal)
+    {
+        currentCharge += chargeVal;
+        if (currentCharge >= maxCharge)
+            currentCharge = maxCharge;
+        else if (currentCharge < 0f)
+            currentCharge = 0f;
     }
 }

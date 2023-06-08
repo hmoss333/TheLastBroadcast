@@ -13,10 +13,10 @@ public class InvisAbility : RadioAbilityController
     private int oldLayer;
     //private int voidLayer;
     [SerializeField] Material invisMat;
-    private float checkFrequency;
+    [SerializeField] private float checkFrequency, chargeCost;
     private float checkOffset = 0.5f;
     [SerializeField] float checkTime, invisTime;
-    private float tempCheckTime = 0f, tempInvisTime = 0f;
+    public float tempCheckTime = 0f, tempInvisTime = 0f;
     [HideInInspector] public bool isUsing; //used to toggle camera after effect for special abilities
 
 
@@ -78,7 +78,8 @@ public class InvisAbility : RadioAbilityController
     {
         if (RadioController.instance.abilityMode
             && abilityData.isActive
-            && !isInvis)
+            && !isInvis
+            && RadioController.instance.currentCharge > chargeCost)
         {
             if ((RadioController.instance.currentFrequency < checkFrequency + checkOffset && RadioController.instance.currentFrequency > checkFrequency - checkOffset)
                 && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)                                                      
@@ -88,6 +89,7 @@ public class InvisAbility : RadioAbilityController
                 tempCheckTime += Time.deltaTime;
                 if (tempCheckTime >= checkTime)
                 {
+                    RadioController.instance.ModifyCharge(-chargeCost);
                     AddMaterials();
                     isInvis = true;
                     tempCheckTime = 0;
