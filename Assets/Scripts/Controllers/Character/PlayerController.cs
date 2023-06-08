@@ -20,10 +20,10 @@ public class PlayerController : CharacterController
     public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
-    [SerializeField] private Health health;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
+    [SerializeField] private GameObject interactIcon;
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
     public InteractObject interactObj { get; private set; }
@@ -56,7 +56,6 @@ public class PlayerController : CharacterController
         storedSpeed = speed;
         melee.damage = damage;
         gasMaskObj.SetActive(false);
-        health.SetHealth(SaveDataController.instance.saveData.maxHealth);
 
         if (state == States.wakeUp)
             animator.SetTrigger("wakeUp");
@@ -96,10 +95,13 @@ public class PlayerController : CharacterController
 
         if (interactObj != null
             && interactObj.active
-            && !interactObj.hasActivated
-            && !interactObj.GetComponent<Outline>())
+            && !interactObj.hasActivated)
         {
-            interactObj.gameObject.AddComponent<Outline>();
+            interactIcon.SetActive(true);
+        }
+        else
+        {
+            interactIcon.SetActive(false);
         }
 
 
@@ -152,6 +154,9 @@ public class PlayerController : CharacterController
                 {
                     SetState(States.moving);
                 }
+                break;
+            case States.interacting:
+                interactIcon.SetActive(false); //hide interact icon while interacting
                 break;
             case States.moving:
                 speed = storedSpeed;
