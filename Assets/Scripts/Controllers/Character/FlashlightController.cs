@@ -93,7 +93,7 @@ public class FlashlightController : MonoBehaviour
         while (flashlightTime < flickerVal && isOn)
         {
             lightSource.enabled = !lightSource.enabled;
-            float randVal = Random.Range(0f, 0.4f);
+            float randVal = Random.Range(0f, 0.125f);
             yield return new WaitForSeconds(randVal);
         }
 
