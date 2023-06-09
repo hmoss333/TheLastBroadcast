@@ -2284,6 +2284,8 @@ MonoBehaviour:
   interacting: 0
   hideOnLoad: 0
   focusPoint: {fileID: 0}
+  changeScene: 0
+  sceneToLoad: 
   securityLevel: 0
   lockedText: The elevtor seems to be out of service
   lightMesh: {fileID: 0}
@@ -2603,7 +2605,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4645309219621874, guid: 930b2b9e57669be4693fa872406ea1e4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 62.388447
+      value: 60.250694
       objectReference: {fileID: 0}
     - target: {fileID: 4645309219621874, guid: 930b2b9e57669be4693fa872406ea1e4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2671,6 +2673,8 @@ MonoBehaviour:
   interacting: 0
   hideOnLoad: 0
   focusPoint: {fileID: 0}
+  changeScene: 1
+  sceneToLoad: EmptyFloor
   securityLevel: 0
   lockedText: The elevtor seems to be out of service
   lightMesh: {fileID: 0}
@@ -2897,6 +2901,18 @@ PrefabInstance:
       propertyPath: exitPoint
       value: 
       objectReference: {fileID: 1590156988}
+    - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
+      propertyPath: lockedText
+      value: The door says 'Maintenance'. It looks to be locked
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
+      propertyPath: changeScene
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
+      propertyPath: sceneToLoad
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de1b9288a5367499f9556e1559c59193, type: 3}
 --- !u!4 &653444099 stripped
@@ -3031,6 +3047,8 @@ MonoBehaviour:
   interacting: 0
   hideOnLoad: 0
   focusPoint: {fileID: 0}
+  changeScene: 0
+  sceneToLoad: 
   securityLevel: 0
   lockedText: The elevtor seems to be out of service
   lightMesh: {fileID: 0}
@@ -3898,72 +3916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d4e3bba048840a89c05c3b80413d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &805385381
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1608106449}
-    m_Modifications:
-    - target: {fileID: 1462965014302304620, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_Name
-      value: Flashlight_Pickup
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_RootOrder
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4910928714231077446, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-      propertyPath: _id.Value
-      value: 138f1e57-7639-4531-85eb-3107d8188f64
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
---- !u!4 &805385382 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1462965014302799180, guid: 68d68ed81f3b6446f8bd8ca7e316ff2f, type: 3}
-  m_PrefabInstance: {fileID: 805385381}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &856717080
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7272,6 +7224,8 @@ MonoBehaviour:
   interacting: 0
   hideOnLoad: 0
   focusPoint: {fileID: 0}
+  changeScene: 0
+  sceneToLoad: 
   securityLevel: 0
   lockedText: The elevtor seems to be out of service
   lightMesh: {fileID: 0}
@@ -7372,7 +7326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1498820130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7856,6 +7810,10 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1087478508308224, guid: 930b2b9e57669be4693fa872406ea1e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087478508308224, guid: 930b2b9e57669be4693fa872406ea1e4, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -7933,6 +7891,8 @@ MonoBehaviour:
   interacting: 0
   hideOnLoad: 0
   focusPoint: {fileID: 0}
+  changeScene: 0
+  sceneToLoad: 
   securityLevel: 0
   lockedText: The elevtor seems to be out of service
   lightMesh: {fileID: 0}
@@ -8197,7 +8157,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608106447}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 20}
+  m_LocalPosition: {x: -50, y: 0, z: 40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8220,7 +8180,6 @@ Transform:
   - {fileID: 639603910}
   - {fileID: 411754038}
   - {fileID: 754561314}
-  - {fileID: 805385382}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

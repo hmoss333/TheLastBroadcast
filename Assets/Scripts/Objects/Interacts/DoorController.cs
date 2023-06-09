@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class DoorController : InteractObject
 {
+    [SerializeField] private bool changeScene;
+    [SerializeField] private string sceneToLoad;
+
+
     [SerializeField] private int securityLevel;
     [SerializeField] private string lockedText = "Current security level is too low";
     [SerializeField] private MeshRenderer lightMesh;
@@ -57,17 +61,25 @@ public class DoorController : InteractObject
         while (FadeController.instance.isFading)
             yield return null;
 
-        PlayerController.instance.transform.position = exitPoint.position;
-        PlayerController.instance.SetLastDir(exitPoint.transform.forward);
-        CameraController.instance.transform.position = exitPoint.position;
-        transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
+        if (!changeScene)
+        {
+            PlayerController.instance.transform.position = exitPoint.position;
+            PlayerController.instance.SetLastDir(exitPoint.transform.forward);
+            CameraController.instance.transform.position = exitPoint.position;
+            transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
 
-        if (exitRoom)
-            exitRoom.gameObject.SetActive(true);
+            if (exitRoom)
+                exitRoom.gameObject.SetActive(true);
 
-        interacting = false;
-        FadeController.instance.StartFade(0.0f, 1f);
-        PlayerController.instance.SetState(PlayerController.States.idle);
+            interacting = false;
+            FadeController.instance.StartFade(0.0f, 1f);
+            PlayerController.instance.SetState(PlayerController.States.idle);
+        }
+        else
+        {
+            SaveDataController.instance.SetSavePoint(sceneToLoad, 0);
+            SceneManager.LoadSceneAsync(sceneToLoad);
+        }
     }
 
     public void SetLightColor(Color colorToSet)
