@@ -25,7 +25,7 @@ public class TunableObject : MonoBehaviour
     [SerializeField] bool showStatic;
 
     private bool needsUpdate;
-    InteractObject baseObject;
+    SaveObject baseObject;
 
 
     private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
@@ -37,7 +37,7 @@ public class TunableObject : MonoBehaviour
 
     void Awake()
     {
-        baseObject = gameObject.GetComponent<InteractObject>();
+        baseObject = gameObject.GetComponent<SaveObject>();
 
         // Cache renderers
         renderers = GetComponentsInChildren<Renderer>();
