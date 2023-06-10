@@ -10,7 +10,7 @@ public class RatAbility : RadioAbilityController
     private GameObject ratObj;
 
     [SerializeField] private bool isRat;
-    [SerializeField] private float checkFrequency, chargeCost;
+    private float checkFrequency, chargeCost;
     private float checkOffset = 0.5f;
     [SerializeField] float checkTime;
     private float tempCheckTime = 0f;
@@ -30,6 +30,7 @@ public class RatAbility : RadioAbilityController
         base.Start();
 
         checkFrequency = abilityData.frequency;
+        chargeCost = abilityData.chargeCost;
     }
 
     public void SetTuning(bool isOn)
@@ -54,7 +55,7 @@ public class RatAbility : RadioAbilityController
                 {
                     RadioController.instance.ModifyCharge(-chargeCost);
                     isRat = true;
-                    Vector3 newPos = new Vector3(PlayerController.instance.transform.position.x, 0.5f, PlayerController.instance.transform.position.z);
+                    Vector3 newPos = new Vector3(PlayerController.instance.transform.position.x, PlayerController.instance.transform.position.y + 0.1f, PlayerController.instance.transform.position.z);
                     ratObj = Instantiate(ratPrefab, newPos, Quaternion.identity);
                     CameraController.instance.SetTarget(ratObj);
                     tempCheckTime = 0f;

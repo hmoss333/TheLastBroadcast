@@ -326,6 +326,7 @@ public class RadioAbility
 {
     public string name;
     public float frequency;
+    public float chargeCost;
     public bool isActive;
 }
 

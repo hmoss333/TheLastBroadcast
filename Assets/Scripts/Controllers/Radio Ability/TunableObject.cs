@@ -31,7 +31,7 @@ public class TunableObject : MonoBehaviour
     private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
     [SerializeField] private float checkTime = 3f; //time the radio must stay within the frequency range to activate
     private float tempTime = 0f;
-    private float checkFrequency; //frequency that must be matched on field radio
+    private float checkFrequency, chargeCost; //frequency that must be matched on field radio
     private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
 
 
@@ -91,6 +91,7 @@ public class TunableObject : MonoBehaviour
     void Update()
     {
         checkFrequency = TuneAbility.instance.abilityData.frequency;
+        chargeCost = SaveDataController.instance.GetRadioAbility("Tune").chargeCost;
 
         if (needsUpdate)
         {
@@ -114,6 +115,7 @@ public class TunableObject : MonoBehaviour
                     tempTime += Time.deltaTime;
                     if (tempTime > checkTime)
                     {
+                        RadioController.instance.ModifyCharge(-chargeCost);
                         StartCoroutine(ActivateObject());
                     }
                 }

@@ -13,7 +13,7 @@ public class InvisAbility : RadioAbilityController
     private int oldLayer;
     //private int voidLayer;
     [SerializeField] Material invisMat;
-    [SerializeField] private float checkFrequency, chargeCost;
+    private float checkFrequency, chargeCost;
     private float checkOffset = 0.5f;
     [SerializeField] float checkTime, invisTime;
     public float tempCheckTime = 0f, tempInvisTime = 0f;
@@ -47,6 +47,7 @@ public class InvisAbility : RadioAbilityController
 
         oldLayer = LayerMask.NameToLayer("Player");
         checkFrequency = abilityData.frequency;
+        chargeCost = abilityData.chargeCost;
 
         // Cache renderers
         renderers = GetComponentsInChildren<Renderer>();

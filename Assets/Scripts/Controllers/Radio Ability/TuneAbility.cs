@@ -5,6 +5,7 @@ using UnityEngine;
 public class TuneAbility : RadioAbilityController
 {
     public static TuneAbility instance;
+    public static float chargeCost { get; private set; }
 
     [HideInInspector] public bool isUsing; //used to toggle camera after effect for special abilities
 
@@ -15,6 +16,8 @@ public class TuneAbility : RadioAbilityController
             instance = this;
         else
             Destroy(this.gameObject);
+
+        chargeCost = abilityData.chargeCost;
     }
 
     public void SetTuning(bool isOn)
