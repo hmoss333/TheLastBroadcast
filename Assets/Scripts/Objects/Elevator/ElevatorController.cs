@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElevatorController : InteractObject
+public class ElevatorController : MonoBehaviour
 {
     [SerializeField] private float speed, moveDelay, doorDelay;
     private float tempMoveDelay;
@@ -58,9 +58,10 @@ public class ElevatorController : InteractObject
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && active)
+        if (other.tag == "Player")
         {
             other.transform.parent = this.transform;
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             StartCoroutine(CloseDoors(true, doorDelay));
 
             if (transform.position == bottomPoint.position)
@@ -76,7 +77,7 @@ public class ElevatorController : InteractObject
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player" && active)
+        if (other.tag == "Player")// && active)
         {
             other.transform.parent = null;
         }
