@@ -1310,7 +1310,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOn: 0
   isCharging: 0
-  lightSource: {fileID: 2559986687152422599}
   flashlightObj: {fileID: 2814638627080219208}
   layer:
     serializedVersion: 2
@@ -3045,6 +3044,7 @@ MonoBehaviour:
   abilityData:
     name: 
     frequency: 0
+    chargeCost: 0
     isActive: 0
   isUsing: 0
 --- !u!114 &4481846713834912274
@@ -3063,11 +3063,10 @@ MonoBehaviour:
   abilityData:
     name: 
     frequency: 0
+    chargeCost: 0
     isActive: 0
   isInvis: 0
   invisMat: {fileID: 2100000, guid: 16aebe7d34d5f6e4ca9d778acc20d47e, type: 2}
-  checkFrequency: 0
-  chargeCost: 25
   checkTime: 2.25
   invisTime: 5
   tempCheckTime: 0
@@ -3090,11 +3089,10 @@ MonoBehaviour:
   abilityData:
     name: 
     frequency: 0
+    chargeCost: 0
     isActive: 0
   ratPrefab: {fileID: 5917498479859070303, guid: fc5c6f754cab141d1b048be05d1c9988, type: 3}
   isRat: 0
-  checkFrequency: 0
-  chargeCost: 20
   checkTime: 2
 --- !u!1 &8714025836226776503
 GameObject:
@@ -4993,10 +4991,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3633052843055086110}
     m_Modifications:
-    - target: {fileID: 4115953106399394061, guid: c49cd3761459cf1459d82af56a835b4e, type: 3}
-      propertyPath: lightSource
-      value: 
-      objectReference: {fileID: 2559986687152422599}
     - target: {fileID: 7021590931246295734, guid: c49cd3761459cf1459d82af56a835b4e, type: 3}
       propertyPath: m_Name
       value: Flashlight
@@ -5057,8 +5051,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4115953106399394061, guid: c49cd3761459cf1459d82af56a835b4e, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c49cd3761459cf1459d82af56a835b4e, type: 3}
 --- !u!1 &2814638627080219208 stripped
 GameObject:

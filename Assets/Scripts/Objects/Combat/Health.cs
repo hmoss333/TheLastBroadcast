@@ -42,6 +42,22 @@ public class Health : MonoBehaviour
         }
     }
 
+    public void ModifyHealth(int value)
+    {
+        health += value;
+        print($"{gameObject.name} health = {health}");
+
+        if (shockEffect)
+        {
+            CamEffectController.instance.ShockEffect(0.25f);
+        }
+
+        if (character != null && health <= 0)
+        {
+            character.dead = true;
+        }
+    }
+
     IEnumerator HitCooldown(float timer)
     {
         yield return new WaitForSeconds(timer);

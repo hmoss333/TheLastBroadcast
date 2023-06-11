@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Light))]
 public class FlashlightController : MonoBehaviour
 {
     public static FlashlightController instance;
 
     public bool isOn, isCharging;// { get; private set; }
-    [SerializeField] Light lightSource;
+    Light lightSource;
     [SerializeField] GameObject flashlightObj;
     [SerializeField] private LayerMask layer;
     [SerializeField] float checkDist;
     [Range(0, 10f)]
     [SerializeField] float flashlightTime;
-    float flashLightTimeMax;
-    [SerializeField] float flickerVal, rechargeRate;//, offVal;
+    [SerializeField] float flickerVal, rechargeRate;
     Coroutine flickerRoutine;
 
 
@@ -27,6 +27,7 @@ public class FlashlightController : MonoBehaviour
     private void Start()
     {
         isOn = false;
+        lightSource = GetComponent<Light>();
         lightSource.enabled = false;
         flashlightObj.SetActive(false);
     }
@@ -93,7 +94,7 @@ public class FlashlightController : MonoBehaviour
         while (flashlightTime < flickerVal && isOn)
         {
             lightSource.enabled = !lightSource.enabled;
-            float randVal = Random.Range(0f, 0.125f);
+            float randVal = Random.Range(0.01f, 0.05f);
             yield return new WaitForSeconds(randVal);
         }
 

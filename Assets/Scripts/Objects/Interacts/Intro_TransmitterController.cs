@@ -42,7 +42,6 @@ public class Intro_TransmitterController : InteractObject
             yield return null;
 
         CamEffectController.instance.SetEffectValues(false);
-        //SaveDataController.instance.SetSavePoint(sceneToLoad, 0);
         PlayerController.instance.ToggleAvatar();
         SceneManager.LoadSceneAsync(sceneToLoad);
     }

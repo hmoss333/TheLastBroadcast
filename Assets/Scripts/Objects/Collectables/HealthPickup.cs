@@ -15,9 +15,9 @@ public class HealthPickup : InteractObject
             if (playerHealth.CurrentHealth() + healthAdd > maxHealth)
                 playerHealth.SetHealth(maxHealth);
             else
-                playerHealth.Hurt(-healthAdd, false); //beautiful, makes perfect sense
+                playerHealth.ModifyHealth(healthAdd);
 
-            Destroy(gameObject);
+            Destroy(gameObject); //maybe too expensive?
         }
 
         PlayerController.instance.SetState(PlayerController.States.idle);
