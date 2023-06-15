@@ -66,6 +66,7 @@ public class DoorController : InteractObject
             PlayerController.instance.transform.position = exitPoint.position;
             PlayerController.instance.SetLastDir(exitPoint.transform.forward);
             CameraController.instance.transform.position = exitPoint.position;
+            CameraController.instance.SetRotation(false);
             transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
 
             if (exitRoom)
@@ -73,6 +74,7 @@ public class DoorController : InteractObject
 
             interacting = false;
             FadeController.instance.StartFade(0.0f, 1f);
+            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
             PlayerController.instance.SetState(PlayerController.States.idle);
         }
         else
