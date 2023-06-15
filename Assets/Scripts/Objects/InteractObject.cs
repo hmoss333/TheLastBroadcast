@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractObject : SaveObject
 {
     public bool interacting, hideOnLoad = false;
+    public string inactiveText;
     public GameObject focusPoint;
 
     private void OnEnable()
@@ -19,13 +20,22 @@ public class InteractObject : SaveObject
     {
         interacting = !interacting;
 
-        if (interacting)
+        if (active)
         {
-            StartInteract();
+            if (interacting)
+            {
+                StartInteract();
+            }
+            else
+            {
+                EndInteract();
+            }
         }
         else
         {
-            EndInteract();
+            print("Obj not active");
+            UIController.instance.SetDialogueText(inactiveText);
+            UIController.instance.ToggleDialogueUI(interacting);
         }
     }
 

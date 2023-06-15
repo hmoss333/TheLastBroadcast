@@ -96,7 +96,6 @@ public class PlayerController : CharacterController
         }
 
         if (interactObj != null
-            && interactObj.active
             && !interactObj.hasActivated)
         {
             interactIcon.SetActive(true);
@@ -214,12 +213,11 @@ public class PlayerController : CharacterController
 
         //Handle player interaction inputs
         if (interactObj != null
-            && interactObj.active
             && !PauseMenuController.instance.isPaused
             && PlayerController.instance.inputMaster.Player.Interact.triggered)
         {
             interactObj.Interact();
-            if (interactObj.active && !interactObj.hasActivated && interactObj.interacting)
+            if (!interactObj.hasActivated && interactObj.interacting)
                 SetState(States.interacting);
             else
                 SetState(States.idle);
