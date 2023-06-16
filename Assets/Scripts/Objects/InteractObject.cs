@@ -33,7 +33,6 @@ public class InteractObject : SaveObject
         }
         else
         {
-            print("Obj not active");
             UIController.instance.SetDialogueText(inactiveText);
             UIController.instance.ToggleDialogueUI(interacting);
         }

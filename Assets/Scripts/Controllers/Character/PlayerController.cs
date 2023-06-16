@@ -17,7 +17,7 @@ public class PlayerController : CharacterController
     [Header("Player State Variables")]
     private bool isSeen;// { get; private set; }
     public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, hurt, dead }
-    public States state;// { get; private set; }
+    public States state { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
     [SerializeField] private Health health;
@@ -27,7 +27,7 @@ public class PlayerController : CharacterController
     [SerializeField] private GameObject interactIcon;
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
-    public InteractObject interactObj { get; private set; }
+    public InteractObject interactObj;// { get; private set; }
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Player Avatar Variables")]
