@@ -6,7 +6,7 @@ public class AutoTransparent : MonoBehaviour
     private Shader m_OldShader;
     private Color m_OldColor;
     private double m_Transparency = 0.3f;
-    private float m_TargetTransparancy = 0.3f;
+    private float m_TargetTransparancy = 0.5f;
     private float m_FallOff = 0.5f; // returns to 100% in 0.5 sec
     private bool shouldBeTransparent = true;
 
