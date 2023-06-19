@@ -10,27 +10,25 @@ public class TVController : SavePointController
     [SerializeField] Material tvMat;
     MeshRenderer meshRenderer;
     GameObject tvLight;
+    [SerializeField] AudioSource audioSource;
 
 
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
         tvLight = GetComponentInChildren<Light>().gameObject;
+        audioSource = GetComponentInChildren<AudioSource>();
     }
 
     private void Start()
     {
         if (!active)
         {
-            var materials = meshRenderer.sharedMaterials.ToList();
-
-            if (materials.Contains(tvMat))
-                materials.Remove(tvMat);
-
-            meshRenderer.materials = materials.ToArray();
+            RemoveMaterial();
         }
 
         tvLight.SetActive(active);
+        audioSource.mute = !active;
     }
 
     void AddMaterial()
@@ -43,14 +41,27 @@ public class TVController : SavePointController
         meshRenderer.materials = materials.ToArray();
     }
 
+    void RemoveMaterial()
+    {
+        var materials = meshRenderer.sharedMaterials.ToList();
+
+        if (materials.Contains(tvMat))
+            materials.Remove(tvMat);
+
+        meshRenderer.materials = materials.ToArray();
+    }
+
     public override void Activate()
     {
         base.Activate();
 
-        if (meshRenderer != null)
+        if (active)
             AddMaterial();
+        else
+            RemoveMaterial();
 
-        tvLight.SetActive(true);
+        tvLight.SetActive(active);
+        audioSource.mute = !active;
     }
 
     public override void Interact()

@@ -93,7 +93,7 @@ public class CameraController : MonoBehaviour
         Vector3 dir = target.position - transform.position;
         Quaternion rot = Quaternion.LookRotation(dir);
         Vector3 eulerRot = rot.eulerAngles; //modify the euler values for the camera rotation directly
-        eulerRot = new Vector3(Mathf.Clamp(eulerRot.x, -15f, 15f), offset.x < 0 ? -4 : 4, 0); //clamp rotation values
+        eulerRot = new Vector3(Mathf.Clamp(eulerRot.x, -15f, 15f), offset.x < 0 ? -4 : 0, 0); //clamp rotation values
         rot = Quaternion.Euler(eulerRot);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, setRot ? target.rotation : rot, setRot ? focusRotRate : rotRate * Time.deltaTime); //Update camera rotation

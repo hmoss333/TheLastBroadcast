@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class TriggerSceneChange : MonoBehaviour
 {
     [SerializeField] string sceneToLoad;
-    [SerializeField] float fadeTime = 1f;
+    [SerializeField] float fadeTime = 1f, transitionDelay = 0f;
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -23,10 +24,10 @@ public class TriggerSceneChange : MonoBehaviour
         while (FadeController.instance.isFading)
             yield return null;
 
-        try { SaveDataController.instance.SetSavePoint(sceneToLoad, 0); }
-        catch { };
-        try { PlayerController.instance.ToggleAvatar(); }
-        catch { };
+        yield return new WaitForSeconds(transitionDelay);
+
+        try { SaveDataController.instance.SetSavePoint(sceneToLoad, 0); } catch { };
+        try { PlayerController.instance.ToggleAvatar(); } catch { };
         SceneManager.LoadSceneAsync(sceneToLoad);
     }
 }
