@@ -46,7 +46,8 @@ public class MainMenuController : MonoBehaviour
     }
 
     public void NewGameButton()
-    {        
+    {
+
         SaveDataController.instance.CreateNewSaveFile();
         FadeController.instance.StartFade(1, 1f);
         sceneToLoad = "Title";
