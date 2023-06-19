@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class TriggerSceneChange : MonoBehaviour
 {
     [SerializeField] string sceneToLoad;
+    [SerializeField] float fadeTime = 1f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,13 +18,15 @@ public class TriggerSceneChange : MonoBehaviour
 
     IEnumerator LoadScene(string sceneToLoad)
     {
-        FadeController.instance.StartFade(1.0f, 1f);
+        FadeController.instance.StartFade(1.0f, fadeTime);
 
         while (FadeController.instance.isFading)
             yield return null;
 
-        SaveDataController.instance.SetSavePoint(sceneToLoad, 0);
-        PlayerController.instance.ToggleAvatar();
+        try { SaveDataController.instance.SetSavePoint(sceneToLoad, 0); }
+        catch { };
+        try { PlayerController.instance.ToggleAvatar(); }
+        catch { };
         SceneManager.LoadSceneAsync(sceneToLoad);
     }
 }
