@@ -55,9 +55,9 @@ public class ButtonController : InteractObject
             normalObjectsToActivate[j].SetActive(!normalObjectsToActivate[j].activeSelf);
         }
 
-        if (CameraController.instance.GetLastTarget() != null)
-            CameraController.instance.LoadLastTarget();
-        else
+        //if (CameraController.instance.GetLastTarget() != null)
+        //    CameraController.instance.LoadLastTarget();
+        //else
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
     }
 }
