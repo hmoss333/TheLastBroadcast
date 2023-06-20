@@ -1863,7 +1863,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveData:
     currentScene: 
+    maxHealth: 0
+    maxCharge: 0
     cardLevel: 0
+    healthParts: 0
+    chargeParts: 0
     abilities:
       radio: 0
       radio_special: 0
@@ -2089,7 +2093,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 116.49988}
+  m_AnchoredPosition: {x: 0, y: 116.49966}
   m_SizeDelta: {x: 0, y: 750}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &478384114682848750
@@ -2367,7 +2371,7 @@ RectTransform:
   m_Father: {fileID: 2990128194580270254}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.6895538}
+  m_AnchorMin: {x: 0, y: 0.6893405}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -2959,7 +2963,7 @@ GameObject:
   - component: {fileID: 3582459350578904565}
   - component: {fileID: 2070160640997575457}
   m_Layer: 5
-  m_Name: Invis
+  m_Name: Phasing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3014,7 +3018,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Invisibility
+  m_text: Phasing
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eb036c193c3c64b8bbd54fd13ff88bbb, type: 2}
   m_sharedMaterial: {fileID: -1099266064948786653, guid: eb036c193c3c64b8bbd54fd13ff88bbb, type: 2}
@@ -4072,7 +4076,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3534534078434591741}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4794,8 +4798,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 614638611866550841}
   m_HandleRect: {fileID: 5476059333795596318}
   m_Direction: 2
-  m_Value: 1.0000002
-  m_Size: 0.3104462
+  m_Value: 1.0000007
+  m_Size: 0.31065956
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5108,7 +5112,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 39.9
+  m_fontSize: 39.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -92,6 +92,7 @@ public class InvisAbility : RadioAbilityController
                 {
                     RadioController.instance.ModifyCharge(-chargeCost);
                     AddMaterials();
+
                     isInvis = true;
                     tempCheckTime = 0;
                 }
