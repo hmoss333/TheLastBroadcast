@@ -76,6 +76,9 @@ public class RadioLockController : SaveObject
     {
         CameraController.instance.SetCamLock(true);
 
+        if (focusOnActivate)
+            yield return new WaitForSeconds(0.5f);
+
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
@@ -93,16 +96,11 @@ public class RadioLockController : SaveObject
                 objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
 
             if (focusOnActivate)
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1f);
         }
 
         CameraController.instance.SetCamLock(false);
-
-        if (CameraController.instance.GetTarget() != PlayerController.instance.transform)
-        {
-            CameraController.instance.LoadLastTarget();
-            CameraController.instance.transform.position = CameraController.instance.GetLastTarget().position;
-        }
+        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
 
         unlockRoutine = null;
     }
