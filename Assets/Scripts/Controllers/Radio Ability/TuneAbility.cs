@@ -20,6 +20,12 @@ public class TuneAbility : RadioAbilityController
         chargeCost = abilityData.chargeCost;
     }
 
+    private void Update()
+    {
+        if (isUsing)
+            RadioController.instance.UsingAbility();
+    }
+
     public void SetTuning(bool isOn)
     {
         if (abilityData.isActive)

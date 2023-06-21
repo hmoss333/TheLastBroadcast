@@ -51,7 +51,7 @@ public class RatAbility : RadioAbilityController
             {
                 isUsing = true;
                 tempCheckTime += Time.deltaTime;
-                if (tempCheckTime > checkTime)
+                if (tempCheckTime >= checkTime)
                 {
                     RadioController.instance.ModifyCharge(-chargeCost);
                     isRat = true;
@@ -75,15 +75,19 @@ public class RatAbility : RadioAbilityController
 
         if (Input.GetButtonDown("RadioSpecial") && isRat)
         {
-            print("End rat ability");
             PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.none);
             CameraController.instance.SetTarget(PlayerController.instance.gameObject);
-            Destroy(ratObj);
+            Destroy(ratObj); //expensive; maybe add the rat as a child object of the player that gets enabled/disabled with it's position reset
             PlayerController.instance.SetState(PlayerController.States.idle);
             isRat = false;
         }
 
         if (isRat)
             PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.isRat);
+
+
+        //Enable static effect
+        if (isUsing || isRat)
+            RadioController.instance.UsingAbility();
     }
 }

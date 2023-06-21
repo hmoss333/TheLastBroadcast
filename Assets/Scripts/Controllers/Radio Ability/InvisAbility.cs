@@ -129,6 +129,11 @@ public class InvisAbility : RadioAbilityController
         //Toggle player interaction state based on invisibility status
         if (isInvis)
             PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.invisible);
+
+
+        //Enable static effect
+        if (isUsing || isInvis)
+            RadioController.instance.UsingAbility();
     }
 
     void AddMaterials()

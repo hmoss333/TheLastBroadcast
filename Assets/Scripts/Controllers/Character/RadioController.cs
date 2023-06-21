@@ -17,6 +17,7 @@ public class RadioController : MonoBehaviour
     public float currentFrequency { get; private set; }
     public bool isActive { get; private set; }
     public bool abilityMode { get; private set; }
+    private bool usingAbility = false; 
 
     [NaughtyAttributes.HorizontalLine]
     [Header("UI Elements")]
@@ -112,6 +113,10 @@ public class RadioController : MonoBehaviour
         tuneAbility.SetActive(SaveDataController.instance.GetRadioAbility("Tune").isActive);
         staticAbility.SetActive(SaveDataController.instance.GetRadioAbility("Invisibility").isActive);
         ratAbility.SetActive(SaveDataController.instance.GetRadioAbility("Rats").isActive);
+
+        //Toggle static effect for tuning abilities
+        CamEffectController.instance.SetEffectValues(usingAbility);
+        usingAbility = false; //always reset to false as the default state
     }
 
     public void SetActive(bool activeVal)
@@ -126,5 +131,10 @@ public class RadioController : MonoBehaviour
             currentCharge = maxCharge;
         else if (currentCharge < 0f)
             currentCharge = 0f;
+    }
+
+    public void UsingAbility()
+    {
+        usingAbility = true;
     }
 }

@@ -9,7 +9,7 @@ public class MainMenuController : MonoBehaviour
 {
     [SerializeField] GameObject mainMenuCanvas;
     [SerializeField] GameObject loadGameCanvas;
-    [SerializeField] TextMeshProUGUI loadGameText;
+    [SerializeField] TextMeshProUGUI loadGameText, debugText;
     [SerializeField] SpriteRenderer radioLight;
     Color defaultColor, fadeColor;
     bool loadingScene;
@@ -47,8 +47,8 @@ public class MainMenuController : MonoBehaviour
 
     public void NewGameButton()
     {
-
         SaveDataController.instance.CreateNewSaveFile();
+        mainMenuCanvas.SetActive(false);
         FadeController.instance.StartFade(1, 1f);
         sceneToLoad = "Title";
         loadingScene = true;

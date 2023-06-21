@@ -7,7 +7,7 @@ public class CamEffectController : MonoBehaviour
     public static CamEffectController instance;
 
     [SerializeField] AnalogGlitch glitchEffect;
-    [SerializeField] private bool effectOn; //Manually turn effect on/off
+    [SerializeField] private bool effectOn = false; //Manually turn effect on/off
 
 
     private void Awake()
@@ -25,14 +25,7 @@ public class CamEffectController : MonoBehaviour
 
     private void Update()
     {
-        if (effectOn || TuneAbility.instance.isUsing || InvisAbility.instance.isUsing || RatAbility.instance.isUsing)
-        {
-            glitchEffect.enabled = true;
-        }
-        else
-        {
-            glitchEffect.enabled = false;
-        }
+        glitchEffect.enabled = effectOn;
     }
 
 
