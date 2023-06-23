@@ -10,8 +10,8 @@ public class TitleScreenController : MonoBehaviour
     [SerializeField] AudioSource staticSource;
     [SerializeField] AudioSource musicSource;
 
-    [SerializeField] TextMeshPro titleText;
-    [SerializeField] TextMeshProUGUI quoteText, sigText;
+    [SerializeField] TextMeshPro titleText, quoteText, sigText;
+    //[SerializeField] TextMeshProUGUI quoteText, sigText;
 
     [SerializeField] float fadeSpeed, startDelayTime, musicDelayTime, quoteDelayTime, glitchDelayTime, titleDelayTime, titleDisplayTime, sceneDelayTime;
 
@@ -31,14 +31,14 @@ public class TitleScreenController : MonoBehaviour
         //Start static audio
         staticSource.volume = 0;
         staticSource.Play();
-        StartCoroutine(FadeAudio(staticSource, 1, startDelayTime));
+        StartCoroutine(FadeAudio(staticSource, 0.15f, startDelayTime));
 
         yield return new WaitForSeconds(startDelayTime);
 
         //Start music audio
         musicSource.volume = 0;
         musicSource.Play();
-        StartCoroutine(FadeAudio(musicSource, 1, musicDelayTime));
+        StartCoroutine(FadeAudio(musicSource, 0.15f, musicDelayTime));
 
         //Fade In Quote/Signature text
         quoteText.gameObject.SetActive(true);

@@ -11,6 +11,8 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] GameObject loadGameCanvas;
     [SerializeField] TextMeshProUGUI loadGameText, debugText;
     [SerializeField] SpriteRenderer radioLight;
+    [SerializeField] AudioSource backgroundAudio;
+    [SerializeField] float maxAudioVolume;
     Color defaultColor, fadeColor;
     bool loadingScene;
     string sceneToLoad;
@@ -26,11 +28,14 @@ public class MainMenuController : MonoBehaviour
         loadGameCanvas.SetActive(false);
         defaultColor = radioLight.color;
         fadeColor = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
+
+        //StartCoroutine(FadeAudio(backgroundAudio, maxAudioVolume, 10f));
     }
 
     private void Update()
     {
         radioLight.color = Color.Lerp(defaultColor, fadeColor, Mathf.PingPong(Time.time, 1));
+        backgroundAudio.volume = Mathf.Lerp(0f, maxAudioVolume, Time.time / 10f);    
 
         if (loadingScene)
         {
@@ -77,5 +82,16 @@ public class MainMenuController : MonoBehaviour
     public void QuitGameButton()
     {
         Application.Quit();
+    }
+
+    IEnumerator FadeAudio(AudioSource audioSource, float aValue, float aTime)
+    {
+        float delta = audioSource.volume;
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+        {
+            delta = Mathf.Lerp(delta, aValue, t);
+            audioSource.volume = delta;
+            yield return null;
+        }
     }
 }
