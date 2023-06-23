@@ -7,61 +7,81 @@ using TMPro;
 
 public class TitleScreenController : MonoBehaviour
 {
-    [SerializeField] AudioSource staticSource;
     [SerializeField] AudioSource musicSource;
-
-    [SerializeField] TextMeshPro titleText, quoteText, sigText;
-    //[SerializeField] TextMeshProUGUI quoteText, sigText;
-
-    [SerializeField] float fadeSpeed, startDelayTime, musicDelayTime, quoteDelayTime, glitchDelayTime, titleDelayTime, titleDisplayTime, sceneDelayTime;
+    [SerializeField] Camera MainCam, UICam;
+    [SerializeField] PanCamera panCamera;
+    [SerializeField] TextMeshProUGUI titleText, quoteText, sigText;
+    [SerializeField] float fadeSpeed, startDelayTime, quoteDelayTime, glitchDelayTime, titleDelayTime, titleDisplayTime, sceneDelayTime;
+    private float targetVolume, t = 0f;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        titleText.gameObject.SetActive(false);
-        quoteText.gameObject.SetActive(false);
-        sigText.gameObject.SetActive(false);
-
+        MainCam.enabled = false;
+        UICam.enabled = true;
         StartCoroutine(TitleScreenRoutine());
+    }
+
+    private void Update()
+    {
+        t += Time.deltaTime / 100f;
+        musicSource.volume = Mathf.Lerp(musicSource.volume, targetVolume, t);
     }
 
     IEnumerator TitleScreenRoutine()
     {
-        //Start static audio
-        staticSource.volume = 0;
-        staticSource.Play();
-        StartCoroutine(FadeAudio(staticSource, 0.15f, startDelayTime));
-
         yield return new WaitForSeconds(startDelayTime);
 
         //Start music audio
         musicSource.volume = 0;
         musicSource.Play();
-        StartCoroutine(FadeAudio(musicSource, 0.15f, musicDelayTime));
+        t = 0;
+        targetVolume = 0.15f;
+
 
         //Fade In Quote/Signature text
-        quoteText.gameObject.SetActive(true);
-        sigText.gameObject.SetActive(true);
-        FadeController.instance.StartFade(0, 2.5f);
+        FadeController.instance.StartFadeText(quoteText, 1, 2f);
+        while (FadeController.instance.isFading)
+            yield return null;
+        FadeController.instance.StartFadeText(sigText, 1, 2f);
+        while (FadeController.instance.isFading)
+            yield return null;
+
 
         yield return new WaitForSeconds(quoteDelayTime);
 
+
         //Fade Out Quote/Signature text
-        FadeController.instance.StartFade(1, 2.5f);
+        FadeController.instance.StartFadeText(quoteText, 0, 1f);
         while (FadeController.instance.isFading)
             yield return null;
-        quoteText.gameObject.SetActive(false);
-        sigText.gameObject.SetActive(false);
+        FadeController.instance.StartFadeText(sigText, 0, 1f);
+        while (FadeController.instance.isFading)
+            yield return null;
+
+
+        //Start PanCamera script
+        panCamera.TogglePanning(true);
+        MainCam.enabled = true;
+        FadeController.instance.StartFade(0, 2.5f);
+        while (FadeController.instance.isFading)
+            yield return null;
+        UICam.enabled = false;
+        while (panCamera.isPanning)
+            yield return null;
+
+        MainCam.enabled = false;
+        UICam.enabled = true;
 
         yield return new WaitForSeconds(titleDelayTime);
 
-        //Fade In Title text
-        titleText.gameObject.SetActive(true);
-        FadeController.instance.StartFade(0, 2.5f);
 
+        //Fade In Title text
+        FadeController.instance.StartFadeText(titleText, 1, 2.5f);
         while (FadeController.instance.isFading)
             yield return null;
+
 
         //Delay and activate glitch effect
         yield return new WaitForSeconds(glitchDelayTime);
@@ -70,28 +90,16 @@ public class TitleScreenController : MonoBehaviour
         yield return new WaitForSeconds(titleDisplayTime);
 
         //Fade Out Title Screen
-        FadeController.instance.StartFade(1, 2.5f);
+        t = 0;
+        targetVolume = 0f;
+        FadeController.instance.StartFadeText(titleText, 0, 2.5f);
         while (FadeController.instance.isFading)
             yield return null;
-        titleText.gameObject.SetActive(false);
 
         //Fade Out Static and Music audio
-        StartCoroutine(FadeAudio(musicSource, 0, sceneDelayTime));
-        //StartCoroutine(FadeAudio(staticSource, 0, sceneDelayTime));
         yield return new WaitForSeconds(sceneDelayTime);
 
         //Load next scene
-        SceneManager.LoadSceneAsync(2); //should link directly into starting scene
-    }
-
-    IEnumerator FadeAudio(AudioSource audioSource, float aValue, float aTime)
-    {
-        float delta = audioSource.volume;
-        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
-        {
-            delta = Mathf.Lerp(delta, aValue, t);
-            audioSource.volume = delta;
-            yield return null;
-        }
+        SceneManager.LoadSceneAsync(2);
     }
 }

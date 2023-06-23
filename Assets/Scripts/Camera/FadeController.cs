@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class FadeController : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class FadeController : MonoBehaviour
 
     [SerializeField] Image objectToFade;
     [HideInInspector] public bool isFading;
-    Coroutine fadeRoutine;
+    Coroutine fadeRoutine, fadeTextRoutine;
 
 
     private void Awake()
@@ -27,6 +28,12 @@ public class FadeController : MonoBehaviour
             fadeRoutine = StartCoroutine(FadeTo(aValue, aTime));
     }
 
+    public void StartFadeText(TextMeshProUGUI fadeGUI, float aValue, float aTime)
+    {
+        if (fadeTextRoutine == null)
+            fadeTextRoutine = StartCoroutine(FadeText(fadeGUI, aValue, aTime));
+    }
+
     IEnumerator FadeTo(float aValue, float aTime)
     {
         isFading = true;
@@ -42,5 +49,22 @@ public class FadeController : MonoBehaviour
         isFading = false;
 
         fadeRoutine = null;
+    }
+
+    IEnumerator FadeText(TextMeshProUGUI fadeGUI, float aValue, float aTime)
+    {
+        isFading = true;
+
+        float alpha = fadeGUI.color.a;
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+        {
+            Color newColor = new Color(fadeGUI.color.r, fadeGUI.color.g, fadeGUI.color.b, Mathf.Lerp(alpha, aValue, t));
+            fadeGUI.color = newColor;
+            yield return null;
+        }
+
+        isFading = false;
+
+        fadeTextRoutine = null;
     }
 }

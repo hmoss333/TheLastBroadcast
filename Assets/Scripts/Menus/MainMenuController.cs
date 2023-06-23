@@ -55,7 +55,7 @@ public class MainMenuController : MonoBehaviour
         SaveDataController.instance.CreateNewSaveFile();
         mainMenuCanvas.SetActive(false);
         FadeController.instance.StartFade(1, 1f);
-        sceneToLoad = "Title";
+        sceneToLoad = "RadioRoom"; //"Title";
         loadingScene = true;
     }
 
