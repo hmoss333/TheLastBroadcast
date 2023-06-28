@@ -11,9 +11,9 @@ public class RadioController : MonoBehaviour
 
     [Header("Radio Control Variables")]
     [SerializeField] private float speed;
-    [SerializeField] private float maxFrequency;
-    public float maxCharge;// { get; private set; }
-    public float currentCharge;// { get; private set; }
+    private float maxFrequency = 10f;
+    public float maxCharge { get; private set; }
+    public float currentCharge { get; private set; }
     public float currentFrequency { get; private set; }
     public bool isActive { get; private set; }
     public bool abilityMode { get; private set; }
@@ -43,7 +43,7 @@ public class RadioController : MonoBehaviour
         if (instance == null)
             instance = this;
         else
-            Destroy(this.gameObject);
+            Destroy(this);
     }
 
     private void Start()
@@ -91,6 +91,7 @@ public class RadioController : MonoBehaviour
         else
         {
             abilityMode = false;
+            currentFrequency = 0f;
         }
 
         staticSource.mute = !isActive;

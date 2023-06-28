@@ -292,6 +292,34 @@ public class SaveDataController : MonoBehaviour
     {
         return saveData.cardLevel;
     }
+
+    public void CollectHealthPart()
+    {
+        saveData.healthParts++;
+        int currentParts = saveData.healthParts;
+
+        if (currentParts >= 3)
+        {
+            saveData.maxHealth++;
+            saveData.healthParts = 0;
+        }
+
+        SaveFile();
+    }
+
+    public void CollectChargePart()
+    {
+        saveData.chargeParts++;
+        int currentParts = saveData.chargeParts;
+
+        if (currentParts >= 3)
+        {
+            saveData.maxCharge += 10f;
+            saveData.chargeParts = 0;
+        }
+
+        SaveFile();
+    }
 }
 
 

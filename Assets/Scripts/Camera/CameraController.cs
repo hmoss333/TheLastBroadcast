@@ -44,12 +44,6 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        //Shift xOff based on left/right movement
-        if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x < 0)
-            offset.x = -xTemp;
-        else if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x > 0)
-            offset.x = xTemp;
-
         //Manualy shift xOff with button press
         if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)
         {
