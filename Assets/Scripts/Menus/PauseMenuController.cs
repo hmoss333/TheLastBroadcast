@@ -26,7 +26,9 @@ public class PauseMenuController : MonoBehaviour
 
     public void Update()
     {
-        if (PlayerController.instance.inputMaster.Player.Pause.triggered && PlayerController.instance.state != PlayerController.States.interacting)
+        if (PlayerController.instance.inputMaster.Player.Pause.triggered
+            && PlayerController.instance.state != PlayerController.States.interacting
+            && PlayerController.instance.state != PlayerController.States.listening)
         {
             isPaused = !isPaused;
 

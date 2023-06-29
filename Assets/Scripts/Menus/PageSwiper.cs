@@ -27,16 +27,18 @@ public class PageSwiper : MonoBehaviour
         {
             if (PlayerController.instance.inputMaster.Player.MenuRight.triggered && currentChild < transform.childCount - 1)
             {
-                currentChild++;
-                panelLocation -= new Vector3(Screen.width, 0, 0);
-                StartCoroutine(SmoothMove(transform.position, panelLocation, easing));
+                //currentChild++;
+                //panelLocation -= new Vector3(Screen.width, 0, 0);
+                //StartCoroutine(SmoothMove(transform.position, panelLocation, easing));
+                RightButton();
             }
 
             if (PlayerController.instance.inputMaster.Player.MenuLeft.triggered && currentChild > 0)
             {
-                currentChild--;
-                panelLocation += new Vector3(Screen.width, 0, 0);
-                StartCoroutine(SmoothMove(transform.position, panelLocation, easing));
+                //currentChild--;
+                //panelLocation += new Vector3(Screen.width, 0, 0);
+                //StartCoroutine(SmoothMove(transform.position, panelLocation, easing));
+                LeftButton();
             }
         }
     }
@@ -53,5 +55,19 @@ public class PageSwiper : MonoBehaviour
         }
 
         changingPanel = false;
+    }
+
+    public void LeftButton()
+    {
+        currentChild--;
+        panelLocation += new Vector3(Screen.width, 0, 0);
+        StartCoroutine(SmoothMove(transform.position, panelLocation, easing));
+    }
+
+    public void RightButton()
+    {
+        currentChild++;
+        panelLocation -= new Vector3(Screen.width, 0, 0);
+        StartCoroutine(SmoothMove(transform.position, panelLocation, easing));
     }
 }
