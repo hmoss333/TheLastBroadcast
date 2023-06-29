@@ -6,13 +6,15 @@ public class TriggerZone : InteractObject
 {
     [SerializeField] bool focusCam;
     [SerializeField] GameObject[] objectsToActivate;
+    Coroutine unlockRoutine;
 
 
-    private void OnEnable()
+    private void Start()
     {
+        print($"HasActivated: {hasActivated}");
         if (hasActivated)
         {
-            StartCoroutine(UnlockObjects(false));
+            unlockRoutine = StartCoroutine(UnlockObjects(false));
         }
     }
 
@@ -29,6 +31,8 @@ public class TriggerZone : InteractObject
     {
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
+            print($"Activating object: {objectsToActivate[i].name}");
+
             if (focusCamera)
                 CameraController.instance.SetTarget(objectsToActivate[i].gameObject);
 
