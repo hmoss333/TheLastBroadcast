@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class InteractObject : SaveObject
 {
-    public bool interacting, hideOnLoad = false;
+    public bool interacting;//, hideOnLoad = false;
     public string inactiveText;
     public GameObject focusPoint;
 
-    private void OnEnable()
-    {
-        if (hasActivated && hideOnLoad)
-        {
-            gameObject.SetActive(false);
-        }
-    }
+    //private void OnEnable()
+    //{
+    //    if (hasActivated && hideOnLoad)
+    //    {
+    //        gameObject.SetActive(false);
+    //    }
+    //}
 
     public virtual void Interact()
     {

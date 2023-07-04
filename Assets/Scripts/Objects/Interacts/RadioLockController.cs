@@ -6,13 +6,12 @@ using UnityEngine.ProBuilder.Shapes;
 public class RadioLockController : SaveObject
 {
     [SerializeField] private bool interacting;
-    //[SerializeField] private bool focusOnActivate;
     [SerializeField] private float checkRadius = 4.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
     [SerializeField] private float checkTime = 2f; //time the radio must stay within the frequency range to activate
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private MeshRenderer mesh;
-    [SerializeField] private GameObject[] objectsToActivate;
+    [SerializeField] private SaveObject[] objectsToActivate;
 
     float tempTime = 0f;
     Coroutine unlockRoutine;
@@ -21,17 +20,6 @@ public class RadioLockController : SaveObject
     {
         mesh.material.color = Color.red;
         checkFrequency = Random.Range(1f, 7.5f);
-        
-        //This is gross; need to refactor the activation logic
-        if (hasActivated)
-        {
-            for (int i = 0; i < objectsToActivate.Length; i++)
-            {
-                SaveObject tempSaveObj = objectsToActivate[i].GetComponent<InteractObject>();
-                if (tempSaveObj == null)
-                    objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
-            }
-        }
     }
 
     void Update()
@@ -74,36 +62,12 @@ public class RadioLockController : SaveObject
 
     IEnumerator UnlockObjects()
     {
-        //if (focusOnActivate)
-        //{
-        //    CameraController.instance.SetCamLock(true);
-        //    
-        //}
-
         yield return new WaitForSeconds(0.5f);
 
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
-            //if (focusOnActivate && objectsToActivate[i].transform.parent.gameObject.activeSelf)
-            //{
-            //    CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null
-            //        ? tempInteract.focusPoint : objectsToActivate[i].gameObject);
-            //    CameraController.instance.transform.position = tempInteract != null && tempInteract.focusPoint != null
-            //        ? tempInteract.focusPoint.transform.position : objectsToActivate[i].gameObject.transform.position;
-            //}
-
-            if (tempInteract != null)
-                tempInteract.Activate();
-            else
-                objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
-
-            //if (focusOnActivate)
-            //    yield return new WaitForSeconds(1f);
+            objectsToActivate[i].Activate();
         }
-
-        //CameraController.instance.SetCamLock(false);
-        //CameraController.instance.SetTarget(PlayerController.instance.gameObject);
 
         unlockRoutine = null;
     }

@@ -7,8 +7,24 @@ using UnityEngine.SceneManagement;
 public class SaveObject : MonoBehaviour
 {
     public string id;
-    public bool active = true, hasActivated;
+    public bool active = true, hasActivated, hideOnLoad = false;
 
+
+    private void Start()
+    {
+        if ((hasActivated || !active) && hideOnLoad)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    private void OnEnable()
+    {
+        if ((hasActivated || !active) && hideOnLoad)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 
     private void OnValidate()
     {
@@ -19,13 +35,20 @@ public class SaveObject : MonoBehaviour
     {
         active = !active;
         print($"Set active state of {gameObject.name} to {active}");
-        //SaveDataController.instance.SaveObjectData();
+
+        if (active && !gameObject.activeSelf)
+            gameObject.SetActive(true);
+
+        if (hideOnLoad && !active)
+            gameObject.SetActive(false);
     }
 
     public virtual void SetHasActivated()
     {
         hasActivated = true;
         print($"Set hasActivated state of {gameObject.name} to {hasActivated}");
-        //SaveDataController.instance.SaveObjectData();
+
+        if (hideOnLoad)
+            gameObject.SetActive(false);
     }
 }

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1495439044732132120}
   - component: {fileID: 1495439044732132125}
-  - component: {fileID: 1495439044732132123}
   m_Layer: 10
   m_Name: Wall
   m_TagString: Untagged
@@ -43,19 +42,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495439044732132121}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &1495439044732132123
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495439044732132121}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.5}
-  m_Center: {x: 0, y: 0, z: 0.25}
 --- !u!1 &6606817494884522153
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,6 +54,7 @@ GameObject:
   - component: {fileID: 2642706329218497419}
   - component: {fileID: 2948814637302415804}
   - component: {fileID: 5059628946128035862}
+  - component: {fileID: 2178595328184686311}
   m_Layer: 10
   m_Name: Wall
   m_TagString: Untagged
@@ -154,6 +141,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2178595328184686311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6606817494884522153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72a98e15d9204a74a951faf5769230f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileX: 100
+  tileY: 100
 --- !u!1 &7954424414186295800
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,6 +167,7 @@ GameObject:
   - component: {fileID: 5221502148962636653}
   - component: {fileID: 26847858351917509}
   - component: {fileID: 6378626622621290328}
+  - component: {fileID: 4518351735887837402}
   m_Layer: 10
   m_Name: Base
   m_TagString: Untagged
@@ -251,3 +253,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9999999, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4518351735887837402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7954424414186295800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72a98e15d9204a74a951faf5769230f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileX: 100
+  tileY: 100

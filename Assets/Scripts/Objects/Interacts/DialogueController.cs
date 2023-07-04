@@ -60,6 +60,6 @@ public class DialogueController : InteractObject
 
     public override void Activate()
     {
-        active = true;
+        base.Activate();
     }
 }
