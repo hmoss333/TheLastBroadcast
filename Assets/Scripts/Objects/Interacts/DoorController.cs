@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+[RequireComponent(typeof(AudioSource))]
 public class DoorController : InteractObject
 {
     [SerializeField] private int securityLevel;
@@ -43,6 +45,8 @@ public class DoorController : InteractObject
 
     IEnumerator DoorTrigger()
     {
+        GetComponent<AudioSource>().Play();
+
         yield return new WaitForSeconds(0.5f);
 
         FadeController.instance.StartFade(1.0f, 1f);
