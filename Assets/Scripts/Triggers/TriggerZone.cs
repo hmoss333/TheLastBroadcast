@@ -10,10 +10,12 @@ public class TriggerZone : InteractObject
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && active && !hasActivated)
+        if (other.tag == "Player"
+            && active
+            && !hasActivated
+            && unlockRoutine == null)
         {
-            //SetHasActivated();
-            StartCoroutine(UnlockObjects());
+            unlockRoutine = StartCoroutine(UnlockObjects());
         }
     }
 
@@ -28,16 +30,7 @@ public class TriggerZone : InteractObject
             yield return new WaitForSeconds(1.25f);
         }
 
-        //try
-        //{
-        //    print($"Cam Last target: {CameraController.instance.GetLastTarget().name}");
-        //    if (CameraController.instance.GetLastTarget() != null)
-        //        CameraController.instance.LoadLastTarget();
-        //    else
-        //        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
-        //}
-        //catch { }
-
         SetHasActivated();
+        unlockRoutine = null;
     }
 }

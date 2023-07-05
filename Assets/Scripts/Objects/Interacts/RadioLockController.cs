@@ -46,7 +46,7 @@ public class RadioLockController : SaveObject
                 {
                     SetHasActivated();
                     if (unlockRoutine == null)
-                        StartCoroutine(UnlockObjects());
+                        unlockRoutine = StartCoroutine(UnlockObjects());
                 }
             }
             else if (interacting)
