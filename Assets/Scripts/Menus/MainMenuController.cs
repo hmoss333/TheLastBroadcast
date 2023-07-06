@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using TMPro;
+using System.IO;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -52,10 +53,40 @@ public class MainMenuController : MonoBehaviour
 
     public void NewGameButton()
     {
+        //TODO
+        //Implement commented out logic to offer option to overwrite save file
+        //SaveDataController.instance.LoadFile();
+
+        //if (SaveDataController.instance.saveData.currentScene != "")
+        //{
+        //    //If no previous save file exists, create new
+        //    SaveDataController.instance.CreateNewSaveFile();
+        //    mainMenuCanvas.SetActive(false);
+        //    FadeController.instance.StartFade(1, 1f);
+        //    sceneToLoad = "RadioRoom";
+        //    loadingScene = true;
+        //}
+        //else
+        //{
+        //    //If a save file is found, display save file confirmation panel
+        //}
+
+        if (Directory.Exists(System.IO.Path.Combine(Application.persistentDataPath, "Save")))
+        {
+            print("Deleting old save file");
+            Directory.Delete(System.IO.Path.Combine(Application.persistentDataPath, "Save"), true);
+        }
+
+        if (Directory.Exists(System.IO.Path.Combine(Application.persistentDataPath, "LevelData")))
+        {
+            print("Deleting old level data");
+            Directory.Delete(System.IO.Path.Combine(Application.persistentDataPath, "LevelData"), true);
+        }
+
         SaveDataController.instance.CreateNewSaveFile();
         mainMenuCanvas.SetActive(false);
         FadeController.instance.StartFade(1, 1f);
-        sceneToLoad = "RadioRoom"; //"Title";
+        sceneToLoad = "RadioRoom"; 
         loadingScene = true;
     }
 
