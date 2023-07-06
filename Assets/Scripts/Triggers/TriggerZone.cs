@@ -30,7 +30,8 @@ public class TriggerZone : InteractObject
             yield return new WaitForSeconds(1.25f);
         }
 
-        SetHasActivated();
+        //SetHasActivated();
+        active = false;
         unlockRoutine = null;
     }
 }
