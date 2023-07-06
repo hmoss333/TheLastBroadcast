@@ -69,7 +69,17 @@ public class TVController : SavePointController
         if (active)
         {
             interacting = !interacting;
-            PlayerController.instance.GetComponent<Health>().SetHealth(5); //set health back to max
+            PlayerController.instance.GetComponent<Health>().SetHealth(SaveDataController.instance.saveData.maxHealth); //set health back to max
+            RadioController.instance.ModifyCharge(SaveDataController.instance.saveData.maxCharge); //set charge back to max
+
+            //Focus on TV screen
+            PlayerController.instance.ToggleAvatar();
+            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            CameraController.instance.FocusTarget();
+
+            //Display 'Saving...' text
+            UIController.instance.SetDialogueText("Saving...");
+            UIController.instance.ToggleDialogueUI(interacting);
 
             if (interacting)
             {

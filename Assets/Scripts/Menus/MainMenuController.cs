@@ -54,7 +54,7 @@ public class MainMenuController : MonoBehaviour
     public void NewGameButton()
     {
         //TODO
-        //Implement commented out logic to offer option to overwrite save file
+        //Implement commented-out logic to offer option to overwrite save file
         //SaveDataController.instance.LoadFile();
 
         //if (SaveDataController.instance.saveData.currentScene != "")
@@ -93,13 +93,10 @@ public class MainMenuController : MonoBehaviour
     public void LoadGameButton()
     {
         SaveDataController.instance.LoadFile();
-        SaveDataController.instance.LoadObjectData(SaveDataController.instance.saveData.currentScene);
 
-        int saveID = SaveDataController.instance.sceneObjectContainer.savePointID;
-        loadGameText.text = $"{SaveDataController.instance.saveData.currentScene}: \nSaveID: {saveID}";
-
-        if (SaveDataController.instance.saveData.currentScene != "")
+        if (SaveDataController.instance.saveData.currentScene != string.Empty)
         {
+            loadGameText.text = $"Last save point: {SaveDataController.instance.saveData.currentScene}";
             mainMenuCanvas.SetActive(false);
             loadGameCanvas.SetActive(true);
 
