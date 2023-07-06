@@ -21,7 +21,7 @@ public class HealthStationController : InteractObject
             if (tempTime >= waitTime)
             {
                 int currentHealth = playerHealth.CurrentHealth();
-                print($"Player health = {currentHealth++}");
+                //print($"Player health = {currentHealth++}");
                 playerHealth.SetHealth(currentHealth++);
                 CamEffectController.instance.ShockEffect(0.25f);
                 tempTime = 0;

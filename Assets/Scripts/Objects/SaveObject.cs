@@ -34,7 +34,7 @@ public class SaveObject : MonoBehaviour
     public virtual void Activate()
     {
         active = !active;
-        print($"Set active state of {gameObject.name} to {active}");
+        //print($"Set active state of {gameObject.name} to {active}");
 
         if (active && !gameObject.activeSelf)
             gameObject.SetActive(true);
@@ -46,7 +46,7 @@ public class SaveObject : MonoBehaviour
     public virtual void SetHasActivated()
     {
         hasActivated = true;
-        print($"Set hasActivated state of {gameObject.name} to {hasActivated}");
+        //print($"Set hasActivated state of {gameObject.name} to {hasActivated}");
 
         if (hideOnLoad)
             gameObject.SetActive(false);
