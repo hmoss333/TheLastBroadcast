@@ -63,13 +63,17 @@ public class MainMenuController : MonoBehaviour
     {
         SaveDataController.instance.LoadFile();
         SaveDataController.instance.LoadObjectData(SaveDataController.instance.saveData.currentScene);
-        mainMenuCanvas.SetActive(false);
-        loadGameCanvas.SetActive(true);
-
-        eventSystem.SetSelectedGameObject(loadButton);
 
         int saveID = SaveDataController.instance.sceneObjectContainer.savePointID;
         loadGameText.text = $"{SaveDataController.instance.saveData.currentScene}: \nSaveID: {saveID}";
+
+        if (SaveDataController.instance.saveData.currentScene != "")
+        {
+            mainMenuCanvas.SetActive(false);
+            loadGameCanvas.SetActive(true);
+
+            eventSystem.SetSelectedGameObject(loadButton);
+        }
     }
 
     public void StartSavedGame()

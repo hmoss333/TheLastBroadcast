@@ -33,7 +33,6 @@ public class SaveDataController : MonoBehaviour
 
         LoadFile();
         LoadLoreData();
-        //LoadObjectData(saveData.currentScene);
     }
 
 
