@@ -11,6 +11,7 @@ public class DoorController : InteractObject
     [SerializeField] private string lockedText = "Current security level is too low";
     [SerializeField] Transform exitPoint;
     RoomController exitRoom;
+    [SerializeField] float triggerTime = 0.5f;
 
 
     private void Awake()
@@ -45,9 +46,15 @@ public class DoorController : InteractObject
 
     IEnumerator DoorTrigger()
     {
+        if (focusPoint != null)
+        {
+            CameraController.instance.SetTarget(focusPoint);
+            CameraController.instance.SetRotation(true);
+        }
+
         GetComponent<AudioSource>().Play();
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(triggerTime);
 
         FadeController.instance.StartFade(1.0f, 1f);
 
