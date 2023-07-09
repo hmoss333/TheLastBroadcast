@@ -47,9 +47,13 @@ public class DialogueController : InteractObject
                     SetHasActivated(); //Dialogue event has completed
                 else
                     index = -1; //Reset dialogue
-                CameraController.instance.SetLastTarget(PlayerController.instance.gameObject); //Once out of the trigger, set the player to the last camera target
-                CameraController.instance.SetTarget(PlayerController.instance.gameObject); //Set the camera to focus on the player
-                CameraController.instance.SetRotation(false); //Disable forced rotation
+
+                if (CameraController.instance.GetLastTarget() == PlayerController.instance.transform)
+                {
+                    CameraController.instance.LoadLastTarget();
+                    CameraController.instance.SetRotation(false); //Disable forced rotation
+                }
+
                 PlayerController.instance.SetState(PlayerController.States.idle); //Allow player to move freely
             }
 
