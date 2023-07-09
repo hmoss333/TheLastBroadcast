@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RoomController : MonoBehaviour
 {
-    [SerializeField] AudioSource audioSource;
+    AudioSource audioSource;
     [SerializeField] AudioClip backgroundAudioClip;
 
 

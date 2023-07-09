@@ -20,7 +20,7 @@ public class CamTriggerZone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && CameraController.instance.GetLastTarget() == camPos.transform)
         {
             CameraController.instance.SetLastTarget(PlayerController.instance.gameObject); //Once out of the trigger, set the player to the last camera target
             CameraController.instance.SetTarget(PlayerController.instance.gameObject); //Set the camera to focus on the player
