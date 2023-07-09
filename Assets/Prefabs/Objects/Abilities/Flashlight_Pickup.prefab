@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1462965014302799180}
   - component: {fileID: 6083146732114655627}
   - component: {fileID: 8040774512508553494}
+  - component: {fileID: 4910928714231077446}
   m_Layer: 8
   m_Name: Flashlight_Pickup
   m_TagString: Untagged
@@ -59,13 +60,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f0730b65cad49da8fc98252aa72a26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 
   active: 1
   hasActivated: 0
+  hideOnLoad: 0
   interacting: 0
+  inactiveText: 
+  focusPoint: {fileID: 0}
   collectType: 3
-  abilityText: Hold {Shift Right} to illuminate the dark places. Can also be used
-    to blind attackers
+  abilityText: Hold {Flashlight} to illuminate the dark places and blind attackers.
   abilityIcon: {fileID: 21300000, guid: d03d01f4ae178499da6226b81d4ae0d5, type: 3}
+--- !u!114 &4910928714231077446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462965014302304620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id:
+    Value: 
 --- !u!1 &2598751770638358125
 GameObject:
   m_ObjectHideFlags: 0
