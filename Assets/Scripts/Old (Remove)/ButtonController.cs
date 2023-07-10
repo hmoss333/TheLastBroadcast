@@ -6,6 +6,7 @@ public class ButtonController : InteractObject
 {
     [SerializeField] SaveObject[] objectsToActivate;
     [SerializeField] string triggerText;
+    [SerializeField] float activateDelay = 0.5f;
 
 
     public override void Interact()
@@ -35,7 +36,7 @@ public class ButtonController : InteractObject
         {
             objectsToActivate[i].Activate();
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(activateDelay);
         }
     }
 }

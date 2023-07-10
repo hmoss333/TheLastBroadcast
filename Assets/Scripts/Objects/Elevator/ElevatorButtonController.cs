@@ -11,7 +11,7 @@ public class ElevatorButtonController : InteractObject
     public override void Interact()
     {
         //print("Interacting with elevator button");
-        elevatorController.CallElevator(moveDown);
+        //elevatorController.CallElevator(moveDown);
         //PlayerController.instance.InteractToggle(false);
     }
 }
