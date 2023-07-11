@@ -133,7 +133,12 @@ public class CameraController : MonoBehaviour
         SetRotation(focus);
     }
 
-    public bool isFocused()
+    public void SetFocus(bool focusState)
+    {
+        focus = focusState;
+    }
+
+    public bool GetFocusState()
     {
         return focus;
     }

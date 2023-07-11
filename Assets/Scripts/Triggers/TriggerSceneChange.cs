@@ -7,13 +7,22 @@ public class TriggerSceneChange : MonoBehaviour
 {
     [SerializeField] string sceneToLoad;
     [SerializeField] float fadeTime = 1f, transitionDelay = 0f;
+    Coroutine changeScene;
 
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            StartCoroutine(LoadScene(sceneToLoad));
+            ChangeScene(sceneToLoad);
+        }
+    }
+
+    public void ChangeScene(string sceneToLoad)
+    {
+        if (changeScene == null)
+        {
+            changeScene = StartCoroutine(LoadScene(sceneToLoad));
         }
     }
 

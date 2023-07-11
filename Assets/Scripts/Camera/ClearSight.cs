@@ -21,7 +21,7 @@ public class ClearSight : MonoBehaviour
             {
                 Renderer R = hit.collider.GetComponent<Renderer>();
 
-                if (R == null || CameraController.instance.isFocused())
+                if (R == null || CameraController.instance.GetFocusState())
                     continue; // no renderer attached? go to next hit
                               // TODO: maybe implement here a check for GOs that should not be affected like the player
 

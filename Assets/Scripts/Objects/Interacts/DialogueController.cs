@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class DialogueController : InteractObject
 {
@@ -11,7 +13,9 @@ public class DialogueController : InteractObject
     [SerializeField] private string[] lines;
     [SerializeField] private int index;
     [SerializeField] private bool canInteract;
-
+    [FormerlySerializedAs("onTrigger")]
+    [SerializeField]
+    private UnityEvent m_OnTrigger = new UnityEvent();
 
 
     private void Update()
@@ -55,6 +59,8 @@ public class DialogueController : InteractObject
                 }
 
                 PlayerController.instance.SetState(PlayerController.States.idle); //Allow player to move freely
+
+                m_OnTrigger.Invoke();
             }
 
             UIController.instance.ToggleDialogueUI(interacting);

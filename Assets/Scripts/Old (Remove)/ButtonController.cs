@@ -22,6 +22,13 @@ public class ButtonController : InteractObject
 
     public override void StartInteract()
     {
+        if (focusPoint)
+        {
+            PlayerController.instance.ToggleAvatar();
+            CameraController.instance.SetTarget(focusPoint);
+            CameraController.instance.FocusTarget();
+        }
+
         UIController.instance.SetDialogueText(triggerText);
         UIController.instance.ToggleDialogueUI(true);
 
@@ -30,6 +37,13 @@ public class ButtonController : InteractObject
 
     public override void EndInteract()
     {
+        if (focusPoint)
+        {
+            PlayerController.instance.ToggleAvatar();
+            CameraController.instance.LoadLastTarget();
+            CameraController.instance.FocusTarget();
+        }
+
         UIController.instance.ToggleDialogueUI(false);
         SetHasActivated();
     }
