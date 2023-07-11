@@ -1,11 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using static UnityEngine.UI.Button;
+using UnityEngine.Serialization;
+using static UnityEngine.Rendering.DebugUI;
 
 public class TriggerZone : InteractObject
 {
     [SerializeField] SaveObject[] objectsToActivate;
     Coroutine unlockRoutine;
+
+    [FormerlySerializedAs("onTrigger")]
+    [SerializeField]
+    private UnityEvent m_OnTrigger = new UnityEvent();
 
 
     private void OnTriggerEnter(Collider other)
@@ -21,6 +30,8 @@ public class TriggerZone : InteractObject
 
     IEnumerator UnlockObjects()
     {
+        m_OnTrigger.Invoke();
+
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             print($"Activating object: {objectsToActivate[i].name}");

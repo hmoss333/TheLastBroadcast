@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class ButtonController : InteractObject
 {
     [SerializeField] SaveObject[] objectsToActivate;
     [SerializeField] string triggerText;
     [SerializeField] float activateDelay = 0.5f;
+    [FormerlySerializedAs("onTrigger")]
+    [SerializeField]
+    private UnityEvent m_OnTrigger = new UnityEvent();
 
 
     public override void Interact()
@@ -38,5 +43,7 @@ public class ButtonController : InteractObject
 
             yield return new WaitForSeconds(activateDelay);
         }
+
+        m_OnTrigger.Invoke();
     }
 }
