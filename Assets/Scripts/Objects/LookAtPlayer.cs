@@ -9,7 +9,7 @@ public class LookAtPlayer : MonoBehaviour
     {
         if (PlayerController.instance.abilityState != PlayerController.AbilityStates.invisible) //.invisible)
         {
-            Vector3 playerPos = new Vector3(PlayerController.instance.transform.position.x, 0f, PlayerController.instance.transform.position.z);
+            Vector3 playerPos = new Vector3(PlayerController.instance.transform.position.x, PlayerController.instance.transform.localPosition.y - 1f, PlayerController.instance.transform.position.z);
             transform.LookAt(playerPos);
         }
     }

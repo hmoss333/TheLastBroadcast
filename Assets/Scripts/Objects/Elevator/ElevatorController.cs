@@ -19,11 +19,29 @@ public class ElevatorController : DoorController
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
     }
 
+    private void OnEnable()
+    {
+        if (active)
+        {
+            foreach (Animator anim in anims)
+            {
+                anim.SetTrigger("activate");//.SetBool("closeDoor", doorState);
+            }
+        }
+    }
+
     public override void Activate()
     {
         base.Activate();
 
         elevatorLight.enabled = active;
+        if (active)
+        {
+            foreach (Animator anim in anims)
+            {
+                anim.SetTrigger("activate");
+            }
+        }
     }
 
     //private void Update()
@@ -106,6 +124,11 @@ public class ElevatorController : DoorController
 
         if (exitRoom)
             exitRoom.gameObject.SetActive(true);
+
+        foreach (Animator anim in anims)
+        {
+            anim.SetTrigger("activate");
+        }
 
         FadeController.instance.StartFade(0.0f, 1f);
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
