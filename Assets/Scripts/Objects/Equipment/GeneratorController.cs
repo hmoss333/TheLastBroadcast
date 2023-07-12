@@ -8,29 +8,16 @@ public class GeneratorController : InteractObject
     [NaughtyAttributes.HorizontalLine]
     [Header("Equipment References")]
     [SerializeField] private SaveObject[] objectsToActivate;
-    [SerializeField] private GameObject[] normalObjectsToActivate;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
     [SerializeField] private GameObject miniGameUI;
     [SerializeField] private Image miniGameRotObj, buttonIcon;
-    private bool turnedOn;
     private int hitCount;
     [SerializeField] private float turnSpeed, angle = 0, radius = 7.5f;
-
     private Coroutine resetColor;
 
 
-    private void Start()
-    {
-        if (hasActivated)
-        {
-            for (int j = 0; j < normalObjectsToActivate.Length; j++)
-            {
-                normalObjectsToActivate[j].SetActive(!normalObjectsToActivate[j].activeSelf);
-            }
-        }
-    }
 
     private void Update()
     {
@@ -61,7 +48,6 @@ public class GeneratorController : InteractObject
 
     public void Hit()
     {
-        print("Hit");
         buttonIcon.color = Color.green;
         hitCount++;
 
@@ -76,7 +62,6 @@ public class GeneratorController : InteractObject
 
     public void Miss()
     {
-        print("Miss");
         buttonIcon.color = Color.red;
         hitCount = 0;
 
@@ -103,16 +88,11 @@ public class GeneratorController : InteractObject
 
     void TurnOn()
     {
-        turnedOn = true;
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             objectsToActivate[i].Activate();
         }
 
-        for (int j = 0; j < normalObjectsToActivate.Length; j++)
-        {
-            normalObjectsToActivate[j].SetActive(!normalObjectsToActivate[j].activeSelf);
-        }
         SetHasActivated();
 
         PlayerController.instance.ToggleAvatar();

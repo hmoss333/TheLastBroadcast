@@ -9,8 +9,8 @@ public class DoorController : InteractObject
 {
     [SerializeField] private int securityLevel;
     [SerializeField] private string lockedText = "Current security level is too low";
-    [SerializeField] Transform exitPoint;
-    RoomController exitRoom;
+    public Transform exitPoint;
+    [HideInInspector] public RoomController exitRoom;
     [SerializeField] float triggerTime = 0.5f;
 
 

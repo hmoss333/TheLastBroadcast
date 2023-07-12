@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElevatorController : MonoBehaviour
+public class ElevatorController : DoorController
 {
     [SerializeField] private float doorDelay;
     //[SerializeField] private bool moving, movingDown;
     //[SerializeField] private Transform bottomPoint, topPoint;
-    [SerializeField] Transform exitPoint;
-    RoomController exitRoom;
+    //[SerializeField] Transform exitPoint;
+    //RoomController exitRoom;
+    [SerializeField] Light elevatorLight;
     [SerializeField] Animator[] anims;
 
 
@@ -16,6 +17,13 @@ public class ElevatorController : MonoBehaviour
     {
         if (exitPoint)
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
+    }
+
+    public override void Activate()
+    {
+        base.Activate();
+
+        elevatorLight.enabled = active;
     }
 
     //private void Update()
@@ -60,20 +68,11 @@ public class ElevatorController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && active)
         {
             //other.transform.parent = this.transform;
             //other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             StartCoroutine(CloseDoors(true, doorDelay));
-
-            //if (transform.position == bottomPoint.position)
-            //{
-            //    movingDown = false;
-            //}
-            //else if (transform.position == topPoint.position)
-            //{
-            //    movingDown = true;
-            //}
         }
     }
 
