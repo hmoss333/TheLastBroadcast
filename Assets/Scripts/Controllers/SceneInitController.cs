@@ -86,7 +86,7 @@ public class SceneInitController : MonoBehaviour
                     point.transform.parent.gameObject.SetActive(true);
                 PlayerController.instance.transform.position = point.initPoint.position;
                 PlayerController.instance.transform.rotation = point.initPoint.rotation;
-                PlayerController.instance.SetState(PlayerController.States.idle);
+                //PlayerController.instance.SetState(PlayerController.States.idle);
                 break;
             }
         }
