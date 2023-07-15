@@ -2251,7 +2251,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: MainMenu
+          m_StringArgument: Apartment
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1001 &94571348
@@ -5903,7 +5903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802608, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802609, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: m_RootOrder
@@ -16963,6 +16963,17 @@ PrefabInstance:
       objectReference: {fileID: 94571349}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
+--- !u!114 &478641341 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1870827003, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
+  m_PrefabInstance: {fileID: 478641340}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff10de049634476f86b346f0a842f5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &479948265
 GameObject:
   m_ObjectHideFlags: 0
@@ -29400,7 +29411,7 @@ Transform:
   m_GameObject: {fileID: 783164298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.25, y: 1.7, z: 42.44}
-  m_LocalScale: {x: 2, y: 2.75, z: 1}
+  m_LocalScale: {x: 1.75, y: 2.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 452861832}
@@ -35150,7 +35161,19 @@ MonoBehaviour:
   - {fileID: 8749966571032506651}
   m_OnTrigger:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 478641341}
+        m_TargetAssemblyTypeName: CamEffectController, Assembly-CSharp
+        m_MethodName: ForceEffect
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &956577005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48962,7 +48985,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1263304324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84111,7 +84134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f12f2bffadc4e44988e61a22388b2fb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: MainMenu
+  sceneToLoad: Apartment
   fadeTime: 3
   transitionDelay: 1.5
 --- !u!1 &8766609569873379570

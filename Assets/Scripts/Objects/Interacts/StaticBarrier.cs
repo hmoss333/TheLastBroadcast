@@ -15,6 +15,7 @@ public class StaticBarrier : MonoBehaviour
     float dissolveVal;
     bool dissolving, activated;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,18 +60,7 @@ public class StaticBarrier : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            StartCoroutine(CollisionEffect());
+            CamEffectController.instance.ShockEffect(0.25f);
         }
-    }
-
-    IEnumerator CollisionEffect()
-    {
-        CamEffectController.instance.SetEffectValues(true);
-        collideAudio.mute = false;
-
-        yield return new WaitForSeconds(0.15f);
-
-        CamEffectController.instance.SetEffectValues(false);
-        collideAudio.mute = true;
     }
 }

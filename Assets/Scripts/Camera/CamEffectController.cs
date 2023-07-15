@@ -7,7 +7,10 @@ public class CamEffectController : MonoBehaviour
     public static CamEffectController instance;
 
     [SerializeField] AnalogGlitch glitchEffect;
-    [SerializeField] private bool effectOn = false; //Manually turn effect on/off
+    public bool effectOn { get; private set;} //Manually turn effect on/off
+    private bool forceEffect = false;
+
+    Coroutine shockEffect;
 
 
     private void Awake()
@@ -21,11 +24,17 @@ public class CamEffectController : MonoBehaviour
     private void Start()
     {
         glitchEffect.enabled = false;
+        effectOn = false;
     }
 
     private void Update()
     {
         glitchEffect.enabled = effectOn;
+
+        if (forceEffect)
+            glitchEffect.enabled = true;
+
+        effectOn = false;
     }
 
 
@@ -34,17 +43,23 @@ public class CamEffectController : MonoBehaviour
         effectOn = effectState;
     }
 
+    public void ForceEffect(bool forceEffectState)
+    {
+        forceEffect = forceEffectState;
+    }
+
     public void ShockEffect(float duration)
     {
-        StartCoroutine(ShockRoutine(duration));
+        if (shockEffect == null)
+            shockEffect = StartCoroutine(ShockRoutine(duration));
     }
 
     IEnumerator ShockRoutine(float duration)
     {
-        effectOn = true;
-
+        forceEffect = true;
         yield return new WaitForSeconds(duration);
+        forceEffect = false;
 
-        effectOn = false;
+        shockEffect = null;
     }
 }
