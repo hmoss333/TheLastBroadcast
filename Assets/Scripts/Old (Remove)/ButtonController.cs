@@ -9,6 +9,8 @@ public class ButtonController : InteractObject
     [SerializeField] SaveObject[] objectsToActivate;
     [SerializeField] string triggerText;
     [SerializeField] float activateDelay = 0.5f;
+    Coroutine triggerRoutine;
+
     [FormerlySerializedAs("onTrigger")]
     [SerializeField]
     private UnityEvent m_OnTrigger = new UnityEvent();
@@ -32,7 +34,8 @@ public class ButtonController : InteractObject
         UIController.instance.SetDialogueText(triggerText);
         UIController.instance.ToggleDialogueUI(true);
 
-        StartCoroutine(ActivateObjects());
+        if (triggerRoutine == null)
+            triggerRoutine = StartCoroutine(ActivateObjects());
     }
 
     public override void EndInteract()
@@ -59,5 +62,7 @@ public class ButtonController : InteractObject
         }
 
         m_OnTrigger.Invoke();
+
+        triggerRoutine = null;
     }
 }
