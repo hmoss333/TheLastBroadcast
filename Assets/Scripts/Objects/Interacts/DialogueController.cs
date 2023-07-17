@@ -11,8 +11,8 @@ public class DialogueController : InteractObject
 {
     [SerializeField] bool talkOnce;
     [SerializeField] private string[] lines;
-    [SerializeField] private int index;
-    [SerializeField] private bool canInteract;
+    private int index;
+    private bool canInteract;
     [FormerlySerializedAs("onTrigger")]
     [SerializeField]
     private UnityEvent m_OnTrigger = new UnityEvent();
