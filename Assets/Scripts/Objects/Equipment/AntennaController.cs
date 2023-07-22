@@ -42,7 +42,7 @@ public class AntennaController : InteractObject
             }
         }
 
-        miniGameUI.SetActive(interacting && !turnedOn);
+        miniGameUI.SetActive(active && interacting && !turnedOn);
         if (!active)
             miniGameLight.GetComponent<Renderer>().material.color = Color.black;
         if (hasActivated)
@@ -51,10 +51,10 @@ public class AntennaController : InteractObject
 
     public override void Interact()
     {
+        base.Interact();
+
         if (active && !hasActivated)
         {
-            base.Interact();
-
             PlayerController.instance.ToggleAvatar();
             CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
             CameraController.instance.FocusTarget();

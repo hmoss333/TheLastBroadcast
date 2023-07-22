@@ -47,6 +47,7 @@ public class TranscieverController : InteractObject
     private void Update()
     {
         lightMesh.material.color = active ? Color.green : Color.red;
+        staticSource.mute = !active;
 
         //Lock rotation once the player reaches either end of frequency spectrum
         float tempSpeed = rotSpeed;
@@ -117,14 +118,17 @@ public class TranscieverController : InteractObject
 
     public override void Interact()
     {
-        if (active && !hasActivated && !startCountdown)
+        if (!startCountdown && !hasActivated)
         {
             base.Interact();
 
-            currentFrequency = 0.0f;
-            PlayerController.instance.ToggleAvatar();
-            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
-            CameraController.instance.FocusTarget();
+            if (active)
+            {
+                currentFrequency = 0.0f;
+                PlayerController.instance.ToggleAvatar();
+                CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+                CameraController.instance.FocusTarget();
+            }
         }
 
         staticSource.mute = !interacting;
