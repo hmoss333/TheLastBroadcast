@@ -29,7 +29,15 @@ public class AbilityPickup : InteractObject
 
     public override void StartInteract()
     {
-        string genAbilityText = GenerateAbilityText(abilityText);
+        string genAbilityText;
+        try
+        {
+            genAbilityText = GenerateAbilityText(abilityText);
+        }
+        catch
+        {
+            genAbilityText = abilityText;
+        }
 
         UIController.instance.ToggleAbilityUI(genAbilityText, abilityIcon);
         SaveDataController.instance.GiveAbility(collectType.ToString());

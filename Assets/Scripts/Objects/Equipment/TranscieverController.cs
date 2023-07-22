@@ -19,7 +19,7 @@ public class TranscieverController : InteractObject
 
     [Header("Transmitter Frequency Values")]
     [SerializeField] [Range(0f, 10f)] float currentFrequency;
-    [SerializeField] float rotSpeed;
+    [SerializeField] float rotSpeed, offSet;
     private float xInput;
     private bool startCountdown = false, gaveAbility = false;
     [SerializeField] float countdownTime = 3f;
@@ -70,7 +70,7 @@ public class TranscieverController : InteractObject
             dialObj.transform.Rotate(0.0f, xInput * tempSpeed, 0.0f);
             currentFrequency += (float)(xInput * Time.deltaTime);
 
-            if (currentFrequency >= targetFrequency - 1f && currentFrequency <= targetFrequency + 1f
+            if (currentFrequency >= targetFrequency - offSet && currentFrequency <= targetFrequency + offSet
                 && generator.hasActivated
                 && antenna.hasActivated)
             {
@@ -135,7 +135,7 @@ public class TranscieverController : InteractObject
         if (gaveAbility)
         {
             hasActivated = true;
-            SaveDataController.instance.SaveObjectData();
+            //SaveDataController.instance.SaveObjectData();
             UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
         }
     }
@@ -146,7 +146,7 @@ public class TranscieverController : InteractObject
         if (!SaveDataController.instance.GetSaveData().abilities.radio_special)
             SaveDataController.instance.GiveAbility("radio_special"); //If radio_special has not already been unlocked, set to true
         SaveDataController.instance.GiveRadioAbility(abilityName); //Give new ability station
-        SaveDataController.instance.SaveFile();
+        //SaveDataController.instance.SaveFile();
 
         UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
     }

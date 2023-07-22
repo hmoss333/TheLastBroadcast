@@ -43,9 +43,10 @@ public class AntennaController : InteractObject
         }
 
         miniGameUI.SetActive(interacting && !turnedOn);
-        miniGameLight.GetComponent<Renderer>().material.color =
-            !active ? Color.black :
-            hasActivated ? Color.green : Color.red;
+        if (!active)
+            miniGameLight.GetComponent<Renderer>().material.color = Color.black;
+        if (hasActivated)
+            miniGameLight.GetComponent<Renderer>().material.color = Color.green;
     }
 
     public override void Interact()
@@ -71,7 +72,7 @@ public class AntennaController : InteractObject
         miniGameLight.GetComponent<Renderer>().material.color = Color.green;
         turnedOn = true;
         SetHasActivated();
-        SaveDataController.instance.SaveObjectData();
+        //SaveDataController.instance.SaveObjectData();
 
         StartCoroutine(TurnOnRoutine());
     }
