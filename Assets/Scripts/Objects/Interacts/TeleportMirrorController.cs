@@ -60,7 +60,7 @@ public class TeleportMirrorController : InteractObject
 
     private void Update()
     {
-        //Object active state checks if the player has collected the mirror object
+        //Object cannot be interacted with unless the player has collected the mirror ability
         active = SaveDataController.instance.saveData.abilities.mirror;
 
         if (interacting && dissolveVal > 0)
@@ -74,21 +74,6 @@ public class TeleportMirrorController : InteractObject
             dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
             if (dissolveVal >= 1)
                 RemoveMaterials();
-        }
-    }
-
-    public override void Interact()
-    {
-        if (SaveDataController.instance.saveData.abilities.mirror)
-        {
-            if (!interacting)
-            {
-                base.Interact();
-            }
-        }
-        else
-        {
-            print("It's just a mirror...");
         }
     }
 
