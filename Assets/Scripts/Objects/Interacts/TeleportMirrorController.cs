@@ -61,7 +61,7 @@ public class TeleportMirrorController : InteractObject
     private void Update()
     {
         //Object cannot be interacted with unless the player has collected the mirror ability
-        hasActivated = !SaveDataController.instance.saveData.abilities.mirror;
+        active = SaveDataController.instance.saveData.abilities.mirror;
 
         if (interacting && dissolveVal > 0)
         {
@@ -79,8 +79,7 @@ public class TeleportMirrorController : InteractObject
 
     public override void StartInteract()
     {
-        if (SaveDataController.instance.saveData.abilities.mirror)
-            StartCoroutine(TeleportTrigger());
+        StartCoroutine(TeleportTrigger());
     }
 
     IEnumerator TeleportTrigger()
