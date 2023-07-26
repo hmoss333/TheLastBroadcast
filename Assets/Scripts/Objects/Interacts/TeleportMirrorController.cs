@@ -60,8 +60,8 @@ public class TeleportMirrorController : InteractObject
 
     private void Update()
     {
-        //Object active state checks if the player has collected the mirror object
-        active = SaveDataController.instance.saveData.abilities.mirror;
+        //Object cannot be interacted with unless the player has collected the mirror ability
+        hasActivated = !SaveDataController.instance.saveData.abilities.mirror;
 
         if (interacting && dissolveVal > 0)
         {
@@ -77,24 +77,10 @@ public class TeleportMirrorController : InteractObject
         }
     }
 
-    public override void Interact()
-    {
-        if (SaveDataController.instance.saveData.abilities.mirror)
-        {
-            if (!interacting)
-            {
-                base.Interact();
-            }
-        }
-        else
-        {
-            print("It's just a mirror...");
-        }
-    }
-
     public override void StartInteract()
     {
-        StartCoroutine(TeleportTrigger());
+        if (SaveDataController.instance.saveData.abilities.mirror)
+            StartCoroutine(TeleportTrigger());
     }
 
     IEnumerator TeleportTrigger()
