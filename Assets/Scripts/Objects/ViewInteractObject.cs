@@ -1,0 +1,88 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ViewInteractObject : InteractObject
+{
+    bool viewing;
+
+    [SerializeField] Camera viewCam;
+    Camera mainCam;
+
+    RoomController viewRoom;
+    RoomController currentRoom;
+
+    Coroutine vrRoutine;
+
+    private void Awake()
+    {
+        mainCam = CameraController.instance.GetComponent<Camera>();
+        viewRoom = viewCam.gameObject.GetComponentInParent<RoomController>();
+        currentRoom = GetComponentInParent<RoomController>();
+
+        viewCam.enabled = false;
+    }
+
+
+    public override void Interact()
+    {
+        if (active && vrRoutine == null)
+        {
+            interacting = !interacting;
+
+            if (!viewing)
+                StartInteract();
+            else
+                EndInteract();
+        }
+    }
+
+
+    public override void StartInteract()
+    {
+        base.StartInteract();
+
+        UIController.instance.SetDialogueText(string.Empty);
+        UIController.instance.ToggleDialogueUI(true);
+
+        if (vrRoutine == null)
+            vrRoutine = StartCoroutine(ViewRoom());
+    }
+
+    public override void EndInteract()
+    {
+        base.EndInteract();
+
+        UIController.instance.ToggleDialogueUI(false);
+
+        if (vrRoutine == null)
+            vrRoutine = StartCoroutine(ViewRoom());
+    }
+
+    IEnumerator ViewRoom()
+    {
+        FadeController.instance.StartFade(1f, 1f);
+
+        while (FadeController.instance.isFading)
+            yield return null;
+
+        mainCam.enabled = !mainCam.enabled;
+        viewCam.enabled = !viewCam.enabled;
+
+        if (!viewRoom.gameObject.activeSelf)
+            viewRoom.gameObject.SetActive(true);
+        else
+        {
+            if (viewRoom != currentRoom)
+                viewRoom.gameObject.SetActive(false);
+        }
+
+        FadeController.instance.StartFade(0f, 1f);
+
+        while (FadeController.instance.isFading)
+            yield return null;
+
+        viewing = !viewing;
+        vrRoutine = null;
+    }
+}

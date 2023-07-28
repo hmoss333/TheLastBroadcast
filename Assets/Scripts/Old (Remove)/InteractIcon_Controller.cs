@@ -25,7 +25,11 @@ public class InteractIcon_Controller : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.LookAt(Camera.main.transform);
+        try
+        {
+            transform.LookAt(Camera.main.transform);
+        }
+        catch { }
     }
 
     public void UpdateIcon(bool isInteracting, InteractObject interactObject)
