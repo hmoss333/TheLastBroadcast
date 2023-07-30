@@ -4,18 +4,26 @@ using UnityEngine;
 
 public class RoomController : MonoBehaviour
 {
-    AudioSource audioSource;
+    [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip backgroundAudioClip;
 
     private void Start()
     {
-        audioSource = SaveDataController.instance.gameObject.GetComponent<AudioSource>();
+        try
+        {
+            audioSource = SaveDataController.instance.gameObject.GetComponent<AudioSource>();
+        }
+        catch { }
     }
 
     private void OnEnable()
     {
-        if (audioSource == null)
-            audioSource = SaveDataController.instance.gameObject.GetComponent<AudioSource>();
+        try
+        {
+            if (audioSource == null)
+                audioSource = SaveDataController.instance.gameObject.GetComponent<AudioSource>();
+        }
+        catch { Debug.Log("Unable to locate AudioSource"); }
 
         if (audioSource
             && backgroundAudioClip
