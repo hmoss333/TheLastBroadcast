@@ -7,7 +7,7 @@ public class ViewInteractObject : InteractObject
     bool viewing;
 
     [SerializeField] Camera viewCam;
-    Camera mainCam;
+    [SerializeField] Camera mainCam;
 
     RoomController viewRoom;
     RoomController currentRoom;
@@ -16,11 +16,12 @@ public class ViewInteractObject : InteractObject
 
     private void Awake()
     {
-        mainCam = CameraController.instance.GetComponent<Camera>();
+        //mainCam = CameraController.instance.GetComponent<Camera>();
         viewRoom = viewCam.gameObject.GetComponentInParent<RoomController>();
         currentRoom = GetComponentInParent<RoomController>();
 
         viewCam.enabled = false;
+        vrRoutine = null;
     }
 
 

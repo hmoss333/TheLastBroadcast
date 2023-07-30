@@ -49,7 +49,7 @@ public class FootstepController : MonoBehaviour
 
     public void PlayStepClip()
     {
-        print($"Playing footstep clip: {clip.name}");
+        //print($"Playing footstep clip: {clip.name}");
         audioSource.Stop();
         audioSource.clip = clip;
         audioSource.Play();
