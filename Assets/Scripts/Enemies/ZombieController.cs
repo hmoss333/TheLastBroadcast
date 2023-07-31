@@ -38,7 +38,7 @@ public class ZombieController : CharacterController
             RaycastHit[] hits;
             Vector3 forwardDir = PlayerController.instance.transform.position - transform.position;
             float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
-            Debug.DrawRay(transform.position, forwardDir, Color.red);
+            //Debug.DrawRay(transform.position, forwardDir, Color.red);
             hits = Physics.RaycastAll(transform.position, forwardDir, distanceToPlayer, layer);
 
             if (dist <= seeDist || (seePlayer && dist <= loseDist))

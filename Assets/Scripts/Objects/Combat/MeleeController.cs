@@ -7,6 +7,7 @@ public class MeleeController : MonoBehaviour
     [SerializeField] List<string> tags;
     public int damage;
 
+
     private void OnTriggerEnter(Collider collision)
     {
         if (tags.Contains(collision.tag))
