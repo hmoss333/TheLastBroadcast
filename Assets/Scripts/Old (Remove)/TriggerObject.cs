@@ -10,7 +10,6 @@ public class TriggerObject : InteractObject
 {
     [SerializeField] bool interacted;
     [SerializeField] List<GameObject> objectsToTrigger;
-    //[SerializeField] float delayTime;
 
 
     [SerializeField] GameObject buttonObj;
@@ -37,19 +36,12 @@ public class TriggerObject : InteractObject
             base.Interact();
 
             interacted = true;
-            //hasActivated = true;
             StartCoroutine(TriggerEvent());
         }
     }
 
     IEnumerator TriggerEvent()
     {
-        //if (triggerText != "")
-        //{
-        //    UIController.instance.SetDialogueText(triggerText);
-        //    UIController.instance.ToggleDialogueUI(true);
-        //}
-
         yield return new WaitForSeconds(0.5f);
 
         for (int i = 0; i < objectsToTrigger.Count; i++)
@@ -67,13 +59,10 @@ public class TriggerObject : InteractObject
             {
                 CameraController.instance.SetTarget(objectsToTrigger[i]);
             }
-
-            //yield return new WaitForSeconds(delayTime);
         }
 
         CameraController.instance.SetTarget(PlayerController.instance.gameObject);
         PlayerController.instance.SetState(PlayerController.States.idle);
-        //UIController.instance.ToggleDialogueUI(false);
         SetHasActivated();
     }
 }
