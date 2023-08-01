@@ -42,6 +42,7 @@ public class ViewInteractObject : InteractObject
     public override void StartInteract()
     {
         base.StartInteract();
+        PlayerController.instance.animator.SetBool("isInspecting", true);
 
         UIController.instance.SetDialogueText(string.Empty);
         UIController.instance.ToggleDialogueUI(true);
@@ -53,6 +54,7 @@ public class ViewInteractObject : InteractObject
     public override void EndInteract()
     {
         base.EndInteract();
+        PlayerController.instance.animator.SetBool("isInspecting", false);
 
         UIController.instance.ToggleDialogueUI(false);
 
@@ -62,7 +64,7 @@ public class ViewInteractObject : InteractObject
 
     IEnumerator ViewRoom()
     {
-        FadeController.instance.StartFade(1f, 1f);
+        FadeController.instance.StartFade(1f, viewing ? 0.75f : 2f);
 
         while (FadeController.instance.isFading)
             yield return null;
@@ -78,7 +80,7 @@ public class ViewInteractObject : InteractObject
                 viewRoom.gameObject.SetActive(false);
         }
 
-        FadeController.instance.StartFade(0f, 1f);
+        FadeController.instance.StartFade(0f, 0.25f);
 
         while (FadeController.instance.isFading)
             yield return null;
