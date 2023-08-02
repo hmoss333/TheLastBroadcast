@@ -6,7 +6,8 @@ public class CharacterController : MonoBehaviour
 {
     public float speed, stunTime;
     [HideInInspector] public float storedSpeed, tempStunTime;
-    [HideInInspector] public bool hurt, dead, stunned;
+    //[HideInInspector]
+    public bool hurt, dead, stunned;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public Collider col;
     public Animator animator;

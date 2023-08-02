@@ -8,4 +8,9 @@ public class StaticManAnimEventController : MonoBehaviour
     {
         PlayerController.instance.dead = true;
     }
+
+    public void StartDisolve()
+    {
+        print("TODO: add disolve shader here");
+    }
 }

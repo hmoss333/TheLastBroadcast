@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class StaticManController : CharacterController
 {
+    [SerializeField] float hurtSpeed;
     [SerializeField] float distance;
     [SerializeField] float staticTriggerRadius, killRadius;
     [SerializeField] private LayerMask layer;
+    [SerializeField] int hurtCount;
 
     override public void Start()
     {
@@ -64,10 +66,20 @@ public class StaticManController : CharacterController
             || PlayerController.instance.state == PlayerController.States.wakeUp
             || PlayerController.instance.state == PlayerController.States.listening
             && distance <= killRadius
-                ? 0f : speed;
+                ? 0f : isPlaying("Hurt")
+                ? hurtSpeed : speed;
+
         if (isPlaying("Attack")) { storedSpeed = 0f; }
+
         rb.velocity = transform.forward * storedSpeed;
 
         animator.SetBool("isMoving", storedSpeed != 0 ? true : false);
+        if (hurtCount <= 0 && !isPlaying("Hurt")) { dead = true; }
+    }
+
+    public void Hurt()
+    {
+        hurt = true;
+        hurtCount--;
     }
 }
