@@ -108,9 +108,9 @@ public class CameraController : MonoBehaviour
 
 
     //Target Get/Sets
-    public void SetTarget(GameObject newTargetObj)
+    public void SetTarget(Transform newTargetObj)
     {
-        target = newTargetObj.transform;
+        target = newTargetObj;
     }
 
     public Transform GetTarget()
@@ -118,9 +118,9 @@ public class CameraController : MonoBehaviour
         return target;
     }
 
-    public void SetLastTarget(GameObject newLastTarget)
+    public void SetLastTarget(Transform newLastTarget)
     {
-        lastTarget = newLastTarget.transform;
+        lastTarget = newLastTarget;
     }
 
     public Transform GetLastTarget()

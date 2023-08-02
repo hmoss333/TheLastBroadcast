@@ -74,7 +74,7 @@ public class TVController : SavePointController
 
             //Focus on TV screen
             PlayerController.instance.ToggleAvatar();
-            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);
             CameraController.instance.FocusTarget();
 
             //Display 'Saving...' text

@@ -93,9 +93,9 @@ public class SceneInitController : MonoBehaviour
 
         if (CameraController.instance != null && CameraController.instance.GetTarget() == null)
         {
-            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+            CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
             if (CameraController.instance.GetLastTarget() == null)
-                CameraController.instance.SetLastTarget(PlayerController.instance.gameObject);
+                CameraController.instance.SetLastTarget(PlayerController.instance.lookTransform);
         }
 
         StartCoroutine(LateStart());

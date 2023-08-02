@@ -23,7 +23,7 @@ public class DialogueTriggerZone : MonoBehaviour
             PlayerController.instance.SetState(PlayerController.States.listening);
 
             if (CameraController.instance.GetRotState() == true)
-                CameraController.instance.SetLastTarget(CameraController.instance.GetTarget().gameObject);
+                CameraController.instance.SetLastTarget(CameraController.instance.GetTarget());
 
             if (dialogueObj.focusPoint != null)
             {
@@ -36,7 +36,7 @@ public class DialogueTriggerZone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player" && CameraController.instance.GetLastTarget() == PlayerController.instance.transform)
+        if (other.tag == "Player" && CameraController.instance.GetLastTarget() == PlayerController.instance.lookTransform)
         {
             CameraController.instance.LoadLastTarget();
             CameraController.instance.SetRotation(false); //Disable forced rotation

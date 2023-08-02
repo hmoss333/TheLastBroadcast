@@ -29,7 +29,7 @@ public class SavePointController : InteractObject
             base.Interact();
 
             PlayerController.instance.ToggleAvatar();
-            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);//.gameObject);
             CameraController.instance.FocusTarget();
 
 

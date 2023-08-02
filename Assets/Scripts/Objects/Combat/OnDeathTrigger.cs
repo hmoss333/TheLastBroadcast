@@ -40,9 +40,9 @@ public class OnDeathTrigger : MonoBehaviour
             if (focusOnActivate && objectsToActivate[i].transform.parent.gameObject.activeSelf)
             {
                 CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null
-                    ? tempInteract.focusPoint : objectsToActivate[i].gameObject);
+                    ? tempInteract.focusPoint : objectsToActivate[i].transform);
                 CameraController.instance.transform.position = tempInteract != null && tempInteract.focusPoint != null
-                    ? tempInteract.focusPoint.transform.position : objectsToActivate[i].gameObject.transform.position;
+                    ? tempInteract.focusPoint.position : objectsToActivate[i].gameObject.transform.position;
             }
 
             if (tempInteract != null)

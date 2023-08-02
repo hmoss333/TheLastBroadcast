@@ -109,7 +109,7 @@ public class TunableObject : MonoBehaviour
                     && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)                                                      
                     && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
                 {
-                    CameraController.instance.SetTarget(this.gameObject); //If the radio is set to the correct station, focus on tunable object
+                    CameraController.instance.SetTarget(this.transform); //If the radio is set to the correct station, focus on tunable object
                     TuneAbility.instance.isUsing = true;
 
                     tempTime += Time.deltaTime;
@@ -121,7 +121,7 @@ public class TunableObject : MonoBehaviour
                 }
                 else
                 {
-                    CameraController.instance.SetTarget(PlayerController.instance.gameObject); //If the radio is not set to the correct station, re-focus the camera on the player
+                    CameraController.instance.SetTarget(PlayerController.instance.lookTransform);//.gameObject); //If the radio is not set to the correct station, re-focus the camera on the player
                     tempTime = 0f;
                     TuneAbility.instance.isUsing = false;
                 }
@@ -131,7 +131,7 @@ public class TunableObject : MonoBehaviour
         {
             //If the player disables the ability radio during tuning, reset camera to player
             if (CameraController.instance.GetTarget() == this.gameObject.transform)
-                CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+                CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
 
             TuneAbility.instance.isUsing = false;
         }
@@ -255,6 +255,6 @@ public class TunableObject : MonoBehaviour
 
         yield return new WaitForSeconds(1.25f);
 
-        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
     }
 }

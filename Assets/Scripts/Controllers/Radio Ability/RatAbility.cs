@@ -57,7 +57,7 @@ public class RatAbility : RadioAbilityController
                     isRat = true;
                     Vector3 newPos = new Vector3(PlayerController.instance.transform.position.x, PlayerController.instance.transform.position.y + 0.1f, PlayerController.instance.transform.position.z);
                     ratObj = Instantiate(ratPrefab, newPos, Quaternion.identity);
-                    CameraController.instance.SetTarget(ratObj);
+                    CameraController.instance.SetTarget(ratObj.transform);
                     tempCheckTime = 0f;
                 }
             }
@@ -76,7 +76,7 @@ public class RatAbility : RadioAbilityController
         if (Input.GetButtonDown("RadioSpecial") && isRat)
         {
             PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.none);
-            CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+            CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
             Destroy(ratObj); //expensive; maybe add the rat as a child object of the player that gets enabled/disabled with it's position reset
             PlayerController.instance.SetState(PlayerController.States.idle);
             isRat = false;

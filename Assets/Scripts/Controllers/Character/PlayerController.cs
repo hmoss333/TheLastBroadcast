@@ -11,6 +11,8 @@ public class PlayerController : CharacterController
     [SerializeField] float rotSpeed;
     private float horizontal, vertical;
     private Vector3 lastDir, lastDir1, lastDir2;
+    public Transform lookTransform;
+    [SerializeField] private float lookOffset;
 
 
     [NaughtyAttributes.HorizontalLine]
@@ -199,7 +201,7 @@ public class PlayerController : CharacterController
                 break;
             case States.hurt:
                 RadioController.instance.SetActive(false);
-                CameraController.instance.SetTarget(this.gameObject);
+                CameraController.instance.SetTarget(this.transform);
 
                 if (!hurt && !isPlaying("Hurt"))
                 {
@@ -247,6 +249,9 @@ public class PlayerController : CharacterController
 
         // Calculate a rotation a step closer to the target and applies rotation to this object
         transform.rotation = Quaternion.LookRotation(newDirection);
+
+        //Update lookTransform position
+        lookTransform.localPosition = Vector3.forward * lookOffset;
 
 
         if (isPlaying("Melee"))

@@ -6,7 +6,7 @@ public class InteractObject : SaveObject
 {
     public bool interacting;
     public string inactiveText;
-    public GameObject focusPoint;
+    public Transform focusPoint;
 
     public virtual void Interact()
     {
