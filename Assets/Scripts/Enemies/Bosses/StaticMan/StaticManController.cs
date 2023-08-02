@@ -8,8 +8,9 @@ public class StaticManController : CharacterController
     [SerializeField] float hurtSpeed;
     [SerializeField] float distance;
     [SerializeField] float staticTriggerRadius, killRadius;
-    [SerializeField] private LayerMask layer;
+    [SerializeField] private LayerMask layer, camLayer;
     [SerializeField] int hurtCount;
+
 
     override public void Start()
     {
@@ -47,8 +48,12 @@ public class StaticManController : CharacterController
 
         if (distance <= staticTriggerRadius && !dead)
         {
-            CamEffectController.instance.SetEffectValues(true);
-        }       
+            CamEffectController.instance.ForceEffect(true);
+        }
+        else
+        {
+            CamEffectController.instance.ForceEffect(false);
+        }
 
         Vector3 playerPos = new Vector3(PlayerController.instance.transform.position.x, transform.position.y, PlayerController.instance.transform.position.z);
         if (!dead)
@@ -70,7 +75,6 @@ public class StaticManController : CharacterController
                 ? hurtSpeed : speed;
 
         if (isPlaying("Attack")) { storedSpeed = 0f; }
-
         rb.velocity = transform.forward * storedSpeed;
 
         animator.SetBool("isMoving", storedSpeed != 0 ? true : false);
