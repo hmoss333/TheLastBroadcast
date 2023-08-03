@@ -14,8 +14,12 @@ public class RoomController : MonoBehaviour
 
     private void OnEnable()
     {
-        if (audioSource == null)
-            audioSource = SaveDataController.instance.gameObject.GetComponent<AudioSource>();
+        try
+        {
+            if (audioSource == null)
+                audioSource = SaveDataController.instance.gameObject.GetComponent<AudioSource>();
+        }
+        catch { }
 
         if (audioSource
             && backgroundAudioClip

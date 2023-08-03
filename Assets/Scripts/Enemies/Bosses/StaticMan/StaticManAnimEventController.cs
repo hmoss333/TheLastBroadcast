@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,25 @@ using UnityEngine;
 public class StaticManAnimEventController : MonoBehaviour
 {
     Coroutine killPlayer;
+
+
+    //Spawn Animation Logic
+    public void FocusAvatar()
+    {
+        if (!CameraController.instance.GetRotState())
+        {
+            CameraController.instance.SetTarget(this.gameObject);
+        }
+    }
+
+    public void EndFocusAvatar()
+    {
+        if (!CameraController.instance.GetRotState())
+        {
+            CameraController.instance.LoadLastTarget();
+        }
+    }
+
 
     //Attack Animation Logic
     public void KillPlayer()
@@ -30,10 +50,5 @@ public class StaticManAnimEventController : MonoBehaviour
     {
         GetComponentInParent<SaveObject>().SetHasActivated();
         CamEffectController.instance.ForceEffect(false);
-    }
-
-    public void StartDisolve()
-    {
-        print("TODO: add disolve shader here");
     }
 }
