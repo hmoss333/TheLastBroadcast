@@ -8,7 +8,7 @@ public class TeleportMirrorController : InteractObject
 {
     [SerializeField] Transform exitPoint;
     private RoomController exitRoom;
-    [SerializeField] float dissolveVal = 1f;
+    //[SerializeField] float dissolveVal = 1f;
 
 
     [SerializeField] Material dissolveMat;
@@ -63,18 +63,18 @@ public class TeleportMirrorController : InteractObject
         //Object cannot be interacted with unless the player has collected the mirror ability
         active = SaveDataController.instance.saveData.abilities.mirror;
 
-        if (interacting && dissolveVal > 0)
-        {
-            dissolveVal -= Time.deltaTime;
-            dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
-        }
-        else if (!interacting && dissolveVal <= 1f)
-        {
-            dissolveVal += Time.deltaTime;
-            dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
-            if (dissolveVal >= 1)
-                RemoveMaterials();
-        }
+        //if (interacting && dissolveVal > 0)
+        //{
+        //    dissolveVal -= Time.deltaTime;
+        //    dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
+        //}
+        //else if (!interacting && dissolveVal <= 1f)
+        //{
+        //    dissolveVal += Time.deltaTime;
+        //    dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
+        //    if (dissolveVal >= 1)
+        //        RemoveMaterials();
+        //}
     }
 
     public override void StartInteract()
@@ -86,8 +86,19 @@ public class TeleportMirrorController : InteractObject
     {
         //Add dissolve material to Player
         AddMaterials();
+        float dissolveVal = 1f;
 
         yield return new WaitForSeconds(0.5f);
+
+        while (dissolveVal > 0)
+        {
+            dissolveVal -= Time.deltaTime;
+            dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
+
+            yield return null;
+        }
+
+        print(dissolveVal);
 
         FadeController.instance.StartFade(1.0f, 0.5f);
 
@@ -103,6 +114,18 @@ public class TeleportMirrorController : InteractObject
             exitRoom.gameObject.SetActive(true);
 
         FadeController.instance.StartFade(0.0f, 0.5f);
+
+        while (dissolveVal < 1f)
+        {
+            print(dissolveVal);
+            dissolveVal += Time.deltaTime;
+            dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
+
+            yield return null;
+        }
+
+        RemoveMaterials();
+
         interacting = false;
         PlayerController.instance.SetState(PlayerController.States.idle);
     }
