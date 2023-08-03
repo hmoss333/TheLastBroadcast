@@ -69,11 +69,11 @@ public class StaticManController : CharacterController
                 ? 0f : isPlaying("Hurt")
                 ? hurtSpeed : speed;
 
-        if (isPlaying("Attack")) { storedSpeed = 0f; }
+        if (isPlaying("Attack") || isPlaying("Standing")) { storedSpeed = 0f; }
         rb.velocity = transform.forward * storedSpeed;
 
         animator.SetBool("isMoving", storedSpeed != 0 ? true : false);
-        if (hurtCount <= 0 && !isPlaying("Hurt")) { dead = true; }
+        if (hurtCount <= 0) { dead = true; }
 
         if ((distance <= staticTriggerRadius || IsRendering())
             && !dead || (dead && isPlaying("Dead")))
