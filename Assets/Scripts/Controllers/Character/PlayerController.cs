@@ -147,6 +147,7 @@ public class PlayerController : CharacterController
             case States.wakeUp:
                 if (!isPlaying("Wake Up"))
                 {
+
                     SetState(States.idle);
                 }
                 break;
