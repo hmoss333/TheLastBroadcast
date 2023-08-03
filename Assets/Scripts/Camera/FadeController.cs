@@ -9,7 +9,8 @@ public class FadeController : MonoBehaviour
     public static FadeController instance;
 
     [SerializeField] Image objectToFade;
-    [HideInInspector] public bool isFading;
+    //[HideInInspector]
+    public bool isFading;
     Coroutine fadeRoutine, fadeTextRoutine;
 
 

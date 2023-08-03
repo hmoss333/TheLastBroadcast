@@ -8,7 +8,6 @@ public class TeleportMirrorController : InteractObject
 {
     [SerializeField] Transform exitPoint;
     private RoomController exitRoom;
-    //[SerializeField] float dissolveVal = 1f;
 
 
     [SerializeField] Material dissolveMat;
@@ -51,7 +50,6 @@ public class TeleportMirrorController : InteractObject
         {
             if (meshFilter.mesh.subMeshCount > 1)
             {
-                //meshFilter.sharedMesh.subMeshCount = meshFilter.sharedMesh.subMeshCount + 1;
                 meshFilter.mesh.subMeshCount = meshFilter.mesh.subMeshCount + 1;
                 meshFilter.mesh.SetTriangles(meshFilter.mesh.triangles, meshFilter.mesh.subMeshCount - 1);
             }
@@ -62,19 +60,6 @@ public class TeleportMirrorController : InteractObject
     {
         //Object cannot be interacted with unless the player has collected the mirror ability
         active = SaveDataController.instance.saveData.abilities.mirror;
-
-        //if (interacting && dissolveVal > 0)
-        //{
-        //    dissolveVal -= Time.deltaTime;
-        //    dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
-        //}
-        //else if (!interacting && dissolveVal <= 1f)
-        //{
-        //    dissolveVal += Time.deltaTime;
-        //    dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
-        //    if (dissolveVal >= 1)
-        //        RemoveMaterials();
-        //}
     }
 
     public override void StartInteract()
@@ -87,6 +72,7 @@ public class TeleportMirrorController : InteractObject
         //Add dissolve material to Player
         AddMaterials();
         float dissolveVal = 1f;
+        dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
 
         yield return new WaitForSeconds(0.5f);
 
@@ -98,8 +84,6 @@ public class TeleportMirrorController : InteractObject
             yield return null;
         }
 
-        print(dissolveVal);
-
         FadeController.instance.StartFade(1.0f, 0.5f);
 
         while (FadeController.instance.isFading)
@@ -108,16 +92,17 @@ public class TeleportMirrorController : InteractObject
         PlayerController.instance.transform.position = exitPoint.position;       
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);
         CameraController.instance.transform.position = exitPoint.position;
-        transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
 
         if (exitRoom)
             exitRoom.gameObject.SetActive(true);
 
         FadeController.instance.StartFade(0.0f, 0.5f);
 
+        yield return new WaitForSeconds(0.25f);
+
+        dissolveVal = 0f;
         while (dissolveVal < 1f)
         {
-            print(dissolveVal);
             dissolveVal += Time.deltaTime;
             dissolveMat.SetFloat("_DissolveAmount", dissolveVal);
 
@@ -128,8 +113,10 @@ public class TeleportMirrorController : InteractObject
 
         interacting = false;
         PlayerController.instance.SetState(PlayerController.States.idle);
+        transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
     }
 
+    ////Invis Material Functions////
     void AddMaterials()
     {
         foreach (var renderer in renderers)
@@ -152,7 +139,6 @@ public class TeleportMirrorController : InteractObject
         }
     }
 
-    ////Invis Material Functions////
     void LoadSmoothNormals()
     {
         // Retrieve or generate smooth normals
