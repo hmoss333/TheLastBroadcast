@@ -14,7 +14,7 @@ public class StaticManAnimEventController : MonoBehaviour
     {
         if (!CameraController.instance.GetRotState())
         {
-            CameraController.instance.SetTarget(this.gameObject);
+            CameraController.instance.SetTarget(transform);
         }
     }
 
@@ -36,7 +36,7 @@ public class StaticManAnimEventController : MonoBehaviour
 
     IEnumerator KillPlayerRoutine()
     {
-        CameraController.instance.SetTarget(this.gameObject);
+        CameraController.instance.SetTarget(transform);
 
         yield return new WaitForSeconds(0.25f);
 

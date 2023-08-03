@@ -121,7 +121,7 @@ public class TunableObject : MonoBehaviour
                 }
                 else
                 {
-                    CameraController.instance.SetTarget(PlayerController.instance.lookTransform);//.gameObject); //If the radio is not set to the correct station, re-focus the camera on the player
+                    CameraController.instance.SetTarget(PlayerController.instance.lookTransform); //If the radio is not set to the correct station, re-focus the camera on the player
                     tempTime = 0f;
                     TuneAbility.instance.isUsing = false;
                 }
