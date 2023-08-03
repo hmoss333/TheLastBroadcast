@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StaticManAnimEventController : MonoBehaviour
 {
     Coroutine killPlayer;
 
-
+    //Attack Animation Logic
     public void KillPlayer()
     {
         if (killPlayer == null)
@@ -23,6 +24,13 @@ public class StaticManAnimEventController : MonoBehaviour
         killPlayer = null;
     }
 
+
+    //Death Animation logic
+    public void HideAvatar()
+    {
+        GetComponentInParent<SaveObject>().SetHasActivated();
+        CamEffectController.instance.ForceEffect(false);
+    }
 
     public void StartDisolve()
     {

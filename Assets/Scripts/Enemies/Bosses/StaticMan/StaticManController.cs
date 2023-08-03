@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 //using static UnityEditor.Experimental.GraphView.GraphView;
 
+[RequireComponent(typeof(SaveObject))]
 public class StaticManController : CharacterController
 {
     [SerializeField] float hurtSpeed;
     [SerializeField] float distance;
     [SerializeField] float staticTriggerRadius, killRadius;
-    [SerializeField] private LayerMask layer, camLayer;
-    [SerializeField] int hurtCount;
+    [SerializeField] private LayerMask layer;
+    [SerializeField] private int hurtCount;
+    Renderer[] renderers;
 
 
     override public void Start()
     {
         storedSpeed = speed;
+        renderers = GetComponentsInChildren<Renderer>();
         base.Start();
     }
 
@@ -46,14 +49,6 @@ public class StaticManController : CharacterController
             }
         }
 
-        if (distance <= staticTriggerRadius && !dead)
-        {
-            CamEffectController.instance.ForceEffect(true);
-        }
-        else
-        {
-            CamEffectController.instance.ForceEffect(false);
-        }
 
         Vector3 playerPos = new Vector3(PlayerController.instance.transform.position.x, transform.position.y, PlayerController.instance.transform.position.z);
         if (!dead)
@@ -79,11 +74,32 @@ public class StaticManController : CharacterController
 
         animator.SetBool("isMoving", storedSpeed != 0 ? true : false);
         if (hurtCount <= 0 && !isPlaying("Hurt")) { dead = true; }
+
+        if ((distance <= staticTriggerRadius || IsRendering())
+            && !dead || (dead && isPlaying("Dead")))
+        {
+            CamEffectController.instance.ForceEffect(true);
+        }
+        else
+        {
+            CamEffectController.instance.ForceEffect(false);
+        }
     }
 
     public void Hurt()
     {
         hurt = true;
         hurtCount--;
+    }
+
+    private bool IsRendering()
+    {
+        foreach (Renderer renderer in renderers)
+        {
+            if (renderer.isVisible)
+                return true;
+        }
+
+        return false;
     }
 }
