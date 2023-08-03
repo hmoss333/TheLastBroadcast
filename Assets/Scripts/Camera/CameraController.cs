@@ -77,7 +77,7 @@ public class CameraController : MonoBehaviour
                 PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.radio
                 || PlayerController.instance.state == PlayerController.States.interacting
-                    ? camOffset.y
+                    ? camOffset.y + (1.5f * offset.y)
                     : camOffset.y + offset.y;
             pos.z +=
                 PlayerController.instance.IsSeen()
