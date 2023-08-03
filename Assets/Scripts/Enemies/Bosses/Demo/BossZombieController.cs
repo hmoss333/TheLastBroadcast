@@ -142,7 +142,7 @@ public class BossZombieController : CharacterController
         PlayerController.instance.SetState(PlayerController.States.listening);
         yield return new WaitForSeconds(0.5f);
 
-        CameraController.instance.SetTarget(this.gameObject);
+        CameraController.instance.SetTarget(this.transform);
 
         yield return new WaitForSeconds(1f);
 
@@ -151,7 +151,7 @@ public class BossZombieController : CharacterController
         yield return new WaitForSeconds(1f);
 
         PlayerController.instance.SetState(PlayerController.States.idle);
-        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
     }
 
     IEnumerator Setup()
@@ -162,7 +162,7 @@ public class BossZombieController : CharacterController
         {
             tower.DeActivate();
         }
-        CameraController.instance.SetTarget(this.gameObject);
+        CameraController.instance.SetTarget(this.transform);
 
         yield return new WaitForSeconds(1f);
 
@@ -176,7 +176,7 @@ public class BossZombieController : CharacterController
             if (!radioTowers[randVal].GetActiveState())
             {
                 radioTowers[randVal].Activate();
-                CameraController.instance.SetTarget(radioTowers[randVal].gameObject);
+                CameraController.instance.SetTarget(radioTowers[randVal].transform);
 
                 yield return new WaitForSeconds(1f);
             }
@@ -190,7 +190,7 @@ public class BossZombieController : CharacterController
             if (!randPos.Contains(randVal))
             {
                 ZombieController zombie = Instantiate(zombiePrefab, spawnPoints[randVal].position, Quaternion.identity, GetComponentInParent<RoomController>().gameObject.transform);
-                CameraController.instance.SetTarget(zombie.gameObject);
+                CameraController.instance.SetTarget(zombie.transform);
                 randPos.Add(randVal);
 
                 yield return new WaitForSeconds(1f);
@@ -198,7 +198,7 @@ public class BossZombieController : CharacterController
             else { i--; }
         }
 
-        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
 
         yield return new WaitForSeconds(0.35f);
 
@@ -214,7 +214,7 @@ public class BossZombieController : CharacterController
         handLeft.SetActive(false);
         handRight.SetActive(false);
         PlayerController.instance.SetState(PlayerController.States.listening);
-        CameraController.instance.SetTarget(this.gameObject);
+        CameraController.instance.SetTarget(this.transform);
 
         yield return new WaitForSeconds(1.5f);
 
@@ -236,6 +236,6 @@ public class BossZombieController : CharacterController
         }
 
         PlayerController.instance.SetState(PlayerController.States.idle);
-        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
     }
 }

@@ -19,7 +19,7 @@ public class EnemyFocus : MonoBehaviour
     {
         if (!hasFocused && enemyToFocus.SeePlayer())
         {
-            CameraController.instance.SetTarget(gameObject);
+            CameraController.instance.SetTarget(transform);
             if (!toggleAvatar)
             {
                 PlayerController.instance.ToggleAvatar();
@@ -29,7 +29,7 @@ public class EnemyFocus : MonoBehaviour
             if (timeToFocus <= 0)
             {
                 PlayerController.instance.ToggleAvatar();
-                CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+                CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
                 hasFocused = true;
             }
         }

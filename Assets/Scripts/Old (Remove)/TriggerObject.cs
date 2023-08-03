@@ -55,13 +55,13 @@ public class TriggerObject : InteractObject
                 Debug.Log("Object " + objectsToTrigger[i] + " does not have an attached InteractObject script");
             }
 
-            if (objectsToTrigger[i].transform.parent.gameObject.activeSelf)
-            {
-                CameraController.instance.SetTarget(objectsToTrigger[i]);
-            }
+            //if (objectsToTrigger[i].transform.parent.gameObject.activeSelf)
+            //{
+            //    CameraController.instance.SetTarget(objectsToTrigger[i]);
+            //}
         }
 
-        CameraController.instance.SetTarget(PlayerController.instance.gameObject);
+        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         PlayerController.instance.SetState(PlayerController.States.idle);
         SetHasActivated();
     }

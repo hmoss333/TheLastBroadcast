@@ -52,7 +52,7 @@ public class DialogueController : InteractObject
                 else
                     index = -1; //Reset dialogue
 
-                if (CameraController.instance.GetLastTarget() == PlayerController.instance.transform)
+                if (CameraController.instance.GetLastTarget() == PlayerController.instance.lookTransform)
                 {
                     CameraController.instance.LoadLastTarget();
                     CameraController.instance.SetRotation(false); //Disable forced rotation

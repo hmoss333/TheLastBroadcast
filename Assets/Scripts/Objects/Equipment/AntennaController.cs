@@ -56,7 +56,7 @@ public class AntennaController : InteractObject
         if (active && !hasActivated)
         {
             PlayerController.instance.ToggleAvatar();
-            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);//.gameObject);
             CameraController.instance.FocusTarget();
         }
     }
@@ -83,7 +83,7 @@ public class AntennaController : InteractObject
 
         turnedOn = true;
         PlayerController.instance.ToggleAvatar();
-        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.gameObject);
+        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);
         CameraController.instance.FocusTarget();
         PlayerController.instance.SetState(PlayerController.States.idle);
     }
