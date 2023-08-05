@@ -61,6 +61,9 @@ public class TitleScreenController : MonoBehaviour
             yield return null;
 
 
+        yield return new WaitForSeconds(1f);
+
+
         //Start PanCamera script
         panCamera.TogglePanning(true);
         MainCam.enabled = true;
