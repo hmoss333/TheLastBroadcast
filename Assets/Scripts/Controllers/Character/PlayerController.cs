@@ -10,7 +10,8 @@ public class PlayerController : CharacterController
 
     [SerializeField] float rotSpeed;
     private float horizontal, vertical;
-    private Vector3 lastDir, lastDir1, lastDir2;
+    public Vector3 lastDir;// { get; private set; }
+    private Vector3 lastDir1, lastDir2;
     public Transform lookTransform;
     [SerializeField] private float lookOffset;
 
@@ -108,6 +109,21 @@ public class PlayerController : CharacterController
         }
 
 
+        //Hit wall check
+        //Used to stop the camera from poking outside of bounds
+        if (Physics.Raycast(ray, out hit, checkDist))
+        {
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Wall")
+                && !CameraController.instance.GetRotState())
+            {
+                CameraController.instance.HittingWall(true);
+            }
+        }
+        else
+        {
+            CameraController.instance.HittingWall(false);
+        }
+
 
         //Player hurt/death triggers
         if (hurt)
@@ -149,7 +165,6 @@ public class PlayerController : CharacterController
             case States.wakeUp:
                 if (!isPlaying("Wake Up"))
                 {
-
                     SetState(States.idle);
                 }
                 break;
@@ -225,6 +240,7 @@ public class PlayerController : CharacterController
             else
                 SetState(States.idle);
         }
+
 
         base.Update();
     }
