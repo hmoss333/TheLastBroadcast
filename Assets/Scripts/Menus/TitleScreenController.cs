@@ -61,6 +61,9 @@ public class TitleScreenController : MonoBehaviour
             yield return null;
 
 
+        yield return new WaitForSeconds(1f);
+
+
         //Start PanCamera script
         panCamera.TogglePanning(true);
         MainCam.enabled = true;
@@ -85,7 +88,7 @@ public class TitleScreenController : MonoBehaviour
 
         //Delay and activate glitch effect
         yield return new WaitForSeconds(glitchDelayTime);
-        CamEffectController.instance.SetEffectValues(true);
+        CamEffectController.instance.ForceEffect(true);
 
         yield return new WaitForSeconds(titleDisplayTime);
 
