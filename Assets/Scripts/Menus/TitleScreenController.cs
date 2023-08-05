@@ -85,7 +85,7 @@ public class TitleScreenController : MonoBehaviour
 
         //Delay and activate glitch effect
         yield return new WaitForSeconds(glitchDelayTime);
-        CamEffectController.instance.SetEffectValues(true);
+        CamEffectController.instance.ForceEffect(true);
 
         yield return new WaitForSeconds(titleDisplayTime);
 
