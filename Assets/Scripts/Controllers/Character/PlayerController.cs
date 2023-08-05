@@ -29,7 +29,7 @@ public class PlayerController : CharacterController
     [SerializeField] private GameObject interactIcon;
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
-    public InteractObject interactObj;// { get; private set; }
+    private InteractObject interactObj;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Player Avatar Variables")]
@@ -108,6 +108,21 @@ public class PlayerController : CharacterController
         }
 
 
+        //Hit wall check
+        //Used to stop the camera from poking outside of bounds
+        if (Physics.Raycast(ray, out hit, checkDist))
+        {
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Wall")
+                && !CameraController.instance.GetRotState())
+            {
+                CameraController.instance.HittingWall(true);
+            }
+        }
+        else
+        {
+            CameraController.instance.HittingWall(false);
+        }
+
 
         //Player hurt/death triggers
         if (hurt)
@@ -149,7 +164,6 @@ public class PlayerController : CharacterController
             case States.wakeUp:
                 if (!isPlaying("Wake Up"))
                 {
-
                     SetState(States.idle);
                 }
                 break;
@@ -225,6 +239,7 @@ public class PlayerController : CharacterController
             else
                 SetState(States.idle);
         }
+
 
         base.Update();
     }

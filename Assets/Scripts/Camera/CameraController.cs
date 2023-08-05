@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
     private float xTemp;
     Quaternion baseRot;
 
-    [SerializeField] bool focus, lockCam, setRot;
+    private bool focus, lockCam, setRot, hitWall;
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
     [SerializeField] float focusRate;
@@ -34,7 +34,7 @@ public class CameraController : MonoBehaviour
             Destroy(this);
 
         //Run in awake for consistent behavior 
-        Vector3 cameraPos = transform.position - target.position; //Camera.main.transform.position;
+        Vector3 cameraPos = transform.position - target.position;
         transform.position = cameraPos;
         camOffset = cameraPos;
 
@@ -45,10 +45,10 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         //Manualy shift xOff with button press
-        if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)
-        {
-            offset.x = offset.x * -1f;
-        }
+        //if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)
+        //{
+        //    offset.x = offset.x * -1f;
+        //}
 
         //Shift zOff based on forward/backwards movement
         if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y < 0)
@@ -82,10 +82,15 @@ public class CameraController : MonoBehaviour
             pos.z +=
                 PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.radio
-                    ? camOffset.z + (1.5f * offset.z) : 
+                    ? camOffset.z + (1.5f * offset.z) :
                 PlayerController.instance.state == PlayerController.States.interacting
                     ? camOffset.z
                     : camOffset.z + offset.z;
+        }
+
+        if (hitWall)
+        {
+            pos = new Vector3(transform.position.x, pos.y, pos.z);
         }
 
 
@@ -131,6 +136,11 @@ public class CameraController : MonoBehaviour
     public void LoadLastTarget()
     {
         target = lastTarget;
+    }
+
+    public void HittingWall(bool value)
+    {
+        hitWall = value;
     }
 
 
