@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
     private float xTemp;
     Quaternion baseRot;
 
-    [SerializeField] bool focus, lockCam, setRot, hitWall;
+    private bool focus, lockCam, setRot, hitWall;
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
     [SerializeField] float focusRate;
@@ -34,7 +34,7 @@ public class CameraController : MonoBehaviour
             Destroy(this);
 
         //Run in awake for consistent behavior 
-        Vector3 cameraPos = transform.position - target.position; //Camera.main.transform.position;
+        Vector3 cameraPos = transform.position - target.position;
         transform.position = cameraPos;
         camOffset = cameraPos;
 

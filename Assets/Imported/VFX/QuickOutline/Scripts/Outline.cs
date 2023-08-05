@@ -175,7 +175,7 @@ public class Outline : MonoBehaviour
             UpdateMaterialProperties();
         }
 
-        playerInteract = PlayerController.instance.interactObj;
+        //playerInteract = PlayerController.instance.interactObj;
         if (playerInteract == null || playerInteract.gameObject != this.gameObject || playerInteract.hasActivated)
         {
             Destroy(this);

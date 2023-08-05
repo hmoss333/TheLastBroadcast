@@ -10,8 +10,7 @@ public class PlayerController : CharacterController
 
     [SerializeField] float rotSpeed;
     private float horizontal, vertical;
-    public Vector3 lastDir;// { get; private set; }
-    private Vector3 lastDir1, lastDir2;
+    private Vector3 lastDir, lastDir1, lastDir2;
     public Transform lookTransform;
     [SerializeField] private float lookOffset;
 
@@ -30,7 +29,7 @@ public class PlayerController : CharacterController
     [SerializeField] private GameObject interactIcon;
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
-    public InteractObject interactObj;// { get; private set; }
+    private InteractObject interactObj;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Player Avatar Variables")]
