@@ -18,7 +18,7 @@ public class ButtonController : InteractObject
 
     public override void Interact()
     {
-        //if (active && !hasActivated)
+        if (!hasActivated)
             base.Interact();
     }
 

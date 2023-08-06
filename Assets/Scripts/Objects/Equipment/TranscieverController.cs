@@ -126,8 +126,10 @@ public class TranscieverController : InteractObject
             {
                 currentFrequency = 0.0f;
                 PlayerController.instance.ToggleAvatar();
-                CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);
+                CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
                 CameraController.instance.FocusTarget();
+                if (CameraController.instance.GetTriggerState())
+                    CameraController.instance.SetRotation(true);
             }
         }
 

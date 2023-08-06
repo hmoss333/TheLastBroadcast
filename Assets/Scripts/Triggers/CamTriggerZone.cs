@@ -15,6 +15,7 @@ public class CamTriggerZone : MonoBehaviour
             CameraController.instance.SetLastTarget(camPos.transform); //Set the lat target to the camPos in case of reset
             CameraController.instance.SetTarget(camPos.transform); //Set the new camera target to the camPos
             CameraController.instance.SetRotation(true); //Force rotation
+            CameraController.instance.SetTriggerState(true); //Set camera to acknowledge that player is in a trigger volume
         }
     }
 
@@ -25,6 +26,7 @@ public class CamTriggerZone : MonoBehaviour
             CameraController.instance.SetLastTarget(PlayerController.instance.lookTransform); //Once out of the trigger, set the player to the last camera target
             CameraController.instance.SetTarget(PlayerController.instance.lookTransform); //Set the camera to focus on the player
             CameraController.instance.SetRotation(false); //Disable forced rotation
+            CameraController.instance.SetTriggerState(false);
         }
     }
 }
