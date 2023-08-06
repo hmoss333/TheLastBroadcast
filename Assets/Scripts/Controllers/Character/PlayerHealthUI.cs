@@ -40,7 +40,7 @@ public class PlayerHealthUI : MonoBehaviour
         healthImage.color = healthColor;
 
         Rect rect = healthImage.uvRect;
-        rect.x += Time.deltaTime * -movementSpeed;
+        rect.x += Time.deltaTime * movementSpeed;
         healthImage.uvRect = rect;
 
         //if (PlayerController.instance.state == PlayerController.States.interacting)
