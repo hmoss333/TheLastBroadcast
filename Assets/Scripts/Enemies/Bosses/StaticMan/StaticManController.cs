@@ -78,11 +78,11 @@ public class StaticManController : CharacterController
         if ((distance <= staticTriggerRadius || IsRendering())
             && !dead || (dead && isPlaying("Dead")))
         {
-            CamEffectController.instance.ForceEffect(true);
+            CamEffectController.instance.SetEffectState(true);//.ForceEffect(true);
         }
         else
         {
-            CamEffectController.instance.ForceEffect(false);
+            CamEffectController.instance.SetEffectState(false);//.ForceEffect(false);
         }
     }
 

@@ -49,6 +49,6 @@ public class StaticManAnimEventController : MonoBehaviour
     public void HideAvatar()
     {
         GetComponentInParent<SaveObject>().SetHasActivated();
-        CamEffectController.instance.ForceEffect(false);
+        CamEffectController.instance.SetEffectState(false);//.ForceEffect(false);
     }
 }

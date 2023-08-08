@@ -113,7 +113,7 @@ public class TranscieverController : InteractObject
         }
 
         frequencyText.gameObject.SetActive(interacting);
-        CamEffectController.instance.SetEffectValues(interacting && startCountdown);
+        CamEffectController.instance.SetEffectState(interacting && startCountdown);
     }
 
     public override void Interact()
