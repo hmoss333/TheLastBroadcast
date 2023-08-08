@@ -6,12 +6,19 @@ using UnityEngine;
 public class CamTriggerZone : MonoBehaviour
 {
     [SerializeField] GameObject camPos;
-
+    [SerializeField] bool snapCamPos = false;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
+            if (snapCamPos)
+            {
+                //Force cam position/rotation to match camPos
+                CameraController.instance.transform.position = camPos.transform.position;
+                CameraController.instance.transform.rotation = camPos.transform.rotation;
+            }
+
             CameraController.instance.SetLastTarget(camPos.transform); //Set the lat target to the camPos in case of reset
             CameraController.instance.SetTarget(camPos.transform); //Set the new camera target to the camPos
             CameraController.instance.SetRotation(true); //Force rotation
