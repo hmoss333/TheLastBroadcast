@@ -32,7 +32,7 @@ public class Intro_TransmitterController : InteractObject
     {
         yield return new WaitForSeconds(1f);
 
-        CamEffectController.instance.SetEffectValues(true);
+        CamEffectController.instance.SetEffectState(true);
 
         yield return new WaitForSeconds(1.5f); //change this to wait while any dialogue is playing
 
@@ -41,7 +41,7 @@ public class Intro_TransmitterController : InteractObject
         while (FadeController.instance.isFading)
             yield return null;
 
-        CamEffectController.instance.SetEffectValues(false);
+        CamEffectController.instance.SetEffectState(false);
         PlayerController.instance.ToggleAvatar();
         SceneManager.LoadSceneAsync(sceneToLoad);
     }

@@ -131,6 +131,6 @@ public class RadioController : MonoBehaviour
 
     public void UsingAbility()
     {
-        CamEffectController.instance.SetEffectValues(true);
+        CamEffectController.instance.SetEffectState(true);
     }
 }

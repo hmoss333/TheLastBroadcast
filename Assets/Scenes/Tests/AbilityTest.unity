@@ -1106,7 +1106,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &225178887
 Transform:
   m_ObjectHideFlags: 0
@@ -1135,9 +1135,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 659e6f11-ba02-426d-8a8d-9a18b82e5b11
-  active: 1
+  active: 0
   hasActivated: 0
-  hideOnLoad: 1
+  hideOnLoad: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -1160,6 +1160,42 @@ MonoBehaviour:
       - m_Target: {fileID: 468269833}
         m_TargetAssemblyTypeName: DoorController, Assembly-CSharp
         m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1321352107}
+        m_TargetAssemblyTypeName: SaveObject, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1808523538}
+        m_TargetAssemblyTypeName: SaveObject, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 225178888}
+        m_TargetAssemblyTypeName: SaveObject, Assembly-CSharp
+        m_MethodName: SetHasActivated
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2210,7 +2246,7 @@ PrefabInstance:
     - target: {fileID: 6505529831997096470, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: objectsToActivate.Array.data[0]
       value: 
-      objectReference: {fileID: 1562415089}
+      objectReference: {fileID: 225178888}
     - target: {fileID: 7686404432064426030, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: m_Name
       value: Radio_Lock
@@ -4702,7 +4738,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1321352106
 Transform:
   m_ObjectHideFlags: 0
@@ -4731,7 +4767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0a065193-abe2-494c-81a8-2f13fc1139bd
-  active: 1
+  active: 0
   hasActivated: 0
   hideOnLoad: 0
   interacting: 0
@@ -5151,7 +5187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3058684601077154845, guid: 3cce14d2e8acc401fabb7c702c4a4ac4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cce14d2e8acc401fabb7c702c4a4ac4, type: 3}
@@ -5906,7 +5942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1808523537
 Transform:
   m_ObjectHideFlags: 0
@@ -5935,7 +5971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 5e66b65f-677e-469f-9968-89b5bb142f37
-  active: 1
+  active: 0
   hasActivated: 0
   hideOnLoad: 0
   interacting: 0
