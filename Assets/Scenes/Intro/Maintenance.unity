@@ -6806,14 +6806,14 @@ MonoBehaviour:
   talkOnce: 1
   lines:
   - Wait... I'm getting...
-  - Are you near a Transmitter?
+  - Is that a Transmitter?
   - These are of vital importance to the work being done here
-  - That one does not appear to be configured properly, though
+  - "But that one doesn\u2019t appear to be configured properly, though"
   - Power is only part of the solution
-  - Along with the generator you will need to configure the cooresponding antenna
-  - I cannot stress, if you find any more of this equipment it is imperrative that
-    you find a way to activate it
-  - For your sake and so many others...
+  - Along with the generator you will need to configure the corresponding antenna
+  - "I cannot stress\u2014 if you find any more Transmitters it is imperative that
+    you find a way to activate them"
+  - For your sake, and so many others...
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -9328,12 +9328,11 @@ MonoBehaviour:
   focusPoint: {fileID: 933127303}
   talkOnce: 1
   lines:
-  - Some of the technology in this place may not be familiar to you, yet
+  - Some of the technology in this place may not be familiar to you yet
   - While the mechanisms can be complicated repairs are usually straight forward
   - Because of the current state of your surroundings, some equipment may need to
     be repaired
-  - A resourceful Technician should be able to use objects in their surrounds to
-    get them working again
+  - Use objects in your surroundings to get them working again
   - Consider this your onboarding
   m_OnTrigger:
     m_PersistentCalls:
@@ -10803,11 +10802,11 @@ MonoBehaviour:
   - Perhaps... Could you be a new Technician?
   - Regardless, I am unable to help you in your current location
   - That part of the facility appears to have lost power
-  - Furthermore the rest of this complex is in a security lockdown
-  - If you are able to find a service elevator and make your way to the Administrator's
-    Office then you should be able to disable to lockdown
-  - This is -of course- at your own convenience. Though I don't imagine that you'd
-    want to stay in a place like this, would you?
+  - The rest of this complex is in a security lockdown, as well
+  - "You should be able to reset the lockdown if you can find a service elevator
+    up to the Administrator\u2019s Office"
+  - This is, of course, at your own convenience
+  - Though I don't imagine that you'd want to stay in a place like this, would you?
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -16632,6 +16631,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4900030330445836611, guid: de1b9288a5367499f9556e1559c59193, type: 3}
   m_PrefabInstance: {fileID: 1355933961}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1355933964 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
+  m_PrefabInstance: {fileID: 1355933961}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3361299280484deb94b219159283df9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1363993146
 GameObject:
   m_ObjectHideFlags: 0
@@ -23982,9 +23992,9 @@ MonoBehaviour:
   talkOnce: 1
   lines:
   - Hm... It seems that the elevator is not opporational
-  - Unfortunate
+  - That is unfortunate
   - You will need to find the emergency generator and restore power
-  - It should be located somewhere near your current location
+  - It should be somewhere nearby
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -25877,7 +25887,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: objectsToActivate.Array.size
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: objectsToActivate.Array.data[0]
@@ -25911,6 +25921,10 @@ PrefabInstance:
       propertyPath: objectsToActivate.Array.data[7]
       value: 
       objectReference: {fileID: 1106153727}
+    - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
+      propertyPath: objectsToActivate.Array.data[8]
+      value: 
+      objectReference: {fileID: 1355933964}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
 --- !u!4 &1983551176 stripped
@@ -26063,12 +26077,11 @@ MonoBehaviour:
   focusPoint: {fileID: 668190966}
   talkOnce: 1
   lines:
-  - I can see that some power has been restored to that section of the Maintenance
-    Wing
+  - I can see that power has been restored to that section of the Maintenance Wing
   - It also looks like there's a Field Radio picking up this signal
-  - That is a special device used to interact with proprietary equipment around this
-    building
-  - You can use that to unlock the door out of this room
+  - "That\u2019s no ordinary radio. It\u2019s specially designed to work with the
+    equipment in this facility"
+  - You can use it to unlock the door out of this room
   - I am also seeing that the elevator is now opporational
   - Hm...
   - It looks like there is another person in that Wing, though I am not seeing any
