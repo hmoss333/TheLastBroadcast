@@ -37,7 +37,7 @@ public class TitleScreenController : MonoBehaviour
         musicSource.volume = 0;
         musicSource.Play();
         t = 0;
-        targetVolume = 0.15f;
+        targetVolume = 0.5f; //0.15f;
 
 
         //Fade In Quote/Signature text

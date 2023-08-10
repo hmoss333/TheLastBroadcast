@@ -75,8 +75,7 @@ public class StaticManController : CharacterController
         animator.SetBool("isMoving", storedSpeed != 0 ? true : false);
         if (hurtCount <= 0) { dead = true; }
 
-        if ((distance <= staticTriggerRadius || IsRendering())
-            && !dead || (dead && isPlaying("Dead")))
+        if (!dead || (dead && isPlaying("Dead")))
         {
             CamEffectController.instance.SetEffectState(true);//.ForceEffect(true);
         }
@@ -92,14 +91,14 @@ public class StaticManController : CharacterController
         hurtCount--;
     }
 
-    private bool IsRendering()
-    {
-        foreach (Renderer renderer in renderers)
-        {
-            if (renderer.isVisible)
-                return true;
-        }
+    //private bool IsRendering()
+    //{
+    //    foreach (Renderer renderer in renderers)
+    //    {
+    //        if (renderer.isVisible)
+    //            return true;
+    //    }
 
-        return false;
-    }
+    //    return false;
+    //}
 }
