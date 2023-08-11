@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
     private float xTemp;
     Quaternion baseRot;
 
+    [SerializeField]
     private bool focus, setRot, inTrigger, hitWall;
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
