@@ -40,6 +40,9 @@ public class RadioLockController : SaveObject
                 && !RadioController.instance.abilityMode //ability mode is not active                                                       
                 && RadioController.instance.isActive) //is the radio active (shouldn't be broadcasting if it is not turned on))
             {
+                if (!CameraController.instance.GetRotState())
+                    CameraController.instance.SetTarget(this.transform); //If the radio is set to the correct station, focus on tunable object
+
                 interacting = true;
                 mesh.material.color = Color.yellow;
                 tempTime += Time.deltaTime;
