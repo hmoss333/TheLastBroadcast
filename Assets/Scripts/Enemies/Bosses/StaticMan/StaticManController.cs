@@ -13,11 +13,33 @@ public class StaticManController : CharacterController
     [SerializeField] private int hurtCount;
     Renderer[] renderers;
 
+    [SerializeField] private AudioClip staticManTheme;
+    private AudioClip currentClip;
+    private AudioSource audioSource;
+
+
+    private void OnEnable()
+    {
+        audioSource = SaveDataController.instance.gameObject.GetComponent<AudioSource>();
+        currentClip = audioSource.clip;
+        audioSource.Stop();
+        audioSource.clip = staticManTheme;
+        audioSource.Play();
+    }
+
+    private void OnDisable()
+    {
+        CamEffectController.instance.SetEffectState(false);
+        audioSource.Stop();
+        audioSource.clip = currentClip;
+        audioSource.Play();
+    }
 
     override public void Start()
     {
         storedSpeed = speed;
         renderers = GetComponentsInChildren<Renderer>();
+
         base.Start();
     }
 

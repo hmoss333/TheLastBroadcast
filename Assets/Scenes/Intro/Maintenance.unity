@@ -3756,7 +3756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802609, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.25
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802609, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: m_LocalRotation.w
@@ -23239,7 +23239,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1491129535802875056, guid: d1d9ed5ebb6124ca587433d394a3bd6b, type: 3}
       propertyPath: id
-      value: 2609418e-4847-41c5-8ac5-65d3f6bc5201
+      value: a92b6102-862b-4799-966b-742cf0559286
       objectReference: {fileID: 0}
     - target: {fileID: 1491129535802875056, guid: d1d9ed5ebb6124ca587433d394a3bd6b, type: 3}
       propertyPath: active
@@ -23302,9 +23302,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5739068148778834636, guid: d1d9ed5ebb6124ca587433d394a3bd6b, type: 3}
+      propertyPath: speed
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739068148778834636, guid: d1d9ed5ebb6124ca587433d394a3bd6b, type: 3}
       propertyPath: hurtCount
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5739068148778834636, guid: d1d9ed5ebb6124ca587433d394a3bd6b, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1322322193}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1d9ed5ebb6124ca587433d394a3bd6b, type: 3}
 --- !u!114 &881391677 stripped
@@ -32130,11 +32138,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1206925831}
   - component: {fileID: 1206925835}
+  - component: {fileID: 1206925832}
   - component: {fileID: 1206925834}
   - component: {fileID: 1206925833}
-  - component: {fileID: 1206925832}
-  - component: {fileID: 1206925836}
+  - component: {fileID: 1206925838}
   - component: {fileID: 1206925837}
+  - component: {fileID: 1206925836}
   m_Layer: 15
   m_Name: Elevator
   m_TagString: Untagged
@@ -32341,6 +32350,53 @@ MonoBehaviour:
   sceneToLoad: MainMenu
   fadeTime: 2
   transitionDelay: 1.5
+--- !u!114 &1206925838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206925830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bb2e086dd0954755a4a2ccfb17367bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: fde6e922-d689-410f-8663-25b4fcad51e9
+  active: 0
+  hasActivated: 0
+  hideOnLoad: 0
+  interacting: 0
+  inactiveText: 
+  focusPoint: {fileID: 0}
+  objectsToActivate: []
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 881391677}
+        m_TargetAssemblyTypeName: SaveObject, Assembly-CSharp
+        m_MethodName: SetHasActivated
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1206925838}
+        m_TargetAssemblyTypeName: SaveObject, Assembly-CSharp
+        m_MethodName: SetHasActivated
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1207626896
 GameObject:
   m_ObjectHideFlags: 0
@@ -33745,7 +33801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1268971385
 Transform:
   m_ObjectHideFlags: 0
@@ -35230,6 +35286,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1412061450486695273, guid: 11e52105a6a6d4add9d621b375cff9c2, type: 3}
   m_PrefabInstance: {fileID: 1318980656}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1322322193 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 593404098589930916, guid: 802118cded8c0476c84076e7e51c7b1d, type: 3}
+  m_PrefabInstance: {fileID: 1323512620}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1323512620
 PrefabInstance:
