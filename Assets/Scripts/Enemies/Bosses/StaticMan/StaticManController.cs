@@ -15,12 +15,11 @@ public class StaticManController : CharacterController
 
     [SerializeField] private AudioClip staticManTheme;
     private AudioClip currentClip;
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource;
 
 
     private void OnEnable()
     {
-        audioSource = SaveDataController.instance.gameObject.GetComponent<AudioSource>();
         currentClip = audioSource.clip;
         audioSource.Stop();
         audioSource.clip = staticManTheme;
