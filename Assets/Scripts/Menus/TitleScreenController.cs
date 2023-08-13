@@ -53,10 +53,10 @@ public class TitleScreenController : MonoBehaviour
 
 
         //Fade Out Quote/Signature text
-        FadeController.instance.StartFadeText(quoteText, 0, 1f);
+        FadeController.instance.StartFadeText(quoteText, 0.00f, 1f);
         while (FadeController.instance.isFading)
             yield return null;
-        FadeController.instance.StartFadeText(sigText, 0, 1f);
+        FadeController.instance.StartFadeText(sigText, 0.00f, 1f);
         while (FadeController.instance.isFading)
             yield return null;
 
