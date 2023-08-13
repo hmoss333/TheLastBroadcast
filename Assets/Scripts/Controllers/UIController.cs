@@ -30,6 +30,9 @@ public class UIController : MonoBehaviour
             instance = this;
         else
             Destroy(this);
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void ToggleLoreUI(string text, string title)
