@@ -21,6 +21,9 @@ public class UIController : MonoBehaviour
     [Header("Dialogue Variables")]
     [SerializeField] Image dialogueBackground;
     [SerializeField] TextMeshProUGUI dialogueText;
+    [SerializeField] Image inputIcon;
+    float pulseTime = 0.5f;
+    float inputAlpha;
 
     bool uiActive;
 
@@ -30,6 +33,13 @@ public class UIController : MonoBehaviour
             instance = this;
         else
             Destroy(this);
+    }
+
+    private void Update()
+    {
+        inputAlpha = Mathf.PingPong(Time.time * pulseTime, 1f);
+        Color tempColor = new Color(inputIcon.color.r, inputIcon.color.g, inputIcon.color.b, inputAlpha);
+        inputIcon.color = tempColor;
     }
 
     public void ToggleLoreUI(string text, string title)
@@ -56,6 +66,7 @@ public class UIController : MonoBehaviour
     public void ToggleDialogueUI(bool forceValue)
     {
         dialogueText.gameObject.SetActive(forceValue);
+        inputIcon.gameObject.SetActive(forceValue);
         StartCoroutine(FadeTo(forceValue ? 1f : 0f, 0.65f));
     }
 
