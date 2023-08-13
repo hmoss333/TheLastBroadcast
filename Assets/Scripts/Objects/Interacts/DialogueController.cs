@@ -13,6 +13,9 @@ public class DialogueController : InteractObject
     [SerializeField] private string[] lines;
     private int index;
     private bool canInteract;
+    private float iconTimer = 4f;
+
+
     [FormerlySerializedAs("onTrigger")]
     [SerializeField]
     private UnityEvent m_OnTrigger = new UnityEvent();
@@ -22,6 +25,21 @@ public class DialogueController : InteractObject
     {
         if (interacting)
         {
+            //Only on the first interaction
+            //If the player waits more than 4 seconds then display the interact icon prompt
+            //Else always hide the icon
+            if (index <= 1)
+            {
+                if (iconTimer > 0)
+                    iconTimer -= Time.deltaTime;
+                else
+                    UIController.instance.ToggleDialogueInputIcon(true);
+            }
+            else
+            {
+                UIController.instance.ToggleDialogueInputIcon(false);
+            }
+
             //On button up, reset interact state
             if (!PlayerController.instance.inputMaster.Player.Interact.IsPressed())
             {             
@@ -64,7 +82,7 @@ public class DialogueController : InteractObject
             }
 
             UIController.instance.ToggleDialogueUI(interacting);
-            index++;
+            index++;           
         }
     }
 

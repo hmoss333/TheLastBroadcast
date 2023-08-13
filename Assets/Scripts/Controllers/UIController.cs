@@ -66,11 +66,16 @@ public class UIController : MonoBehaviour
         dialogueText.text = text;
     }
 
-    public void ToggleDialogueUI(bool forceValue)
+    public void ToggleDialogueUI(bool value)
     {
-        dialogueText.gameObject.SetActive(forceValue);
-        inputIcon.gameObject.SetActive(forceValue);
-        StartCoroutine(FadeTo(forceValue ? 1f : 0f, 0.65f));
+        dialogueText.gameObject.SetActive(value);
+        //inputIcon.gameObject.SetActive(value);
+        StartCoroutine(FadeTo(value ? 1f : 0f, 0.65f));
+    }
+
+    public void ToggleDialogueInputIcon(bool value)
+    {
+        inputIcon.gameObject.SetActive(value);
     }
 
     IEnumerator FadeTo(float aValue, float aTime)
