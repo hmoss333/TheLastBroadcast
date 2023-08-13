@@ -54,6 +54,9 @@ public class RadioLockController : SaveObject
             }
             else if (interacting)
             {
+                if (!CameraController.instance.GetRotState())
+                    CameraController.instance.LoadLastTarget(); //If the radio is set to the correct station, focus on tunable object
+
                 interacting = false;
                 mesh.material.color = Color.red;
                 tempTime = 0f;
@@ -77,6 +80,9 @@ public class RadioLockController : SaveObject
         {
             objectsToActivate[i].Activate();
         }
+
+        if (!CameraController.instance.GetRotState())
+            CameraController.instance.LoadLastTarget(); //If the radio is set to the correct station, focus on tunable object
 
         unlockRoutine = null;
     }
