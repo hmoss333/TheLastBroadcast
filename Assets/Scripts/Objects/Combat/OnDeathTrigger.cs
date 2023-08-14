@@ -32,8 +32,6 @@ public class OnDeathTrigger : MonoBehaviour
 
     IEnumerator TriggerObjectsRoutine()
     {
-        CameraController.instance.SetCamLock(true);
-
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
             InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
@@ -53,8 +51,6 @@ public class OnDeathTrigger : MonoBehaviour
             yield return new WaitForSeconds(2f);
         }
 
-        CameraController.instance.SetCamLock(false);
-
         if (CameraController.instance.GetTarget() != PlayerController.instance.transform)
         {
             CameraController.instance.LoadLastTarget();
@@ -63,6 +59,5 @@ public class OnDeathTrigger : MonoBehaviour
 
         triggerObjs = null;
         this.enabled = false;
-        //this.gameObject.SetActive(false);
     }
 }

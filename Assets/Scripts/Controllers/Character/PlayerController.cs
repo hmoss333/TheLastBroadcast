@@ -207,7 +207,7 @@ public class PlayerController : CharacterController
                 break;
             case States.radio:
                 if (inputMaster.Player.Radio.ReadValue<float>() <= 0
-                    && !CameraController.instance.GetCamLockState()
+                    //&& !CameraController.instance.GetCamLockState()
                     && abilityState != AbilityStates.isRat || abilityState == AbilityStates.invisible)
                 {
                     CameraController.instance.LoadLastTarget();

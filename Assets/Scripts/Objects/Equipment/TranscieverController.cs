@@ -113,7 +113,7 @@ public class TranscieverController : InteractObject
         }
 
         frequencyText.gameObject.SetActive(interacting);
-        CamEffectController.instance.SetEffectValues(interacting && startCountdown);
+        CamEffectController.instance.SetEffectState(interacting && startCountdown);
     }
 
     public override void Interact()
@@ -126,8 +126,10 @@ public class TranscieverController : InteractObject
             {
                 currentFrequency = 0.0f;
                 PlayerController.instance.ToggleAvatar();
-                CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);
+                CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
                 CameraController.instance.FocusTarget();
+                if (CameraController.instance.GetTriggerState())
+                    CameraController.instance.SetRotation(true);
             }
         }
 

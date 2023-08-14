@@ -22,7 +22,7 @@ public class TransmitterController : InteractObject
             CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);//.gameObject);
             CameraController.instance.FocusTarget();
 
-            CamEffectController.instance.SetEffectValues(interacting);
+            CamEffectController.instance.SetEffectState(interacting);
         }
     }
 

@@ -16,7 +16,8 @@ public class CameraController : MonoBehaviour
     private float xTemp;
     Quaternion baseRot;
 
-    private bool focus, lockCam, setRot, hitWall;
+    [SerializeField]
+    private bool focus, setRot, inTrigger, hitWall;
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
     [SerializeField] float focusRate;
@@ -178,16 +179,16 @@ public class CameraController : MonoBehaviour
     }
 
 
-    //Cam Lock Get/Set
-    //Used for locking the camera in place
-    //specifically when enabling/disabling objects
-    public void SetCamLock(bool lockState)
+    //In Trigger Get/Set
+    //Used to determine if an object is inside of a trigger volume that needs to force a camera angle
+    //Used for instances where the player interacts with an object that will force perspective while inside of a cameratriggervolume
+    public void SetTriggerState(bool triggerState)
     {
-        lockCam = lockState;
+        inTrigger = triggerState;
     }
 
-    public bool GetCamLockState()
+    public bool GetTriggerState()
     {
-        return lockCam;
+        return inTrigger;
     }
 }

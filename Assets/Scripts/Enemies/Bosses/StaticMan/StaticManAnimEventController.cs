@@ -15,6 +15,7 @@ public class StaticManAnimEventController : MonoBehaviour
         if (!CameraController.instance.GetRotState())
         {
             CameraController.instance.SetTarget(transform);
+            PlayerController.instance.SetState(PlayerController.States.listening);
         }
     }
 
@@ -23,6 +24,7 @@ public class StaticManAnimEventController : MonoBehaviour
         if (!CameraController.instance.GetRotState())
         {
             CameraController.instance.LoadLastTarget();
+            PlayerController.instance.SetState(PlayerController.States.idle);
         }
     }
 
@@ -38,7 +40,7 @@ public class StaticManAnimEventController : MonoBehaviour
     {
         CameraController.instance.SetTarget(transform);
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
 
         PlayerController.instance.dead = true;
         killPlayer = null;
@@ -49,6 +51,6 @@ public class StaticManAnimEventController : MonoBehaviour
     public void HideAvatar()
     {
         GetComponentInParent<SaveObject>().SetHasActivated();
-        CamEffectController.instance.ForceEffect(false);
+        CamEffectController.instance.SetEffectState(false);//.ForceEffect(false);
     }
 }

@@ -13,11 +13,32 @@ public class StaticManController : CharacterController
     [SerializeField] private int hurtCount;
     Renderer[] renderers;
 
+    [SerializeField] private AudioClip staticManTheme;
+    private AudioClip currentClip;
+    [SerializeField] private AudioSource audioSource;
+
+
+    private void OnEnable()
+    {
+        currentClip = audioSource.clip;
+        audioSource.Stop();
+        audioSource.clip = staticManTheme;
+        audioSource.Play();
+    }
+
+    private void OnDisable()
+    {
+        CamEffectController.instance.SetEffectState(false);
+        audioSource.Stop();
+        audioSource.clip = currentClip;
+        audioSource.Play();
+    }
 
     override public void Start()
     {
         storedSpeed = speed;
         renderers = GetComponentsInChildren<Renderer>();
+
         base.Start();
     }
 
@@ -75,14 +96,13 @@ public class StaticManController : CharacterController
         animator.SetBool("isMoving", storedSpeed != 0 ? true : false);
         if (hurtCount <= 0) { dead = true; }
 
-        if ((distance <= staticTriggerRadius || IsRendering())
-            && !dead || (dead && isPlaying("Dead")))
+        if (!dead || (dead && isPlaying("Dead")))
         {
-            CamEffectController.instance.ForceEffect(true);
+            CamEffectController.instance.SetEffectState(true);//.ForceEffect(true);
         }
         else
         {
-            CamEffectController.instance.ForceEffect(false);
+            CamEffectController.instance.SetEffectState(false);//.ForceEffect(false);
         }
     }
 
@@ -92,14 +112,14 @@ public class StaticManController : CharacterController
         hurtCount--;
     }
 
-    private bool IsRendering()
-    {
-        foreach (Renderer renderer in renderers)
-        {
-            if (renderer.isVisible)
-                return true;
-        }
+    //private bool IsRendering()
+    //{
+    //    foreach (Renderer renderer in renderers)
+    //    {
+    //        if (renderer.isVisible)
+    //            return true;
+    //    }
 
-        return false;
-    }
+    //    return false;
+    //}
 }

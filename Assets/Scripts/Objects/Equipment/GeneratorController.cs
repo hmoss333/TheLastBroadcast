@@ -42,8 +42,10 @@ public class GeneratorController : InteractObject
     public override void StartInteract()
     {
         PlayerController.instance.ToggleAvatar();
-        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);
+        CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
         CameraController.instance.FocusTarget();
+        if (CameraController.instance.GetTriggerState())
+            CameraController.instance.SetRotation(true);
     }
 
     public void Hit()
@@ -96,8 +98,10 @@ public class GeneratorController : InteractObject
         SetHasActivated();
 
         PlayerController.instance.ToggleAvatar();
-        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);
+        CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
         CameraController.instance.FocusTarget();
+        if (CameraController.instance.GetTriggerState())
+            CameraController.instance.SetRotation(true);
         PlayerController.instance.SetState(PlayerController.States.idle);
     }
 }
