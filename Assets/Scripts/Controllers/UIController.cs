@@ -21,6 +21,9 @@ public class UIController : MonoBehaviour
     [Header("Dialogue Variables")]
     [SerializeField] Image dialogueBackground;
     [SerializeField] TextMeshProUGUI dialogueText;
+    [SerializeField] Image inputIcon;
+    float pulseTime = 0.5f;
+    float inputAlpha;
 
     bool uiActive;
 
@@ -30,6 +33,16 @@ public class UIController : MonoBehaviour
             instance = this;
         else
             Destroy(this);
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void Update()
+    {
+        inputAlpha = Mathf.PingPong(Time.time * pulseTime, 1f);
+        Color tempColor = new Color(inputIcon.color.r, inputIcon.color.g, inputIcon.color.b, inputAlpha);
+        inputIcon.color = tempColor;
     }
 
     public void ToggleLoreUI(string text, string title)
@@ -53,10 +66,16 @@ public class UIController : MonoBehaviour
         dialogueText.text = text;
     }
 
-    public void ToggleDialogueUI(bool forceValue)
+    public void ToggleDialogueUI(bool value)
     {
-        dialogueText.gameObject.SetActive(forceValue);
-        StartCoroutine(FadeTo(forceValue ? 1f : 0f, 0.65f));
+        dialogueText.gameObject.SetActive(value);
+        //inputIcon.gameObject.SetActive(value);
+        StartCoroutine(FadeTo(value ? 1f : 0f, 0.65f));
+    }
+
+    public void ToggleDialogueInputIcon(bool value)
+    {
+        inputIcon.gameObject.SetActive(value);
     }
 
     IEnumerator FadeTo(float aValue, float aTime)
