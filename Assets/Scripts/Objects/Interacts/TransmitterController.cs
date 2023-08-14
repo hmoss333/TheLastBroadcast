@@ -3,41 +3,158 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.Windows;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class TransmitterController : InteractObject
 {
-    //[SerializeField] GameObject focusPoint;
-    [SerializeField] enum AbilityToGive { Tune, Invisibility, Rats };
-    [SerializeField] AbilityToGive abilityToGive;
-    [SerializeField] string sceneToActivate;
+    [Header("Transmitter Frequency Values")]
+    [SerializeField] float targetFrequency;
+    [SerializeField][Range(0f, 10f)] float currentFrequency;
+    [SerializeField] float rotSpeed, offSet;
+    private float xInput;
+    private bool startCountdown = false;
+    [SerializeField] float countdownTime = 3f;
+    Coroutine triggerRoutine;
 
+    [Header("UI Values")]
+    [SerializeField] TextMeshPro frequencyText;
+    [SerializeField] MeshRenderer lightMesh;
+    [SerializeField] GameObject dialObj;
+    [SerializeField] Color stationColor;
+    [SerializeField] Color presetColor;
+    [SerializeField] string activationText;
+
+    [Header("Audio Values")]
+    [SerializeField] AudioSource staticSource;
+
+
+    [FormerlySerializedAs("onTrigger")]
+    [SerializeField]
+    private UnityEvent m_OnTrigger = new UnityEvent();
+
+
+
+    private void Start()
+    {
+        targetFrequency = Random.Range(4.5f, 7.5f);
+        frequencyText.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        lightMesh.material.color = active ? Color.green : Color.red;
+        staticSource.mute = !active;
+
+        //Lock rotation once the player reaches either end of frequency spectrum
+        float tempSpeed = rotSpeed;
+        if (currentFrequency <= 0.0f || currentFrequency >= 10f)
+        {
+            tempSpeed = 0.0f;
+            currentFrequency = currentFrequency <= 0.0f ? 0.0f : 10f;
+        }
+        else
+        {
+            tempSpeed = rotSpeed;
+        }
+
+
+
+        //Interact Logic
+        if (interacting && !hasActivated)
+        {
+            frequencyText.color = stationColor;
+            xInput = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x;
+            dialObj.transform.Rotate(0.0f, xInput * tempSpeed, 0.0f);
+            currentFrequency += (float)(xInput * Time.deltaTime);
+
+            if (currentFrequency >= targetFrequency - offSet && currentFrequency <= targetFrequency + offSet)
+            {
+                frequencyText.color = presetColor;
+                lightMesh.material.color = presetColor;
+                if (currentFrequency >= targetFrequency - 0.15f && currentFrequency <= targetFrequency + 0.15f)
+                {
+                    startCountdown = true;
+                }
+                else
+                {
+                    startCountdown = false;
+                }
+            }
+            else
+            {
+                startCountdown = false;
+            }
+
+            float displayFrequency = currentFrequency * 10f;
+            frequencyText.text = displayFrequency.ToString("F1");
+            CamEffectController.instance.SetEffectState(startCountdown);
+        }
+
+
+        //Countdown Timer
+        if (startCountdown)
+        {
+            countdownTime -= Time.deltaTime;
+            if (countdownTime < 0)
+            {
+                startCountdown = false;
+                UIController.instance.SetDialogueText(activationText);
+                UIController.instance.ToggleDialogueUI(true);
+            }
+        }
+        else
+        {
+            countdownTime = 3f;
+        }
+
+        frequencyText.gameObject.SetActive(interacting);
+    }
 
     public override void Interact()
     {
-        if (active && !hasActivated)
+        if (!startCountdown && !hasActivated)
         {
             base.Interact();
 
-            PlayerController.instance.ToggleAvatar();
-            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);//.gameObject);
-            CameraController.instance.FocusTarget();
-
-            CamEffectController.instance.SetEffectState(interacting);
+            if (active)
+            {
+                currentFrequency = 0.0f;
+                PlayerController.instance.ToggleAvatar();
+                CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
+                CameraController.instance.FocusTarget();
+                if (CameraController.instance.GetTriggerState())
+                    CameraController.instance.SetRotation(true);
+            }
         }
-    }
 
-    public override void StartInteract()
-    {
-        Debug.Log($"Actived transmitter for {abilityToGive} station");
-        if (!SaveDataController.instance.GetSaveData().abilities.radio_special)
-            SaveDataController.instance.GiveAbility("radio_special"); //If radio_special has not already been unlocked, set to true
-        SaveDataController.instance.GiveRadioAbility(abilityToGive.ToString()); //Give new ability station
-        SaveDataController.instance.SaveFile();
+        staticSource.mute = !interacting;
     }
 
     public override void EndInteract()
     {
-        hasActivated = true;
-        SaveDataController.instance.SaveObjectData();
+        base.EndInteract();
+
+        CamEffectController.instance.SetEffectState(false);
+        UIController.instance.ToggleDialogueUI(false);
+        m_OnTrigger.Invoke();
     }
+
+
+    //IEnumerator ActivateObjects()
+    //{
+    //    PlayerController.instance.ToggleAvatar();
+    //    CameraController.instance.LoadLastTarget();
+    //    if (CameraController.instance.GetTriggerState())
+    //        CameraController.instance.SetRotation(true);
+
+    //    PlayerController.instance.SetState(PlayerController.States.idle);
+
+    //    yield return new WaitForSeconds(0f);
+
+    //    m_OnTrigger.Invoke();
+
+    //    triggerRoutine = null;
+    //}
 }
