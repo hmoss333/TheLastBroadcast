@@ -141,23 +141,9 @@ public class TransmitterController : InteractObject
         CamEffectController.instance.SetEffectState(false);
         UIController.instance.ToggleDialogueUI(false);
         if (triggered)
+        {
+            SetHasActivated();
             m_OnTrigger.Invoke();
+        }
     }
-
-
-    //IEnumerator ActivateObjects()
-    //{
-    //    PlayerController.instance.ToggleAvatar();
-    //    CameraController.instance.LoadLastTarget();
-    //    if (CameraController.instance.GetTriggerState())
-    //        CameraController.instance.SetRotation(true);
-
-    //    PlayerController.instance.SetState(PlayerController.States.idle);
-
-    //    yield return new WaitForSeconds(0f);
-
-    //    m_OnTrigger.Invoke();
-
-    //    triggerRoutine = null;
-    //}
 }
