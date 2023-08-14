@@ -11,11 +11,12 @@ public class TransmitterController : InteractObject
 {
     [Header("Transmitter Frequency Values")]
     [SerializeField] float targetFrequency;
-    [SerializeField][Range(0f, 10f)] float currentFrequency;
-    [SerializeField] float rotSpeed, offSet;
+    [Range(0f, 10f)] float currentFrequency;
+    [SerializeField] float minTarget, maxTarget, rotSpeed, offSet;
     private float xInput;
     private bool startCountdown = false;
     [SerializeField] float countdownTime = 3f;
+    private bool triggered;
     Coroutine triggerRoutine;
 
     [Header("UI Values")]
@@ -38,7 +39,7 @@ public class TransmitterController : InteractObject
 
     private void Start()
     {
-        targetFrequency = Random.Range(4.5f, 7.5f);
+        targetFrequency = Random.Range(minTarget, maxTarget);
         frequencyText.gameObject.SetActive(false);
     }
 
@@ -100,6 +101,7 @@ public class TransmitterController : InteractObject
             if (countdownTime < 0)
             {
                 startCountdown = false;
+                triggered = true;
                 UIController.instance.SetDialogueText(activationText);
                 UIController.instance.ToggleDialogueUI(true);
             }
@@ -138,7 +140,8 @@ public class TransmitterController : InteractObject
 
         CamEffectController.instance.SetEffectState(false);
         UIController.instance.ToggleDialogueUI(false);
-        m_OnTrigger.Invoke();
+        if (triggered)
+            m_OnTrigger.Invoke();
     }
 
 
