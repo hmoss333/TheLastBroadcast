@@ -75,6 +75,8 @@ public class TVController : SavePointController
             //Focus on TV screen
             PlayerController.instance.ToggleAvatar();
             CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);
+            CameraController.instance.transform.position = CameraController.instance.GetTarget().position;
+                //solves an issue where the camera was not getting a consistent view of the TV if approached from odd angles
             CameraController.instance.FocusTarget();
 
             //Display 'Saving...' text

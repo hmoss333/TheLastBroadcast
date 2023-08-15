@@ -70,11 +70,9 @@ public class DialogueController : InteractObject
                 else
                     index = -1; //Reset dialogue
 
+                CameraController.instance.LoadLastTarget();
                 if (CameraController.instance.GetLastTarget() == PlayerController.instance.lookTransform)
-                {
-                    CameraController.instance.LoadLastTarget();
                     CameraController.instance.SetRotation(false); //Disable forced rotation
-                }
 
                 PlayerController.instance.SetState(PlayerController.States.idle); //Allow player to move freely
 
