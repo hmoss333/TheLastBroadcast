@@ -20,24 +20,26 @@ public class ScrollHealth : MonoBehaviour
     private void Update()
     {
         int currentHealth = PlayerController.instance.GetComponent<Health>().CurrentHealth();
+        int maxHealth = SaveDataController.instance.saveData.maxHealth;
+        float healthRatio = (float)maxHealth / (float)currentHealth;
 
-        float tempSpeed;
-        if (currentHealth >= 4)
+        //Healthy
+        if (currentHealth >= (maxHealth * 2f)/3f) 
         {
-            image.color = new Color(0f, 255f, 0f, 255f);
-            tempSpeed = scrollSpeed;
+            image.color = new Color(0f, 255f, 0f, 255f); //Green
         }
-        else if (currentHealth >= 2)
+        //Almost-dead
+        else if (currentHealth == 1) 
         {
-            image.color = new Color(255f, 255f, 0f, 255f);
-            tempSpeed = 2f * scrollSpeed;
+            image.color = new Color(255f, 0f, 0f, 255f); //Red
         }
-        else
+        //Hurt
+        else if (currentHealth >= (maxHealth) / 5f) 
         {
-            image.color = new Color(255f, 0f, 0f, 255f);
-            tempSpeed = 3f * scrollSpeed;
+            image.color = new Color(255f, 255f, 0f, 255f); //Yellow
         }
 
+        float tempSpeed = healthRatio * scrollSpeed;
         image.material.mainTextureOffset = image.material.mainTextureOffset + new Vector2(Time.deltaTime * (-tempSpeed / 10f), 0f);
     }
 }
