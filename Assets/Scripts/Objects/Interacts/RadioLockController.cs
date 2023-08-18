@@ -81,6 +81,7 @@ public class RadioLockController : SaveObject
             objectsToActivate[i].Activate();
         }
 
+        SetHasActivated();
         if (!CameraController.instance.GetRotState())
             CameraController.instance.LoadLastTarget(); //If the radio is set to the correct station, focus on tunable object
 
