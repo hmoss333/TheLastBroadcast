@@ -60,7 +60,7 @@ public class DialogueController : InteractObject
             {
                 interacting = true; //Still in the dialogue tree
                 canInteract = true; //Ready for next input
-                UIController.instance.SetDialogueText(lines[index]);
+                UIController.instance.SetDialogueText(lines[index], true);
             }
             else
             {
