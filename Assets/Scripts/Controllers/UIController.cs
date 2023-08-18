@@ -63,7 +63,7 @@ public class UIController : MonoBehaviour
 
     public void SetDialogueText(string text)
     {
-        dialogueText.text = text;
+        dialogueText.text = text;   
     }
 
     public void ToggleDialogueUI(bool value)
