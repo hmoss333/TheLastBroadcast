@@ -2,12 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI.Table;
+using NaughtyAttributes;
+//using static UnityEngine.Rendering.DebugUI.Table;
 
 public class ScrollHealth : MonoBehaviour
 {
     Image image;
     [SerializeField] float scrollSpeed;
+
+    [NaughtyAttributes.HorizontalLine]
+
+    [SerializeField] GameObject healthPanel;
+    [SerializeField] Vector2 inactivePos, activePos;
+    [SerializeField] float slideSpeed;
 
 
     private void Start()
@@ -41,5 +48,13 @@ public class ScrollHealth : MonoBehaviour
 
         float tempSpeed = healthRatio * scrollSpeed;
         image.material.mainTextureOffset = image.material.mainTextureOffset + new Vector2(Time.deltaTime * (-tempSpeed / 10f), 0f);
+
+
+        //Move radio panel into position based on active state
+        healthPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(healthPanel.GetComponent<RectTransform>().anchoredPosition,
+            PlayerController.instance.state == PlayerController.States.listening
+            || PlayerController.instance.state == PlayerController.States.interacting
+            || PlayerController.instance.state == PlayerController.States.wakeUp
+            ? inactivePos : activePos, slideSpeed * Time.deltaTime);
     }
 }
