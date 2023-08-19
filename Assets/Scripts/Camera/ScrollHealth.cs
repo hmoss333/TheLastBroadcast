@@ -77,9 +77,10 @@ public class ScrollHealth : MonoBehaviour
         }
 
         if (PlayerController.instance.state == PlayerController.States.wakeUp
-            || PlayerController.instance.state == PlayerController.States.listening)
-            //|| PlayerController.instance.state == PlayerController.States.interacting)
+            || PlayerController.instance.state == PlayerController.States.listening
+            || PlayerController.instance.state == PlayerController.States.interacting)
         {
+            toggled = false;
             return false;
         }
         else if (PlayerController.instance.IsSeen()
