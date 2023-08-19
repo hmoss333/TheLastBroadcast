@@ -80,7 +80,7 @@ public class TVController : SavePointController
             CameraController.instance.FocusTarget();
 
             //Display 'Saving...' text
-            UIController.instance.SetDialogueText("Saving...");
+            UIController.instance.SetDialogueText("Saving...", true);
             UIController.instance.ToggleDialogueUI(interacting);
 
             if (interacting)

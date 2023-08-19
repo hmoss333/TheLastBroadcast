@@ -11,8 +11,8 @@ public class DialogueController : InteractObject
 {
     [SerializeField] bool talkOnce;
     [SerializeField] private string[] lines;
-    private int index;
-    private bool canInteract;
+    [SerializeField] private int index;
+    private bool canInteract, pauseTyping;
     private float iconTimer = 4f;
 
 
@@ -40,14 +40,18 @@ public class DialogueController : InteractObject
                 UIController.instance.ToggleDialogueInputIcon(false);
             }
 
+
             //On button up, reset interact state
             if (!PlayerController.instance.inputMaster.Player.Interact.IsPressed())
-            {             
+            {
                 canInteract = false;
             }
-            else if (PlayerController.instance.inputMaster.Player.Interact.IsPressed() && !canInteract)
+            else if (!canInteract && PlayerController.instance.inputMaster.Player.Interact.triggered)
             {
-                Interact();
+                if (TextWriter.instace.isTyping)
+                    TextWriter.instace.StopTyping();
+                else
+                    Interact();
             }
         }
     }
@@ -60,7 +64,7 @@ public class DialogueController : InteractObject
             {
                 interacting = true; //Still in the dialogue tree
                 canInteract = true; //Ready for next input
-                UIController.instance.SetDialogueText(lines[index]);
+                UIController.instance.SetDialogueText(lines[index], true);
             }
             else
             {

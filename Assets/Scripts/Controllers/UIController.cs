@@ -25,6 +25,7 @@ public class UIController : MonoBehaviour
     float pulseTime = 0.5f;
     float inputAlpha;
 
+
     bool uiActive;
 
     private void Awake()
@@ -61,15 +62,18 @@ public class UIController : MonoBehaviour
         abilityObject.SetActive(uiActive);
     }
 
-    public void SetDialogueText(string text)
+    public void SetDialogueText(string text, bool typeText)
     {
-        dialogueText.text = text;   
+        dialogueText.text = text;
+        if (typeText) {
+            print("Start typing text");
+            TextWriter.instace.TypeText(); }
+        else { dialogueText.maxVisibleCharacters = text.Length; }
     }
 
     public void ToggleDialogueUI(bool value)
     {
         dialogueText.gameObject.SetActive(value);
-        //inputIcon.gameObject.SetActive(value);
         StartCoroutine(FadeTo(value ? 1f : 0f, 0.65f));
     }
 

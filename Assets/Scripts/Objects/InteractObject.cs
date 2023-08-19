@@ -25,7 +25,7 @@ public class InteractObject : SaveObject
         }
         else
         {
-            UIController.instance.SetDialogueText(inactiveText);
+            UIController.instance.SetDialogueText(inactiveText, false);
             UIController.instance.ToggleDialogueUI(interacting);
         }
     }
