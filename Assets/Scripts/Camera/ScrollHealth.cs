@@ -7,6 +7,8 @@ using NaughtyAttributes;
 
 public class ScrollHealth : MonoBehaviour
 {
+    public static ScrollHealth instance;
+
     Image image;
     [SerializeField] float scrollSpeed;
 
@@ -17,6 +19,14 @@ public class ScrollHealth : MonoBehaviour
     [SerializeField] float slideSpeed;
     public bool isActive, toggled;
 
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
+    }
 
     private void Start()
     {
