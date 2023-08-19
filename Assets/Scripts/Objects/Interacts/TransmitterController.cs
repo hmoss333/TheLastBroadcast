@@ -102,7 +102,7 @@ public class TransmitterController : InteractObject
             {
                 startCountdown = false;
                 triggered = true;
-                UIController.instance.SetDialogueText(activationText);
+                UIController.instance.SetDialogueText(activationText, false);
                 UIController.instance.ToggleDialogueUI(true);
             }
         }

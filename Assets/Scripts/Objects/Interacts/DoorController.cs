@@ -38,7 +38,7 @@ public class DoorController : InteractObject
             }
             else
             {
-                UIController.instance.SetDialogueText(lockedText);
+                UIController.instance.SetDialogueText(lockedText, false);
                 UIController.instance.ToggleDialogueUI(interacting);
             }
         }
