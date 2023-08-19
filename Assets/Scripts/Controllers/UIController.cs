@@ -26,8 +26,6 @@ public class UIController : MonoBehaviour
     float inputAlpha;
 
 
-    [SerializeField] TextWriter textWriter;
-
     bool uiActive;
 
     private void Awake()
@@ -67,7 +65,9 @@ public class UIController : MonoBehaviour
     public void SetDialogueText(string text, bool typeText)
     {
         dialogueText.text = text;
-        if (typeText) { textWriter.TypeText(); }
+        if (typeText) {
+            print("Start typing text");
+            TextWriter.instace.TypeText(); }
         else { dialogueText.maxVisibleCharacters = text.Length; }
     }
 

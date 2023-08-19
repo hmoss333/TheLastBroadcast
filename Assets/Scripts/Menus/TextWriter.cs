@@ -5,29 +5,41 @@ using TMPro;
 
 public class TextWriter : MonoBehaviour
 {
+    public static TextWriter instace;
+
     [SerializeField] TMP_Text uiText;
     [SerializeField] float timeBtwnChars;
     Coroutine typeTextRoutine;
+    public bool isTyping { get; private set; }
+    public int maxChars;
+
+
+    private void Awake()
+    {
+        if (instace == null)
+            instace = this;
+        else
+            Destroy(this);
+    }
 
     public void TypeText()
     {
-        print("Start typing text routine");
-        if (typeTextRoutine == null)
-            typeTextRoutine = StartCoroutine(TextVisible());
+        typeTextRoutine = StartCoroutine(TextVisible());
     }
 
     // Update is called once per frame
     IEnumerator TextVisible()
     {
-        uiText.ForceMeshUpdate();
-        int totalVisibleCharacters = uiText.text.Length;//.textInfo.characterCount;
+        int totalVisibleCharacters = uiText.text.Length;
         int counter = 0;
+        isTyping = true;
+        uiText.ForceMeshUpdate();
 
-        while (true)
+        while (isTyping)
         {
-            int visibleCount = counter;//counter % (totalVisibleCharacters + 1);
+            int visibleCount = counter;
             uiText.maxVisibleCharacters = visibleCount;
-            print("Max visible characters: " + uiText.maxVisibleCharacters);
+            maxChars = visibleCount;
 
             if (visibleCount >= totalVisibleCharacters)
             {                
@@ -38,6 +50,15 @@ public class TextWriter : MonoBehaviour
             yield return new WaitForSeconds(timeBtwnChars);
         }
 
+        isTyping = false;
         typeTextRoutine = null;
+    }
+
+    public void StopTyping()
+    {
+        StopCoroutine(typeTextRoutine);
+        isTyping = false;
+        uiText.maxVisibleCharacters = uiText.text.Length;
+        uiText.ForceMeshUpdate();
     }
 }
