@@ -48,17 +48,24 @@ public class DialogueController : InteractObject
             }
             else if (!canInteract && PlayerController.instance.inputMaster.Player.Interact.triggered)
             {
+                print("Button pressed");
                 if (TextWriter.instace.isTyping)
+                {
+                    print("Stop typing");
                     TextWriter.instace.StopTyping();
+                }
                 else
+                {
+                    print("Progress dialogue");
                     Interact();
+                }
             }
         }
     }
 
     public override void Interact()
     {
-        if (!canInteract)
+        if (!canInteract && !TextWriter.instace.isTyping)
         {
             if (index < lines.Length)
             {
@@ -86,10 +93,5 @@ public class DialogueController : InteractObject
             UIController.instance.ToggleDialogueUI(interacting);
             index++;
         }
-    }
-
-    public override void Activate()
-    {
-        base.Activate();
     }
 }
