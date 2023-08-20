@@ -10,6 +10,7 @@ public class DoorController : InteractObject
     public Transform exitPoint;
     [HideInInspector] public RoomController exitRoom;
     [SerializeField] float triggerTime = 0.5f;
+    Coroutine doorRoutine;
 
 
     private void Awake()
@@ -18,9 +19,15 @@ public class DoorController : InteractObject
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
     }
 
+    public override void Interact()
+    {
+        if (doorRoutine == null)
+            base.Interact();
+    }
+
     public override void StartInteract()
     {
-        StartCoroutine(DoorTrigger());
+        doorRoutine = StartCoroutine(DoorTrigger());
     }
 
     IEnumerator DoorTrigger()
@@ -55,5 +62,7 @@ public class DoorController : InteractObject
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         CameraController.instance.SetLastTarget(PlayerController.instance.lookTransform);
         PlayerController.instance.SetState(PlayerController.States.idle);
+
+        doorRoutine = null;
     }
 }

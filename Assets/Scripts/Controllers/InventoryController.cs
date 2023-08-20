@@ -11,6 +11,7 @@ public class InventoryController : MonoBehaviour
 
     public List<ItemInstance> items = new();
     Dictionary<int, ItemInstance> itemDict = new Dictionary<int, ItemInstance>();
+    private string itemDestination;
 
 
     private void Awake()
@@ -19,31 +20,59 @@ public class InventoryController : MonoBehaviour
             instance = this;
         else
             Destroy(this);
+
+        itemDestination = System.IO.Path.Combine(Application.persistentDataPath, "Items", "items.json");
+
+        LoadItemFile();
     }
 
-    private void Start()
+    public void CreateNewItemFile()
     {
-        PopulateInventory();
-    }
+        Directory.CreateDirectory(System.IO.Path.Combine(Application.persistentDataPath, "Items"));
+        string resourcesPath = System.IO.Path.Combine(Application.streamingAssetsPath, "items.json");
+        string jsonData = File.ReadAllText(resourcesPath);
 
-    public void PopulateInventory()
-    {
-        //Populate inventory from json file
-        string itemFilePath = System.IO.Path.Combine(Application.streamingAssetsPath, "items.json");
-        string jsonData = File.ReadAllText(itemFilePath);
         InventoryItems i_Items = JsonUtility.FromJson<InventoryItems>("{\"itemInstances\":" + jsonData + "}");
 
         for (int i = 0; i < i_Items.itemInstances.Count; i++)
         {
-            //ItemInstance itemInstance = i_Items.itemInstances[i];
             itemDict.Add(i_Items.itemInstances[i].id, i_Items.itemInstances[i]);
             items.Add(i_Items.itemInstances[i]);
         }
     }
 
-    public void UpdateInventory()
+    public void LoadItemFile()
     {
-        //Refresh inventory screen to reflect changes after calling AddItem or RemoveItem
+        if (File.Exists(itemDestination))
+        {
+            print("Loading item data from file");
+            print(itemDestination);
+            string jsonData = File.ReadAllText(itemDestination);
+            print(jsonData);
+            InventoryItems i_Items = JsonUtility.FromJson<InventoryItems>(jsonData);
+
+            for (int i = 0; i < i_Items.itemInstances.Count; i++)
+            {
+                itemDict.Add(i_Items.itemInstances[i].id, i_Items.itemInstances[i]);
+                items.Add(i_Items.itemInstances[i]);
+            }
+        }
+        else
+        {
+            print("Creating new item file");
+            CreateNewItemFile();
+            SaveItemData();
+        }
+    }
+
+    public void SaveItemData()
+    {
+        InventoryItems tempItems = new InventoryItems();
+        tempItems.itemInstances = items;
+
+        string jsonData = JsonUtility.ToJson(tempItems);
+        print("Saving Item Data:" + jsonData);
+        File.WriteAllText(itemDestination, jsonData);
     }
 
     public void AddItem(int itemID)

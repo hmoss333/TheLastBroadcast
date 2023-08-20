@@ -7,7 +7,10 @@ using UnityEngine.SceneManagement;
 public class SaveObject : MonoBehaviour
 {
     public string id;
-    public bool active = true, hasActivated, hideOnLoad = false;
+    public bool active = true, hasActivated, hideOnLoad = false, needItem = false;
+    public int inventoryItemID;
+    [HideInInspector]
+    public ItemInstance inventoryItem;
 
 
     private void Start()
@@ -34,7 +37,6 @@ public class SaveObject : MonoBehaviour
     public virtual void Activate()
     {
         active = !active;
-        //print($"Set active state of {gameObject.name} to {active}");
 
         if (active && !gameObject.activeSelf)
             gameObject.SetActive(true);
@@ -46,7 +48,6 @@ public class SaveObject : MonoBehaviour
     public virtual void SetHasActivated()
     {
         hasActivated = true;
-        //print($"Set hasActivated state of {gameObject.name} to {hasActivated}");
 
         if (hideOnLoad)
             gameObject.SetActive(false);

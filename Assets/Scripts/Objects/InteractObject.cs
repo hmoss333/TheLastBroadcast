@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class InteractObject : SaveObject
 {
-    public bool interacting, needItem;
+    public bool interacting;
     public string inactiveText;
     public Transform focusPoint;
-    public int inventoryItemID;
+    //public int inventoryItemID;
     //[HideInInspector]
-    public ItemInstance inventoryItem;
+    //public ItemInstance inventoryItem;
 
 
     private void Start()
