@@ -70,20 +70,15 @@ public class InventoryController : MonoBehaviour
             RemoveItem(itemID);
         }
     }
-}
 
-
-public class UseItem
-{
-    public int id;
-    public InteractObject obj;
-
-    public UseItem(int u_id, InteractObject u_obj)
+    public ItemInstance GetItem(int itemID)
     {
-        id = u_id;
-        obj = u_obj;
+        return itemDict[itemID];
     }
 }
+
+
+
 
 [System.Serializable]
 public class InventoryItems

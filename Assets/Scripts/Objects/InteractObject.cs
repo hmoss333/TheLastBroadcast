@@ -4,15 +4,35 @@ using UnityEngine;
 
 public class InteractObject : SaveObject
 {
-    public bool interacting;
+    public bool interacting, needItem;
     public string inactiveText;
     public Transform focusPoint;
+    public int inventoryItemID;
+    //[HideInInspector]
+    public ItemInstance inventoryItem;
+
+
+    private void Start()
+    {
+        if (needItem)
+        {
+            inventoryItem = InventoryController.instance.GetItem(inventoryItemID);
+        }
+    }
 
     public virtual void Interact()
     {
         interacting = !interacting;
 
-        if (active)
+        if (needItem && inventoryItem.hasItem)
+        {
+            needItem = false;
+            InventoryController.instance.UseItem(inventoryItemID);
+            UIController.instance.SetDialogueText($"Used {inventoryItem.itemType.itemName}", false);
+            UIController.instance.ToggleDialogueUI(interacting);
+        }
+
+        if (active && !needItem)
         {
             if (interacting)
             {
@@ -21,7 +41,7 @@ public class InteractObject : SaveObject
             else
             {
                 EndInteract();
-            }
+            }         
         }
         else
         {

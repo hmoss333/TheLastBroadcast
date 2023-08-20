@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(AudioSource))]
 public class DoorController : InteractObject
 {
-    [SerializeField] private int securityLevel;
-    [SerializeField] private string lockedText = "Current security level is too low";
     public Transform exitPoint;
     [HideInInspector] public RoomController exitRoom;
     [SerializeField] float triggerTime = 0.5f;
@@ -20,28 +18,9 @@ public class DoorController : InteractObject
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
     }
 
-    public override void Activate()
+    public override void StartInteract()
     {
-        base.Activate();
-    }
-
-    public override void Interact()
-    {
-        base.Interact();
-
-        if (active)
-        {
-            if (SaveDataController.instance.GetSecurityCardLevel() >= securityLevel)
-            {
-                interacting = true; //force interacting state so player cannot exit animation prematurely
-                StartCoroutine(DoorTrigger()); //Start door opening coroutine
-            }
-            else
-            {
-                UIController.instance.SetDialogueText(lockedText, false);
-                UIController.instance.ToggleDialogueUI(interacting);
-            }
-        }
+        StartCoroutine(DoorTrigger());
     }
 
     IEnumerator DoorTrigger()
@@ -61,6 +40,7 @@ public class DoorController : InteractObject
         while (FadeController.instance.isFading)
             yield return null;
 
+        UIController.instance.ToggleDialogueUI(false);
         PlayerController.instance.transform.position = exitPoint.position;
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);
         CameraController.instance.transform.position = exitPoint.position;
