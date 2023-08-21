@@ -6,17 +6,27 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using System.IO;
 using TMPro;
+using UnityEngine.UI.Extensions;
 
 public class InventoryController : MonoBehaviour
 {
     public static InventoryController instance;
 
-    public List<ItemInstance> items = new();
-    Dictionary<int, ItemInstance> itemDict = new Dictionary<int, ItemInstance>();
     private string itemDestination;
+    [Header("UI Elements")]
     [SerializeField] Transform inventoryContent;
-    [SerializeField] InventoryItem inventoryItem;
+    [SerializeField] ScrollRect scrollRect;
+    [SerializeField] InventoryItem inventoryItemPrefab;
     [SerializeField] TMP_Text inventoryTitle, inventoryDesc;
+
+    [NaughtyAttributes.HorizontalLine]
+
+    [Header("Inventory Values")]
+    [SerializeField] InventoryItem selectedItem;
+    private int itemPosVal;
+    [SerializeField] private List<ItemInstance> items = new List<ItemInstance>();
+    private Dictionary<int, ItemInstance> itemDict = new Dictionary<int, ItemInstance>();
+    private InventoryItem[] inventoryItems;
 
 
     private void Awake()
@@ -31,6 +41,46 @@ public class InventoryController : MonoBehaviour
         LoadItemFile();
         RefreshInventory();
     }
+
+    private void Update()
+    {
+        if (PauseMenuController.instance.isPaused && PlayerController.instance.inputMaster.Player.Move.triggered) //&& currentPanel == inventoryPanel
+        {
+            Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
+            if (move.x > 0)
+                itemPosVal++;
+            if (move.x < 0)
+                itemPosVal--;
+            if (move.y > 0)
+                itemPosVal -= 3;
+            if (move.y < 0)
+                itemPosVal += 3;
+
+            //Scroll rect view
+
+
+            //Keep value inside of the inventoryItems array
+            if (itemPosVal < 0)
+            {
+                itemPosVal = 0;
+                //scrollRect.normalizedPosition = new Vector2(0, 1);
+            }
+            if (itemPosVal > inventoryItems.Length - 1)
+            {
+                itemPosVal = inventoryItems.Length - 1;
+                //scrollRect.normalizedPosition = new Vector2(0, 0);
+            }
+
+            foreach(InventoryItem item in inventoryItems)
+            {
+                item.ToggleHighlight(false);
+            }
+
+            //Display the current selected item data
+            SelectItem(inventoryItems[itemPosVal]);
+        }
+    }
+
 
     public void CreateNewItemFile()
     {
@@ -96,15 +146,27 @@ public class InventoryController : MonoBehaviour
         {
             if (items[i].hasItem)
             {
-                InventoryItem itemPrefab = Instantiate(inventoryItem, inventoryContent);
+                InventoryItem itemPrefab = Instantiate(inventoryItemPrefab, inventoryContent);
                 itemPrefab.itemData = items[i];
                 //Set icon value
                 //Apply icon
 
                 if (i == 0)
-                    itemPrefab.DisplayItemData();
+                {
+                    SelectItem(itemPrefab);
+                    itemPosVal = 0;
+                }
             }
         }
+
+        inventoryItems = inventoryContent.GetComponentsInChildren<InventoryItem>();
+    }
+
+    public void SelectItem(InventoryItem item)
+    {
+        selectedItem = item;
+        selectedItem.ToggleHighlight(true);
+        ShowItemData(item.itemData);
     }
 
     public void ShowItemData(ItemInstance item)

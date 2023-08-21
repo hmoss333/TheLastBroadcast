@@ -7,12 +7,18 @@ using TMPro;
 public class InventoryItem : MonoBehaviour
 {
     public ItemInstance itemData;
-    public Sprite icon;
+    [SerializeField] Sprite icon;
     [SerializeField] Image image;
+    [SerializeField] GameObject highlight;
 
 
     public void DisplayItemData()
     {
         InventoryController.instance.ShowItemData(itemData);
+    }
+
+    public void ToggleHighlight(bool value)
+    {
+        highlight.SetActive(value);
     }
 }

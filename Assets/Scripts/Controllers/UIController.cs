@@ -35,8 +35,8 @@ public class UIController : MonoBehaviour
         else
             Destroy(this);
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
