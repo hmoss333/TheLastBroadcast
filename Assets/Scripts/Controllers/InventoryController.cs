@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 using System.IO;
+using TMPro;
 
 public class InventoryController : MonoBehaviour
 {
@@ -12,6 +14,9 @@ public class InventoryController : MonoBehaviour
     public List<ItemInstance> items = new();
     Dictionary<int, ItemInstance> itemDict = new Dictionary<int, ItemInstance>();
     private string itemDestination;
+    [SerializeField] Transform inventoryContent;
+    [SerializeField] InventoryItem inventoryItem;
+    [SerializeField] TMP_Text inventoryTitle, inventoryDesc;
 
 
     private void Awake()
@@ -24,6 +29,7 @@ public class InventoryController : MonoBehaviour
         itemDestination = System.IO.Path.Combine(Application.persistentDataPath, "Items", "items.json");
 
         LoadItemFile();
+        RefreshInventory();
     }
 
     public void CreateNewItemFile()
@@ -32,7 +38,7 @@ public class InventoryController : MonoBehaviour
         string resourcesPath = System.IO.Path.Combine(Application.streamingAssetsPath, "items.json");
         string jsonData = File.ReadAllText(resourcesPath);
 
-        InventoryItems i_Items = JsonUtility.FromJson<InventoryItems>("{\"itemInstances\":" + jsonData + "}");
+        InventoryWrapper i_Items = JsonUtility.FromJson<InventoryWrapper>("{\"itemInstances\":" + jsonData + "}");
 
         for (int i = 0; i < i_Items.itemInstances.Count; i++)
         {
@@ -49,7 +55,7 @@ public class InventoryController : MonoBehaviour
             print(itemDestination);
             string jsonData = File.ReadAllText(itemDestination);
             print(jsonData);
-            InventoryItems i_Items = JsonUtility.FromJson<InventoryItems>(jsonData);
+            InventoryWrapper i_Items = JsonUtility.FromJson<InventoryWrapper>(jsonData);
 
             for (int i = 0; i < i_Items.itemInstances.Count; i++)
             {
@@ -67,7 +73,7 @@ public class InventoryController : MonoBehaviour
 
     public void SaveItemData()
     {
-        InventoryItems tempItems = new InventoryItems();
+        InventoryWrapper tempItems = new InventoryWrapper();
         tempItems.itemInstances = items;
 
         string jsonData = JsonUtility.ToJson(tempItems);
@@ -75,29 +81,55 @@ public class InventoryController : MonoBehaviour
         File.WriteAllText(itemDestination, jsonData);
     }
 
+
+    public void RefreshInventory()
+    {
+        InventoryItem[] currentItems = inventoryContent.GetComponentsInChildren<InventoryItem>();
+        foreach(InventoryItem item in currentItems)
+        {
+            Destroy(item.gameObject);
+        }
+        inventoryTitle.text = "";
+        inventoryDesc.text = "";
+
+        for(int i = 0; i < items.Count; i++)
+        {
+            if (items[i].hasItem)
+            {
+                InventoryItem itemPrefab = Instantiate(inventoryItem, inventoryContent);
+                itemPrefab.itemData = items[i];
+                //Set icon value
+                //Apply icon
+
+                if (i == 0)
+                    itemPrefab.DisplayItemData();
+            }
+        }
+    }
+
+    public void ShowItemData(ItemInstance item)
+    {
+        inventoryTitle.text = item.itemType.itemName;
+        inventoryDesc.text = item.itemType.description;
+    }
+
+
     public void AddItem(int itemID)
     {
         itemDict[itemID].hasItem = true;
+        RefreshInventory();
     }
 
     public void RemoveItem(int itemID)
     {
         itemDict[itemID].hasItem = false;
+        RefreshInventory();
     }
 
     public bool HasItem(int itemID)
     {
         ItemInstance itemInstance = itemDict[itemID];
         return itemInstance.hasItem;
-    }
-
-    public void UseItem(int itemID)
-    {
-        if (HasItem(itemID))
-        {
-            print($"Used item: {itemDict[itemID].itemType.itemName}");
-            RemoveItem(itemID);
-        }
     }
 
     public ItemInstance GetItem(int itemID)
@@ -110,7 +142,7 @@ public class InventoryController : MonoBehaviour
 
 
 [System.Serializable]
-public class InventoryItems
+public class InventoryWrapper
 {
     public List<ItemInstance> itemInstances = new List<ItemInstance>();
 }

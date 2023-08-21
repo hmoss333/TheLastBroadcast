@@ -7,12 +7,9 @@ public class InteractObject : SaveObject
     public bool interacting;
     public string inactiveText;
     public Transform focusPoint;
-    //public int inventoryItemID;
-    //[HideInInspector]
-    //public ItemInstance inventoryItem;
 
 
-    private void Start()
+    private void OnEnable()
     {
         if (needItem)
         {
@@ -27,7 +24,7 @@ public class InteractObject : SaveObject
         if (needItem && inventoryItem.hasItem)
         {
             needItem = false;
-            InventoryController.instance.UseItem(inventoryItemID);
+            InventoryController.instance.RemoveItem(inventoryItemID);
             UIController.instance.SetDialogueText($"Used {inventoryItem.itemType.itemName}", false);
             UIController.instance.ToggleDialogueUI(interacting);
         }
