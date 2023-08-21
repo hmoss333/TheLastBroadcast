@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System.IO;
 using TMPro;
 using UnityEngine.UI.Extensions;
+using static UnityEngine.GraphicsBuffer;
 
 public class InventoryController : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class InventoryController : MonoBehaviour
 
     private string itemDestination;
     [Header("UI Elements")]
-    [SerializeField] Transform inventoryContent;
+    [SerializeField] RectTransform inventoryContent;
     [SerializeField] ScrollRect scrollRect;
     [SerializeField] InventoryItem inventoryItemPrefab;
     [SerializeField] TMP_Text inventoryTitle, inventoryDesc;
@@ -46,32 +47,54 @@ public class InventoryController : MonoBehaviour
     {
         if (PauseMenuController.instance.isPaused && PlayerController.instance.inputMaster.Player.Move.triggered) //&& currentPanel == inventoryPanel
         {
+            Canvas.ForceUpdateCanvases();
+            float scrollValue = scrollRect.verticalScrollbar.value;
             Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
             if (move.x > 0)
+            {
                 itemPosVal++;
+                //scrollValue -= scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
+            }
             if (move.x < 0)
+            {
                 itemPosVal--;
+                //scrollValue += scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
+            }
             if (move.y > 0)
+            {
                 itemPosVal -= 3;
+                //scrollValue += scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
+            }
             if (move.y < 0)
+            {
                 itemPosVal += 3;
+                //scrollValue -= scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
+            }
 
-            //Scroll rect view
+            if (inventoryItems.Length > 6)
+            {
+                if (itemPosVal > 6 && itemPosVal % 6 != 0)
+                    scrollValue -= scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
+                //(scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y * 2f + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f) / scrollRect.content.rect.height;
+                else
+                    scrollValue += scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
+                //(scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y * 2f + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f) / scrollRect.content.rect.height;
+            }
 
+
+            scrollRect.verticalScrollbar.value = scrollValue;
 
             //Keep value inside of the inventoryItems array
-            if (itemPosVal < 0)
+            if (itemPosVal <= 0)
             {
                 itemPosVal = 0;
-                //scrollRect.normalizedPosition = new Vector2(0, 1);
             }
-            if (itemPosVal > inventoryItems.Length - 1)
+            if (itemPosVal >= inventoryItems.Length - 1)
             {
                 itemPosVal = inventoryItems.Length - 1;
-                //scrollRect.normalizedPosition = new Vector2(0, 0);
             }
 
-            foreach(InventoryItem item in inventoryItems)
+            foreach (InventoryItem item in inventoryItems)
             {
                 item.ToggleHighlight(false);
             }
