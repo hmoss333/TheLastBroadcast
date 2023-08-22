@@ -47,42 +47,41 @@ public class InventoryController : MonoBehaviour
     {
         if (PauseMenuController.instance.isPaused && PlayerController.instance.inputMaster.Player.Move.triggered) //&& currentPanel == inventoryPanel
         {
-            Canvas.ForceUpdateCanvases();
-            float scrollValue = scrollRect.verticalScrollbar.value;
             Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
             if (move.x > 0)
             {
                 itemPosVal++;
-                //scrollValue -= scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
+                if (itemPosVal % 3 == 0)
+                {
+                    inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
+                        + inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
+                        + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
+                }
             }
             if (move.x < 0)
             {
                 itemPosVal--;
-                //scrollValue += scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
+                if (itemPosVal % 3 != 0)
+                {
+                    inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
+                        - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
+                        - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
+                }
             }
             if (move.y > 0)
             {
-                itemPosVal -= 3;
-                //scrollValue += scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
+                itemPosVal -= 3;            
+                inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
+                    - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
+                    - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
             }
             if (move.y < 0)
             {
                 itemPosVal += 3;
-                //scrollValue -= scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
+                inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
+                    + inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
+                    + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
             }
-
-            if (inventoryItems.Length > 6)
-            {
-                if (itemPosVal > 6 && itemPosVal % 6 != 0)
-                    scrollValue -= scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
-                //(scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y * 2f + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f) / scrollRect.content.rect.height;
-                else
-                    scrollValue += scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f;
-                //(scrollRect.content.GetComponent<GridLayoutGroup>().cellSize.y * 2f + scrollRect.content.GetComponent<GridLayoutGroup>().spacing.y * 2f) / scrollRect.content.rect.height;
-            }
-
-
-            scrollRect.verticalScrollbar.value = scrollValue;
 
             //Keep value inside of the inventoryItems array
             if (itemPosVal <= 0)
@@ -92,11 +91,6 @@ public class InventoryController : MonoBehaviour
             if (itemPosVal >= inventoryItems.Length - 1)
             {
                 itemPosVal = inventoryItems.Length - 1;
-            }
-
-            foreach (InventoryItem item in inventoryItems)
-            {
-                item.ToggleHighlight(false);
             }
 
             //Display the current selected item data
@@ -170,6 +164,7 @@ public class InventoryController : MonoBehaviour
             if (items[i].hasItem)
             {
                 InventoryItem itemPrefab = Instantiate(inventoryItemPrefab, inventoryContent);
+                itemPrefab.ID = i;
                 itemPrefab.itemData = items[i];
                 //Set icon value
                 //Apply icon
@@ -187,8 +182,19 @@ public class InventoryController : MonoBehaviour
 
     public void SelectItem(InventoryItem item)
     {
+        //Hide all item highlights
+        InventoryItem[] tempItems = inventoryContent.GetComponentsInChildren<InventoryItem>();
+        foreach (InventoryItem i_Item in tempItems)
+        {
+            i_Item.ToggleHighlight(false);
+        }
+
+        //Set item prefab as the current selected
+        itemPosVal = item.ID;
         selectedItem = item;
         selectedItem.ToggleHighlight(true);
+
+        //Display item name/description
         ShowItemData(item.itemData);
     }
 

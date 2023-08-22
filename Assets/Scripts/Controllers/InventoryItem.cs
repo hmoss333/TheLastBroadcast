@@ -6,6 +6,7 @@ using TMPro;
 
 public class InventoryItem : MonoBehaviour
 {
+    public int ID;
     public ItemInstance itemData;
     [SerializeField] Sprite icon;
     [SerializeField] Image image;
@@ -14,7 +15,7 @@ public class InventoryItem : MonoBehaviour
 
     public void DisplayItemData()
     {
-        InventoryController.instance.ShowItemData(itemData);
+        InventoryController.instance.SelectItem(this);//.ShowItemData(itemData);
     }
 
     public void ToggleHighlight(bool value)
