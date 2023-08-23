@@ -177,26 +177,29 @@ public class PlayerController : CharacterController
                 interactIcon.SetActive(false); //hide interact icon while interacting
                 break;
             case States.moving:
-                speed = storedSpeed;
-
-                horizontal = Mathf.Round(move.x * 10f) * 0.1f;
-                vertical = Mathf.Round(move.y * 10f) * 0.1f;
-
-                //Save last input vector for interact raycast
-                if (horizontal != 0f || vertical != 0f)
+                if (!PauseMenuController.instance.isPaused)
                 {
-                    lastDir.x = horizontal;
-                    lastDir.z = vertical;
-                }
+                    speed = storedSpeed;
 
-                Vector3 tempMove = new Vector3(horizontal, 0f, vertical);
-                if (tempMove.magnitude > 1)
-                    tempMove = tempMove.normalized;
-                rb.velocity = new Vector3(tempMove.x * speed, rb.velocity.y, tempMove.z * speed);
+                    horizontal = Mathf.Round(move.x * 10f) * 0.1f;
+                    vertical = Mathf.Round(move.y * 10f) * 0.1f;
 
-                if (move.x == 0f && move.y == 0f)
-                {
-                    SetState(States.idle);
+                    //Save last input vector for interact raycast
+                    if (horizontal != 0f || vertical != 0f)
+                    {
+                        lastDir.x = horizontal;
+                        lastDir.z = vertical;
+                    }
+
+                    Vector3 tempMove = new Vector3(horizontal, 0f, vertical);
+                    if (tempMove.magnitude > 1)
+                        tempMove = tempMove.normalized;
+                    rb.velocity = new Vector3(tempMove.x * speed, rb.velocity.y, tempMove.z * speed);
+
+                    if (move.x == 0f && move.y == 0f)
+                    {
+                        SetState(States.idle);
+                    }
                 }
                 break;
             case States.attacking:

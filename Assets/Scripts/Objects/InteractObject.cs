@@ -21,7 +21,7 @@ public class InteractObject : SaveObject
     {
         interacting = !interacting;
 
-        if (needItem && inventoryItem.hasItem)
+        if (needItem && InventoryController.instance.selectedItem.ID == inventoryItemID)//inventoryItem.hasItem)
         {
             active = true;
             needItem = false;

@@ -25,6 +25,9 @@ public class UIController : MonoBehaviour
     float pulseTime = 0.5f;
     float inputAlpha;
 
+    [Header("Inventory Variables")]
+    [SerializeField] Image currentItem; 
+
 
     bool uiActive;
 

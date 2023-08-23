@@ -10,14 +10,19 @@ public class InventoryItem : MonoBehaviour
     public int ID;
     public ItemInstance itemData;
     [SerializeField] SpriteAtlas atlas;
-    [SerializeField] Sprite icon;
+    public Sprite icon;// { get; private set; }
     [SerializeField] Image image;
     [SerializeField] GameObject highlight;
 
 
-    private void Awake()
+    private void Start()
     {
-        Sprite tempSprite = atlas.GetSprite(itemData.itemType.itemName);
+        SetIcon(itemData.itemType.itemName);
+    }
+
+    public void SetIcon(string itemName)
+    {
+        Sprite tempSprite = atlas.GetSprite(itemName);
         if (tempSprite != null)
         {
             icon = tempSprite;

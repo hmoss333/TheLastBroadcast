@@ -8,6 +8,7 @@ using System.IO;
 using TMPro;
 using UnityEngine.UI.Extensions;
 using static UnityEngine.GraphicsBuffer;
+using static UnityEditor.Progress;
 
 public class InventoryController : MonoBehaviour
 {
@@ -20,14 +21,13 @@ public class InventoryController : MonoBehaviour
     [SerializeField] InventoryItem inventoryItemPrefab;
     [SerializeField] TMP_Text inventoryTitle, inventoryDesc;
 
-    [NaughtyAttributes.HorizontalLine]
+    //[NaughtyAttributes.HorizontalLine]
 
-    [Header("Inventory Values")]
-    [SerializeField] InventoryItem selectedItem;
-    private int itemPosVal;
+    public InventoryItem selectedItem;// { get; private set; }
+    [SerializeField] private int itemPosVal;
     [SerializeField] private List<ItemInstance> items = new List<ItemInstance>();
     private Dictionary<int, ItemInstance> itemDict = new Dictionary<int, ItemInstance>();
-    private InventoryItem[] inventoryItems;
+    private List<InventoryItem> inventoryItems = new List<InventoryItem>();//InventoryItem[] inventoryItems;
 
 
     private void Awake()
@@ -58,7 +58,7 @@ public class InventoryController : MonoBehaviour
                         + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
                 }
             }
-            if (move.x < 0)
+            else if (move.x < 0)
             {
                 itemPosVal--;
                 if (itemPosVal % 3 != 0)
@@ -68,14 +68,14 @@ public class InventoryController : MonoBehaviour
                         - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
                 }
             }
-            if (move.y > 0)
+            else if (move.y > 0)
             {
                 itemPosVal -= 3;            
                 inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
                     - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
                     - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
             }
-            if (move.y < 0)
+            else if (move.y < 0)
             {
                 itemPosVal += 3;
                 inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
@@ -84,17 +84,21 @@ public class InventoryController : MonoBehaviour
             }
 
             //Keep value inside of the inventoryItems array
-            if (itemPosVal <= 0)
+            try
             {
-                itemPosVal = 0;
-            }
-            if (itemPosVal >= inventoryItems.Length - 1)
-            {
-                itemPosVal = inventoryItems.Length - 1;
-            }
+                if (itemPosVal <= 0)
+                {
+                    itemPosVal = 0;
+                }
+                if (itemPosVal >= inventoryItems.Count - 1)
+                {
+                    itemPosVal = inventoryItems.Count - 1;
+                }
 
-            //Display the current selected item data
-            SelectItem(inventoryItems[itemPosVal]);
+                //Display the current selected item data
+                SelectItem(inventoryItems[itemPosVal]);
+            }
+            catch { }
         }
     }
 
@@ -119,9 +123,7 @@ public class InventoryController : MonoBehaviour
         if (File.Exists(itemDestination))
         {
             print("Loading item data from file");
-            print(itemDestination);
             string jsonData = File.ReadAllText(itemDestination);
-            print(jsonData);
             InventoryWrapper i_Items = JsonUtility.FromJson<InventoryWrapper>(jsonData);
 
             for (int i = 0; i < i_Items.itemInstances.Count; i++)
@@ -151,6 +153,7 @@ public class InventoryController : MonoBehaviour
 
     public void RefreshInventory()
     {
+        selectedItem = null;
         InventoryItem[] currentItems = inventoryContent.GetComponentsInChildren<InventoryItem>();
         foreach(InventoryItem item in currentItems)
         {
@@ -159,25 +162,28 @@ public class InventoryController : MonoBehaviour
         inventoryTitle.text = "";
         inventoryDesc.text = "";
 
-        for(int i = 0; i < items.Count; i++)
+        bool firstItem = true;
+        inventoryItems.Clear();
+        for (int i = 0; i < items.Count; i++)
         {
             if (items[i].hasItem)
             {
                 InventoryItem itemPrefab = Instantiate(inventoryItemPrefab, inventoryContent);
                 itemPrefab.ID = i;
                 itemPrefab.itemData = items[i];
-                //Set icon value
-                //Apply icon
+                itemPrefab.SetIcon(items[i].itemType.itemName);
+                inventoryItems.Add(itemPrefab);
 
-                if (i == 0)
+                if (firstItem)
                 {
                     SelectItem(itemPrefab);
-                    itemPosVal = 0;
+                    firstItem = false;
                 }
             }
         }
 
-        inventoryItems = inventoryContent.GetComponentsInChildren<InventoryItem>();
+        if (inventoryItems.Count <= 0) { PlayerItemUI.instance.SetIcon(null); }
+        itemPosVal = 0;
     }
 
     public void SelectItem(InventoryItem item)
@@ -190,12 +196,12 @@ public class InventoryController : MonoBehaviour
         }
 
         //Set item prefab as the current selected
-        itemPosVal = item.ID;
         selectedItem = item;
         selectedItem.ToggleHighlight(true);
 
         //Display item name/description
         ShowItemData(item.itemData);
+        PlayerItemUI.instance.UpdateCurrentItem(item);
     }
 
     public void ShowItemData(ItemInstance item)
@@ -208,12 +214,14 @@ public class InventoryController : MonoBehaviour
     public void AddItem(int itemID)
     {
         itemDict[itemID].hasItem = true;
+        itemPosVal = 0;
         RefreshInventory();
     }
 
     public void RemoveItem(int itemID)
     {
         itemDict[itemID].hasItem = false;
+        itemPosVal = 0;
         RefreshInventory();
     }
 
