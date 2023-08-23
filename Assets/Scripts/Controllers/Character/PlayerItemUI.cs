@@ -9,6 +9,9 @@ public class PlayerItemUI : MonoBehaviour
 
     [SerializeField] Image itemIcon;
     [SerializeField] InventoryItem currentItem;
+    [SerializeField] RectTransform itemPanel;
+    [SerializeField] Vector2 inactivePos, activePos;
+    [SerializeField] float slideSpeed;
 
 
     private void Awake()
@@ -17,6 +20,13 @@ public class PlayerItemUI : MonoBehaviour
             instance = this;
         else
             Destroy(this);
+    }
+
+    private void Update()
+    {
+        //Move Item panel into position based on selected item state
+        itemPanel.anchoredPosition = Vector2.Lerp(itemPanel.anchoredPosition,
+            currentItem != null ? activePos : inactivePos, slideSpeed * Time.deltaTime);
     }
 
     public void UpdateCurrentItem(InventoryItem itemData)

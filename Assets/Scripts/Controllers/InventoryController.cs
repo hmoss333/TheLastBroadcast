@@ -23,11 +23,11 @@ public class InventoryController : MonoBehaviour
 
     //[NaughtyAttributes.HorizontalLine]
 
-    public InventoryItem selectedItem;// { get; private set; }
+    public InventoryItem selectedItem { get; private set; }
     [SerializeField] private int itemPosVal;
     [SerializeField] private List<ItemInstance> items = new List<ItemInstance>();
     private Dictionary<int, ItemInstance> itemDict = new Dictionary<int, ItemInstance>();
-    private List<InventoryItem> inventoryItems = new List<InventoryItem>();//InventoryItem[] inventoryItems;
+    private List<InventoryItem> inventoryItems = new List<InventoryItem>();
 
 
     private void Awake()
@@ -45,60 +45,69 @@ public class InventoryController : MonoBehaviour
 
     private void Update()
     {
-        if (PauseMenuController.instance.isPaused && PlayerController.instance.inputMaster.Player.Move.triggered) //&& currentPanel == inventoryPanel
+        if (PauseMenuController.instance.isPaused) //&& currentPanel == inventoryPanel           
         {
-            Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
-            if (move.x > 0)
+            if (PlayerController.instance.inputMaster.Player.Move.triggered)
             {
-                itemPosVal++;
-                if (itemPosVal % 3 == 0)
+                Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
+                if (move.x > 0)
                 {
-                    inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
-                        + inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
-                        + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
+                    itemPosVal++;
+                    if (itemPosVal % 3 == 0)
+                    {
+                        inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
+                            + inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
+                            + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
+                    }
                 }
-            }
-            else if (move.x < 0)
-            {
-                itemPosVal--;
-                if (itemPosVal % 3 != 0)
+                else if (move.x < 0)
                 {
+                    itemPosVal--;
+                    if (itemPosVal % 3 != 0)
+                    {
+                        inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
+                            - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
+                            - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
+                    }
+                }
+                else if (move.y > 0)
+                {
+                    itemPosVal -= 3;
                     inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
                         - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
                         - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
                 }
-            }
-            else if (move.y > 0)
-            {
-                itemPosVal -= 3;            
-                inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
-                    - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
-                    - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
-            }
-            else if (move.y < 0)
-            {
-                itemPosVal += 3;
-                inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
-                    + inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
-                    + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
-            }
-
-            //Keep value inside of the inventoryItems array
-            try
-            {
-                if (itemPosVal <= 0)
+                else if (move.y < 0)
                 {
-                    itemPosVal = 0;
-                }
-                if (itemPosVal >= inventoryItems.Count - 1)
-                {
-                    itemPosVal = inventoryItems.Count - 1;
+                    itemPosVal += 3;
+                    inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
+                        + inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
+                        + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
                 }
 
-                //Display the current selected item data
+                //Keep value inside of the inventoryItems array
+                try
+                {
+                    if (itemPosVal <= 0)
+                    {
+                        itemPosVal = 0;
+                    }
+                    if (itemPosVal >= inventoryItems.Count - 1)
+                    {
+                        itemPosVal = inventoryItems.Count - 1;
+                    }
+
+                    //Display the current selected item data
+                    ShowItemData(inventoryItems[itemPosVal].itemData);
+                }
+                catch { }
+            }
+
+            if (PlayerController.instance.inputMaster.Player.Interact.triggered)
+            {
+                print("Pressed interact");
                 SelectItem(inventoryItems[itemPosVal]);
             }
-            catch { }
         }
     }
 
@@ -176,7 +185,7 @@ public class InventoryController : MonoBehaviour
 
                 if (firstItem)
                 {
-                    SelectItem(itemPrefab);
+                    ShowItemData(itemPrefab.itemData);
                     firstItem = false;
                 }
             }
@@ -222,6 +231,7 @@ public class InventoryController : MonoBehaviour
     {
         itemDict[itemID].hasItem = false;
         itemPosVal = 0;
+        selectedItem = null;
         RefreshInventory();
     }
 

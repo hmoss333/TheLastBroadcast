@@ -54,7 +54,7 @@ public class ScrollHealth : MonoBehaviour
         image.material.mainTextureOffset = image.material.mainTextureOffset + new Vector2(Time.deltaTime * (-tempSpeed / 10f), 0f);
 
 
-        //Move radio panel into position based on active state
+        //Move health UI panel into position based on active state
         healthPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(healthPanel.GetComponent<RectTransform>().anchoredPosition,
             isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
     }
