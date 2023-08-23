@@ -23,7 +23,7 @@ public class InventoryController : MonoBehaviour
 
     //[NaughtyAttributes.HorizontalLine]
 
-    public InventoryItem selectedItem { get; private set; }
+    public InventoryItem selectedItem;// { get; private set; }
     [SerializeField] private int itemPosVal;
     [SerializeField] private List<ItemInstance> items = new List<ItemInstance>();
     private Dictionary<int, ItemInstance> itemDict = new Dictionary<int, ItemInstance>();
@@ -162,15 +162,16 @@ public class InventoryController : MonoBehaviour
 
     public void RefreshInventory()
     {
-        selectedItem = null;
-        InventoryItem[] currentItems = inventoryContent.GetComponentsInChildren<InventoryItem>();
-        foreach(InventoryItem item in currentItems)
+        //Remove all existing inventory item prefabs
+        foreach (InventoryItem item in inventoryItems)
         {
             Destroy(item.gameObject);
         }
         inventoryTitle.text = "";
         inventoryDesc.text = "";
+        itemPosVal = 0;
 
+        //Repopulate items from fresh list and create new prefabs
         bool firstItem = true;
         inventoryItems.Clear();
         for (int i = 0; i < items.Count; i++)
@@ -191,8 +192,22 @@ public class InventoryController : MonoBehaviour
             }
         }
 
-        if (inventoryItems.Count <= 0) { PlayerItemUI.instance.SetIcon(null); }
-        itemPosVal = 0;
+        //Refresh reference to selected item after updateding list
+        if (selectedItem != null)
+        {
+            foreach (InventoryItem item in inventoryItems)
+            {
+                if (item.ID == selectedItem.ID)
+                {
+                    SelectItem(item);
+                }
+            }
+        }
+        //If inventory is empty, hide icon
+        else
+        {        
+            PlayerItemUI.instance.SetIcon(null);
+        }
     }
 
     public void SelectItem(InventoryItem item)
