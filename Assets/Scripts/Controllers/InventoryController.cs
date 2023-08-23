@@ -106,7 +106,13 @@ public class InventoryController : MonoBehaviour
             if (PlayerController.instance.inputMaster.Player.Interact.triggered)
             {
                 print("Pressed interact");
-                SelectItem(inventoryItems[itemPosVal]);
+                if (selectedItem != inventoryItems[itemPosVal])
+                    SelectItem(inventoryItems[itemPosVal]);
+                else
+                {
+                    selectedItem = null;
+                    PlayerItemUI.instance.UpdateCurrentItem(selectedItem);
+                }
             }
         }
     }

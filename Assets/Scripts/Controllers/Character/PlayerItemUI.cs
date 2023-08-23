@@ -32,7 +32,15 @@ public class PlayerItemUI : MonoBehaviour
     public void UpdateCurrentItem(InventoryItem itemData)
     {
         currentItem = itemData;
-        itemIcon.sprite = currentItem.icon;
+
+        try
+        {
+            itemIcon.sprite = currentItem.icon;
+        }
+        catch
+        {
+            itemIcon.sprite = null;
+        }
     }
 
     public void SetIcon(Sprite sprite)
