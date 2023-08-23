@@ -23,6 +23,7 @@ public class InteractObject : SaveObject
 
         if (needItem && inventoryItem.hasItem)
         {
+            active = true;
             needItem = false;
             InventoryController.instance.RemoveItem(inventoryItemID);
             UIController.instance.SetDialogueText($"Used {inventoryItem.itemType.itemName}", false);

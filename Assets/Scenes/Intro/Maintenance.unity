@@ -58688,7 +58688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 6b25c0e6-677f-4fe5-ae04-694e361df7c2
-  active: 0
+  active: 1
   hasActivated: 0
   hideOnLoad: 0
   needItem: 1
@@ -58725,6 +58725,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: SaveObject, Assembly-CSharp
         m_MethodName: SetHasActivated
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 146538617}
+        m_TargetAssemblyTypeName: InventoryController, Assembly-CSharp
+        m_MethodName: RemoveItem
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -68897,18 +68909,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: InventoryController, Assembly-CSharp
         m_MethodName: AddItem
         m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1898691860}
-        m_TargetAssemblyTypeName: SaveObject, Assembly-CSharp
-        m_MethodName: Activate
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
