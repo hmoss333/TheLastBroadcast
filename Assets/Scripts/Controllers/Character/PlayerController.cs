@@ -226,6 +226,10 @@ public class PlayerController : CharacterController
                     SetState(States.idle);
                 }
                 break;
+            case States.dead:
+                if (health.CurrentHealth() >= 0)
+                    health.SetHealth(0);
+                break;
             default:
                 break;
         }

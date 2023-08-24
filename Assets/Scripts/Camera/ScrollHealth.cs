@@ -13,6 +13,8 @@ public class ScrollHealth : MonoBehaviour
     [NaughtyAttributes.HorizontalLine]
 
     [SerializeField] GameObject healthPanel;
+    [SerializeField] Image healthUI;
+    [SerializeField] Sprite deadHealth;
     [SerializeField] Vector2 inactivePos, activePos;
     [SerializeField] float slideSpeed;
     public bool isActive, toggled;
@@ -40,7 +42,7 @@ public class ScrollHealth : MonoBehaviour
             image.color = new Color(0f, 255f, 0f, 255f); //Green
         }
         //Almost-dead
-        else if (currentHealth == 1) 
+        else if (currentHealth <= 1) 
         {
             image.color = new Color(255f, 0f, 0f, 255f); //Red
         }
@@ -48,6 +50,11 @@ public class ScrollHealth : MonoBehaviour
         else if (currentHealth >= (maxHealth) / 5f) 
         {
             image.color = new Color(255f, 255f, 0f, 255f); //Yellow
+        }
+
+        if (PlayerController.instance.dead)
+        {
+            healthUI.sprite = deadHealth;
         }
 
         float tempSpeed = healthRatio * scrollSpeed;
