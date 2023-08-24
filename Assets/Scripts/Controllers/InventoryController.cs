@@ -251,15 +251,21 @@ public class InventoryController : MonoBehaviour
     public void AddItem(int itemID)
     {
         itemDict[itemID].hasItem = true;
+        itemDict[itemID].count++;
         itemPosVal = 0;
         RefreshInventory();
     }
 
     public void RemoveItem(int itemID)
     {
-        itemDict[itemID].hasItem = false;
-        itemPosVal = 0;
-        selectedItem = null;
+        print("Removing item");
+        itemDict[itemID].count--;
+        if (itemDict[itemID].count <= 0)
+        {
+            itemDict[itemID].hasItem = false;
+            itemPosVal = 0;
+            selectedItem = null;
+        }
         RefreshInventory();
     }
 
@@ -299,6 +305,7 @@ public class ItemInstance
 {
     public int id;
     public bool hasItem;
+    public int count;
     public ItemData itemType;
 
     //public ItemInstance(ItemData itemData)

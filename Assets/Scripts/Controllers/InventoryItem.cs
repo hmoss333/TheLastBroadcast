@@ -10,8 +10,9 @@ public class InventoryItem : MonoBehaviour
     public int ID;
     public ItemInstance itemData;
     [SerializeField] SpriteAtlas atlas;
-    public Sprite icon;// { get; private set; }
+    public Sprite icon { get; private set; }
     [SerializeField] Image image;
+    [SerializeField] TMP_Text countText;
     [SerializeField] GameObject highlight;
 
 
@@ -28,6 +29,7 @@ public class InventoryItem : MonoBehaviour
             icon = tempSprite;
             image.sprite = icon;
         }
+        countText.text = itemData.count.ToString();
     }
 
     public void DisplayItemData()
