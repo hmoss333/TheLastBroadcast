@@ -35,11 +35,12 @@ public class PlayerItemUI : MonoBehaviour
 
         try
         {
+            itemIcon.gameObject.SetActive(true);
             itemIcon.sprite = currentItem.icon;
         }
         catch
         {
-            itemIcon.sprite = null;
+            itemIcon.gameObject.SetActive(false);
         }
     }
 

@@ -22,7 +22,7 @@ public class InventoryItem : MonoBehaviour
 
     public void SetIcon(string itemName)
     {
-        Sprite tempSprite = atlas.GetSprite(itemName);
+        Sprite tempSprite = atlas.GetSprite(itemName.ToLower());
         if (tempSprite != null)
         {
             icon = tempSprite;

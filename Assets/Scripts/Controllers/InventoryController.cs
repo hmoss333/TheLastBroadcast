@@ -97,6 +97,12 @@ public class InventoryController : MonoBehaviour
                         itemPosVal = inventoryItems.Count - 1;
                     }
 
+                    //Refresh highlights to only show last highlighted item
+                    for (int i = 0; i < inventoryItems.Count; i++)
+                    {
+                        inventoryItems[i].ToggleHighlight(i == itemPosVal);
+                    }
+
                     //Display the current selected item data
                     ShowItemData(inventoryItems[itemPosVal].itemData);
                 }
@@ -206,6 +212,7 @@ public class InventoryController : MonoBehaviour
                 if (item.ID == selectedItem.ID)
                 {
                     SelectItem(item);
+                    break;
                 }
             }
         }
