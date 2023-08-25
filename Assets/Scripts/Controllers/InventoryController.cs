@@ -48,6 +48,7 @@ public class InventoryController : MonoBehaviour
     {
         if (PauseMenuController.instance.isPaused) //&& currentPanel == inventoryPanel           
         {
+            //Use directional input to navigate inventory menu
             if (PlayerController.instance.inputMaster.Player.Move.triggered)
             {
                 Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
@@ -110,11 +111,29 @@ public class InventoryController : MonoBehaviour
                 catch { }
             }
 
-            if (PlayerController.instance.inputMaster.Player.Interact.triggered)
+
+            //Holding down interact button to use medkit
+            if (inventoryItems[itemPosVal].itemData.itemData.itemName.ToLower() == "medkit"
+                && inventoryItems[itemPosVal].itemData.count > 0
+                && PlayerController.instance.GetComponent<Health>().currentHealth < PlayerController.instance.maxHealth
+                && PlayerController.instance.inputMaster.Player.Interact.IsPressed())
             {
-                print("Pressed interact");
+                inventoryItems[itemPosVal].UseItem();
+            }
+            else
+            {
+                inventoryItems[itemPosVal].StopUseItem();
+            }
+
+
+            //Select current item
+            if (PlayerController.instance.inputMaster.Player.Interact.triggered
+                && inventoryItems[itemPosVal].itemData.itemData.itemName.ToLower() != "medkit")
+            {
                 if (selectedItem != inventoryItems[itemPosVal])
+                {
                     SelectItem(inventoryItems[itemPosVal]);
+                }
                 else
                 {
                     selectedItem = null;
@@ -194,7 +213,7 @@ public class InventoryController : MonoBehaviour
                 InventoryItem itemPrefab = Instantiate(inventoryItemPrefab, inventoryContent);
                 itemPrefab.ID = i;
                 itemPrefab.itemData = items[i];
-                itemPrefab.SetIcon(items[i].itemType.itemName);
+                itemPrefab.SetIcon(items[i].itemData.itemName);
                 inventoryItems.Add(itemPrefab);
 
                 if (firstItem)
@@ -239,8 +258,8 @@ public class InventoryController : MonoBehaviour
 
     public void ShowItemData(ItemInstance item)
     {
-        inventoryTitle.text = item.itemType.itemName;
-        inventoryDesc.text = item.itemType.description;
+        inventoryTitle.text = item.itemData.itemName;
+        inventoryDesc.text = item.itemData.description;
     }
 
 
@@ -302,10 +321,5 @@ public class ItemInstance
     public int id;
     public bool hasItem;
     public int count;
-    public ItemData itemType;
-
-    //public ItemInstance(ItemData itemData)
-    //{
-    //    itemType = itemData;        
-    //}
+    public ItemData itemData;
 }

@@ -24,7 +24,7 @@ public class PlayerController : CharacterController
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
     [SerializeField] private Health health;
-    int maxHealth;
+    public int maxHealth { get; private set; }
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
@@ -32,8 +32,8 @@ public class PlayerController : CharacterController
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
     private InteractObject interactObj;
-    float useItemTime = 0f;
-    [SerializeField] Image useIcon;
+    //float useItemTime;
+    //[SerializeField] Image useIcon;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Player Avatar Variables")]
@@ -64,7 +64,6 @@ public class PlayerController : CharacterController
         melee.damage = damage;
         gasMaskObj.SetActive(false);
         health.SetHealth(SaveDataController.instance.saveData.maxHealth);
-        useItemTime = 0;
 
         if (state == States.wakeUp)
             animator.SetTrigger("wakeUp");
@@ -181,33 +180,6 @@ public class PlayerController : CharacterController
                 break;
             case States.interacting:
                 interactIcon.SetActive(false); //hide interact icon while interacting
-
-                //if (interactObj.needItem && PlayerItemUI.instance.currentItem.ID == interactObj.inventoryItemID)
-                //{
-                //    if (inputMaster.Player.Interact.IsPressed())
-                //    {
-                //        useItemTime += Time.deltaTime;
-                //        useIcon.fillAmount = useItemTime / 3f;
-                //        if (useItemTime >= 3f)
-                //        {
-                //            InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.ID);
-                //            useItemTime = 0;
-                //            useIcon.fillAmount = 0;
-                //            SetState(States.interacting);
-                //            interactObj.Interact();
-                //        }
-                //    }
-                //    else
-                //    {
-                //        useItemTime = 0;
-                //        useIcon.fillAmount = 0;
-                //        SetState(States.idle);
-                //    }
-                //}
-                //else
-                //{
-                //    interactObj.Interact();
-                //}
                 break;
             case States.moving:
                 if (!PauseMenuController.instance.isPaused)
@@ -269,88 +241,44 @@ public class PlayerController : CharacterController
 
 
         //Handle player interaction inputs
-        //if (interactObj != null
+        if (interactObj != null
+            && !PauseMenuController.instance.isPaused
+            && PlayerController.instance.inputMaster.Player.Interact.triggered)
+        {
+            interactObj.Interact();
+            if (!interactObj.hasActivated && interactObj.interacting)
+                SetState(States.interacting);
+            else
+                SetState(States.idle);
+        }
+
+
+        //Use medpack to heal player
+        //if (PlayerItemUI.instance.currentItem != null
+        //    && PlayerItemUI.instance.currentItem.ID == 0          
+        //    && PlayerItemUI.instance.currentItem.itemData.count > 0
         //    && !PauseMenuController.instance.isPaused
-        //    && PlayerController.instance.inputMaster.Player.Interact.triggered)
+        //    && health.currentHealth < maxHealth
+        //    && inputMaster.Player.Interact.IsPressed())
+        //{           
+        //    useItemTime += Time.deltaTime;
+        //    useIcon.fillAmount = useItemTime / 3f;
+        //    if (useItemTime >= 3f)
+        //    {
+        //        useItemTime = 0;
+        //        useIcon.fillAmount = 0;
+        //        InventoryController.instance.RemoveItem(0);
+        //        health.ModifyHealth(2);
+        //        if (health.currentHealth > maxHealth)
+        //            health.SetHealth(maxHealth);
+        //    }
+        //}
+        //else
         //{
-        //    interactObj.Interact();
-        //    if (!interactObj.hasActivated && interactObj.interacting)
-        //        SetState(States.interacting);
-        //    else
-        //        SetState(States.idle);
+        //    useItemTime = 0f;
+        //    useIcon.fillAmount = 0f;
         //}
 
-
-        //Handle player interaction inputs
-        if (interactObj != null
-            && !PauseMenuController.instance.isPaused)
-        {
-            if (!interactObj.hasActivated
-                && interactObj.needItem
-                && PlayerItemUI.instance.currentItem != null
-                && PlayerItemUI.instance.currentItem.ID == interactObj.inventoryItemID)
-            {
-                if (inputMaster.Player.Interact.IsPressed())
-                {
-                    animator.SetBool("isInspecting", true);
-                    useItemTime += Time.deltaTime;
-                    useIcon.fillAmount = useItemTime / 3f;
-                    if (useItemTime >= 3f)
-                    {
-                        animator.SetBool("isInspecting", false);
-                        useItemTime = 0;
-                        useIcon.fillAmount = 0;
-                        SetState(States.interacting);
-                        interactObj.Interact();
-                    }
-                }
-                else
-                {
-                    animator.SetBool("isInspecting", false);
-                    useItemTime = 0;
-                    useIcon.fillAmount = 0;
-                }
-            }
-            else
-            {
-                if (PlayerController.instance.inputMaster.Player.Interact.triggered)
-                {
-                    interactObj.Interact();
-                    if (!interactObj.hasActivated && interactObj.interacting)
-                        SetState(States.interacting);
-                    else
-                        SetState(States.idle);
-                }
-            }
-        }
-
-        //Use health item
-        if (PlayerItemUI.instance.currentItem != null
-            && PlayerItemUI.instance.currentItem.ID == 0
-            && InventoryController.instance.itemDict[0].count > 0
-            && health.currentHealth < maxHealth)
-        {
-            if (inputMaster.Player.Interact.IsPressed())
-            {
-                animator.SetBool("isRadio", true);
-                useItemTime += Time.deltaTime;
-                useIcon.fillAmount = useItemTime / 3f;
-                if (useItemTime >= 3f)
-                {
-                    animator.SetBool("isRadio", false);
-                    useItemTime = 0;
-                    useIcon.fillAmount = 0;
-                    health.ModifyHealth(2);
-                    InventoryController.instance.RemoveItem(PlayerItemUI.instance.currentItem.ID);
-                }
-            }
-            else
-            {
-                animator.SetBool("isRadio", false);
-                useItemTime = 0;
-                useIcon.fillAmount = 0;
-            }
-        }
 
         base.Update();
     }

@@ -8,7 +8,7 @@ public class Collectable : InteractObject
 
     private void Start()
     {       
-        collectText = $"Found a {InventoryController.instance.itemDict[inventoryItemID].itemType.itemName}";
+        collectText = $"Found a {InventoryController.instance.itemDict[inventoryItemID].itemData.itemName}";
     }
 
     public override void StartInteract()
