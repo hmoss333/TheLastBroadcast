@@ -37,6 +37,9 @@ public class Health : MonoBehaviour
                 if (character != null && stagger == true)
                     character.hurt = true;
 
+                if (character.tag == "Player")
+                    ScrollHealth.instance.toggled = true;
+
                 StartCoroutine(HitCooldown(cooldownTime));
             }
         }

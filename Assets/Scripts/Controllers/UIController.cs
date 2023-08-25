@@ -68,9 +68,7 @@ public class UIController : MonoBehaviour
     public void SetDialogueText(string text, bool typeText)
     {
         dialogueText.text = text;
-        if (typeText) {
-            print("Start typing text");
-            TextWriter.instace.TypeText(); }
+        if (typeText) { TextWriter.instace.TypeText(); }
         else { dialogueText.maxVisibleCharacters = text.Length; }
     }
 

@@ -48,17 +48,24 @@ public class DialogueController : InteractObject
             }
             else if (!canInteract && PlayerController.instance.inputMaster.Player.Interact.triggered)
             {
+                print("Button pressed");
                 if (TextWriter.instace.isTyping)
+                {
+                    print("Stop typing");
                     TextWriter.instace.StopTyping();
+                }
                 else
+                {
+                    print("Progress dialogue");
                     Interact();
+                }
             }
         }
     }
 
     public override void Interact()
     {
-        if (!canInteract)
+        if (!canInteract && !TextWriter.instace.isTyping)
         {
             if (index < lines.Length)
             {
@@ -72,15 +79,13 @@ public class DialogueController : InteractObject
                 if (talkOnce)
                     SetHasActivated(); //Dialogue event has completed
                 else
-                    index = -1; //Reset dialogue
+                    index = -1; //Reset dialogue index
 
+                CameraController.instance.LoadLastTarget();
                 if (CameraController.instance.GetLastTarget() == PlayerController.instance.lookTransform)
-                {
-                    CameraController.instance.LoadLastTarget();
                     CameraController.instance.SetRotation(false); //Disable forced rotation
-                }
 
-                PlayerController.instance.SetState(PlayerController.States.idle); //Allow player to move freely
+                PlayerController.instance.SetState(PlayerController.States.idle); //Release player from interact state
 
                 m_OnTrigger.Invoke();
             }
@@ -88,10 +93,5 @@ public class DialogueController : InteractObject
             UIController.instance.ToggleDialogueUI(interacting);
             index++;
         }
-    }
-
-    public override void Activate()
-    {
-        base.Activate();
     }
 }
