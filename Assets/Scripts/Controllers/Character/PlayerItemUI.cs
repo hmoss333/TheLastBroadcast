@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerItemUI : MonoBehaviour
 {
     public static PlayerItemUI instance;
 
     [SerializeField] Image itemIcon;
+    [SerializeField] TMP_Text countText;
     [SerializeField] InventoryItem currentItem;
     [SerializeField] RectTransform itemPanel;
     [SerializeField] Vector2 inactivePos, activePos;
@@ -37,10 +39,15 @@ public class PlayerItemUI : MonoBehaviour
         {
             itemIcon.gameObject.SetActive(true);
             itemIcon.sprite = currentItem.icon;
+
+            int count = currentItem.itemData.count;
+            countText.gameObject.SetActive(count > 0);
+            countText.text = count.ToString();
         }
         catch
         {
             itemIcon.gameObject.SetActive(false);
+            countText.text = string.Empty;
         }
     }
 
