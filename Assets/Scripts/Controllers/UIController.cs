@@ -25,6 +25,9 @@ public class UIController : MonoBehaviour
     float pulseTime = 0.5f;
     float inputAlpha;
 
+    [Header("Inventory Variables")]
+    [SerializeField] Image currentItem; 
+
 
     bool uiActive;
 
@@ -35,8 +38,8 @@ public class UIController : MonoBehaviour
         else
             Destroy(this);
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()

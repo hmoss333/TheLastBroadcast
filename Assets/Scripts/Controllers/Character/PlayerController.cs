@@ -18,7 +18,7 @@ public class PlayerController : CharacterController
     [NaughtyAttributes.HorizontalLine]
     [Header("Player State Variables")]
     private bool isSeen;// { get; private set; }
-    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, hurt, dead }
+    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, healing, hurt, dead }
     public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
@@ -28,7 +28,7 @@ public class PlayerController : CharacterController
     [Header("Interact Variables")]
     [SerializeField] private GameObject interactIcon;
     [SerializeField] private LayerMask layer;
-    [SerializeField] private float checkDist;
+    [SerializeField] private float checkDist, useItemTime = 3f;
     private InteractObject interactObj;
 
     [NaughtyAttributes.HorizontalLine]
@@ -168,6 +168,16 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.idle:
+                if (interactObj == null //if no object is currently highlighted for interaction
+                    && InventoryController.instance.selectedItem != null
+                    && InventoryController.instance.selectedItem.ID == 0 //if the medkit is currently selected
+                    && health.CurrentHealth() < SaveDataController.instance.saveData.maxHealth //if not at full health
+                    && !PauseMenuController.instance.isPaused //if the game is not paused
+                    && inputMaster.Player.Interact.IsPressed())
+                {
+                    SetState(States.healing);
+                }
+
                 if (move.x != 0f || move.y != 0f)
                 {
                     SetState(States.moving);
@@ -177,26 +187,29 @@ public class PlayerController : CharacterController
                 interactIcon.SetActive(false); //hide interact icon while interacting
                 break;
             case States.moving:
-                speed = storedSpeed;
-
-                horizontal = Mathf.Round(move.x * 10f) * 0.1f;
-                vertical = Mathf.Round(move.y * 10f) * 0.1f;
-
-                //Save last input vector for interact raycast
-                if (horizontal != 0f || vertical != 0f)
+                if (!PauseMenuController.instance.isPaused)
                 {
-                    lastDir.x = horizontal;
-                    lastDir.z = vertical;
-                }
+                    speed = storedSpeed;
 
-                Vector3 tempMove = new Vector3(horizontal, 0f, vertical);
-                if (tempMove.magnitude > 1)
-                    tempMove = tempMove.normalized;
-                rb.velocity = new Vector3(tempMove.x * speed, rb.velocity.y, tempMove.z * speed);
+                    horizontal = Mathf.Round(move.x * 10f) * 0.1f;
+                    vertical = Mathf.Round(move.y * 10f) * 0.1f;
 
-                if (move.x == 0f && move.y == 0f)
-                {
-                    SetState(States.idle);
+                    //Save last input vector for interact raycast
+                    if (horizontal != 0f || vertical != 0f)
+                    {
+                        lastDir.x = horizontal;
+                        lastDir.z = vertical;
+                    }
+
+                    Vector3 tempMove = new Vector3(horizontal, 0f, vertical);
+                    if (tempMove.magnitude > 1)
+                        tempMove = tempMove.normalized;
+                    rb.velocity = new Vector3(tempMove.x * speed, rb.velocity.y, tempMove.z * speed);
+
+                    if (move.x == 0f && move.y == 0f)
+                    {
+                        SetState(States.idle);
+                    }
                 }
                 break;
             case States.attacking:
@@ -214,6 +227,23 @@ public class PlayerController : CharacterController
                     SetState(States.idle);
                 }
                 break;
+            case States.healing:
+                if (inputMaster.Player.Interact.IsPressed())
+                {
+                    useItemTime -= Time.deltaTime;
+                    if (useItemTime <= 0)
+                    {
+                        InventoryController.instance.RemoveItem(0);
+                        health.ModifyHealth(2); //increment player health; placeholder value for now, should be dependant on the medkit size/value
+                        useItemTime = 3f;
+                    }
+                }
+                else
+                {
+                    useItemTime = 3f;
+                    SetState(States.idle);
+                }
+                break;
             case States.hurt:
                 RadioController.instance.SetActive(false);
                 CameraController.instance.SetTarget(this.transform);
@@ -222,6 +252,10 @@ public class PlayerController : CharacterController
                 {
                     SetState(States.idle);
                 }
+                break;
+            case States.dead:
+                if (health.CurrentHealth() >= 0)
+                    health.SetHealth(0);
                 break;
             default:
                 break;
@@ -297,6 +331,8 @@ public class PlayerController : CharacterController
         melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
         //Listening
         animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
+        //Healing
+        animator.SetBool("isRadio", state == States.healing); //toggle radio animation if healing
         isSeen = false; //reset seen state if no enemies are currently seeing the player (this is ues for the dynamic camera)
     }
 

@@ -7,11 +7,10 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(AudioSource))]
 public class DoorController : InteractObject
 {
-    [SerializeField] private int securityLevel;
-    [SerializeField] private string lockedText = "Current security level is too low";
     public Transform exitPoint;
     [HideInInspector] public RoomController exitRoom;
     [SerializeField] float triggerTime = 0.5f;
+    Coroutine doorRoutine;
 
 
     private void Awake()
@@ -20,28 +19,15 @@ public class DoorController : InteractObject
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
     }
 
-    public override void Activate()
-    {
-        base.Activate();
-    }
-
     public override void Interact()
     {
-        base.Interact();
+        if (doorRoutine == null)
+            base.Interact();
+    }
 
-        if (active)
-        {
-            if (SaveDataController.instance.GetSecurityCardLevel() >= securityLevel)
-            {
-                interacting = true; //force interacting state so player cannot exit animation prematurely
-                StartCoroutine(DoorTrigger()); //Start door opening coroutine
-            }
-            else
-            {
-                UIController.instance.SetDialogueText(lockedText, false);
-                UIController.instance.ToggleDialogueUI(interacting);
-            }
-        }
+    public override void StartInteract()
+    {
+        doorRoutine = StartCoroutine(DoorTrigger());
     }
 
     IEnumerator DoorTrigger()
@@ -61,6 +47,7 @@ public class DoorController : InteractObject
         while (FadeController.instance.isFading)
             yield return null;
 
+        UIController.instance.ToggleDialogueUI(false);
         PlayerController.instance.transform.position = exitPoint.position;
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);
         CameraController.instance.transform.position = exitPoint.position;
@@ -75,5 +62,7 @@ public class DoorController : InteractObject
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         CameraController.instance.SetLastTarget(PlayerController.instance.lookTransform);
         PlayerController.instance.SetState(PlayerController.States.idle);
+
+        doorRoutine = null;
     }
 }
