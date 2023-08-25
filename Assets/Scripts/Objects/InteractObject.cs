@@ -9,13 +9,10 @@ public class InteractObject : SaveObject
     public Transform focusPoint;
 
 
-    private void OnEnable()
-    {
-        if (needItem)
-        {
-            inventoryItem = InventoryController.instance.GetItem(inventoryItemID);
-        }
-    }
+    //private void OnEnable()
+    //{
+    //    inventoryItem = InventoryController.instance.GetItem(inventoryItemID);
+    //}
 
     public virtual void Interact()
     {
@@ -28,7 +25,7 @@ public class InteractObject : SaveObject
             active = true;
             needItem = false;
             InventoryController.instance.RemoveItem(inventoryItemID);
-            UIController.instance.SetDialogueText($"Used {inventoryItem.itemType.itemName}", false);
+            UIController.instance.SetDialogueText($"Used {InventoryController.instance.itemDict[inventoryItemID].itemType.itemName}", false);
             UIController.instance.ToggleDialogueUI(interacting);
         }
 

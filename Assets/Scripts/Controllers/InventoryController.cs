@@ -26,7 +26,7 @@ public class InventoryController : MonoBehaviour
     public InventoryItem selectedItem;// { get; private set; }
     [SerializeField] private int itemPosVal;
     [SerializeField] private List<ItemInstance> items = new List<ItemInstance>();
-    private Dictionary<int, ItemInstance> itemDict = new Dictionary<int, ItemInstance>();
+    public Dictionary<int, ItemInstance> itemDict { get; private set; }//= new Dictionary<int, ItemInstance>();
     private List<InventoryItem> inventoryItems = new List<InventoryItem>();
 
 
@@ -37,6 +37,7 @@ public class InventoryController : MonoBehaviour
         else
             Destroy(this);
 
+        itemDict = new Dictionary<int, ItemInstance>();
         itemDestination = System.IO.Path.Combine(Application.persistentDataPath, "Items", "items.json");
 
         LoadItemFile();

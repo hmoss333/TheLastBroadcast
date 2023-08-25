@@ -10,7 +10,7 @@ public class SaveObject : MonoBehaviour
     public bool active = true, hasActivated, hideOnLoad = false, needItem = false;
     public int inventoryItemID;
     //[HideInInspector]
-    public ItemInstance inventoryItem;
+    //public ItemInstance inventoryItem;
 
 
     private void Start()
