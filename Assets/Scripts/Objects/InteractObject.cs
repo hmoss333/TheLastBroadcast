@@ -9,11 +9,6 @@ public class InteractObject : SaveObject
     public Transform focusPoint;
 
 
-    //private void OnEnable()
-    //{
-    //    inventoryItem = InventoryController.instance.GetItem(inventoryItemID);
-    //}
-
     public virtual void Interact()
     {
         interacting = !interacting;

@@ -10,7 +10,7 @@ public class PlayerItemUI : MonoBehaviour
 
     [SerializeField] Image itemIcon;
     [SerializeField] TMP_Text countText;
-    [SerializeField] InventoryItem currentItem;
+    public InventoryItem currentItem { get; private set; }
     [SerializeField] RectTransform itemPanel;
     [SerializeField] Vector2 inactivePos, activePos;
     [SerializeField] float slideSpeed;
