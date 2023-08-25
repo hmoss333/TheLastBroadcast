@@ -17,7 +17,7 @@ public class OnDeathTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (objHealth.CurrentHealth() <= 0 && !triggered)
+        if (objHealth.currentHealth <= 0 && !triggered)
         {
             triggered = true;
             TriggerObjects();

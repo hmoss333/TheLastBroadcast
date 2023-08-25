@@ -15,7 +15,7 @@ public class SpawnOnDeath : MonoBehaviour
 
     private void Update()
     {
-        if (objHealth.CurrentHealth() <= 0)
+        if (objHealth.currentHealth <= 0)
         {
             float randVal = Random.value;
             if (randVal % 2 > 0.65f)

@@ -23,6 +23,7 @@ public class PlayerController : CharacterController
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
     [SerializeField] private Health health;
+    int maxHealth;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
@@ -59,7 +60,7 @@ public class PlayerController : CharacterController
         storedSpeed = speed;
         melee.damage = damage;
         gasMaskObj.SetActive(false);
-        health.SetHealth(SaveDataController.instance.saveData.maxHealth);
+        health.SetHealth(SaveDataController.instance.saveData.maxHealth);       
 
         if (state == States.wakeUp)
             animator.SetTrigger("wakeUp");
@@ -69,6 +70,8 @@ public class PlayerController : CharacterController
 
     override public void Update()
     {
+        maxHealth = SaveDataController.instance.saveData.maxHealth; //get most current maxHealth value
+
         Vector3 rayDir = lastDir.normalized;
         Ray ray = new Ray(transform.position, rayDir);
         Ray ray1 = new Ray(transform.position, lastDir1);
@@ -171,7 +174,7 @@ public class PlayerController : CharacterController
                 if (interactObj == null //if no object is currently highlighted for interaction
                     && InventoryController.instance.selectedItem != null
                     && InventoryController.instance.selectedItem.ID == 0 //if the medkit is currently selected
-                    && health.CurrentHealth() < SaveDataController.instance.saveData.maxHealth //if not at full health
+                    && health.currentHealth < maxHealth //if not at full health
                     && !PauseMenuController.instance.isPaused //if the game is not paused
                     && inputMaster.Player.Interact.IsPressed())
                 {
@@ -228,13 +231,16 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.healing:
-                if (inputMaster.Player.Interact.IsPressed())
+                if (inputMaster.Player.Interact.IsPressed()
+                    && health.currentHealth < maxHealth)
                 {
                     useItemTime -= Time.deltaTime;
                     if (useItemTime <= 0)
                     {
                         InventoryController.instance.RemoveItem(0);
                         health.ModifyHealth(2); //increment player health; placeholder value for now, should be dependant on the medkit size/value
+                        if (health.currentHealth > maxHealth)
+                            health.SetHealth(maxHealth);
                         useItemTime = 3f;
                     }
                 }
@@ -254,7 +260,7 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.dead:
-                if (health.CurrentHealth() >= 0)
+                if (health.currentHealth >= 0)
                     health.SetHealth(0);
                 break;
             default:

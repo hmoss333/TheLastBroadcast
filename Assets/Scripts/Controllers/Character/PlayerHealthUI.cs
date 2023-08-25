@@ -25,7 +25,7 @@ public class PlayerHealthUI : MonoBehaviour
 
     private void Update()
     {
-        int checkHealth = health.CurrentHealth();
+        int checkHealth = health.currentHealth;
         float tempSpeed = (float)maxHealth / (float)checkHealth;
         movementSpeed = tempSpeed / 4f;
 

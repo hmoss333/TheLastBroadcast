@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] int health;
+    public int currentHealth { get; private set; }
     [SerializeField] bool shockEffect, isHit;
     [SerializeField] float cooldownTime = 1f;
     CharacterController character;
@@ -19,15 +19,15 @@ public class Health : MonoBehaviour
         if (!isHit)
         {
             isHit = true;
-            health -= value;
-            print($"{gameObject.name} health = {health}");
+            currentHealth -= value;
+            print($"{gameObject.name} health = {currentHealth}");
 
             if (shockEffect)
             {
                 CamEffectController.instance.ShockEffect(0.25f);
             }
 
-            if (health <= 0)
+            if (currentHealth <= 0)
             {
                 if (character != null)
                     character.dead = true;
@@ -47,15 +47,15 @@ public class Health : MonoBehaviour
 
     public void ModifyHealth(int value)
     {
-        health += value;
-        print($"{gameObject.name} health = {health}");
+        currentHealth += value;
+        print($"{gameObject.name} health = {currentHealth}");
 
         if (shockEffect)
         {
             CamEffectController.instance.ShockEffect(0.25f);
         }
 
-        if (character != null && health <= 0)
+        if (character != null && currentHealth <= 0)
         {
             character.dead = true;
         }
@@ -68,13 +68,8 @@ public class Health : MonoBehaviour
         isHit = false;
     }
 
-    public int CurrentHealth()
-    {
-        return health;
-    }
-
     public void SetHealth(int value)
     {
-        health = value;
+        currentHealth = value;
     }
 }

@@ -15,13 +15,12 @@ public class HealthStationController : InteractObject
 
     private void Update()
     {
-        if (interacting && playerHealth.CurrentHealth() < 5)
+        if (interacting && playerHealth.currentHealth < 5)
         {
             tempTime += Time.deltaTime;
             if (tempTime >= waitTime)
             {
-                int currentHealth = playerHealth.CurrentHealth();
-                //print($"Player health = {currentHealth++}");
+                int currentHealth = playerHealth.currentHealth;
                 playerHealth.SetHealth(currentHealth++);
                 CamEffectController.instance.ShockEffect(0.25f);
                 tempTime = 0;

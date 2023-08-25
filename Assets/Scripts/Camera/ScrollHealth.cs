@@ -42,7 +42,7 @@ public class ScrollHealth : MonoBehaviour
     {
         isActive = CheckIsActive();
 
-        int currentHealth = PlayerController.instance.GetComponent<Health>().CurrentHealth();
+        int currentHealth = PlayerController.instance.GetComponent<Health>().currentHealth;
         int maxHealth = SaveDataController.instance.saveData.maxHealth;
         float healthRatio = (float)maxHealth / (float)currentHealth;
 
