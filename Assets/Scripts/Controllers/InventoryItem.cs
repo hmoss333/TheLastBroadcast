@@ -29,6 +29,7 @@ public class InventoryItem : MonoBehaviour
             icon = tempSprite;
             image.sprite = icon;
         }
+        countText.gameObject.SetActive(itemData.count > 1);
         countText.text = itemData.count.ToString();
     }
 

@@ -41,7 +41,7 @@ public class PlayerItemUI : MonoBehaviour
             itemIcon.sprite = currentItem.icon;
 
             int count = currentItem.itemData.count;
-            countText.gameObject.SetActive(count > 0);
+            countText.gameObject.SetActive(count > 1);
             countText.text = count.ToString();
         }
         catch
