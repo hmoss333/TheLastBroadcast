@@ -234,7 +234,7 @@ public class PlayerController : CharacterController
                     if (useItemTime <= 0)
                     {
                         InventoryController.instance.RemoveItem(0);
-                        health.ModifyHealth(1); //increase player health by 1
+                        health.ModifyHealth(2); //increment player health; placeholder value for now, should be dependant on the medkit size/value
                         useItemTime = 3f;
                     }
                 }
