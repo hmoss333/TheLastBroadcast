@@ -26,7 +26,7 @@ public class InventoryController : MonoBehaviour
     public InventoryItem selectedItem;// { get; private set; }
     [SerializeField] private int itemPosVal;
     [SerializeField] private List<ItemInstance> items = new List<ItemInstance>();
-    public Dictionary<int, ItemInstance> itemDict { get; private set; }//= new Dictionary<int, ItemInstance>();
+    public Dictionary<int, ItemInstance> itemDict { get; private set; }
     private List<InventoryItem> inventoryItems = new List<InventoryItem>();
 
 
@@ -216,11 +216,6 @@ public class InventoryController : MonoBehaviour
                     break;
                 }
             }
-        }
-        //If inventory is empty, hide icon
-        else
-        {        
-            PlayerItemUI.instance.SetIcon(null);
         }
     }
 
