@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : CharacterController
 {
@@ -29,8 +30,10 @@ public class PlayerController : CharacterController
     [Header("Interact Variables")]
     [SerializeField] private GameObject interactIcon;
     [SerializeField] private LayerMask layer;
-    [SerializeField] private float checkDist, useItemTime = 3f;
+    [SerializeField] private float checkDist;
+    private float useItemTime;
     private InteractObject interactObj;
+    [SerializeField] Image useIcon;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Player Avatar Variables")]
@@ -60,7 +63,8 @@ public class PlayerController : CharacterController
         storedSpeed = speed;
         melee.damage = damage;
         gasMaskObj.SetActive(false);
-        health.SetHealth(SaveDataController.instance.saveData.maxHealth);       
+        health.SetHealth(SaveDataController.instance.saveData.maxHealth);
+        useItemTime = 0;
 
         if (state == States.wakeUp)
             animator.SetTrigger("wakeUp");
@@ -178,6 +182,7 @@ public class PlayerController : CharacterController
                     && !PauseMenuController.instance.isPaused //if the game is not paused
                     && inputMaster.Player.Interact.IsPressed())
                 {
+                    useIcon.fillAmount = 0;
                     SetState(States.healing);
                 }
 
@@ -234,19 +239,22 @@ public class PlayerController : CharacterController
                 if (inputMaster.Player.Interact.IsPressed()
                     && health.currentHealth < maxHealth)
                 {
-                    useItemTime -= Time.deltaTime;
-                    if (useItemTime <= 0)
+                    useItemTime += Time.deltaTime;
+                    useIcon.fillAmount = useItemTime / 3f;
+                    if (useItemTime >= 3f)
                     {
                         InventoryController.instance.RemoveItem(0);
                         health.ModifyHealth(2); //increment player health; placeholder value for now, should be dependant on the medkit size/value
                         if (health.currentHealth > maxHealth)
                             health.SetHealth(maxHealth);
-                        useItemTime = 3f;
+                        useItemTime = 0;
+                        useIcon.fillAmount = 0;
                     }
                 }
                 else
                 {
-                    useItemTime = 3f;
+                    useItemTime = 0;
+                    useIcon.fillAmount = 0;
                     SetState(States.idle);
                 }
                 break;

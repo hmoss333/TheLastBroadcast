@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    public int currentHealth { get; private set; }
+    public int currentHealth;// { get; private set; }
     [SerializeField] bool shockEffect, isHit;
     [SerializeField] float cooldownTime = 1f;
     CharacterController character;

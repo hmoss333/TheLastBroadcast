@@ -2551,6 +2551,8 @@ MonoBehaviour:
   active: 0
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -2561,6 +2563,7 @@ MonoBehaviour:
   - "\"You navigate with the help of Heaven and a stiff breeze, but you never land
     where you hope to \u2013 do you?\""
   - '"It is a fearful thing to fall into the hands of the living god"'
+  index: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -3074,6 +3077,8 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 923286492}
@@ -3087,6 +3092,7 @@ MonoBehaviour:
   - "Just the same I felt it\u2019s call, a voice echoing the singular message from
     somewhere deep and hidden,"
   - "\u201CFinish the work.     Follow the signal\u201D"
+  index: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -3444,6 +3450,7 @@ Transform:
   - {fileID: 989518538}
   - {fileID: 43478241}
   - {fileID: 896641440}
+  - {fileID: 131336783}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3903,6 +3910,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1412061450486695273, guid: 11e52105a6a6d4add9d621b375cff9c2, type: 3}
   m_PrefabInstance: {fileID: 131260479}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &131336782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 131336783}
+  - component: {fileID: 131336784}
+  m_Layer: 0
+  m_Name: WindZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &131336783
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131336782}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 109888912}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!182 &131336784
+WindZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131336782}
+  m_Enabled: 1
+  m_Mode: 0
+  m_Radius: 20
+  m_WindMain: 1.5
+  m_WindTurbulence: 1
+  m_WindPulseMagnitude: 0.5
+  m_WindPulseFrequency: 1
 --- !u!1 &136683617
 GameObject:
   m_ObjectHideFlags: 0
@@ -5497,6 +5550,8 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -20691,6 +20746,8 @@ MonoBehaviour:
   active: 0
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
 --- !u!114 &542212634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21585,6 +21642,52 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.18288629, y: -0.039642945, z: 0.0000002682209}
     m_Extent: {x: 0.19538455, y: 0.18850441, z: 0.1654635}
   m_DirtyAABB: 0
+--- !u!1 &579469325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 579469326}
+  - component: {fileID: 579469327}
+  m_Layer: 0
+  m_Name: WindZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &579469326
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579469325}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1263304325}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!182 &579469327
+WindZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579469325}
+  m_Enabled: 1
+  m_Mode: 0
+  m_Radius: 20
+  m_WindMain: 1.5
+  m_WindTurbulence: 1
+  m_WindPulseMagnitude: 0.5
+  m_WindPulseFrequency: 1
 --- !u!1001 &582177687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29972,12 +30075,15 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
   talkOnce: 0
   lines:
   - "\u201CFinish the work.     Follow the signal\u201D"
+  index: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -34884,6 +34990,8 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 875722856}
@@ -35219,11 +35327,11 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
-  securityLevel: 0
-  lockedText: Current security level is too low
   exitPoint: {fileID: 416428584}
   exitRoom: {fileID: 0}
   triggerTime: 0.5
@@ -35631,6 +35739,8 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -37517,6 +37627,8 @@ MonoBehaviour:
   active: 0
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -45763,6 +45875,8 @@ MonoBehaviour:
   active: 0
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
 --- !u!114 &1080953931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48114,6 +48228,8 @@ MonoBehaviour:
   active: 0
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
 --- !u!114 &1165373816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50100,11 +50216,11 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
-  securityLevel: 0
-  lockedText: Current security level is too low
   exitPoint: {fileID: 1080217811}
   exitRoom: {fileID: 0}
   triggerTime: 0.5
@@ -52122,6 +52238,7 @@ Transform:
   - {fileID: 709416136}
   - {fileID: 1950984432}
   - {fileID: 1566046834}
+  - {fileID: 579469326}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -52403,11 +52520,11 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 1566046834}
-  securityLevel: 0
-  lockedText: Current security level is too low
   exitPoint: {fileID: 1135430590}
   exitRoom: {fileID: 0}
   triggerTime: 4.5
@@ -63160,11 +63277,11 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
-  securityLevel: 0
-  lockedText: Current security level is too low
   exitPoint: {fileID: 1069046073}
   exitRoom: {fileID: 0}
   triggerTime: 0.5
@@ -63453,6 +63570,8 @@ MonoBehaviour:
   active: 0
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
 --- !u!114 &1529818995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67335,6 +67454,8 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -67955,6 +68076,8 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -71852,6 +71975,8 @@ MonoBehaviour:
   active: 0
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
 --- !u!114 &1866693158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82719,6 +82844,8 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -82730,6 +82857,7 @@ MonoBehaviour:
   - It's not an ocean, it's a cage
   - We built the cage
   - "\u201CFinish the work.     Follow the signal\u201D"
+  index: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -89351,6 +89479,8 @@ MonoBehaviour:
   active: 1
   hasActivated: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 7499367454317014716}
@@ -90196,6 +90326,8 @@ MonoBehaviour:
   active: 0
   hasActivated: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
 --- !u!114 &8749966571032506652
 MonoBehaviour:
   m_ObjectHideFlags: 0
