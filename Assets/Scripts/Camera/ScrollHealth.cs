@@ -47,7 +47,7 @@ public class ScrollHealth : MonoBehaviour
         float healthRatio = (float)maxHealth / (float)currentHealth;
 
         //Healthy
-        if (currentHealth >= (maxHealth * 2f)/3f) 
+        if (currentHealth == maxHealth)
         {
             image.color = new Color(0f, 255f, 0f, 255f); //Green
         }
@@ -57,7 +57,7 @@ public class ScrollHealth : MonoBehaviour
             image.color = new Color(255f, 0f, 0f, 255f); //Red
         }
         //Hurt
-        else if (currentHealth >= (maxHealth) / 5f) 
+        else
         {
             image.color = new Color(255f, 255f, 0f, 255f); //Yellow
         }
@@ -92,6 +92,7 @@ public class ScrollHealth : MonoBehaviour
         }
         else if (PlayerController.instance.IsSeen()
             || PlayerController.instance.state == PlayerController.States.hurt
+            || PlayerController.instance.state == PlayerController.States.healing
             || toggled)
         {
             return true;

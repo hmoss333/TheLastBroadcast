@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager.Requests;
+//using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -8,7 +8,7 @@ using System.IO;
 using TMPro;
 using UnityEngine.UI.Extensions;
 using static UnityEngine.GraphicsBuffer;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 
 public class InventoryController : MonoBehaviour
 {
@@ -112,23 +112,8 @@ public class InventoryController : MonoBehaviour
             }
 
 
-            //Holding down interact button to use medkit
-            if (inventoryItems[itemPosVal].itemData.itemData.itemName.ToLower() == "medkit"
-                && inventoryItems[itemPosVal].itemData.count > 0
-                && PlayerController.instance.GetComponent<Health>().currentHealth < PlayerController.instance.maxHealth
-                && PlayerController.instance.inputMaster.Player.Interact.IsPressed())
-            {
-                inventoryItems[itemPosVal].UseItem();
-            }
-            else
-            {
-                inventoryItems[itemPosVal].StopUseItem();
-            }
-
-
             //Select current item
-            if (PlayerController.instance.inputMaster.Player.Interact.triggered
-                && inventoryItems[itemPosVal].itemData.itemData.itemName.ToLower() != "medkit")
+            if (PlayerController.instance.inputMaster.Player.Interact.triggered)
             {
                 if (selectedItem != inventoryItems[itemPosVal])
                 {

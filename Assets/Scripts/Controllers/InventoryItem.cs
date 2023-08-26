@@ -14,51 +14,14 @@ public class InventoryItem : MonoBehaviour
     [SerializeField] Image image;
     [SerializeField] TMP_Text countText;
     [SerializeField] GameObject highlight;
-    float useItemTime = 0f;
-    public bool useItem { get; private set; }
-    [SerializeField] Image useIcon;
+    //float useItemTime = 0f;
+    //public bool useItem { get; private set; }
+    //[SerializeField] Image useIcon;
 
 
     private void Start()
     {
         SetIcon(itemData.itemData.itemName);
-    }
-
-
-    private void Update()
-    {
-        if (useItem)
-        {
-            useItemTime += Time.unscaledDeltaTime;
-            useIcon.fillAmount = useItemTime / 3f;
-            if (useItemTime >= 3f)
-            {
-                useItem = false;
-                useItemTime = 0f;
-                useIcon.fillAmount = 0;
-                InventoryController.instance.RemoveItem(ID);
-                PlayerController.instance.GetComponent<Health>().ModifyHealth(2);
-                if (PlayerController.instance.GetComponent<Health>().currentHealth > PlayerController.instance.maxHealth)
-                    PlayerController.instance.GetComponent<Health>().SetHealth(PlayerController.instance.maxHealth);
-            }
-        }
-        else
-        {
-            useItemTime = 0f;
-            useIcon.fillAmount = 0;
-        }        
-    }
-
-    public void UseItem()
-    {
-        useItem = true;
-    }
-
-    public void StopUseItem()
-    {
-        useItem = false;
-        useItemTime = 0f;
-        useIcon.fillAmount = 0;
     }
 
     public void SetIcon(string itemName)

@@ -19,7 +19,7 @@ public class PlayerController : CharacterController
     [NaughtyAttributes.HorizontalLine]
     [Header("Player State Variables")]
     private bool isSeen;// { get; private set; }
-    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, hurt, dead }
+    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, healing, hurt, dead }
     public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
@@ -32,8 +32,9 @@ public class PlayerController : CharacterController
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
     private InteractObject interactObj;
-    //float useItemTime;
-    //[SerializeField] Image useIcon;
+    float useItemTime = 0f;
+    [SerializeField] Image useIcon;
+    [SerializeField] Image useHighlight;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Player Avatar Variables")]
@@ -173,6 +174,16 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.idle:
+                if (interactObj == null //if no object is currently highlighted for interaction
+                    && InventoryController.instance.selectedItem != null
+                    && InventoryController.instance.selectedItem.itemData.itemData.itemName.ToLower() == "medkit" //if the medkit is currently selected
+                    && health.currentHealth < maxHealth //if not at full health
+                    && !PauseMenuController.instance.isPaused //if the game is not paused
+                    && inputMaster.Player.Interact.IsPressed())
+                {
+                    SetState(States.healing);
+                }
+
                 if (move.x != 0f || move.y != 0f)
                 {
                     SetState(States.moving);
@@ -222,6 +233,31 @@ public class PlayerController : CharacterController
                     SetState(States.idle);
                 }
                 break;
+            case States.healing:
+                if (inputMaster.Player.Interact.IsPressed()
+                    && InventoryController.instance.selectedItem != null
+                    && InventoryController.instance.selectedItem.itemData.count > 0
+                    && health.currentHealth < maxHealth)
+                {
+                    useItemTime += Time.deltaTime;
+                    useIcon.fillAmount = useItemTime / 3f;
+                    if (useItemTime >= 3f)
+                    {
+                        useItemTime = 0f;
+                        useIcon.fillAmount = 0f;
+                        InventoryController.instance.RemoveItem(0);
+                        health.ModifyHealth(2); //increase player health by 2
+                        if (health.currentHealth >= maxHealth)
+                            health.SetHealth(maxHealth);
+                    }
+                }
+                else
+                {
+                    useItemTime = 0f;
+                    useIcon.fillAmount = 0f;
+                    SetState(States.idle);
+                }
+                break;
             case States.hurt:
                 RadioController.instance.SetActive(false);
                 CameraController.instance.SetTarget(this.transform);
@@ -251,34 +287,6 @@ public class PlayerController : CharacterController
             else
                 SetState(States.idle);
         }
-
-
-        //Use medpack to heal player
-        //if (PlayerItemUI.instance.currentItem != null
-        //    && PlayerItemUI.instance.currentItem.ID == 0          
-        //    && PlayerItemUI.instance.currentItem.itemData.count > 0
-        //    && !PauseMenuController.instance.isPaused
-        //    && health.currentHealth < maxHealth
-        //    && inputMaster.Player.Interact.IsPressed())
-        //{           
-        //    useItemTime += Time.deltaTime;
-        //    useIcon.fillAmount = useItemTime / 3f;
-        //    if (useItemTime >= 3f)
-        //    {
-        //        useItemTime = 0;
-        //        useIcon.fillAmount = 0;
-        //        InventoryController.instance.RemoveItem(0);
-        //        health.ModifyHealth(2);
-        //        if (health.currentHealth > maxHealth)
-        //            health.SetHealth(maxHealth);
-        //    }
-        //}
-        //else
-        //{
-        //    useItemTime = 0f;
-        //    useIcon.fillAmount = 0f;
-        //}
-
 
         base.Update();
     }
@@ -336,6 +344,10 @@ public class PlayerController : CharacterController
         melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
         //Listening
         animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
+        //Healing
+        animator.SetBool("isHealing", state == States.healing); //toggle radio animation if healing
+        useHighlight.gameObject.SetActive(state == States.healing);
+
         isSeen = false; //reset seen state if no enemies are currently seeing the player (this is ues for the dynamic camera)
     }
 
