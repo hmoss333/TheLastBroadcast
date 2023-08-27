@@ -21,13 +21,13 @@ public class InventoryController : MonoBehaviour
     [SerializeField] InventoryItem inventoryItemPrefab;
     [SerializeField] TMP_Text inventoryTitle, inventoryDesc;
 
-    //[NaughtyAttributes.HorizontalLine]
+    [NaughtyAttributes.HorizontalLine]
 
     public InventoryItem selectedItem;// { get; private set; }
     [SerializeField] private int itemPosVal;
-    [SerializeField] private List<ItemInstance> items = new List<ItemInstance>();
-    public Dictionary<int, ItemInstance> itemDict { get; private set; }
-    private List<InventoryItem> inventoryItems = new List<InventoryItem>();
+    public Dictionary<int, ItemInstance> itemDict { get; private set; } //Reference for all possible items
+    private List<InventoryItem> inventoryItems = new List<InventoryItem>(); //Item prefabs
+    [SerializeField] private List<ItemInstance> currentInventory = new List<ItemInstance>(); //Current Inventory
 
 
     private void Awake()
@@ -106,7 +106,7 @@ public class InventoryController : MonoBehaviour
                     }
 
                     //Display the current selected item data
-                    ShowItemData(inventoryItems[itemPosVal].itemData);
+                    ShowItemData(inventoryItems[itemPosVal].itemInstance);
                 }
                 catch { }
             }
@@ -135,13 +135,15 @@ public class InventoryController : MonoBehaviour
         string resourcesPath = System.IO.Path.Combine(Application.streamingAssetsPath, "items.json");
         string jsonData = File.ReadAllText(resourcesPath);
 
-        InventoryWrapper i_Items = JsonUtility.FromJson<InventoryWrapper>("{\"itemInstances\":" + jsonData + "}");
+        InventoryWrapper i_Items = JsonUtility.FromJson<InventoryWrapper>(jsonData);//"{\"itemInstances\":" + jsonData + "}");
 
         for (int i = 0; i < i_Items.itemInstances.Count; i++)
         {
             itemDict.Add(i_Items.itemInstances[i].id, i_Items.itemInstances[i]);
-            items.Add(i_Items.itemInstances[i]);
+            //items.Add(i_Items.itemInstances[i]);
         }
+
+        currentInventory = i_Items.currentInventory;
     }
 
     public void LoadItemFile()
@@ -155,8 +157,10 @@ public class InventoryController : MonoBehaviour
             for (int i = 0; i < i_Items.itemInstances.Count; i++)
             {
                 itemDict.Add(i_Items.itemInstances[i].id, i_Items.itemInstances[i]);
-                items.Add(i_Items.itemInstances[i]);
+                //items.Add(i_Items.itemInstances[i]);           
             }
+
+            currentInventory = i_Items.currentInventory;
         }
         else
         {
@@ -169,7 +173,15 @@ public class InventoryController : MonoBehaviour
     public void SaveItemData()
     {
         InventoryWrapper tempItems = new InventoryWrapper();
-        tempItems.itemInstances = items;
+
+        List<ItemInstance> tempInstances = new List<ItemInstance>();
+        for (int i = 0; i < itemDict.Count; i++)
+        {
+            tempInstances.Add(itemDict[i]);
+        }
+
+        tempItems.itemInstances = tempInstances;
+        tempItems.currentInventory = currentInventory;
 
         string jsonData = JsonUtility.ToJson(tempItems);
         print("Saving Item Data:" + jsonData);
@@ -191,21 +203,18 @@ public class InventoryController : MonoBehaviour
         //Repopulate items from fresh list and create new prefabs
         bool firstItem = true;
         inventoryItems.Clear();
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < currentInventory.Count; i++)
         {
-            if (items[i].hasItem)
-            {
-                InventoryItem itemPrefab = Instantiate(inventoryItemPrefab, inventoryContent);
-                itemPrefab.ID = i;
-                itemPrefab.itemData = items[i];
-                itemPrefab.SetIcon(items[i].itemData.itemName);
-                inventoryItems.Add(itemPrefab);
+            InventoryItem itemPrefab = Instantiate(inventoryItemPrefab, inventoryContent);
+            itemPrefab.ID = i;
+            itemPrefab.itemInstance = currentInventory[i];
+            itemPrefab.SetIcon(currentInventory[i].itemData.itemName);
+            inventoryItems.Add(itemPrefab);
 
-                if (firstItem)
-                {
-                    ShowItemData(itemPrefab.itemData);
-                    firstItem = false;
-                }
+            if (firstItem)
+            {
+                ShowItemData(itemPrefab.itemInstance);
+                firstItem = false;
             }
         }
 
@@ -237,7 +246,7 @@ public class InventoryController : MonoBehaviour
         selectedItem.ToggleHighlight(true);
 
         //Display item name/description
-        ShowItemData(item.itemData);
+        ShowItemData(item.itemInstance);
         PlayerItemUI.instance.UpdateCurrentItem(item);
     }
 
@@ -250,8 +259,18 @@ public class InventoryController : MonoBehaviour
 
     public void AddItem(int itemID)
     {
-        itemDict[itemID].hasItem = true;
-        itemDict[itemID].count++;
+        ItemInstance result = currentInventory.Find(x => x.id == itemID);
+        if (result != null)
+        {
+            result.count++;
+        }
+        else
+        {
+            result = itemDict[itemID];
+            result.count++;
+            currentInventory.Add(result);
+        }
+
         itemPosVal = 0;
         RefreshInventory();
     }
@@ -259,25 +278,15 @@ public class InventoryController : MonoBehaviour
     public void RemoveItem(int itemID)
     {
         print("Removing item");
-        itemDict[itemID].count--;
-        if (itemDict[itemID].count <= 0)
+        ItemInstance result = currentInventory.Find(x => x.id == itemID);
+        if (result != null)
         {
-            itemDict[itemID].hasItem = false;
-            itemPosVal = 0;
-            selectedItem = null;
+            result.count--;
+            if (result.count <= 0)
+                currentInventory.Remove(result);
         }
+
         RefreshInventory();
-    }
-
-    public bool HasItem(int itemID)
-    {
-        ItemInstance itemInstance = itemDict[itemID];
-        return itemInstance.hasItem;
-    }
-
-    public ItemInstance GetItem(int itemID)
-    {
-        return itemDict[itemID];
     }
 }
 
@@ -288,6 +297,7 @@ public class InventoryController : MonoBehaviour
 public class InventoryWrapper
 {
     public List<ItemInstance> itemInstances = new List<ItemInstance>();
+    public List<ItemInstance> currentInventory = new List<ItemInstance>();
 }
 
 
@@ -295,7 +305,6 @@ public class InventoryWrapper
 public class ItemData
 {   
     public string itemName;
-    //public Sprite icon;
     [TextArea]
     public string description;
 }
@@ -304,7 +313,7 @@ public class ItemData
 public class ItemInstance
 {
     public int id;
-    public bool hasItem;
     public int count;
+    public bool consumable;
     public ItemData itemData;
 }

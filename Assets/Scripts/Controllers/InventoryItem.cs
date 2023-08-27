@@ -8,20 +8,17 @@ using TMPro;
 public class InventoryItem : MonoBehaviour
 {
     public int ID;
-    public ItemInstance itemData;
+    public ItemInstance itemInstance;
     [SerializeField] SpriteAtlas atlas;
     public Sprite icon { get; private set; }
     [SerializeField] Image image;
     [SerializeField] TMP_Text countText;
     [SerializeField] GameObject highlight;
-    //float useItemTime = 0f;
-    //public bool useItem { get; private set; }
-    //[SerializeField] Image useIcon;
 
 
     private void Start()
     {
-        SetIcon(itemData.itemData.itemName);
+        SetIcon(itemInstance.itemData.itemName);
     }
 
     public void SetIcon(string itemName)
@@ -32,8 +29,8 @@ public class InventoryItem : MonoBehaviour
             icon = tempSprite;
             image.sprite = icon;
         }
-        countText.gameObject.SetActive(itemData.count > 1);
-        countText.text = itemData.count.ToString();
+        countText.gameObject.SetActive(itemInstance.count > 1);
+        countText.text = itemInstance.count.ToString();
     }
 
     public void DisplayItemData()

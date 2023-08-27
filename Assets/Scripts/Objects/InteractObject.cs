@@ -14,13 +14,13 @@ public class InteractObject : SaveObject
         interacting = !interacting;
 
         if (InventoryController.instance.selectedItem != null
-            && InventoryController.instance.selectedItem.ID == inventoryItemID
+            && InventoryController.instance.selectedItem.itemInstance.id == inventoryItemID
             && needItem)
         {
             active = true;
             needItem = false;
             InventoryController.instance.RemoveItem(inventoryItemID);
-            UIController.instance.SetDialogueText($"Used {InventoryController.instance.itemDict[inventoryItemID].itemData.itemName}", false);
+            UIController.instance.SetDialogueText($"Used {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}", false);
             UIController.instance.ToggleDialogueUI(interacting);
         }
 

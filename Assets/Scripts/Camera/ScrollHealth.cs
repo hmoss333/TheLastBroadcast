@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
-//using static UnityEngine.Rendering.DebugUI.Table;
 
 public class ScrollHealth : MonoBehaviour
 {
@@ -92,7 +91,7 @@ public class ScrollHealth : MonoBehaviour
         }
         else if (PlayerController.instance.IsSeen()
             || PlayerController.instance.state == PlayerController.States.hurt
-            || PlayerController.instance.state == PlayerController.States.healing
+            //|| PlayerController.instance.state == PlayerController.States.consuming
             || toggled)
         {
             return true;

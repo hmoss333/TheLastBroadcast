@@ -19,7 +19,7 @@ public class PlayerController : CharacterController
     [NaughtyAttributes.HorizontalLine]
     [Header("Player State Variables")]
     private bool isSeen;// { get; private set; }
-    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, healing, hurt, dead }
+    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, consuming, hurt, dead }
     public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
@@ -176,12 +176,11 @@ public class PlayerController : CharacterController
             case States.idle:
                 if (interactObj == null //if no object is currently highlighted for interaction
                     && InventoryController.instance.selectedItem != null
-                    && InventoryController.instance.selectedItem.itemData.itemData.itemName.ToLower() == "medkit" //if the medkit is currently selected
-                    && health.currentHealth < maxHealth //if not at full health
+                    && InventoryController.instance.selectedItem.itemInstance.consumable == true
                     && !PauseMenuController.instance.isPaused //if the game is not paused
                     && inputMaster.Player.Interact.IsPressed())
                 {
-                    SetState(States.healing);
+                    SetState(States.consuming);
                 }
 
                 if (move.x != 0f || move.y != 0f)
@@ -233,22 +232,31 @@ public class PlayerController : CharacterController
                     SetState(States.idle);
                 }
                 break;
-            case States.healing:
+            case States.consuming:
                 if (inputMaster.Player.Interact.IsPressed()
                     && InventoryController.instance.selectedItem != null
-                    && InventoryController.instance.selectedItem.itemData.count > 0
-                    && health.currentHealth < maxHealth)
+                    && InventoryController.instance.selectedItem.itemInstance.count > 0
+                    && InventoryController.instance.selectedItem.itemInstance.consumable) //check if new selectedItem is able to be consumed
                 {
                     useItemTime += Time.deltaTime;
                     useIcon.fillAmount = useItemTime / 3f;
                     if (useItemTime >= 3f)
                     {
                         useItemTime = 0f;
-                        useIcon.fillAmount = 0f;
-                        InventoryController.instance.RemoveItem(0);
-                        health.ModifyHealth(2); //increase player health by 2
-                        if (health.currentHealth >= maxHealth)
-                            health.SetHealth(maxHealth);
+                        useIcon.fillAmount = 0f;                       
+
+                        if (InventoryController.instance.selectedItem.itemInstance.id == 0 //if the medkit is currently selected
+                            && health.currentHealth < maxHealth) //if not at full health)
+                        {
+                            health.ModifyHealth(2); //increase player health by 2
+                            if (health.currentHealth >= maxHealth) { health.SetHealth(maxHealth); }
+                            InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
+                        }
+                        else
+                        {
+                            print($"Consumed {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}");
+                            InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
+                        }                       
                     }
                 }
                 else
@@ -345,8 +353,8 @@ public class PlayerController : CharacterController
         //Listening
         animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
         //Healing
-        animator.SetBool("isHealing", state == States.healing); //toggle radio animation if healing
-        useHighlight.gameObject.SetActive(state == States.healing);
+        animator.SetBool("isConsuming", state == States.consuming); //toggle animation if consuming
+        useHighlight.gameObject.SetActive(state == States.consuming);
 
         isSeen = false; //reset seen state if no enemies are currently seeing the player (this is ues for the dynamic camera)
     }
