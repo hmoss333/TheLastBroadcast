@@ -21,9 +21,9 @@ public class InventoryController : MonoBehaviour
     [SerializeField] InventoryItem inventoryItemPrefab;
     [SerializeField] TMP_Text inventoryTitle, inventoryDesc;
 
-    [NaughtyAttributes.HorizontalLine]
+    //[NaughtyAttributes.HorizontalLine]
 
-    public InventoryItem selectedItem;// { get; private set; }
+    public InventoryItem selectedItem { get; private set; }
     [SerializeField] private int itemPosVal;
     public Dictionary<int, ItemInstance> itemDict { get; private set; } //Reference for all possible items
     private List<InventoryItem> inventoryItems = new List<InventoryItem>(); //Item prefabs
@@ -129,61 +129,42 @@ public class InventoryController : MonoBehaviour
     }
 
 
-    public void CreateNewItemFile()
-    {
-        Directory.CreateDirectory(System.IO.Path.Combine(Application.persistentDataPath, "Items"));
-        string resourcesPath = System.IO.Path.Combine(Application.streamingAssetsPath, "items.json");
-        string jsonData = File.ReadAllText(resourcesPath);
-
-        InventoryWrapper i_Items = JsonUtility.FromJson<InventoryWrapper>(jsonData);//"{\"itemInstances\":" + jsonData + "}");
-
-        for (int i = 0; i < i_Items.itemInstances.Count; i++)
-        {
-            itemDict.Add(i_Items.itemInstances[i].id, i_Items.itemInstances[i]);
-            //items.Add(i_Items.itemInstances[i]);
-        }
-
-        currentInventory = i_Items.currentInventory;
-    }
-
     public void LoadItemFile()
     {
+        //Get base item data and load into dictionary
+        string resourcesPath = System.IO.Path.Combine(Application.streamingAssetsPath, "items.json");
+        string r_jsonData = File.ReadAllText(resourcesPath);
+
+        InventoryWrapper r_Items = JsonUtility.FromJson<InventoryWrapper>("{\"items\":" + r_jsonData + "}");
+        for (int i = 0; i < r_Items.items.Count; i++)
+        {
+            itemDict.Add(r_Items.items[i].id, r_Items.items[i]);
+        }
+
+
+        //Check if saved inventory file exists
         if (File.Exists(itemDestination))
         {
-            print("Loading item data from file");
+            print("Loading item data");
             string jsonData = File.ReadAllText(itemDestination);
             InventoryWrapper i_Items = JsonUtility.FromJson<InventoryWrapper>(jsonData);
-
-            for (int i = 0; i < i_Items.itemInstances.Count; i++)
-            {
-                itemDict.Add(i_Items.itemInstances[i].id, i_Items.itemInstances[i]);
-                //items.Add(i_Items.itemInstances[i]);           
-            }
-
-            currentInventory = i_Items.currentInventory;
+            currentInventory = i_Items.items;
         }
+        //If not, create new inventory save file
         else
         {
             print("Creating new item file");
-            CreateNewItemFile();
+            Directory.CreateDirectory(System.IO.Path.Combine(Application.persistentDataPath, "Items"));
             SaveItemData();
         }
     }
 
     public void SaveItemData()
     {
-        InventoryWrapper tempItems = new InventoryWrapper();
+        InventoryWrapper inventoryData = new InventoryWrapper();
+        inventoryData.items = currentInventory;
 
-        List<ItemInstance> tempInstances = new List<ItemInstance>();
-        for (int i = 0; i < itemDict.Count; i++)
-        {
-            tempInstances.Add(itemDict[i]);
-        }
-
-        tempItems.itemInstances = tempInstances;
-        tempItems.currentInventory = currentInventory;
-
-        string jsonData = JsonUtility.ToJson(tempItems);
+        string jsonData = JsonUtility.ToJson(inventoryData);
         print("Saving Item Data:" + jsonData);
         File.WriteAllText(itemDestination, jsonData);
     }
@@ -291,15 +272,11 @@ public class InventoryController : MonoBehaviour
 }
 
 
-
-
 [System.Serializable]
 public class InventoryWrapper
 {
-    public List<ItemInstance> itemInstances = new List<ItemInstance>();
-    public List<ItemInstance> currentInventory = new List<ItemInstance>();
+    public List<ItemInstance> items = new List<ItemInstance>();
 }
-
 
 [System.Serializable]
 public class ItemData

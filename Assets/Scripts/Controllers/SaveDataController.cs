@@ -25,7 +25,6 @@ public class SaveDataController : MonoBehaviour
         else
             Destroy(this.gameObject);
 
-        print(Application.streamingAssetsPath);
         saveDestination = System.IO.Path.Combine(Application.persistentDataPath, "Save", "save.json");
         levelDestination = System.IO.Path.Combine(Application.persistentDataPath, "LevelData");
         loreDestination = System.IO.Path.Combine(Application.persistentDataPath, "Lore", "loreData.json");

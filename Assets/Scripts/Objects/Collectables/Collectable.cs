@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class Collectable : InteractObject
 {
-    string collectText = "";
-
-    private void Start()
-    {       
-        collectText = $"Found a {InventoryController.instance.itemDict[inventoryItemID].itemData.itemName}";
-    }
-
     public override void StartInteract()
     {
+        string collectText = $"Found a {InventoryController.instance.itemDict[inventoryItemID].itemData.itemName}";
         UIController.instance.SetDialogueText(collectText, false);
         UIController.instance.ToggleDialogueUI(true);
         InventoryController.instance.AddItem(inventoryItemID);
@@ -22,6 +16,6 @@ public class Collectable : InteractObject
     {
         base.EndInteract();
         UIController.instance.ToggleDialogueUI(false);
-        gameObject.SetActive(false);
+        SetHasActivated();
     }
 }
