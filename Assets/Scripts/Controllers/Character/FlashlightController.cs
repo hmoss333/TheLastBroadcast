@@ -9,7 +9,7 @@ public class FlashlightController : MonoBehaviour
 
     public bool isOn, isCharging;// { get; private set; }
     Light lightSource;
-    [SerializeField] GameObject flashlightObj;
+    [SerializeField] GameObject flashlightObj, flashlightTrigger;
     [SerializeField] private LayerMask layer;
     [SerializeField] float checkDist;
     [Range(0, 10f)]
@@ -45,19 +45,6 @@ public class FlashlightController : MonoBehaviour
 
             if (isOn)
             {
-                Vector3 forwardDir = transform.forward;
-                Ray ray = new Ray(transform.position, forwardDir);
-                RaycastHit[] hits;
-                Debug.DrawRay(transform.position, forwardDir * checkDist, Color.blue);
-
-                hits = Physics.RaycastAll(transform.position, transform.forward, checkDist, layer);
-                for (int i = 0; i < hits.Length; i++)
-                {
-                    RaycastHit hit = hits[i];
-                    CharacterController tempEnemy = hit.transform.gameObject.GetComponent<CharacterController>();
-                    tempEnemy.StunCharacter();
-                }
-
                 flashlightTime -= 0.65f * Time.deltaTime;
                 if (flashlightTime <= flickerVal)
                 {
@@ -86,6 +73,7 @@ public class FlashlightController : MonoBehaviour
 
         lightSource.enabled = isOn && flashlightTime >= flickerVal;
         flashlightObj.SetActive(isOn);
+        flashlightTrigger.SetActive(isOn);
         PlayerController.instance.animator.SetBool("flashlight", isOn);
     }
 
