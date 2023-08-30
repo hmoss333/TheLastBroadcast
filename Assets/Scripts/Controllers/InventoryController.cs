@@ -113,7 +113,8 @@ public class InventoryController : MonoBehaviour
 
 
             //Select current item
-            if (PlayerController.instance.inputMaster.Player.Interact.triggered)
+            if (PlayerController.instance.inputMaster.Player.Interact.triggered
+                && inventoryItems.Count > 0)
             {
                 if (selectedItem != inventoryItems[itemPosVal])
                 {
