@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class InteractObject : SaveObject
 {
-    public bool interacting;
+    [HideInInspector] public bool interacting;
     public string inactiveText;
     public Transform focusPoint;
 

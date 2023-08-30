@@ -88,6 +88,7 @@ public class SaveDataController : MonoBehaviour
                         sceneObjects[i].active = obj.active;
                         sceneObjects[i].hasActivated = obj.hasActivated;
                         sceneObjects[i].needItem = obj.needItem;
+                        sceneObjects[i].inventoryItemID = obj.inventoryItemID;
                         break;
                     }
                 }
@@ -118,6 +119,7 @@ public class SaveDataController : MonoBehaviour
             tempObj.active = sceneObjects[i].active;
             tempObj.hasActivated = sceneObjects[i].hasActivated;
             tempObj.needItem = sceneObjects[i].needItem;
+            tempObj.inventoryItemID = sceneObjects[i].inventoryItemID;
 
             tempContainer.sceneObjects.Add(tempObj);
         }
@@ -374,6 +376,7 @@ public class SceneInteractObj
     public bool active;
     public bool hasActivated;
     public bool needItem;
+    public int inventoryItemID;
 }
 
 [System.Serializable]
