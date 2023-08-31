@@ -178,7 +178,9 @@ public class PlayerController : CharacterController
                     && InventoryController.instance.selectedItem != null
                     && InventoryController.instance.selectedItem.itemInstance.consumable == true
                     && !PauseMenuController.instance.isPaused //if the game is not paused
-                    && inputMaster.Player.Interact.IsPressed())
+                    && inputMaster.Player.Interact.IsPressed()
+                    && (health.currentHealth < maxHealth
+                    || RadioController.instance.currentCharge < RadioController.instance.maxCharge))
                 {
                     SetState(States.consuming);
                 }
@@ -236,27 +238,30 @@ public class PlayerController : CharacterController
                 if (inputMaster.Player.Interact.IsPressed()
                     && InventoryController.instance.selectedItem != null
                     && InventoryController.instance.selectedItem.itemInstance.count > 0
-                    && InventoryController.instance.selectedItem.itemInstance.consumable) //check if new selectedItem is able to be consumed
+                    && InventoryController.instance.selectedItem.itemInstance.consumable)
+                //check if new selectedItem is able to be consumed
+                //used if triggering a stack of items to prevent from consuming outside of correct use-case
                 {
                     useItemTime += Time.deltaTime;
                     useIcon.fillAmount = useItemTime / 3f;
                     if (useItemTime >= 3f)
                     {
                         useItemTime = 0f;
-                        useIcon.fillAmount = 0f;                       
+                        useIcon.fillAmount = 0f;
 
-                        if (InventoryController.instance.selectedItem.itemInstance.id == 0 //if the medkit is currently selected
-                            && health.currentHealth < maxHealth) //if not at full health)
+                        switch (InventoryController.instance.selectedItem.itemInstance.id)
                         {
-                            health.ModifyHealth(2); //increase player health by 2
-                            if (health.currentHealth >= maxHealth) { health.SetHealth(maxHealth); }
-                            InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
-                        }
-                        else
-                        {
-                            print($"Consumed {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}");
-                            InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
-                        }                       
+                            case 0: //MedKit
+                                health.ModifyHealth(2); //increase player health by 2
+                                if (health.currentHealth >= maxHealth) { health.SetHealth(maxHealth); SetState(States.idle); }
+                                InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
+                                break;
+                            default:
+                                print($"Consumed {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}");
+                                //TODO add logic here for other consumable items
+                                InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
+                                break;
+                        }                     
                     }
                 }
                 else

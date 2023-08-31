@@ -58,9 +58,8 @@ public class CameraController : MonoBehaviour
             offset.z = zOffMax;
     }
 
-    //Late Update should always be used for camera follow logic
-    //This calculates after all other update logic to ensure that it uses the most accurate position values
-    void LateUpdate()
+    //Fixed Update keeps the camera on the same update step as the player's movement position calculation
+    void FixedUpdate()
     {
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
 
