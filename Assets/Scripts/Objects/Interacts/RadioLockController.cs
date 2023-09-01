@@ -78,7 +78,14 @@ public class RadioLockController : SaveObject
 
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
+            if (!CameraController.instance.GetRotState())
+                CameraController.instance.SetTarget(objectsToActivate[i].transform);
+
+            yield return new WaitForSeconds(0.5f);
+
             objectsToActivate[i].Activate();
+
+            yield return new WaitForSeconds(1f);
         }
 
         SetHasActivated();
