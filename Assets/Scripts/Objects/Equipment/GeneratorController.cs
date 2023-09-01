@@ -11,6 +11,7 @@ public class GeneratorController : InteractObject
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
+    [SerializeField] private Light activeLight;
     [SerializeField] private GameObject miniGameUI;
     [SerializeField] private Image miniGameRotObj, buttonIcon;
     private int hitCount;
@@ -28,6 +29,7 @@ public class GeneratorController : InteractObject
             miniGameRotObj.transform.rotation = Quaternion.Euler(0, 0, angle * radius);
         }
 
+        activeLight.color = hasActivated ? Color.green : Color.red;
         miniGameUI.SetActive(interacting);
     }
 
@@ -98,7 +100,7 @@ public class GeneratorController : InteractObject
         SetHasActivated();
 
         PlayerController.instance.ToggleAvatar();
-        CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
+        CameraController.instance.SetTarget(CameraController.instance.GetLastTarget());
         CameraController.instance.FocusTarget();
         if (CameraController.instance.GetTriggerState())
             CameraController.instance.SetRotation(true);
