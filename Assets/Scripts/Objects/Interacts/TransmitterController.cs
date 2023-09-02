@@ -17,7 +17,6 @@ public class TransmitterController : InteractObject
     private bool startCountdown = false;
     [SerializeField] float countdownTime = 3f;
     private bool triggered;
-    Coroutine triggerRoutine;
 
     [Header("UI Values")]
     [SerializeField] TextMeshPro frequencyText;
@@ -25,7 +24,6 @@ public class TransmitterController : InteractObject
     [SerializeField] GameObject dialObj;
     [SerializeField] Color stationColor;
     [SerializeField] Color presetColor;
-    [SerializeField] string activationText;
 
     [Header("Audio Values")]
     [SerializeField] AudioSource staticSource;
@@ -46,7 +44,7 @@ public class TransmitterController : InteractObject
     private void Update()
     {
         lightMesh.material.color = active ? Color.green : Color.red;
-        staticSource.mute = !active;
+        staticSource.mute = !active || hasActivated;
 
         //Lock rotation once the player reaches either end of frequency spectrum
         float tempSpeed = rotSpeed;
@@ -102,8 +100,10 @@ public class TransmitterController : InteractObject
             {
                 startCountdown = false;
                 triggered = true;
-                UIController.instance.SetDialogueText(activationText, false);
-                UIController.instance.ToggleDialogueUI(true);
+                CamEffectController.instance.SetEffectState(false);
+                interacting = false;
+                SetHasActivated();
+                StartCoroutine(TurnOnRoutine());
             }
         }
         else
@@ -134,16 +134,17 @@ public class TransmitterController : InteractObject
         staticSource.mute = !interacting;
     }
 
-    public override void EndInteract()
+    IEnumerator TurnOnRoutine()
     {
-        base.EndInteract();
+        yield return new WaitForSeconds(1.5f);
 
-        CamEffectController.instance.SetEffectState(false);
-        UIController.instance.ToggleDialogueUI(false);
-        if (triggered)
-        {
-            SetHasActivated();
-            m_OnTrigger.Invoke();
-        }
+        PlayerController.instance.ToggleAvatar();
+        CameraController.instance.LoadLastTarget();
+        CameraController.instance.FocusTarget();
+        if (CameraController.instance.GetTriggerState())
+            CameraController.instance.SetRotation(true);
+        PlayerController.instance.SetState(PlayerController.States.idle);
+
+        m_OnTrigger.Invoke();
     }
 }

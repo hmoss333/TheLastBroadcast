@@ -74,6 +74,8 @@ public class RadioLockController : SaveObject
 
     IEnumerator UnlockObjects()
     {
+        SetHasActivated();
+
         yield return new WaitForSeconds(unlockTime);
 
         for (int i = 0; i < objectsToActivate.Length; i++)
@@ -87,8 +89,7 @@ public class RadioLockController : SaveObject
 
             yield return new WaitForSeconds(1f);
         }
-
-        SetHasActivated();
+       
         if (!CameraController.instance.GetRotState())
             CameraController.instance.LoadLastTarget(); //If the radio is set to the correct station, focus on tunable object
 
