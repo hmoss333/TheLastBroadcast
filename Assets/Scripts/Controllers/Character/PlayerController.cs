@@ -164,7 +164,7 @@ public class PlayerController : CharacterController
 
         //Store player move values
         //Used in FixedUpdate for correct timing with animation flags
-        Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
+        Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().normalized;     
         switch (state)
         {
             case States.wakeUp:

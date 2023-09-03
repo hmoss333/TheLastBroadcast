@@ -12,6 +12,7 @@ public class RadioLockController : SaveObject
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private float unlockTime = 0.5f;
     [SerializeField] private MeshRenderer mesh;
+    [SerializeField] private bool focusObjs;
     [SerializeField] private SaveObject[] objectsToActivate;
 
     float tempTime = 0f;
@@ -80,14 +81,22 @@ public class RadioLockController : SaveObject
 
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            if (!CameraController.instance.GetRotState())
-                CameraController.instance.SetTarget(objectsToActivate[i].transform);
+            if (focusObjs)
+            {
 
-            yield return new WaitForSeconds(0.5f);
+                if (!CameraController.instance.GetRotState())
+                    CameraController.instance.SetTarget(objectsToActivate[i].transform);
 
-            objectsToActivate[i].Activate();
+                yield return new WaitForSeconds(0.5f);
 
-            yield return new WaitForSeconds(1f);
+                objectsToActivate[i].Activate();
+
+                yield return new WaitForSeconds(1f);
+            }
+            else
+            {
+                objectsToActivate[i].Activate();
+            }
         }
        
         if (!CameraController.instance.GetRotState())

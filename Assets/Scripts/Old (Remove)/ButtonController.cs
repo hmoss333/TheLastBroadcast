@@ -31,8 +31,11 @@ public class ButtonController : InteractObject
             CameraController.instance.FocusTarget();
         }
 
-        UIController.instance.SetDialogueText(triggerText, false);
-        UIController.instance.ToggleDialogueUI(true);
+        if (triggerText != string.Empty)
+        {
+            UIController.instance.SetDialogueText(triggerText, false);
+            UIController.instance.ToggleDialogueUI(true);
+        }
 
         if (triggerRoutine == null)
             triggerRoutine = StartCoroutine(ActivateObjects());
