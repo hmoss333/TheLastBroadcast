@@ -42,6 +42,7 @@ public class PlayerController : CharacterController
     [SerializeField] private GameObject bagObj;
     [SerializeField] private GameObject radioObj;
     [SerializeField] private GameObject gasMaskObj;
+    [SerializeField] private GameObject gasMaskOverlay;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
     public InputMaster inputMaster { get; private set; }
@@ -354,6 +355,9 @@ public class PlayerController : CharacterController
         bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
         //Melee
         melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
+        //Gasmask
+        gasMaskObj.SetActive(InventoryController.instance.selectedItem != null && InventoryController.instance.selectedItem.itemInstance.itemData.itemName.ToLower() == "gasmask"); //toggle gasmask model if the item is equiped
+        gasMaskOverlay.SetActive(gasMaskObj.activeSelf);
         //Listening
         animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
         //Healing
@@ -370,10 +374,6 @@ public class PlayerController : CharacterController
         playerAvatar.SetActive(!playerAvatar.activeSelf);
     }
 
-    public void ToggleGasMask(bool maskState)
-    {
-        gasMaskObj.SetActive(maskState);
-    }
 
     //Used for the door controller to set exit direction
     public void SetLastDir(Vector3 newDir)
