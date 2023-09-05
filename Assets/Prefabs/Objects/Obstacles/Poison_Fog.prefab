@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8307618191507288920}
   - component: {fileID: 8307618191507288921}
   - component: {fileID: -4708609872370275275}
+  - component: {fileID: 1248581583847711863}
   m_Layer: 15
   m_Name: Poison_Fog
   m_TagString: Untagged
@@ -111,8 +112,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5731172a350a4f6b88f6cca55416fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 3feb30ef-f220-4415-b9bb-4ef6174bee2b
+  active: 1
+  hasActivated: 0
+  hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
   damage: 1
   gasmask: 0
+--- !u!114 &1248581583847711863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8307618191507288903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id:
+    Value: 
 --- !u!1 &8307618192028575752
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,7 +357,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.24888751, g: 0.4433962, b: 0.26849702, a: 0.5882353}
+      maxColor: {r: 0.24888751, g: 0.4433962, b: 0.26849702, a: 0.29411766}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
