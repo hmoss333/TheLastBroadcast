@@ -9,7 +9,7 @@ public class ZombieController : CharacterController
     //[Header("Zombie Interact Variables")]
     [SerializeField] private float seeDist, attackDist, loseDist, focusTime;
     private float tempFocusTime, dist;
-    private bool seePlayer, attacking;
+    private bool attacking;
     [SerializeField] private LayerMask layer;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
@@ -112,10 +112,5 @@ public class ZombieController : CharacterController
         animator.SetBool("isStunning", stunned);
         animator.SetBool("isAttacking", attacking);
         melee.gameObject.SetActive(isPlaying("Melee"));
-    }
-
-    public bool SeePlayer()
-    {
-        return seePlayer;
     }
 }

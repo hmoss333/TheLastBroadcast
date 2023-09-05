@@ -42,6 +42,7 @@ public class PlayerController : CharacterController
     [SerializeField] private GameObject bagObj;
     [SerializeField] private GameObject radioObj;
     [SerializeField] private GameObject gasMaskObj;
+    [SerializeField] private GameObject gasMaskOverlay;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
     public InputMaster inputMaster { get; private set; }
@@ -116,12 +117,16 @@ public class PlayerController : CharacterController
 
         //Hit wall check
         //Used to stop the camera from poking outside of bounds
-        if (Physics.Raycast(ray, out hit, checkDist))
+        if (Physics.Raycast(ray, out hit, checkDist) && !CameraController.instance.GetRotState())
         {
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Wall")
-                && !CameraController.instance.GetRotState())
+            RaycastHit[] hits = Physics.RaycastAll(ray, checkDist, 1 << 10);
+            foreach (RaycastHit r_hit in hits)
             {
-                CameraController.instance.HittingWall(true);
+                if (r_hit.transform.gameObject.layer == 10)
+                {
+                    CameraController.instance.HittingWall(true);
+                    break;
+                }
             }
         }
         else
@@ -355,6 +360,9 @@ public class PlayerController : CharacterController
         bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
         //Melee
         melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
+        //Gasmask
+        gasMaskObj.SetActive(InventoryController.instance.selectedItem != null && InventoryController.instance.selectedItem.itemInstance.itemData.itemName.ToLower() == "gasmask"); //toggle gasmask model if the item is equiped
+        gasMaskOverlay.SetActive(gasMaskObj.activeSelf);
         //Listening
         animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
         //Healing
@@ -371,10 +379,6 @@ public class PlayerController : CharacterController
         playerAvatar.SetActive(!playerAvatar.activeSelf);
     }
 
-    public void ToggleGasMask(bool maskState)
-    {
-        gasMaskObj.SetActive(maskState);
-    }
 
     //Used for the door controller to set exit direction
     public void SetLastDir(Vector3 newDir)

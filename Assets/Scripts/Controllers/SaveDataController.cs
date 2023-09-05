@@ -249,9 +249,9 @@ public class SaveDataController : MonoBehaviour
             case "crowbar":
                 saveData.abilities.crowbar = true;
                 break;
-            case "gasmask":
-                saveData.abilities.gasmask = true;
-                break;
+            //case "gasmask":
+            //    saveData.abilities.gasmask = true;
+            //    break;
             case "flashlight":
                 saveData.abilities.flashlight = true;
                 break;
@@ -344,7 +344,7 @@ public class Abilities
     public bool radio;
     public bool radio_special;
     public bool crowbar;
-    public bool gasmask;
+    //public bool gasmask;
     public bool flashlight;
     public bool mirror;
     public bool book;

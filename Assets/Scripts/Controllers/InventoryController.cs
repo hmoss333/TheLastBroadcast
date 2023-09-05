@@ -14,7 +14,7 @@ public class InventoryController : MonoBehaviour
 {
     public static InventoryController instance;
 
-    private string itemDestination;
+    private string inventoryDest, storageDest;
     [Header("UI Elements")]
     [SerializeField] RectTransform inventoryContent;
     [SerializeField] ScrollRect scrollRect;
@@ -26,8 +26,8 @@ public class InventoryController : MonoBehaviour
     public InventoryItem selectedItem { get; private set; }
     [SerializeField] private int itemPosVal;
     public Dictionary<int, ItemInstance> itemDict { get; private set; } //Reference for all possible items
-    private List<InventoryItem> inventoryItems = new List<InventoryItem>(); //Item prefabs
-    [SerializeField] private List<ItemInstance> currentInventory = new List<ItemInstance>(); //Current Inventory
+    private List<InventoryItem> inventoryObjs = new List<InventoryItem>(); //Item prefabs
+    [SerializeField] private List<ItemInstance> inventoryItems = new List<ItemInstance>(); //Current Inventory
 
 
     private void Awake()
@@ -38,7 +38,8 @@ public class InventoryController : MonoBehaviour
             Destroy(this);
 
         itemDict = new Dictionary<int, ItemInstance>();
-        itemDestination = System.IO.Path.Combine(Application.persistentDataPath, "Items", "items.json");
+        inventoryDest = System.IO.Path.Combine(Application.persistentDataPath, "Items", "items.json");
+        storageDest = System.IO.Path.Combine(Application.persistentDataPath, "Items", "itembox.json");
 
         LoadItemFile();
         RefreshInventory();
@@ -94,19 +95,19 @@ public class InventoryController : MonoBehaviour
                     {
                         itemPosVal = 0;
                     }
-                    if (itemPosVal >= inventoryItems.Count - 1)
+                    if (itemPosVal >= inventoryObjs.Count - 1)
                     {
-                        itemPosVal = inventoryItems.Count - 1;
+                        itemPosVal = inventoryObjs.Count - 1;
                     }
 
                     //Refresh highlights to only show last highlighted item
-                    for (int i = 0; i < inventoryItems.Count; i++)
+                    for (int i = 0; i < inventoryObjs.Count; i++)
                     {
-                        inventoryItems[i].ToggleHighlight(i == itemPosVal);
+                        inventoryObjs[i].ToggleHighlight(i == itemPosVal);
                     }
 
                     //Display the current selected item data
-                    ShowItemData(inventoryItems[itemPosVal].itemInstance);
+                    ShowItemData(inventoryObjs[itemPosVal].itemInstance);
                 }
                 catch { }
             }
@@ -116,9 +117,9 @@ public class InventoryController : MonoBehaviour
             if (PlayerController.instance.inputMaster.Player.Interact.triggered
                 && inventoryItems.Count > 0)
             {
-                if (selectedItem != inventoryItems[itemPosVal])
+                if (selectedItem != inventoryObjs[itemPosVal])
                 {
-                    SelectItem(inventoryItems[itemPosVal]);
+                    SelectItem(inventoryObjs[itemPosVal]);
                 }
                 else
                 {
@@ -144,12 +145,12 @@ public class InventoryController : MonoBehaviour
 
 
         //Check if saved inventory file exists
-        if (File.Exists(itemDestination))
+        if (File.Exists(inventoryDest))
         {
-            print("Loading item data");
-            string jsonData = File.ReadAllText(itemDestination);
+            print("Loading Inventory Data");
+            string jsonData = File.ReadAllText(inventoryDest);
             InventoryWrapper i_Items = JsonUtility.FromJson<InventoryWrapper>(jsonData);
-            currentInventory = i_Items.items;
+            inventoryItems = i_Items.items;
         }
         //If not, create new inventory save file
         else
@@ -162,19 +163,20 @@ public class InventoryController : MonoBehaviour
 
     public void SaveItemData()
     {
+        //Serialize Inventory Data
         InventoryWrapper inventoryData = new InventoryWrapper();
-        inventoryData.items = currentInventory;
+        inventoryData.items = inventoryItems;
 
         string jsonData = JsonUtility.ToJson(inventoryData);
-        print("Saving Item Data:" + jsonData);
-        File.WriteAllText(itemDestination, jsonData);
+        print("Saving Inventory Data:" + jsonData);
+        File.WriteAllText(inventoryDest, jsonData);  
     }
 
 
     public void RefreshInventory()
     {
         //Remove all existing inventory item prefabs
-        foreach (InventoryItem item in inventoryItems)
+        foreach (InventoryItem item in inventoryObjs)
         {
             Destroy(item.gameObject);
         }
@@ -184,14 +186,14 @@ public class InventoryController : MonoBehaviour
 
         //Repopulate items from fresh list and create new prefabs
         bool firstItem = true;
-        inventoryItems.Clear();
-        for (int i = 0; i < currentInventory.Count; i++)
+        inventoryObjs.Clear();
+        for (int i = 0; i < inventoryItems.Count; i++)
         {
             InventoryItem itemPrefab = Instantiate(inventoryItemPrefab, inventoryContent);
             itemPrefab.ID = i;
-            itemPrefab.itemInstance = currentInventory[i];
-            itemPrefab.SetIcon(currentInventory[i].itemData.itemName);
-            inventoryItems.Add(itemPrefab);
+            itemPrefab.itemInstance = inventoryItems[i];
+            itemPrefab.SetIcon(inventoryItems[i].itemData.itemName);
+            inventoryObjs.Add(itemPrefab);
 
             if (firstItem)
             {
@@ -203,7 +205,7 @@ public class InventoryController : MonoBehaviour
         //Refresh reference to selected item after updateding list
         if (selectedItem != null)
         {
-            foreach (InventoryItem item in inventoryItems)
+            foreach (InventoryItem item in inventoryObjs)
             {
                 if (item.ID == selectedItem.ID)
                 {
@@ -241,7 +243,7 @@ public class InventoryController : MonoBehaviour
 
     public void AddItem(int itemID)
     {
-        ItemInstance result = currentInventory.Find(x => x.id == itemID);
+        ItemInstance result = inventoryItems.Find(x => x.id == itemID);
         if (result != null)
         {
             result.count++;
@@ -250,7 +252,7 @@ public class InventoryController : MonoBehaviour
         {
             result = itemDict[itemID];
             result.count++;
-            currentInventory.Add(result);
+            inventoryItems.Add(result);
         }
 
         itemPosVal = 0;
@@ -260,12 +262,12 @@ public class InventoryController : MonoBehaviour
     public void RemoveItem(int itemID)
     {
         print("Removing item");
-        ItemInstance result = currentInventory.Find(x => x.id == itemID);
+        ItemInstance result = inventoryItems.Find(x => x.id == itemID);
         if (result != null)
         {
             result.count--;
             if (result.count <= 0)
-                currentInventory.Remove(result);
+                inventoryItems.Remove(result);
         }
 
         RefreshInventory();
