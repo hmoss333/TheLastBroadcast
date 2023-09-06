@@ -15,7 +15,7 @@ public class TransmitterController : InteractObject
     [SerializeField] float minTarget, maxTarget, rotSpeed, offSet;
     private float xInput;
     private bool startCountdown = false;
-    [SerializeField] float countdownTime = 3f;
+    [SerializeField] float countdownTime = 3f, triggerDelay = 1.5f;
     private bool triggered;
 
     [Header("UI Values")]
@@ -136,7 +136,7 @@ public class TransmitterController : InteractObject
 
     IEnumerator TurnOnRoutine()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(triggerDelay);
 
         PlayerController.instance.ToggleAvatar();
         CameraController.instance.LoadLastTarget();
