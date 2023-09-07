@@ -60,6 +60,12 @@ public class DialogueController : InteractObject
                     Interact();
                 }
             }
+            //else if (!TextWriter.instace.isTyping)
+            //{
+            //    print("Ended typing");
+            //    TextWriter.instace.StopTyping();
+            //    canInteract = true;
+            //}
         }
     }
 

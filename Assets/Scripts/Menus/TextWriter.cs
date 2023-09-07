@@ -45,9 +45,12 @@ public class TextWriter : MonoBehaviour
             {                
                 break;
             }
+            else
+            {
+                yield return new WaitForSeconds(timeBtwnChars);
+            }
 
             counter += 1;
-            yield return new WaitForSeconds(timeBtwnChars);
         }
 
         isTyping = false;
