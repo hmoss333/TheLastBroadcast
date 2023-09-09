@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//[RequireComponent(typeof(ParticleSystem))]
 public class Health : MonoBehaviour
 {
     public int currentHealth;// { get; private set; }
     [SerializeField] bool shockEffect, isHit;
     [SerializeField] float cooldownTime = 1f;
     CharacterController character;
+    [SerializeField] ParticleSystem hitEffect;
 
     private void Start()
     {
         character = GetComponent<CharacterController>();
+        hitEffect.Stop();
     }
 
     public void Hurt(int value, bool stagger)
@@ -21,6 +24,7 @@ public class Health : MonoBehaviour
             isHit = true;
             currentHealth -= value;
             print($"{gameObject.name} health = {currentHealth}");
+            if (!hitEffect.isPlaying) { hitEffect.Play(true); }
 
             if (shockEffect)
             {
@@ -35,9 +39,11 @@ public class Health : MonoBehaviour
             else
             {
                 if (character != null && stagger == true)
+                {
                     character.hurt = true;
+                }
 
-                if (character.tag == "Player")
+                if (character != null && character.tag == "Player")
                     ScrollHealth.instance.toggled = true;
 
                 StartCoroutine(HitCooldown(cooldownTime));
@@ -66,6 +72,7 @@ public class Health : MonoBehaviour
         yield return new WaitForSeconds(timer);
 
         isHit = false;
+        if (hitEffect.isPlaying) { hitEffect.Stop(); }
     }
 
     public void SetHealth(int value)

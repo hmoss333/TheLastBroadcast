@@ -49,7 +49,7 @@ public class RadioController : MonoBehaviour
     {
         maxCharge = SaveDataController.instance.saveData.maxCharge;
         currentCharge = maxCharge;
-        chargeSlider.maxValue = maxCharge;
+        chargeSlider.maxValue = maxCharge;       
     }
 
     // Update is called once per frame
