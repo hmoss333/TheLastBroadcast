@@ -10,6 +10,7 @@ public class MeleeAnimController : MonoBehaviour
     void Start()
     {
         col.isTrigger = true;
+        col.enabled = false;
     }
 
     public void ToggleMeleeCollider()
