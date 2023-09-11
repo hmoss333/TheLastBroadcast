@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3058684601077154846}
   - component: {fileID: 3058684601077154847}
   - component: {fileID: 3058684601077154840}
+  - component: {fileID: 2601523956768019406}
   - component: {fileID: 6572453114724572130}
   m_Layer: 11
   m_Name: StaticBarrier
@@ -28,9 +29,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3058684601077154845}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.25, z: 22}
-  m_LocalScale: {x: 1.5, y: 2.5, z: 0.125}
+  m_LocalScale: {x: 2.5, y: 3.5, z: 0.125}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -111,8 +112,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff6406cd00db8415385f73df1155b9e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 825ca8f7-4c6a-4bd2-b47f-cd6382bf2c43
+  active: 1
+  hasActivated: 0
+  hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
   dissolveMat: {fileID: 2100000, guid: 319dbccb011c64ea8a33c9d4317d0ee4, type: 2}
   collideAudio: {fileID: 6572453114724572130}
+  dissolving: 0
+--- !u!114 &2601523956768019406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3058684601077154845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id:
+    Value: 
 --- !u!82 &6572453114724572130
 AudioSource:
   m_ObjectHideFlags: 0
