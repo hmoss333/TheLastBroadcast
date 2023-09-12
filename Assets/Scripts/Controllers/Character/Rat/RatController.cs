@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 //using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class RatController : MonoBehaviour
@@ -76,23 +77,28 @@ public class RatController : MonoBehaviour
             interactObj = null;
         }
 
-        if (interactObj != null && interactObj.active && !interactObj.hasActivated)
-            interactObj.gameObject.GetComponent<Outline>().enabled = true;
+        //if (interactObj != null && interactObj.active && !interactObj.hasActivated)
 
 
         //Player input controls
-        if (Input.GetButtonDown("Interact") && interactObj != null && interactObj.active)
+        if (PlayerController.instance.inputMaster.Player.Interact.triggered && interactObj != null && interactObj.active)
         {
             interactObj.Interact();
         }
 
-        if (Input.GetButtonDown("Melee") && !interacting)
+        if (PlayerController.instance.inputMaster.Player.Melee.triggered && !interacting)
         {
             attacking = true;
             animator.SetTrigger("isMelee");
         }
 
         melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state
+
+
+        if (GetComponent<Health>().currentHealth <= 0)
+        {
+            RatAbility.instance.EndAbility();
+        }
     }
 
     private void FixedUpdate()
@@ -110,8 +116,9 @@ public class RatController : MonoBehaviour
         }
         else
         {
-            horizontal = Input.GetAxisRaw("Horizontal");
-            vertical = Input.GetAxisRaw("Vertical");
+            Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
+            horizontal = Mathf.Round(move.x * 10f) * 0.1f;
+            vertical = Mathf.Round(move.y * 10f) * 0.1f;
 
             speed = storedSpeed; //restore default player movement
 

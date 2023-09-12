@@ -125,10 +125,11 @@ GameObject:
   - component: {fileID: 3398043899378491165}
   - component: {fileID: 4898793389727742066}
   - component: {fileID: 7147987080230088876}
+  - component: {fileID: -1118057832125494138}
   - component: {fileID: 1979574040766100591}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Rat
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -179,6 +180,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-1118057832125494138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5393360183754285868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f4cfcc6b57a48cbbb275d8cea40184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 3
+  shockEffect: 1
+  isHit: 0
+  cooldownTime: 1
+  hitEffect: {fileID: 4140390558042178662, guid: 566042e42bdab4633922b6835db1aaf6, type: 3}
 --- !u!114 &1979574040766100591
 MonoBehaviour:
   m_ObjectHideFlags: 0

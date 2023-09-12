@@ -73,13 +73,9 @@ public class RatAbility : RadioAbilityController
             isUsing = false;
         }
 
-        if (Input.GetButtonDown("RadioSpecial") && isRat)
+        if (PlayerController.instance.inputMaster.Player.RadioSpecial.triggered && isRat)
         {
-            PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.none);
-            CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
-            Destroy(ratObj); //expensive; maybe add the rat as a child object of the player that gets enabled/disabled with it's position reset
-            PlayerController.instance.SetState(PlayerController.States.idle);
-            isRat = false;
+            EndAbility();
         }
 
         if (isRat)
@@ -89,5 +85,14 @@ public class RatAbility : RadioAbilityController
         //Enable static effect
         if (isUsing || isRat)
             RadioController.instance.UsingAbility();
+    }
+
+    public void EndAbility()
+    {
+        PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.none);
+        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+        Destroy(ratObj); //expensive; maybe add the rat as a child object of the player that gets enabled/disabled with it's position reset
+        PlayerController.instance.SetState(PlayerController.States.idle);
+        isRat = false;
     }
 }
