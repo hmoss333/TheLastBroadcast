@@ -86,11 +86,11 @@ public class RatController : MonoBehaviour
             interactObj.Interact();
         }
 
-        //if (Input.GetButtonDown("Melee") && !interacting)
-        //{
-        //    attacking = true;
-        //    animator.SetTrigger("isMelee");
-        //}
+        if (Input.GetButtonDown("Melee") && !interacting)
+        {
+            attacking = true;
+            animator.SetTrigger("isMelee");
+        }
 
         melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state
     }
