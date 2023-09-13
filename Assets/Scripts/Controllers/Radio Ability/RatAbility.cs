@@ -8,6 +8,7 @@ public class RatAbility : RadioAbilityController
 
     [SerializeField] GameObject ratPrefab;
     private GameObject ratObj;
+    private RoomController playerRoom;
 
     [SerializeField] private bool isRat;
     private float checkFrequency, chargeCost;
@@ -54,10 +55,12 @@ public class RatAbility : RadioAbilityController
                 if (tempCheckTime >= checkTime)
                 {
                     RadioController.instance.ModifyCharge(-chargeCost);
+                    playerRoom = FindObjectOfType<RoomController>(); //should grab only active room controller                   
                     isRat = true;
-                    Vector3 newPos = new Vector3(PlayerController.instance.transform.position.x, PlayerController.instance.transform.position.y + 0.1f, PlayerController.instance.transform.position.z);
+                    Vector3 newPos = PlayerController.instance.transform.position;//new Vector3(PlayerController.instance.transform.position.x, PlayerController.instance.transform.position.y + 0.1f, PlayerController.instance.transform.position.z);
                     ratObj = Instantiate(ratPrefab, newPos, Quaternion.identity);
                     CameraController.instance.SetTarget(ratObj.transform);
+                    CameraController.instance.SetLastTarget(ratObj.transform);
                     tempCheckTime = 0f;
                 }
             }
@@ -83,16 +86,32 @@ public class RatAbility : RadioAbilityController
 
 
         //Enable static effect
-        if (isUsing || isRat)
-            RadioController.instance.UsingAbility();
+        if (isUsing)
+        {
+            //RadioController.instance.UsingAbility();
+            PlayerController.instance.GetComponent<Rigidbody>().useGravity = !isRat; //keep the player from falling if they are off-screen
+        }
     }
 
     public void EndAbility()
     {
-        PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.none);
-        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
-        Destroy(ratObj); //expensive; maybe add the rat as a child object of the player that gets enabled/disabled with it's position reset
-        PlayerController.instance.SetState(PlayerController.States.idle);
         isRat = false;
+        RoomController[] rooms = FindObjectsOfType<RoomController>();
+        foreach (RoomController room in rooms)
+        {
+            room.gameObject.SetActive(false);
+        }
+        playerRoom.gameObject.SetActive(true);
+
+        Destroy(ratObj); //expensive; maybe add the rat as a child object of the player that gets enabled/disabled with it's position reset
+
+        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+        CameraController.instance.SetLastTarget(PlayerController.instance.lookTransform);
+        CameraController.instance.SetFocus(false);
+        CameraController.instance.SetRotation(false);
+        CameraController.instance.SetTriggerState(false);
+
+        PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.none);
+        PlayerController.instance.SetState(PlayerController.States.idle);
     }
 }
