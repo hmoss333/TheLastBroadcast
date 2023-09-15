@@ -57,9 +57,7 @@ public class RatholeController : InteractObject
 
         interacting = false;
         FadeController.instance.StartFade(0.0f, 1f);
-        CameraController.instance.SetTarget(RatController.instance.transform);//PlayerController.instance.lookTransform);
-        //CameraController.instance.SetLastTarget(PlayerController.instance.lookTransform);
-        //PlayerController.instance.SetState(PlayerController.States.idle);
+        CameraController.instance.SetTarget(RatController.instance.transform);
 
         holeRoutine = null;
     }

@@ -57,6 +57,7 @@ public class RatAbility : RadioAbilityController
                     RadioController.instance.ModifyCharge(-chargeCost);
                     playerRoom = FindObjectOfType<RoomController>(); //should grab only active room controller                   
                     isRat = true;
+                    isUsing = false;
                     Vector3 newPos = PlayerController.instance.transform.position;//new Vector3(PlayerController.instance.transform.position.x, PlayerController.instance.transform.position.y + 0.1f, PlayerController.instance.transform.position.z);
                     ratObj = Instantiate(ratPrefab, newPos, Quaternion.identity);
                     CameraController.instance.SetTarget(ratObj.transform);
@@ -88,7 +89,7 @@ public class RatAbility : RadioAbilityController
         //Enable static effect
         if (isUsing)
         {
-            //RadioController.instance.UsingAbility();
+            RadioController.instance.UsingAbility();
             PlayerController.instance.GetComponent<Rigidbody>().useGravity = !isRat; //keep the player from falling if they are off-screen
         }
     }

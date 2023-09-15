@@ -19,7 +19,7 @@ public class RatController : MonoBehaviour
 
     //TODO change some of thse into a state machine
     [Header("Player State Variables")]
-    private bool isMoving, attacking, hurt;
+    private bool isMoving, attacking, hurt, dead;
     [HideInInspector] public bool interacting { get; private set; }
 
     [Header("Interact Variables")]
@@ -92,13 +92,15 @@ public class RatController : MonoBehaviour
             animator.SetTrigger("isMelee");
         }
 
-        melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state
-
 
         if (GetComponent<Health>().currentHealth <= 0)
         {
-            RatAbility.instance.EndAbility();
+            dead = true;
+            animator.SetBool("isDead", true);
         }
+
+        print(isPlaying("Dead"));
+        melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state   
     }
 
     private void FixedUpdate()
@@ -163,6 +165,11 @@ public class RatController : MonoBehaviour
 
             // Calculate a rotation a step closer to the target and applies rotation to this object
             transform.rotation = Quaternion.LookRotation(newDirection);
+        }
+
+        if (dead && !isPlaying("Dead"))
+        {
+            RatAbility.instance.EndAbility();
         }
     }
 
