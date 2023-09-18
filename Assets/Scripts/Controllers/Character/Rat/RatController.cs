@@ -99,7 +99,6 @@ public class RatController : MonoBehaviour
             animator.SetBool("isDead", true);
         }
 
-        print(isPlaying("Dead"));
         melee.SetActive(attacking); //toggle melee weapon visibility based on attacking state   
     }
 
