@@ -3872,9 +3872,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   shockEffect: 1
-  isHit: 0
   cooldownTime: 1
-  hitEffect: {fileID: 2484725367492749305}
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2484725367492749305}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8146545691968974866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4394,6 +4407,18 @@ PrefabInstance:
     - target: {fileID: 4140390558042178660, guid: 566042e42bdab4633922b6835db1aaf6, type: 3}
       propertyPath: m_Name
       value: Blood_PS
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140390558042178662, guid: 566042e42bdab4633922b6835db1aaf6, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140390558739917730, guid: 566042e42bdab4633922b6835db1aaf6, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140390559538781517, guid: 566042e42bdab4633922b6835db1aaf6, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 566042e42bdab4633922b6835db1aaf6, type: 3}
