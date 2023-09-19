@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6585297809099731039}
   - component: {fileID: 76373548685387276}
   - component: {fileID: 2091115252457525759}
+  - component: {fileID: 5845254433821702986}
   m_Layer: 0
   m_Name: Destructable Table
   m_TagString: Destructable
@@ -131,8 +132,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 76373548685387276}
-        m_TargetAssemblyTypeName: DestructableObject, Assembly-CSharp
+      - m_Target: {fileID: 5845254433821702986}
+        m_TargetAssemblyTypeName: ShakeTransform, Assembly-CSharp
         m_MethodName: Shake
         m_Mode: 1
         m_Arguments:
@@ -155,15 +156,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc1f6f0863e44c93893b14852162ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: b5eac1fb-cf65-42ae-b923-e821ee3ec110
+  id: 
   active: 1
   hasActivated: 0
   hideOnLoad: 0
   needItem: 0
   inventoryItemID: 0
-  time: 0.35
-  distance: 0.05
-  delayBetweenShakes: 0
 --- !u!114 &2091115252457525759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +176,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id:
     Value: 
+--- !u!114 &5845254433821702986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6585297809167901044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c2a585a35ae4792b3289785f9d1fd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0.35
+  distance: 0.05
+  delayBetweenShakes: 0
 --- !u!1001 &3222698454950591741
 PrefabInstance:
   m_ObjectHideFlags: 0
