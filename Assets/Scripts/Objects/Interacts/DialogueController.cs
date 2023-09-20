@@ -60,12 +60,6 @@ public class DialogueController : InteractObject
                     Interact();
                 }
             }
-            //else if (!TextWriter.instace.isTyping)
-            //{
-            //    print("Ended typing");
-            //    TextWriter.instace.StopTyping();
-            //    canInteract = true;
-            //}
         }
     }
 
@@ -92,6 +86,7 @@ public class DialogueController : InteractObject
                     CameraController.instance.SetRotation(false); //Disable forced rotation
 
                 PlayerController.instance.SetState(PlayerController.States.idle); //Release player from interact state
+                UIController.instance.ToggleDialogueInputIcon(false); //Force disable Input Icon
 
                 m_OnTrigger.Invoke();
             }

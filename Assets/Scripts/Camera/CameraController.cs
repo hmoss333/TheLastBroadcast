@@ -75,8 +75,8 @@ public class CameraController : MonoBehaviour
                     : camOffset.x + offset.x;
             pos.y +=
                 PlayerController.instance.IsSeen()
-                || PlayerController.instance.state == PlayerController.States.radio
-                || PlayerController.instance.state == PlayerController.States.interacting
+                //|| PlayerController.instance.state == PlayerController.States.radio
+                //|| PlayerController.instance.state == PlayerController.States.interacting
                     ? camOffset.y + (1.5f * offset.y)
                     : camOffset.y + offset.y;
             pos.z +=
@@ -98,7 +98,7 @@ public class CameraController : MonoBehaviour
         Vector3 dir = target.position - transform.position;
         Quaternion rot = Quaternion.LookRotation(dir);
         Vector3 eulerRot = rot.eulerAngles; //modify the euler values for the camera rotation directly
-        eulerRot = new Vector3(Mathf.Clamp(eulerRot.x, -15f, 15f), offset.x < 0 ? -4 : 0, 0); //clamp rotation values
+        eulerRot = new Vector3(Mathf.Clamp(eulerRot.x, -15f, 15f), offset.x < 0 ? -4 : 0, 0); //clamp rotation values //  eulerRot.x, -15f, 3f)
         rot = Quaternion.Euler(eulerRot);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, setRot ? target.rotation : rot, rotRate * Time.deltaTime); //Update camera rotation
