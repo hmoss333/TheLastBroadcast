@@ -23,6 +23,7 @@ public class RatController : MonoBehaviour
     [HideInInspector] public bool interacting { get; private set; }
 
     [Header("Interact Variables")]
+    [SerializeField] private GameObject interactIcon;
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
     [HideInInspector] public InteractObject interactObj { get; private set; }
@@ -77,7 +78,7 @@ public class RatController : MonoBehaviour
             interactObj = null;
         }
 
-        //if (interactObj != null && interactObj.active && !interactObj.hasActivated)
+        interactIcon.SetActive(interactObj != null && !interactObj.hasActivated);
 
 
         //Player input controls

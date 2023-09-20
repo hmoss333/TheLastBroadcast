@@ -5,22 +5,12 @@ using UnityEngine.UI;
 
 public class InteractIcon_Controller : MonoBehaviour
 {
-    public static InteractIcon_Controller instance;
-
     bool isActive;
     bool interacting;
     InteractObject targetObj;
     Image icon;
     [SerializeField] float fadeTime;
 
-
-    private void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this);
-    }
 
     private void Start()
     {
@@ -30,16 +20,8 @@ public class InteractIcon_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, Mathf.PingPong(Time.time, fadeTime)/fadeTime);       
-    }
-
-    private void LateUpdate()
-    {
-        try
-        {
-            transform.LookAt(Camera.main.transform);
-        }
-        catch { }
+        icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, Mathf.PingPong(Time.time, fadeTime)/fadeTime);
+        transform.LookAt(Camera.main.transform);
     }
 
     public void UpdateIcon(bool isInteracting, InteractObject interactObject)
