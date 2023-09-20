@@ -105,14 +105,7 @@ public class PlayerController : CharacterController
             interactObj = null;
         }
 
-        if (interactObj != null && !interactObj.hasActivated)
-        {
-            interactIcon.SetActive(true);
-        }
-        else
-        {
-            interactIcon.SetActive(false);
-        }
+        interactIcon.SetActive(interactObj != null && !interactObj.hasActivated);
 
 
         //Hit wall check

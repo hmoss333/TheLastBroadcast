@@ -9,8 +9,11 @@ public class ClearSight : MonoBehaviour
     void Update()
     {
         RaycastHit[] hits;
-        Vector3 forwardDir = PlayerController.instance.transform.position - transform.position; //CameraController.instance.GetTarget().position - transform.position;
-        float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position); //CameraController.instance.GetTarget().position);
+        Transform target = PlayerController.instance.abilityState == PlayerController.AbilityStates.isRat
+            ? RatController.instance.transform
+            : PlayerController.instance.transform;
+        Vector3 forwardDir = target.position - transform.position;
+        float distanceToPlayer = Vector3.Distance(transform.position, target.position);
         hits = Physics.RaycastAll(transform.position, forwardDir, distanceToPlayer, layerToFade);
         Debug.DrawRay(transform.position, forwardDir);
 
