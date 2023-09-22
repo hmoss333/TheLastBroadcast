@@ -7555,7 +7555,9 @@ GameObject:
   - component: {fileID: 2882855802416228441}
   - component: {fileID: 2882855802416228442}
   - component: {fileID: 2882855802416228443}
-  - component: {fileID: 1064461099}
+  - component: {fileID: 1058209874084048618}
+  - component: {fileID: 3468909519954957778}
+  - component: {fileID: 3513658267286083890}
   m_Layer: 13
   m_Name: Zombie
   m_TagString: Enemy
@@ -7666,12 +7668,13 @@ MonoBehaviour:
   attackDist: 1.25
   loseDist: 10
   focusTime: 1
+  rotSpeed: 8
   layer:
     serializedVersion: 2
     m_Bits: 7617
   melee: {fileID: 2882855804020532110}
   damage: 1
---- !u!114 &1064461099
+--- !u!114 &1058209874084048618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7680,12 +7683,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 2882855802416228437}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f963eadf95328470f806e3f77ab780f6, type: 3}
+  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectsToSpawn:
-  - {fileID: 6430855581792554011, guid: e897ec0b271a0473e831dbaf75e293aa, type: 3}
-  - {fileID: 1289744139336146824, guid: 5ecbcb534e4f64332b814bdabf38abcf, type: 3}
+  _id:
+    Value: 
+--- !u!114 &3468909519954957778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2882855802416228437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd3b0c891667c4a3a974d9c69edc3457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 3c556359-7710-40fd-9fdc-af975c311bbb
+  active: 1
+  hasActivated: 0
+  hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
+--- !u!114 &3513658267286083890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2882855802416228437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0b8b019fcbfc4cf98a7d870767ad468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggered: 0
+  activateTime: 0.25
+  objectsToActivate: []
 --- !u!1 &2882855804020532104
 GameObject:
   m_ObjectHideFlags: 0

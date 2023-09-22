@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class AbilityPickup : InteractObject
 {
@@ -20,6 +22,10 @@ public class AbilityPickup : InteractObject
 
     [SerializeField] string abilityText;
     [SerializeField] Sprite abilityIcon;
+
+    [FormerlySerializedAs("onTrigger")]
+    [SerializeField]
+    private UnityEvent m_OnTrigger = new UnityEvent();
 
 
     private void Start()
@@ -48,6 +54,9 @@ public class AbilityPickup : InteractObject
     {
         SetHasActivated();
         UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
+
+        m_OnTrigger.Invoke();
+
         gameObject.SetActive(false);
     }
 

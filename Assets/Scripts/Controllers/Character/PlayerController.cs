@@ -271,7 +271,6 @@ public class PlayerController : CharacterController
                 break;
             case States.hurt:
                 RadioController.instance.SetActive(false);
-                CameraController.instance.SetTarget(this.transform);
 
                 if (!hurt && !isPlaying("Hurt"))
                 {

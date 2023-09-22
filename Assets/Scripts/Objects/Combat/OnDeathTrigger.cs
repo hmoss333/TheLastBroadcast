@@ -5,8 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class OnDeathTrigger : MonoBehaviour
 {
-    [SerializeField] private bool triggered, focusOnActivate;
-    [SerializeField] private GameObject[] objectsToActivate;
+    [SerializeField] private bool triggered;
+    [SerializeField] private float activateTime;
+    [SerializeField] private SaveObject[] objectsToActivate;
     Health objHealth;
     Coroutine triggerObjs;
 
@@ -34,27 +35,10 @@ public class OnDeathTrigger : MonoBehaviour
     {
         for (int i = 0; i < objectsToActivate.Length; i++)
         {
-            InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
-            if (focusOnActivate && objectsToActivate[i].transform.parent.gameObject.activeSelf)
-            {
-                CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null
-                    ? tempInteract.focusPoint : objectsToActivate[i].transform);
-                CameraController.instance.transform.position = tempInteract != null && tempInteract.focusPoint != null
-                    ? tempInteract.focusPoint.position : objectsToActivate[i].gameObject.transform.position;
-            }
+            if (objectsToActivate[i] != null)
+                objectsToActivate[i].Activate();
 
-            if (tempInteract != null)
-                tempInteract.Activate();
-            else
-                objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
-
-            yield return new WaitForSeconds(2f);
-        }
-
-        if (CameraController.instance.GetTarget() != PlayerController.instance.transform)
-        {
-            CameraController.instance.LoadLastTarget();
-            CameraController.instance.transform.position = CameraController.instance.GetLastTarget().position;
+            yield return new WaitForSeconds(activateTime);
         }
 
         triggerObjs = null;

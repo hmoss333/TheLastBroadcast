@@ -4,6 +4,7 @@ using UnityEngine;
 //using static UnityEditor.Experimental.GraphView.GraphView;
 //using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
+[RequireComponent(typeof(SaveObject))]
 public class ZombieController : CharacterController
 {
     //[Header("Zombie Interact Variables")]
@@ -14,6 +15,7 @@ public class ZombieController : CharacterController
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
 
+    SaveObject saveObj;
 
     // Start is called before the first frame update
     override public void Start()
@@ -21,6 +23,7 @@ public class ZombieController : CharacterController
         melee.damage = damage;
         storedSpeed = speed;
         tempFocusTime = focusTime;
+        saveObj = GetComponent<SaveObject>();
 
         base.Start();
     }
@@ -29,11 +32,14 @@ public class ZombieController : CharacterController
     {
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
-        if (PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible || stunned)
+        if (PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible
+            || stunned
+            || !saveObj.active
+            || isPlaying("Sleep") || isPlaying("WakeUp"))
         {
             seePlayer = false;
         }
-        else if (!hurt && !dead)
+        else if (!hurt && !dead && !isPlaying("Sleep") && !isPlaying("WakeUp"))
         {
             RaycastHit[] hits;
             Vector3 forwardDir = PlayerController.instance.transform.position - transform.position;
@@ -63,7 +69,6 @@ public class ZombieController : CharacterController
                         if (tempFocusTime <= 0f)
                         {
                             seePlayer = false;
-                            //colliding = false;
                             tempFocusTime = focusTime;
                         }
                     }
@@ -73,7 +78,9 @@ public class ZombieController : CharacterController
                 {
                     Vector3 playerPos = new Vector3(PlayerController.instance.transform.position.x, transform.position.y, PlayerController.instance.transform.position.z);
                     if (!isPlaying("Melee"))
+                    {
                         transform.LookAt(playerPos);
+                    }
                 }
 
                 attacking = dist <= attackDist && !attacking && !isPlaying("Melee") ? true : false;
@@ -97,20 +104,28 @@ public class ZombieController : CharacterController
             }
         }
 
+
+        col.enabled = !dead && saveObj.active && !saveObj.hasActivated;
+        rb.useGravity = !dead && saveObj.active && !saveObj.hasActivated;   
+
         base.Update();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed;
-        rb.velocity = transform.forward * storedSpeed;
+        if (!isPlaying("Sleep") && !isPlaying("WakeUp"))
+        {
+            storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed; //isPlaying("Sleep") || isPlaying("WakeUp")
+            rb.velocity = transform.forward * storedSpeed;
+        }
 
         if (!dead && seePlayer)
             PlayerController.instance.SeePlayer();
         animator.SetBool("seePlayer", seePlayer);
         animator.SetBool("isStunning", stunned);
         animator.SetBool("isAttacking", attacking);
+        animator.SetBool("isAsleep", !saveObj.active && !saveObj.hasActivated);
         melee.gameObject.SetActive(isPlaying("Melee"));
     }
 }

@@ -39,7 +39,25 @@ public class ScrollHealth : MonoBehaviour
 
     private void Update()
     {
-        isActive = CheckIsActive();
+        if (PlayerController.instance.inputMaster.Player.Health.triggered)
+        {
+            toggled = !toggled;
+        }
+
+        if (PlayerController.instance.state == PlayerController.States.wakeUp
+            || PlayerController.instance.state == PlayerController.States.listening
+            || PlayerController.instance.state == PlayerController.States.interacting)
+        {
+            toggled = false;
+            isActive = false;
+        }
+        else if (PlayerController.instance.IsSeen()
+            || PlayerController.instance.state == PlayerController.States.hurt
+            //|| PlayerController.instance.state == PlayerController.States.consuming
+            || toggled)
+        {
+            isActive = true;
+        }
 
         int currentHealth = PlayerController.instance.GetComponent<Health>().currentHealth;
         int maxHealth = SaveDataController.instance.saveData.maxHealth;
@@ -75,30 +93,30 @@ public class ScrollHealth : MonoBehaviour
             isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
     }
 
-    bool CheckIsActive()
-    {
-        if (PlayerController.instance.inputMaster.Player.Health.triggered)
-        {
-            toggled = !toggled;
-        }
+    //bool CheckIsActive()
+    //{
+    //    if (PlayerController.instance.inputMaster.Player.Health.triggered)
+    //    {
+    //        toggled = !toggled;
+    //    }
 
-        if (PlayerController.instance.state == PlayerController.States.wakeUp
-            || PlayerController.instance.state == PlayerController.States.listening
-            || PlayerController.instance.state == PlayerController.States.interacting)
-        {
-            toggled = false;
-            return false;
-        }
-        else if (PlayerController.instance.IsSeen()
-            || PlayerController.instance.state == PlayerController.States.hurt
-            //|| PlayerController.instance.state == PlayerController.States.consuming
-            || toggled)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    //    if (PlayerController.instance.state == PlayerController.States.wakeUp
+    //        || PlayerController.instance.state == PlayerController.States.listening
+    //        || PlayerController.instance.state == PlayerController.States.interacting)
+    //    {
+    //        toggled = false;
+    //        return false;
+    //    }
+    //    else if (PlayerController.instance.IsSeen()
+    //        || PlayerController.instance.state == PlayerController.States.hurt
+    //        //|| PlayerController.instance.state == PlayerController.States.consuming
+    //        || toggled)
+    //    {
+    //        return true;
+    //    }
+    //    else
+    //    {
+    //        return false;
+    //    }
+    //}
 }
