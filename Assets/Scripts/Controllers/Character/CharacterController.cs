@@ -9,7 +9,7 @@ public class CharacterController : MonoBehaviour
     [HideInInspector] public bool hurt, dead, stunned, seePlayer;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public Collider col;
-    public Animator animator;
+    [HideInInspector] public Animator animator;
 
 
     virtual public void Start()

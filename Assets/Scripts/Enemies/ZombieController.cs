@@ -28,7 +28,7 @@ public class ZombieController : CharacterController
         base.Start();
     }
 
-    override public void Update()
+    public void FixedUpdate()
     {
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
@@ -39,7 +39,7 @@ public class ZombieController : CharacterController
         {
             seePlayer = false;
         }
-        else if (!hurt && !dead && !isPlaying("Sleep") && !isPlaying("WakeUp"))
+        else if (!hurt && !dead)
         {
             RaycastHit[] hits;
             Vector3 forwardDir = PlayerController.instance.transform.position - transform.position;
@@ -106,17 +106,11 @@ public class ZombieController : CharacterController
 
 
         col.enabled = !dead && saveObj.active && !saveObj.hasActivated;
-        rb.useGravity = !dead && saveObj.active && !saveObj.hasActivated;   
+        rb.useGravity = !dead && saveObj.active && !saveObj.hasActivated;
 
-        base.Update();
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
         if (!isPlaying("Sleep") && !isPlaying("WakeUp"))
         {
-            storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed; //isPlaying("Sleep") || isPlaying("WakeUp")
+            storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed;
             rb.velocity = transform.forward * storedSpeed;
         }
 

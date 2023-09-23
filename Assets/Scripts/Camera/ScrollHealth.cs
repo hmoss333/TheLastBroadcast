@@ -92,31 +92,4 @@ public class ScrollHealth : MonoBehaviour
         healthPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(healthPanel.GetComponent<RectTransform>().anchoredPosition,
             isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
     }
-
-    //bool CheckIsActive()
-    //{
-    //    if (PlayerController.instance.inputMaster.Player.Health.triggered)
-    //    {
-    //        toggled = !toggled;
-    //    }
-
-    //    if (PlayerController.instance.state == PlayerController.States.wakeUp
-    //        || PlayerController.instance.state == PlayerController.States.listening
-    //        || PlayerController.instance.state == PlayerController.States.interacting)
-    //    {
-    //        toggled = false;
-    //        return false;
-    //    }
-    //    else if (PlayerController.instance.IsSeen()
-    //        || PlayerController.instance.state == PlayerController.States.hurt
-    //        //|| PlayerController.instance.state == PlayerController.States.consuming
-    //        || toggled)
-    //    {
-    //        return true;
-    //    }
-    //    else
-    //    {
-    //        return false;
-    //    }
-    //}
 }
