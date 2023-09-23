@@ -32,8 +32,8 @@ public class CharacterController : MonoBehaviour
         else if (hurt && !isPlaying("Hurt"))
         {
             print($"{gameObject.name} is hurt");
-            animator.SetTrigger("isHurt");
             hurt = false;
+            animator.SetTrigger("isHurt");
         }
     }
 

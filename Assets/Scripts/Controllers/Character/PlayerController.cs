@@ -129,12 +129,6 @@ public class PlayerController : CharacterController
 
 
         //Player hurt/death triggers
-        if (hurt)
-        {
-            RadioController.instance.SetActive(false);
-            CameraController.instance.LoadLastTarget();
-            SetState(States.hurt);
-        }
         if (dead)
             SetState(States.dead);
 
@@ -143,7 +137,7 @@ public class PlayerController : CharacterController
         if ((state == States.idle || state == States.moving)
             && abilityState == AbilityStates.none
             && !PauseMenuController.instance.isPaused && !FlashlightController.instance.isOn
-            && !hurt)
+            && state != States.hurt)
         {
             if (SaveDataController.instance.saveData.abilities.crowbar == true
                 && PlayerController.instance.inputMaster.Player.Melee.triggered)
@@ -271,11 +265,6 @@ public class PlayerController : CharacterController
                 break;
             case States.hurt:
                 RadioController.instance.SetActive(false);
-
-                if (!hurt && !isPlaying("Hurt"))
-                {
-                    SetState(States.idle);
-                }
                 break;
             case States.dead:
                 if (health.currentHealth >= 0)
@@ -304,7 +293,7 @@ public class PlayerController : CharacterController
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (state != States.moving || isPlaying("Hurt"))
+        if (state != States.moving)
         {
             speed = 0;
         }
@@ -330,10 +319,6 @@ public class PlayerController : CharacterController
         if (isPlaying("Melee"))
         {
             SetState(States.attacking);
-        }
-        if (isPlaying("Hurt"))
-        {
-            SetState(States.hurt);
         }
 
 

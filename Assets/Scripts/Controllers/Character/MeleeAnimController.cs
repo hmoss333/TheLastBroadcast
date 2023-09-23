@@ -17,4 +17,16 @@ public class MeleeAnimController : MonoBehaviour
     {
         col.enabled = !col.enabled;
     }
+
+
+    //Set Hurt State
+    public void StartHurtState()
+    {
+        PlayerController.instance.SetState(PlayerController.States.hurt);
+    }
+
+    public void EndHurtState()
+    {
+        PlayerController.instance.SetState(PlayerController.States.idle);
+    }
 }
