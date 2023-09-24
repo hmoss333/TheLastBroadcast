@@ -13,6 +13,7 @@ public class SceneInitController : MonoBehaviour
     private SaveData saveData;
     [SerializeField] private SavePointController[] savePoints;
     [SerializeField] private RoomController[] rooms;
+    public RoomController currentRoom { get; private set; }
 
     [SerializeField] private SceneObjectsContainer currentScenario;
 
@@ -66,6 +67,11 @@ public class SceneInitController : MonoBehaviour
         }
     }
 
+    public void SetCurrentRoom(RoomController room)
+    {
+        currentRoom = room;
+    }
+
     public void InitializeGame()
     {
         currentScene = SceneManager.GetActiveScene().name;
@@ -83,10 +89,13 @@ public class SceneInitController : MonoBehaviour
             if (point.ID == currentScenario.savePointID)
             {
                 if (!point.transform.parent.gameObject.activeSelf)
-                    point.transform.parent.gameObject.SetActive(true);
+                {
+                    RoomController initRoom = point.transform.parent.GetComponent<RoomController>();
+                    initRoom.gameObject.SetActive(true);
+                    SetCurrentRoom(initRoom);
+                }
                 PlayerController.instance.transform.position = point.initPoint.position;
                 PlayerController.instance.transform.rotation = point.initPoint.rotation;
-                //PlayerController.instance.SetState(PlayerController.States.idle);
                 break;
             }
         }

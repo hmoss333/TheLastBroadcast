@@ -53,7 +53,10 @@ public class RatholeController : InteractObject
         transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
 
         if (exitRoom)
+        {
             exitRoom.gameObject.SetActive(true);
+            SceneInitController.instance.SetCurrentRoom(exitRoom);
+        }
 
         interacting = false;
         FadeController.instance.StartFade(0.0f, 1f);

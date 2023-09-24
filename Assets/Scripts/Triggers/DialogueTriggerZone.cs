@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(DialogueController))]
 public class DialogueTriggerZone : MonoBehaviour
 {
-    [SerializeField] DialogueController dialogueObj;
+    private DialogueController dialogueObj;
 
     private void Start()
     {
         dialogueObj = GetComponent<DialogueController>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         this.enabled = !dialogueObj.hasActivated;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && !dialogueObj.hasActivated)
+        if (other.tag == "Player" && !dialogueObj.hasActivated && !dialogueObj.interacting)
         {
             PlayerController.instance.SetState(PlayerController.States.listening);
 

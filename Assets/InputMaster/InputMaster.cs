@@ -470,7 +470,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""050725b0-9945-4eaf-858a-5ca3a7a84362"",
-                    ""path"": ""<SwitchProControllerHID>/buttonNorth"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Switch Pro Controller"",

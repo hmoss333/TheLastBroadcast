@@ -74,12 +74,13 @@ public class RatAbility : RadioAbilityController
     public void EndAbility()
     {
         isRat = false;
-        RoomController[] rooms = FindObjectsOfType<RoomController>();
-        foreach (RoomController room in rooms)
+        if (playerRoom != SceneInitController.instance.currentRoom)
         {
-            room.gameObject.SetActive(false);
+            RoomController tempRoom = SceneInitController.instance.currentRoom;
+            tempRoom.gameObject.SetActive(false);
+            SceneInitController.instance.SetCurrentRoom(playerRoom);
+            playerRoom.gameObject.SetActive(true);
         }
-        playerRoom.gameObject.SetActive(true);
 
         PlayerController.instance.GetComponent<Rigidbody>().useGravity = true;
         ratObj.transform.localPosition = defaultRatPos; //Reset rat position back to default when ending rat ability

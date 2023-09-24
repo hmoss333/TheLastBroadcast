@@ -32,7 +32,9 @@ public class CamEffectController : MonoBehaviour
         if (shockEffect != null)
             glitchEffect.enabled = true;
         else
-            glitchEffect.enabled = effectOn;    
+            glitchEffect.enabled = effectOn;
+
+        effectOn = false;
     }
 
 
