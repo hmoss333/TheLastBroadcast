@@ -103,6 +103,6 @@ public class TitleScreenController : MonoBehaviour
         yield return new WaitForSeconds(sceneDelayTime);
 
         //Load next scene
-        SceneManager.LoadSceneAsync(2);
+        SceneManager.LoadSceneAsync(3);
     }
 }

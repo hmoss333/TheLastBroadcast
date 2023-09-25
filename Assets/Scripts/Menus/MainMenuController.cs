@@ -91,8 +91,8 @@ public class MainMenuController : MonoBehaviour
 
         SaveDataController.instance.CreateNewSaveFile();
         mainMenuCanvas.SetActive(false);
-        FadeController.instance.StartFade(1, 1f);
-        sceneToLoad = "RadioRoom"; 
+        FadeController.instance.StartFade(1, 1.5f);
+        sceneToLoad = "Forest"; 
         loadingScene = true;
     }
 
@@ -112,7 +112,7 @@ public class MainMenuController : MonoBehaviour
 
     public void StartSavedGame()
     {
-        FadeController.instance.StartFade(1, 1f);
+        FadeController.instance.StartFade(1, 1.5f);
         sceneToLoad = SaveDataController.instance.saveData.currentScene;
         loadingScene = true;
     }

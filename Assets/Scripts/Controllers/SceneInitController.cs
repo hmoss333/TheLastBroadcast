@@ -14,6 +14,7 @@ public class SceneInitController : MonoBehaviour
     [SerializeField] private SavePointController[] savePoints;
     [SerializeField] private RoomController[] rooms;
     public RoomController currentRoom { get; private set; }
+    [SerializeField] private float fadeInTime = 1.5f;
 
     [SerializeField] private SceneObjectsContainer currentScenario;
 
@@ -109,7 +110,7 @@ public class SceneInitController : MonoBehaviour
 
         StartCoroutine(LateStart());
 
-        FadeController.instance.StartFade(0.0f, 1.5f);
+        FadeController.instance.StartFade(0.0f, fadeInTime);//1.5f);
     }
 
     IEnumerator LateStart()
