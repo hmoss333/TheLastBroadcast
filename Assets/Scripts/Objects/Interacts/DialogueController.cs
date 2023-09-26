@@ -16,11 +16,6 @@ public class DialogueController : InteractObject
     private float iconTimer = 4f;
 
 
-    [FormerlySerializedAs("onTrigger")]
-    [SerializeField]
-    private UnityEvent m_OnTrigger = new UnityEvent();
-
-
     private void Update()
     {
         if (interacting)

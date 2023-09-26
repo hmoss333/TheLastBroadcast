@@ -29,11 +29,6 @@ public class TransmitterController : InteractObject
     [SerializeField] AudioSource staticSource;
 
 
-    [FormerlySerializedAs("onTrigger")]
-    [SerializeField]
-    private UnityEvent m_OnTrigger = new UnityEvent();
-
-
 
     private void Start()
     {

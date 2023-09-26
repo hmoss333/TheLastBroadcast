@@ -6,10 +6,6 @@ using UnityEngine.UI;
 public class GeneratorController : InteractObject
 {
     [NaughtyAttributes.HorizontalLine]
-    [Header("Equipment References")]
-    [SerializeField] private SaveObject[] objectsToActivate;
-
-    [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
     [SerializeField] private Light activeLight;
     [SerializeField] private GameObject miniGameUI;
@@ -98,10 +94,7 @@ public class GeneratorController : InteractObject
 
     void TurnOn()
     {
-        for (int i = 0; i < objectsToActivate.Length; i++)
-        {
-            objectsToActivate[i].Activate();
-        }
+        m_OnTrigger.Invoke();
 
         SetHasActivated();
         playing = false;

@@ -12,12 +12,7 @@ public class StaticManDisruptor : SaveObject
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private MeshRenderer mesh;
-    [SerializeField] private SaveObject[] objectsToActivate;
     float tempTime = 0f;
-
-    [FormerlySerializedAs("onTrigger")]
-    [SerializeField]
-    private UnityEvent m_OnTrigger = new UnityEvent();
 
 
     void Start()

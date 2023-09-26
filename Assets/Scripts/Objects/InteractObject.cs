@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class InteractObject : SaveObject
 {

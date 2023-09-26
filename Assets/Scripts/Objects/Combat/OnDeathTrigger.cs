@@ -9,7 +9,6 @@ public class OnDeathTrigger : MonoBehaviour
 {
     [SerializeField] private bool triggered;
     [SerializeField] private float activateTime;
-    [SerializeField] private SaveObject[] objectsToActivate;
     Health objHealth;
     Coroutine triggerObjs;
 
@@ -27,34 +26,13 @@ public class OnDeathTrigger : MonoBehaviour
         if (objHealth.currentHealth <= 0 && !triggered)
         {
             triggered = true;
-            TriggerObjects();
+            m_OnTrigger.Invoke();
+            this.enabled = false;
         }
     }
 
     public void InstantiateObj(GameObject obj)
     {
         GameObject tempObj = Instantiate(obj, transform.position, Quaternion.identity);
-    }
-
-    void TriggerObjects()
-    {
-        if (triggerObjs == null)
-            StartCoroutine(TriggerObjectsRoutine());
-    }
-
-    IEnumerator TriggerObjectsRoutine()
-    {
-        for (int i = 0; i < objectsToActivate.Length; i++)
-        {
-            if (objectsToActivate[i] != null)
-                objectsToActivate[i].Activate();
-
-            yield return new WaitForSeconds(activateTime);
-        }
-
-        m_OnTrigger.Invoke();
-
-        triggerObjs = null;
-        this.enabled = false;
     }
 }

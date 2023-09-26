@@ -23,10 +23,6 @@ public class AbilityPickup : InteractObject
     [SerializeField] string abilityText;
     [SerializeField] Sprite abilityIcon;
 
-    [FormerlySerializedAs("onTrigger")]
-    [SerializeField]
-    private UnityEvent m_OnTrigger = new UnityEvent();
-
 
     private void Start()
     {

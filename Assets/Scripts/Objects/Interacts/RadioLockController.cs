@@ -13,7 +13,6 @@ public class RadioLockController : SaveObject
     [SerializeField] private float unlockTime = 0.5f;
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private bool focusObjs;
-    [SerializeField] private SaveObject[] objectsToActivate;
 
     float tempTime = 0f;
     Coroutine unlockRoutine;
@@ -79,25 +78,7 @@ public class RadioLockController : SaveObject
 
         yield return new WaitForSeconds(unlockTime);
 
-        for (int i = 0; i < objectsToActivate.Length; i++)
-        {
-            if (focusObjs)
-            {
-
-                if (!CameraController.instance.GetRotState())
-                    CameraController.instance.SetTarget(objectsToActivate[i].transform);
-
-                yield return new WaitForSeconds(0.5f);
-
-                objectsToActivate[i].Activate();
-
-                yield return new WaitForSeconds(1f);
-            }
-            else
-            {
-                objectsToActivate[i].Activate();
-            }
-        }
+        m_OnTrigger.Invoke();
        
         if (!CameraController.instance.GetRotState())
             CameraController.instance.LoadLastTarget(); //If the radio is set to the correct station, focus on tunable object
