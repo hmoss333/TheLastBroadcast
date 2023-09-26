@@ -8,7 +8,23 @@ public class TriggerSceneChange : MonoBehaviour
     [SerializeField] string sceneToLoad;
     [SerializeField] float fadeTime = 1f, transitionDelay = 0f;
     Coroutine changeScene;
+    AudioSource musicSource;
+    float targetVolume, t = 0;
 
+
+    private void Start()
+    {
+        musicSource = SaveDataController.instance.gameObject.GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        if (changeScene != null)
+        {
+            t += Time.deltaTime / 100f;
+            musicSource.volume = Mathf.Lerp(musicSource.volume, targetVolume, t);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -34,6 +50,8 @@ public class TriggerSceneChange : MonoBehaviour
             yield return null;
 
         yield return new WaitForSeconds(transitionDelay);
+
+        targetVolume = 0;
 
         try { SaveDataController.instance.SetSavePoint(sceneToLoad, 0); } catch { };
         try { PlayerController.instance.ToggleAvatar(); } catch { };

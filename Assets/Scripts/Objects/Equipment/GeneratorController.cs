@@ -15,6 +15,7 @@ public class GeneratorController : InteractObject
     [SerializeField] private GameObject miniGameUI;
     [SerializeField] private Image miniGameRotObj, buttonIcon;
     private int hitCount;
+    private bool playing = false;
     [SerializeField] private float turnSpeed, angle = 0, radius = 7.5f;
     private Coroutine resetColor;
 
@@ -22,7 +23,7 @@ public class GeneratorController : InteractObject
 
     private void Update()
     {
-        if (interacting)
+        if (playing)
         {
             turnSpeed = (2f * Mathf.PI) * (2f * hitCount + radius);
             angle -= turnSpeed * Time.deltaTime;
@@ -30,12 +31,12 @@ public class GeneratorController : InteractObject
         }
 
         activeLight.color = hasActivated ? Color.green : Color.red;
-        miniGameUI.SetActive(interacting);
+        miniGameUI.SetActive(playing);//interacting && active);
     }
 
     public override void Interact()
     {
-        if (active && !hasActivated && !interacting)
+        if (!hasActivated && !playing)
         {
             base.Interact();
         }
@@ -48,6 +49,11 @@ public class GeneratorController : InteractObject
         CameraController.instance.FocusTarget();
         if (CameraController.instance.GetTriggerState())
             CameraController.instance.SetRotation(true);
+
+        if (active && interacting)
+        {
+            playing = true;
+        }
     }
 
     public void Hit()
@@ -98,6 +104,7 @@ public class GeneratorController : InteractObject
         }
 
         SetHasActivated();
+        playing = false;
 
         PlayerController.instance.ToggleAvatar();
         CameraController.instance.SetTarget(CameraController.instance.GetLastTarget());
