@@ -24,7 +24,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] float rotRate;
     [SerializeField] float focusRotRate;
 
+    [SerializeField] private bool focusingOnObjs;
+    [SerializeField] private List<Transform> objsToFocus;
+
     Coroutine resetRot;
+    Coroutine focusObjsRoutine;
 
 
     private void Awake()
@@ -162,6 +166,46 @@ public class CameraController : MonoBehaviour
     {
         return focus;
     }
+
+
+
+    //Focus object list functions
+    //Used to cycle through a list of objects to focus/activate
+    //Allows for viewing/activating multiple objects at once
+    //without sending multiple calls to the CameraController class
+    public void AddObjToFocus(Transform newObj)
+    {
+        objsToFocus.Add(newObj);
+    }
+
+    public void StartFocusingObjs(bool activateObjs)
+    {
+        if (focusObjsRoutine == null)
+            focusObjsRoutine = StartCoroutine(StartFocusObjsRoutine(activateObjs));
+    }
+
+    IEnumerator StartFocusObjsRoutine(bool activateObjs)
+    {
+        for (int i = 0; i < objsToFocus.Count; i++)
+        {
+            if (!setRot)
+                CameraController.instance.SetTarget(objsToFocus[i]);
+
+            if (activateObjs)
+            {
+                try { objsToFocus[i].GetComponent<SaveObject>().Activate(); }
+                catch { }
+            }
+
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        CameraController.instance.LoadLastTarget();
+
+        objsToFocus.Clear();
+        focusObjsRoutine = null;
+    }
+
 
 
     //Object Rot Get/Set
