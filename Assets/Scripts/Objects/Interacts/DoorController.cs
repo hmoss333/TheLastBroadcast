@@ -32,6 +32,8 @@ public class DoorController : InteractObject
 
     IEnumerator DoorTrigger()
     {
+        m_OnTrigger.Invoke();
+
         if (focusPoint != null)
         {
             CameraController.instance.SetTarget(focusPoint);
