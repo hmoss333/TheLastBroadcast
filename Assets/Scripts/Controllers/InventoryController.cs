@@ -20,6 +20,7 @@ public class InventoryController : MonoBehaviour
     [SerializeField] ScrollRect scrollRect;
     [SerializeField] InventoryItem inventoryItemPrefab;
     [SerializeField] TMP_Text inventoryTitle, inventoryDesc;
+    [SerializeField] Image itemImage;
 
     //[NaughtyAttributes.HorizontalLine]
 
@@ -120,6 +121,7 @@ public class InventoryController : MonoBehaviour
                 if (selectedItem != inventoryObjs[itemPosVal])
                 {
                     SelectItem(inventoryObjs[itemPosVal]);
+                    PauseMenuController.instance.isPaused = false;
                 }
                 else
                 {
@@ -238,6 +240,12 @@ public class InventoryController : MonoBehaviour
     {
         inventoryTitle.text = item.itemData.itemName;
         inventoryDesc.text = item.itemData.description;
+        try
+        {
+            itemImage.gameObject.SetActive(true);
+            itemImage.sprite = inventoryObjs[itemPosVal].icon;
+        }
+        catch { itemImage.gameObject.SetActive(false); }
     }
 
 
