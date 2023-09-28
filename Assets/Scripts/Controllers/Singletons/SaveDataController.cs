@@ -270,6 +270,41 @@ public class SaveDataController : MonoBehaviour
         }
     }
 
+    public void TakeAbility(string abilityName)
+    {
+        abilityName = abilityName.ToLower();
+        switch (abilityName)
+        {
+            case "radio":
+                saveData.abilities.radio = false;
+                break;
+            case "radio_special":
+                saveData.abilities.radio_special = false;
+                break;
+            case "crowbar":
+                saveData.abilities.crowbar = false;
+                break;
+            //case "gasmask":
+            //    saveData.abilities.gasmask = true;
+            //    break;
+            case "flashlight":
+                saveData.abilities.flashlight = false;
+                break;
+            case "mirror":
+                saveData.abilities.mirror = false;
+                break;
+            case "book":
+                saveData.abilities.book = false;
+                break;
+            case "hand":
+                saveData.abilities.hand = false;
+                break;
+            default:
+                Debug.Log($"Ability not found: {abilityName}");
+                break;
+        }
+    }
+
     public RadioAbility GetRadioAbility(string abilityName)
     {
         string tempName = abilityName.ToLower();
