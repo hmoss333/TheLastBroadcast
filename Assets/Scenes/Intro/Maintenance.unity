@@ -3259,6 +3259,7 @@ MonoBehaviour:
   focusPoint: {fileID: 0}
   exitPoint: {fileID: 0}
   exitRoom: {fileID: 0}
+  triggerDelay: 0.5
   triggerTime: 1
 --- !u!114 &140151926
 MonoBehaviour:
@@ -13690,7 +13691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802608, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802609, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: m_RootOrder
@@ -16309,7 +16310,7 @@ PrefabInstance:
       objectReference: {fileID: 1269278347}
     - target: {fileID: 2080777130572105298, guid: 09d464e9c3a504d6d8ba6283e726cc58, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2080777130572105308, guid: 09d464e9c3a504d6d8ba6283e726cc58, type: 3}
       propertyPath: id
@@ -19341,6 +19342,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4380618352805604, guid: e654e87e122044a489128addf80b0613, type: 3}
   m_PrefabInstance: {fileID: 880532152}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &882996167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 882996168}
+  m_Layer: 0
+  m_Name: StaticRoomInitPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &882996168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882996167}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 27.5, y: 1, z: -17.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1495621667}
+  m_RootOrder: 35
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1001 &886362644
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24579,6 +24611,7 @@ MonoBehaviour:
   focusPoint: {fileID: 0}
   exitPoint: {fileID: 0}
   exitRoom: {fileID: 0}
+  triggerDelay: 0.5
   triggerTime: 0.5
   doorDelay: 2.5
   elevatorLight: {fileID: 1029118861}
@@ -31253,8 +31286,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1468168074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.5, y: 1.75, z: -17.5}
-  m_LocalScale: {x: 5, y: 3.5, z: 5}
+  m_LocalPosition: {x: 13.75, y: 1.75, z: -17.5}
+  m_LocalScale: {x: 25, y: 3.5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1495621667}
@@ -31287,7 +31320,8 @@ MonoBehaviour:
   focusPoint: {fileID: 0}
   exitPoint: {fileID: 1246701306}
   exitRoom: {fileID: 0}
-  triggerTime: 0.5
+  triggerDelay: 0.5
+  triggerTime: 2.5
 --- !u!114 &1468168077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32305,6 +32339,7 @@ Transform:
   - {fileID: 644519510}
   - {fileID: 1750072455}
   - {fileID: 1468168075}
+  - {fileID: 882996168}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -34232,6 +34267,7 @@ MonoBehaviour:
   focusPoint: {fileID: 0}
   exitPoint: {fileID: 0}
   exitRoom: {fileID: 0}
+  triggerDelay: 0.5
   triggerTime: 1
 --- !u!114 &1577277792
 MonoBehaviour:
@@ -45475,6 +45511,10 @@ PrefabInstance:
       value: 38554339-3e3b-4fdb-9503-d407a99ab352
       objectReference: {fileID: 0}
     - target: {fileID: 5068295010131274022, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
+      propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068295010131274022, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 189054132}
@@ -45485,10 +45525,10 @@ PrefabInstance:
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: exitPoint
       value: 
-      objectReference: {fileID: 781421352}
+      objectReference: {fileID: 882996168}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -45500,7 +45540,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -45513,7 +45553,7 @@ PrefabInstance:
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 189054132}
+      objectReference: {fileID: 2121010841}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -45536,7 +45576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: SetTrigger
+      value: SetEffectState
       objectReference: {fileID: 0}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -45548,7 +45588,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: UnityEngine.Animator, UnityEngine
+      value: CamEffectController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
@@ -45560,7 +45600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
-      value: wakeUp
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -45579,9 +45619,17 @@ PrefabInstance:
       value: 5bc952e9-d5a2-4f58-9dbf-bd136000b95a
       objectReference: {fileID: 0}
     - target: {fileID: 7486389339897736027, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
+      propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7486389339897736027, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2121010841}
+    - target: {fileID: 7486389339897736027, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
+      propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ForceEffect
+      objectReference: {fileID: 0}
     - target: {fileID: 8004747948472624392, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: _id.Value
       value: 38554339-3e3b-4fdb-9503-d407a99ab352

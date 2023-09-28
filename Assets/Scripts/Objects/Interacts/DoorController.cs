@@ -9,7 +9,7 @@ public class DoorController : InteractObject
 {
     public Transform exitPoint;
     [HideInInspector] public RoomController exitRoom;
-    [SerializeField] float triggerTime = 0.5f;
+    [SerializeField] float triggerDelay = 0.5f, triggerTime = 1f;
     Coroutine doorRoutine;
 
 
@@ -32,8 +32,6 @@ public class DoorController : InteractObject
 
     IEnumerator DoorTrigger()
     {
-        m_OnTrigger.Invoke();
-
         if (focusPoint != null)
         {
             CameraController.instance.SetTarget(focusPoint);
@@ -42,12 +40,14 @@ public class DoorController : InteractObject
 
         GetComponent<AudioSource>().Play();
 
-        yield return new WaitForSeconds(triggerTime);
+        yield return new WaitForSeconds(triggerDelay);
 
-        FadeController.instance.StartFade(1.0f, 1f);
+        FadeController.instance.StartFade(1.0f, triggerTime);
 
         while (FadeController.instance.isFading)
             yield return null;
+
+        m_OnTrigger.Invoke();
 
         UIController.instance.ToggleDialogueUI(false);
         PlayerController.instance.transform.position = exitPoint.position;
