@@ -10,7 +10,7 @@ public class InventoryItem : MonoBehaviour
     public int ID;
     public ItemInstance itemInstance;
     [SerializeField] SpriteAtlas atlas;
-    public Sprite icon { get; private set; }
+    [SerializeField] public Sprite icon; //{ get; private set; }
     [SerializeField] Image image;
     [SerializeField] TMP_Text countText;
     [SerializeField] GameObject highlight;
@@ -18,6 +18,7 @@ public class InventoryItem : MonoBehaviour
 
     private void Start()
     {
+        icon = GetComponent<Image>().sprite;
         SetIcon(itemInstance.itemData.itemName);
     }
 

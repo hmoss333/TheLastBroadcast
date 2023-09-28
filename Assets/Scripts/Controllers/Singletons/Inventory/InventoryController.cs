@@ -44,11 +44,14 @@ public class InventoryController : MonoBehaviour
 
         LoadItemFile();
         RefreshInventory();
+
+        inventoryObjs[itemPosVal].ToggleHighlight(true); //highlight the currently displayed item position
     }
 
     private void Update()
     {
-        if (PauseMenuController.instance.isPaused) //&& currentPanel == inventoryPanel           
+        if (PauseMenuController.instance.isPaused
+            && PauseMenuController.instance.CurrentPanel().name.ToLower() == "inventory")           
         {
             //Use directional input to navigate inventory menu
             if (PlayerController.instance.inputMaster.Player.Move.triggered)
@@ -64,24 +67,27 @@ public class InventoryController : MonoBehaviour
                             + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
                     }
                 }
-                else if (move.x < 0)
+                //else
+                if (move.x < 0)
                 {
                     itemPosVal--;
-                    if (itemPosVal % 3 != 0)
+                    if (itemPosVal % 3 == 2) //columnCount - 1
                     {
                         inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
                             - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
                             - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
                     }
                 }
-                else if (move.y > 0)
+                //else
+                if (move.y > 0)
                 {
                     itemPosVal -= 3;
                     inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
                         - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
                         - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
                 }
-                else if (move.y < 0)
+                //else
+                if (move.y < 0)
                 {
                     itemPosVal += 3;
                     inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
@@ -121,7 +127,6 @@ public class InventoryController : MonoBehaviour
                 if (selectedItem != inventoryObjs[itemPosVal])
                 {
                     SelectItem(inventoryObjs[itemPosVal]);
-                    PauseMenuController.instance.isPaused = false;
                 }
                 else
                 {
@@ -240,12 +245,7 @@ public class InventoryController : MonoBehaviour
     {
         inventoryTitle.text = item.itemData.itemName;
         inventoryDesc.text = item.itemData.description;
-        try
-        {
-            itemImage.gameObject.SetActive(true);
-            itemImage.sprite = inventoryObjs[itemPosVal].icon;
-        }
-        catch { itemImage.gameObject.SetActive(false); }
+        itemImage.sprite = inventoryObjs[itemPosVal].icon;
     }
 
 
