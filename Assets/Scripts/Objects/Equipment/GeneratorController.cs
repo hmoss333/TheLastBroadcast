@@ -26,7 +26,7 @@ public class GeneratorController : InteractObject
             miniGameRotObj.transform.rotation = Quaternion.Euler(0, 0, angle * radius);
         }
 
-        activeLight.color = hasActivated ? Color.green : Color.red;
+        activeLight.color = active && !hasActivated ? Color.yellow : !active && !hasActivated ? Color.red : Color.green; //hasActivated ? Color.green : Color.red;
         miniGameUI.SetActive(playing);//interacting && active);
     }
 

@@ -12,7 +12,6 @@ public class RadioLockController : SaveObject
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private float unlockTime = 0.5f;
     [SerializeField] private MeshRenderer mesh;
-    [SerializeField] private bool focusObjs;
 
     float tempTime = 0f;
     Coroutine unlockRoutine;
