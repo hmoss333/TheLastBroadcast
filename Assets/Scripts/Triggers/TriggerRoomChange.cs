@@ -10,6 +10,7 @@ public class TriggerRoomChange : DoorController
         if (other.tag == "Player")
         {
             Interact();
+            PlayerController.instance.SetState(PlayerController.States.listening);
         }
     }
 }

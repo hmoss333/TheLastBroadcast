@@ -374,11 +374,6 @@ public class PlayerController : CharacterController
         abilityState = abilityStateToSet;
     }
 
-    public void SetWakeUpAnim()
-    {
-        SetState(States.wakeUp);
-    }
-
 
     //Handle isSeen bool
     public bool IsSeen()
