@@ -45,7 +45,8 @@ public class InventoryController : MonoBehaviour
         LoadItemFile();
         RefreshInventory();
 
-        inventoryObjs[itemPosVal].ToggleHighlight(true); //highlight the currently displayed item position
+        if (inventoryObjs.Count > 0)
+            inventoryObjs[itemPosVal].ToggleHighlight(true); //highlight the currently displayed item position
     }
 
     private void Update()

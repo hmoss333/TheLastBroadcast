@@ -92,7 +92,7 @@ public class MainMenuController : MonoBehaviour
         SaveDataController.instance.CreateNewSaveFile();
         mainMenuCanvas.SetActive(false);
         FadeController.instance.StartFade(1, 1.5f);
-        sceneToLoad = "Forest"; 
+        sceneToLoad = "Intro"; 
         loadingScene = true;
     }
 
