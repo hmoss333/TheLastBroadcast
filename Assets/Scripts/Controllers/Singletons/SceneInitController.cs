@@ -110,7 +110,7 @@ public class SceneInitController : MonoBehaviour
 
         StartCoroutine(LateStart());
 
-        FadeController.instance.StartFade(0.0f, fadeInTime);//1.5f);
+        FadeController.instance.StartFade(0.0f, fadeInTime);
     }
 
     IEnumerator LateStart()

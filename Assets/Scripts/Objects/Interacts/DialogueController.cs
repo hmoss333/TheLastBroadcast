@@ -43,15 +43,12 @@ public class DialogueController : InteractObject
             }
             else if (!canInteract && PlayerController.instance.inputMaster.Player.Interact.triggered)
             {
-                print("Button pressed");
                 if (TextWriter.instace.isTyping)
                 {
-                    print("Stop typing");
                     TextWriter.instace.StopTyping();
                 }
                 else
                 {
-                    print("Progress dialogue");
                     Interact();
                 }
             }
