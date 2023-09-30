@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyFocus : MonoBehaviour
 {
-    bool hasFocused, toggleAvatar;
+    bool hasFocused;
     ZombieController enemyToFocus;
     float timeToFocus = 2.5f;
 
@@ -20,16 +20,10 @@ public class EnemyFocus : MonoBehaviour
         if (!hasFocused && enemyToFocus.SeePlayer())
         {
             CameraController.instance.SetTarget(transform);
-            if (!toggleAvatar)
-            {
-                PlayerController.instance.ToggleAvatar();
-                toggleAvatar = true;
-            }
             timeToFocus -= Time.deltaTime;
             if (timeToFocus <= 0)
             {
-                PlayerController.instance.ToggleAvatar();
-                CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+                CameraController.instance.LoadLastTarget();//SetTarget(PlayerController.instance.lookTransform);
                 hasFocused = true;
             }
         }

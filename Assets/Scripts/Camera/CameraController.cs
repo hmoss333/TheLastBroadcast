@@ -115,6 +115,14 @@ public class CameraController : MonoBehaviour
         catch { }
     }
 
+    private void LateUpdate()
+    {
+        if (objsToFocus.Count > 0 && focusObjsRoutine == null)
+        {
+            StartFocusingObjs();
+        }
+    }
+
 
     //Target Get/Sets
     public void SetTarget(Transform newTargetObj)
@@ -180,7 +188,7 @@ public class CameraController : MonoBehaviour
         objsToFocus = tempList;
     }
 
-    public void StartFocusingObjs()
+    void StartFocusingObjs()
     {
         if (focusObjsRoutine == null)
             focusObjsRoutine = StartCoroutine(StartFocusObjsRoutine());
@@ -188,14 +196,17 @@ public class CameraController : MonoBehaviour
 
     IEnumerator StartFocusObjsRoutine()
     {
+        bool tempRotSet = setRot;
+        setRot = false;
+
         for (int i = 0; i < objsToFocus.Count; i++)
         {
-            if (!setRot)
-                CameraController.instance.SetTarget(objsToFocus[i].transform);
+            CameraController.instance.SetTarget(objsToFocus[i].transform);
 
             yield return new WaitForSeconds(1.5f);
         }
 
+        setRot = tempRotSet;
         CameraController.instance.LoadLastTarget();
 
         objsToFocus.Clear();
