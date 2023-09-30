@@ -29803,7 +29803,7 @@ GameObject:
   - component: {fileID: 1154974242}
   - component: {fileID: 1154974241}
   - component: {fileID: 1154974240}
-  - component: {fileID: 1154974239}
+  - component: {fileID: 1154974245}
   m_Layer: 15
   m_Name: GeneratorDialogueObject
   m_TagString: Untagged
@@ -29826,19 +29826,6 @@ Transform:
   m_Father: {fileID: 1886187709}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1154974239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1154974237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bd4856e86b444504b3279819ce64fbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effectPrefab: {fileID: 0}
 --- !u!114 &1154974240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29854,7 +29841,7 @@ MonoBehaviour:
   id: 96acc517-1bec-4965-b3f5-430bb9a68db9
   active: 0
   hasActivated: 0
-  focusOnActivate: 1
+  focusOnActivate: 0
   hideOnLoad: 1
   needItem: 0
   inventoryItemID: 0
@@ -29866,8 +29853,8 @@ MonoBehaviour:
   focusPoint: {fileID: 0}
   talkOnce: 1
   lines:
-  - The fumes from the Generator are starting to fill the room
-  - It's making me feel lightheaded...
+  - It's getting hard to breath in here
+  - The fumes from the Generator are too strong, they're making me light-headed
   index: 0
 --- !u!114 &1154974241
 MonoBehaviour:
@@ -29891,7 +29878,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1154974237}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -29946,6 +29933,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1154974237}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1154974245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154974237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a0befd7b5554da79b464e7748a29f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1155801521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42642,7 +42641,7 @@ MonoBehaviour:
   id: f0102ee8-76e6-4eaa-bcb3-64741e61d29f
   active: 0
   hasActivated: 0
-  focusOnActivate: 1
+  focusOnActivate: 0
   hideOnLoad: 1
   needItem: 0
   inventoryItemID: 0
@@ -52600,7 +52599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.size
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -52653,31 +52652,31 @@ PrefabInstance:
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 643445219}
+      objectReference: {fileID: 428406895}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 428406895}
+      objectReference: {fileID: 1144436292}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[4].m_Target
       value: 
-      objectReference: {fileID: 1144436292}
+      objectReference: {fileID: 428406899}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[5].m_Target
       value: 
-      objectReference: {fileID: 2102920274}
+      objectReference: {fileID: 1750072456}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[6].m_Target
       value: 
-      objectReference: {fileID: 428406899}
+      objectReference: {fileID: 1154974240}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[7].m_Target
       value: 
-      objectReference: {fileID: 1750072456}
+      objectReference: {fileID: 1468168076}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[8].m_Target
       value: 
-      objectReference: {fileID: 1468168076}
+      objectReference: {fileID: 1154974237}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[9].m_Target
       value: 
@@ -52744,7 +52743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[5].m_MethodName
-      value: StartFocusingObjs
+      value: Activate
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[6].m_MethodName
@@ -52756,7 +52755,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[8].m_MethodName
-      value: Activate
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -52772,15 +52771,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
-      value: SaveObject, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
-      propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
       value: ElevatorController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
+      propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
+      value: SaveObject, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[5].m_TargetAssemblyTypeName
-      value: CameraController, Assembly-CSharp
+      value: SaveObject, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[6].m_TargetAssemblyTypeName
@@ -52832,7 +52831,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452205, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[8].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8429448059559452207, guid: db009e17d272045adbea59d47efa0f6e, type: 3}
       propertyPath: m_Enabled
