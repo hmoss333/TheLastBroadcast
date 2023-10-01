@@ -3745,6 +3745,7 @@ MonoBehaviour:
   exitRoom: {fileID: 0}
   triggerDelay: 0.5
   triggerTime: 1
+  animationTrigger: 
 --- !u!114 &140151926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18744,7 +18745,7 @@ PrefabInstance:
       objectReference: {fileID: 1269278347}
     - target: {fileID: 2080777130572105298, guid: 09d464e9c3a504d6d8ba6283e726cc58, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2080777130572105308, guid: 09d464e9c3a504d6d8ba6283e726cc58, type: 3}
       propertyPath: id
@@ -27860,7 +27861,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802608, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802609, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: m_RootOrder
@@ -29136,9 +29137,9 @@ MonoBehaviour:
   talkOnce: 0
   lines:
   - '"I understand now..."'
-  - '"I have seen the far shore, the sky filled with infinite black stars"'
-  - '"I can hear them- not just in the static, but in everything"'
-  - '"They are calling to us, pleading to be let out"'
+  - '"I have seen the far shore"'
+  - '"An infnite sky filled with black stars"'
+  - '"I can hear it- not just in the static, but all around me"'
   - '"The work must be completed"'
   - '"We must finish. <br>We must follow."'
   index: 0
@@ -38001,7 +38002,8 @@ MonoBehaviour:
   exitPoint: {fileID: 1246701306}
   exitRoom: {fileID: 0}
   triggerDelay: 0.5
-  triggerTime: 1.5
+  triggerTime: 3.5
+  animationTrigger: isDead
 --- !u!114 &1468168077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41362,6 +41364,7 @@ MonoBehaviour:
   exitRoom: {fileID: 0}
   triggerDelay: 0.5
   triggerTime: 1
+  animationTrigger: 
 --- !u!114 &1577277792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54575,6 +54578,14 @@ PrefabInstance:
       propertyPath: exitPoint
       value: 
       objectReference: {fileID: 882996168}
+    - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
+      propertyPath: triggerTime
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
+      propertyPath: animationTrigger
+      value: isDead
+      objectReference: {fileID: 0}
     - target: {fileID: 5163784125269853337, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.size
       value: 3

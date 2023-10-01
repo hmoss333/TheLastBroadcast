@@ -63,7 +63,7 @@ public class DoorController : InteractObject
         }
 
         interacting = false;
-        FadeController.instance.StartFade(0.0f, 1f);
+        FadeController.instance.StartFade(0.0f, triggerTime);
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         CameraController.instance.SetLastTarget(PlayerController.instance.lookTransform);
         PlayerController.instance.SetState(PlayerController.States.idle);
