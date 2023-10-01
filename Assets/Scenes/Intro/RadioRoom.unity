@@ -208,7 +208,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.6
+  m_fontSize: 35.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -646,7 +646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPos: {x: -0.12, y: 1.75, z: -20}
   endPos: {x: -0.12, y: 1.75, z: 15}
-  speed: 0.125
+  speed: 0.1
   offsetVal: 0.75
 --- !u!54 &422252560
 Rigidbody:
@@ -714,15 +714,28 @@ MonoBehaviour:
   id: a37a2429-2b01-43bc-8894-52f96bea93bb
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 823821798}
+        m_TargetAssemblyTypeName: TVController, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
-  objectsToActivate:
-  - {fileID: 823821798}
-  m_OnTrigger:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &431444965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -989,7 +1002,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 45.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2422,7 +2435,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f9e400489d504429ebfe296eef94a45d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5c3ca428b4358426c87f920d75502528, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0
   m_Pitch: 1
@@ -2760,7 +2773,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 27.55
+  m_fontSize: 31.35
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3040,6 +3053,67 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838117657}
   m_Mesh: {fileID: 4300000, guid: a190926ef85a15643bfc554827135421, type: 3}
+--- !u!1001 &1856246512
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5939193885017662112, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662112, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662112, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3702805
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662112, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662112, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662112, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662112, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662112, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662112, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662112, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662112, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662113, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939193885017662127, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
+      propertyPath: m_Name
+      value: Dust_Air_PS
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ff9dce7c9c8b34307bd3217bd2cb0298, type: 3}
 --- !u!4 &1864233874 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4780043688429432, guid: 204ba5aece2d409418a50631086b6feb, type: 3}
@@ -3212,6 +3286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glitchEffect: {fileID: 1932594194}
+  effectOn: 0
 --- !u!4 &1932594196
 Transform:
   m_ObjectHideFlags: 0
@@ -3247,7 +3322,7 @@ GameObject:
   - component: {fileID: 1985763451}
   - component: {fileID: 1985763450}
   m_Layer: 15
-  m_Name: SceneChange_Trigger
+  m_Name: DeactivateTV_Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3346,15 +3421,28 @@ MonoBehaviour:
   id: c2f24132-a49d-42e7-b63a-67bf0406b198
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 823821798}
+        m_TargetAssemblyTypeName: TVController, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
-  objectsToActivate:
-  - {fileID: 823821798}
-  m_OnTrigger:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1985763451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3807,7 +3895,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5375214885050536151}
   - component: {fileID: 5375214885050536150}
-  - component: {fileID: 5375214885050536152}
   - component: {fileID: 5375214885050536153}
   m_Layer: 0
   m_Name: Master Controller
@@ -3846,18 +3933,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5375214885050536152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5375214885050536149}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97b7f857b45744dd1a3987a11c6a732d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5375214885050536153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3879,8 +3954,8 @@ MonoBehaviour:
   sigText: {fileID: 1675319454}
   fadeSpeed: 1
   startDelayTime: 3
-  quoteDelayTime: 1.5
+  quoteDelayTime: 3
   glitchDelayTime: 2
-  titleDelayTime: 2.125
+  titleDelayTime: 2
   titleDisplayTime: 2.5
-  sceneDelayTime: 2
+  sceneDelayTime: 2.5

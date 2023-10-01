@@ -37,7 +37,7 @@ public class TitleScreenController : MonoBehaviour
         musicSource.volume = 0;
         musicSource.Play();
         t = 0;
-        targetVolume = 0.15f;
+        targetVolume = 0.5f; //0.15f;
 
 
         //Fade In Quote/Signature text
@@ -53,10 +53,10 @@ public class TitleScreenController : MonoBehaviour
 
 
         //Fade Out Quote/Signature text
-        FadeController.instance.StartFadeText(quoteText, 0, 1f);
+        FadeController.instance.StartFadeText(quoteText, 0.00f, 1f);
         while (FadeController.instance.isFading)
             yield return null;
-        FadeController.instance.StartFadeText(sigText, 0, 1f);
+        FadeController.instance.StartFadeText(sigText, 0.00f, 1f);
         while (FadeController.instance.isFading)
             yield return null;
 
@@ -88,7 +88,7 @@ public class TitleScreenController : MonoBehaviour
 
         //Delay and activate glitch effect
         yield return new WaitForSeconds(glitchDelayTime);
-        CamEffectController.instance.SetEffectState(true);//.ForceEffect(true);
+        CamEffectController.instance.SetEffectState(true);
 
         yield return new WaitForSeconds(titleDisplayTime);
 
@@ -103,6 +103,6 @@ public class TitleScreenController : MonoBehaviour
         yield return new WaitForSeconds(sceneDelayTime);
 
         //Load next scene
-        SceneManager.LoadSceneAsync(2);
+        SceneManager.LoadSceneAsync(3);
     }
 }

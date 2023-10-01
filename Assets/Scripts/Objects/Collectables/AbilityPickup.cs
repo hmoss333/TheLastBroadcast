@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class AbilityPickup : InteractObject
 {
@@ -48,6 +50,9 @@ public class AbilityPickup : InteractObject
     {
         SetHasActivated();
         UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
+
+        m_OnTrigger.Invoke();
+
         gameObject.SetActive(false);
     }
 

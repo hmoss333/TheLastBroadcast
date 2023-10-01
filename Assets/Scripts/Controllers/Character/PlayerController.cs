@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : CharacterController
 {
@@ -18,11 +19,12 @@ public class PlayerController : CharacterController
     [NaughtyAttributes.HorizontalLine]
     [Header("Player State Variables")]
     private bool isSeen;// { get; private set; }
-    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, hurt, dead }
+    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, consuming, hurt, dead }
     public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
     [SerializeField] private Health health;
+    public int maxHealth { get; private set; }
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
@@ -30,6 +32,9 @@ public class PlayerController : CharacterController
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
     private InteractObject interactObj;
+    float useItemTime = 0f;
+    [SerializeField] Image useIcon;
+    [SerializeField] Image useHighlight;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Player Avatar Variables")]
@@ -37,6 +42,7 @@ public class PlayerController : CharacterController
     [SerializeField] private GameObject bagObj;
     [SerializeField] private GameObject radioObj;
     [SerializeField] private GameObject gasMaskObj;
+    [SerializeField] private GameObject gasMaskOverlay;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
     public InputMaster inputMaster { get; private set; }
@@ -69,13 +75,15 @@ public class PlayerController : CharacterController
 
     override public void Update()
     {
+        maxHealth = SaveDataController.instance.saveData.maxHealth; //get most current maxHealth value
+
         Vector3 rayDir = lastDir.normalized;
         Ray ray = new Ray(transform.position, rayDir);
         Ray ray1 = new Ray(transform.position, lastDir1);
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (state == States.radio || state == States.attacking || state == States.listening
+        if (state == States.radio || state == States.attacking || state == States.listening || state == States.wakeUp
             || abilityState == AbilityStates.invisible || abilityState == AbilityStates.isRat)
         {
             interactObj = null;
@@ -97,25 +105,21 @@ public class PlayerController : CharacterController
             interactObj = null;
         }
 
-        if (interactObj != null
-            && !interactObj.hasActivated)
-        {
-            interactIcon.SetActive(true);
-        }
-        else
-        {
-            interactIcon.SetActive(false);
-        }
+        interactIcon.SetActive(interactObj != null && !interactObj.hasActivated);
 
 
         //Hit wall check
         //Used to stop the camera from poking outside of bounds
-        if (Physics.Raycast(ray, out hit, checkDist))
+        if (Physics.Raycast(ray, out hit, checkDist) && !CameraController.instance.GetRotState())
         {
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Wall")
-                && !CameraController.instance.GetRotState())
+            RaycastHit[] hits = Physics.RaycastAll(ray, checkDist, 1 << 10);
+            foreach (RaycastHit r_hit in hits)
             {
-                CameraController.instance.HittingWall(true);
+                if (r_hit.transform.gameObject.layer == 10)
+                {
+                    CameraController.instance.HittingWall(true);
+                    break;
+                }
             }
         }
         else
@@ -125,12 +129,6 @@ public class PlayerController : CharacterController
 
 
         //Player hurt/death triggers
-        if (hurt)
-        {
-            RadioController.instance.SetActive(false);
-            CameraController.instance.LoadLastTarget();
-            SetState(States.hurt);
-        }
         if (dead)
             SetState(States.dead);
 
@@ -139,7 +137,7 @@ public class PlayerController : CharacterController
         if ((state == States.idle || state == States.moving)
             && abilityState == AbilityStates.none
             && !PauseMenuController.instance.isPaused && !FlashlightController.instance.isOn
-            && !hurt)
+            && state != States.hurt)
         {
             if (SaveDataController.instance.saveData.abilities.crowbar == true
                 && PlayerController.instance.inputMaster.Player.Melee.triggered)
@@ -158,7 +156,7 @@ public class PlayerController : CharacterController
 
         //Store player move values
         //Used in FixedUpdate for correct timing with animation flags
-        Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
+        Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().normalized;     
         switch (state)
         {
             case States.wakeUp:
@@ -168,6 +166,17 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.idle:
+                if (interactObj == null //if no object is currently highlighted for interaction
+                    && InventoryController.instance.selectedItem != null
+                    && InventoryController.instance.selectedItem.itemInstance.consumable == true
+                    && !PauseMenuController.instance.isPaused //if the game is not paused
+                    && inputMaster.Player.Interact.IsPressed()
+                    && (health.currentHealth < maxHealth
+                    || RadioController.instance.currentCharge < RadioController.instance.maxCharge))
+                {
+                    SetState(States.consuming);
+                }
+
                 if (move.x != 0f || move.y != 0f)
                 {
                     SetState(States.moving);
@@ -177,26 +186,29 @@ public class PlayerController : CharacterController
                 interactIcon.SetActive(false); //hide interact icon while interacting
                 break;
             case States.moving:
-                speed = storedSpeed;
-
-                horizontal = Mathf.Round(move.x * 10f) * 0.1f;
-                vertical = Mathf.Round(move.y * 10f) * 0.1f;
-
-                //Save last input vector for interact raycast
-                if (horizontal != 0f || vertical != 0f)
+                if (!PauseMenuController.instance.isPaused)
                 {
-                    lastDir.x = horizontal;
-                    lastDir.z = vertical;
-                }
+                    speed = storedSpeed;
 
-                Vector3 tempMove = new Vector3(horizontal, 0f, vertical);
-                if (tempMove.magnitude > 1)
-                    tempMove = tempMove.normalized;
-                rb.velocity = new Vector3(tempMove.x * speed, rb.velocity.y, tempMove.z * speed);
+                    horizontal = Mathf.Round(move.x * 10f) * 0.1f;
+                    vertical = Mathf.Round(move.y * 10f) * 0.1f;
 
-                if (move.x == 0f && move.y == 0f)
-                {
-                    SetState(States.idle);
+                    //Save last input vector for interact raycast
+                    if (horizontal != 0f || vertical != 0f)
+                    {
+                        lastDir.x = horizontal;
+                        lastDir.z = vertical;
+                    }
+
+                    Vector3 tempMove = new Vector3(horizontal, 0f, vertical);
+                    if (tempMove.magnitude > 1)
+                        tempMove = tempMove.normalized;
+                    rb.velocity = new Vector3(tempMove.x * speed, rb.velocity.y, tempMove.z * speed);
+
+                    if (move.x == 0f && move.y == 0f)
+                    {
+                        SetState(States.idle);
+                    }
                 }
                 break;
             case States.attacking:
@@ -214,14 +226,49 @@ public class PlayerController : CharacterController
                     SetState(States.idle);
                 }
                 break;
-            case States.hurt:
-                RadioController.instance.SetActive(false);
-                CameraController.instance.SetTarget(this.transform);
-
-                if (!hurt && !isPlaying("Hurt"))
+            case States.consuming:
+                if (inputMaster.Player.Interact.IsPressed()
+                    && InventoryController.instance.selectedItem != null
+                    && InventoryController.instance.selectedItem.itemInstance.count > 0
+                    && InventoryController.instance.selectedItem.itemInstance.consumable)
+                //check if new selectedItem is able to be consumed
+                //used if triggering a stack of items to prevent from consuming outside of correct use-case
                 {
+                    useItemTime += Time.deltaTime;
+                    useIcon.fillAmount = useItemTime / 3f;
+                    if (useItemTime >= 3f)
+                    {
+                        useItemTime = 0f;
+                        useIcon.fillAmount = 0f;
+
+                        switch (InventoryController.instance.selectedItem.itemInstance.id)
+                        {
+                            case 0: //MedKit
+                                health.ModifyHealth(2); //increase player health by 2
+                                if (health.currentHealth >= maxHealth) { health.SetHealth(maxHealth); SetState(States.idle); }
+                                InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
+                                break;
+                            default:
+                                print($"Consumed {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}");
+                                //TODO add logic here for other consumable items
+                                InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
+                                break;
+                        }                     
+                    }
+                }
+                else
+                {
+                    useItemTime = 0f;
+                    useIcon.fillAmount = 0f;
                     SetState(States.idle);
                 }
+                break;
+            case States.hurt:
+                RadioController.instance.SetActive(false);
+                break;
+            case States.dead:
+                if (health.currentHealth >= 0)
+                    health.SetHealth(0);
                 break;
             default:
                 break;
@@ -240,14 +287,13 @@ public class PlayerController : CharacterController
                 SetState(States.idle);
         }
 
-
         base.Update();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (state != States.moving || isPlaying("Hurt"))
+        if (state != States.moving)
         {
             speed = 0;
         }
@@ -274,10 +320,6 @@ public class PlayerController : CharacterController
         {
             SetState(States.attacking);
         }
-        if (isPlaying("Hurt"))
-        {
-            SetState(States.hurt);
-        }
 
 
         //Moving
@@ -295,8 +337,15 @@ public class PlayerController : CharacterController
         bagObj.SetActive(SaveDataController.instance.saveData.abilities.radio); //only show the bag obj if the player has collected the radio
         //Melee
         melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
+        //Gasmask
+        gasMaskObj.SetActive(InventoryController.instance.selectedItem != null && InventoryController.instance.selectedItem.itemInstance.itemData.itemName.ToLower() == "gasmask"); //toggle gasmask model if the item is equiped
+        gasMaskOverlay.SetActive(gasMaskObj.activeSelf);
         //Listening
         animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
+        //Healing
+        animator.SetBool("isConsuming", state == States.consuming); //toggle animation if consuming
+        useHighlight.gameObject.SetActive(state == States.consuming);
+
         isSeen = false; //reset seen state if no enemies are currently seeing the player (this is ues for the dynamic camera)
     }
 
@@ -307,10 +356,6 @@ public class PlayerController : CharacterController
         playerAvatar.SetActive(!playerAvatar.activeSelf);
     }
 
-    public void ToggleGasMask(bool maskState)
-    {
-        gasMaskObj.SetActive(maskState);
-    }
 
     //Used for the door controller to set exit direction
     public void SetLastDir(Vector3 newDir)

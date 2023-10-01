@@ -83,10 +83,16 @@ public class MainMenuController : MonoBehaviour
             Directory.Delete(System.IO.Path.Combine(Application.persistentDataPath, "LevelData"), true);
         }
 
+        if (Directory.Exists(System.IO.Path.Combine(Application.persistentDataPath, "Items")))
+        {
+            print("Deleting old item data");
+            Directory.Delete(System.IO.Path.Combine(Application.persistentDataPath, "Items"), true);
+        }
+
         SaveDataController.instance.CreateNewSaveFile();
         mainMenuCanvas.SetActive(false);
-        FadeController.instance.StartFade(1, 1f);
-        sceneToLoad = "RadioRoom"; 
+        FadeController.instance.StartFade(1, 1.5f);
+        sceneToLoad = "Intro"; 
         loadingScene = true;
     }
 
@@ -106,7 +112,7 @@ public class MainMenuController : MonoBehaviour
 
     public void StartSavedGame()
     {
-        FadeController.instance.StartFade(1, 1f);
+        FadeController.instance.StartFade(1, 1.5f);
         sceneToLoad = SaveDataController.instance.saveData.currentScene;
         loadingScene = true;
     }

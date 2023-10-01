@@ -30,8 +30,19 @@ public class CamTriggerZone : MonoBehaviour
     {
         if (other.tag == "Player" && CameraController.instance.GetLastTarget() == camPos.transform)
         {
-            CameraController.instance.SetLastTarget(PlayerController.instance.lookTransform); //Once out of the trigger, set the player to the last camera target
-            CameraController.instance.SetTarget(PlayerController.instance.lookTransform); //Set the camera to focus on the player
+            Transform target;
+            if (other.GetComponent<PlayerController>())
+            {
+                target = other.GetComponent<PlayerController>().lookTransform;
+            }
+            else
+            {
+                target = other.gameObject.transform;
+            }
+
+
+            CameraController.instance.SetLastTarget(target);//PlayerController.instance.lookTransform); //Once out of the trigger, set the player to the last camera target
+            CameraController.instance.SetTarget(target); //PlayerController.instance.lookTransform); //Set the camera to focus on the player
             CameraController.instance.SetRotation(false); //Disable forced rotation
             CameraController.instance.SetTriggerState(false);
         }

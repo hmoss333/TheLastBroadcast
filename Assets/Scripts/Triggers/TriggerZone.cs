@@ -9,12 +9,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class TriggerZone : InteractObject
 {
-    [SerializeField] SaveObject[] objectsToActivate;
     Coroutine unlockRoutine;
-
-    [FormerlySerializedAs("onTrigger")]
-    [SerializeField]
-    private UnityEvent m_OnTrigger = new UnityEvent();
 
 
     private void OnTriggerEnter(Collider other)
@@ -24,25 +19,8 @@ public class TriggerZone : InteractObject
             && !hasActivated
             && unlockRoutine == null)
         {
-            unlockRoutine = StartCoroutine(UnlockObjects());
+            m_OnTrigger.Invoke();
+            SetHasActivated();
         }
-    }
-
-    IEnumerator UnlockObjects()
-    {
-        m_OnTrigger.Invoke();
-
-        for (int i = 0; i < objectsToActivate.Length; i++)
-        {
-            print($"Activating object: {objectsToActivate[i].name}");
-
-            objectsToActivate[i].Activate();
-
-            yield return new WaitForSeconds(1.25f);
-        }
-
-        //SetHasActivated();
-        active = false;
-        unlockRoutine = null;
     }
 }

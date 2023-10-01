@@ -7,11 +7,10 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(AudioSource))]
 public class DoorController : InteractObject
 {
-    [SerializeField] private int securityLevel;
-    [SerializeField] private string lockedText = "Current security level is too low";
     public Transform exitPoint;
     [HideInInspector] public RoomController exitRoom;
-    [SerializeField] float triggerTime = 0.5f;
+    [SerializeField] float triggerDelay = 0.5f, triggerTime = 1f;
+    Coroutine doorRoutine;
 
 
     private void Awake()
@@ -20,28 +19,15 @@ public class DoorController : InteractObject
             exitRoom = exitPoint.GetComponentInParent<RoomController>();
     }
 
-    public override void Activate()
-    {
-        base.Activate();
-    }
-
     public override void Interact()
     {
-        base.Interact();
+        if (doorRoutine == null)
+            base.Interact();
+    }
 
-        if (active)
-        {
-            if (SaveDataController.instance.GetSecurityCardLevel() >= securityLevel)
-            {
-                interacting = true; //force interacting state so player cannot exit animation prematurely
-                StartCoroutine(DoorTrigger()); //Start door opening coroutine
-            }
-            else
-            {
-                UIController.instance.SetDialogueText(lockedText);
-                UIController.instance.ToggleDialogueUI(interacting);
-            }
-        }
+    public override void StartInteract()
+    {
+        doorRoutine = StartCoroutine(DoorTrigger());
     }
 
     IEnumerator DoorTrigger()
@@ -54,13 +40,16 @@ public class DoorController : InteractObject
 
         GetComponent<AudioSource>().Play();
 
-        yield return new WaitForSeconds(triggerTime);
+        yield return new WaitForSeconds(triggerDelay);
 
-        FadeController.instance.StartFade(1.0f, 1f);
+        FadeController.instance.StartFade(1.0f, triggerTime);
 
         while (FadeController.instance.isFading)
             yield return null;
 
+        m_OnTrigger.Invoke();
+
+        UIController.instance.ToggleDialogueUI(false);
         PlayerController.instance.transform.position = exitPoint.position;
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);
         CameraController.instance.transform.position = exitPoint.position;
@@ -68,12 +57,17 @@ public class DoorController : InteractObject
         transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
 
         if (exitRoom)
+        {
             exitRoom.gameObject.SetActive(true);
+            SceneInitController.instance.SetCurrentRoom(exitRoom);
+        }
 
         interacting = false;
-        FadeController.instance.StartFade(0.0f, 1f);
+        FadeController.instance.StartFade(0.0f, triggerTime);
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         CameraController.instance.SetLastTarget(PlayerController.instance.lookTransform);
         PlayerController.instance.SetState(PlayerController.States.idle);
+
+        doorRoutine = null;
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class DestructableObject : SaveObject
 {
     private Health health;
+    
 
     private void Start()
     {
@@ -16,7 +17,7 @@ public class DestructableObject : SaveObject
 
     private void Update()
     {
-        if (health.CurrentHealth() <= 0 && !hasActivated)
+        if (health.currentHealth <= 0 && !hasActivated)
         {
             SetHasActivated();
             gameObject.SetActive(false);

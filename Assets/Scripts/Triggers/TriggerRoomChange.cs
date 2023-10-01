@@ -5,10 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class TriggerRoomChange : DoorController
 {
+    [SerializeField] string animationTrigger;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
-        {          
+        {
+            if (animationTrigger != string.Empty)
+                other.GetComponentInChildren<Animator>().SetTrigger(animationTrigger);
+
             Interact();
         }
     }

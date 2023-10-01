@@ -24,9 +24,13 @@ public class FadeController : MonoBehaviour
 
     public void StartFade(float aValue, float aTime)
     {
-        //print("Start fade");
-        if (fadeRoutine == null)
-            fadeRoutine = StartCoroutine(FadeTo(aValue, aTime));
+        if (fadeRoutine != null)
+        {
+            StopCoroutine(fadeRoutine);
+            fadeRoutine = null;
+        }
+
+        fadeRoutine = StartCoroutine(FadeTo(aValue, aTime));
     }
 
     public void StartFadeText(TextMeshProUGUI fadeGUI, float aValue, float aTime)

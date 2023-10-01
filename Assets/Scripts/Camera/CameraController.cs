@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
     private float xTemp;
     Quaternion baseRot;
 
+    [SerializeField]
     private bool focus, setRot, inTrigger, hitWall;
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
@@ -23,7 +24,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] float rotRate;
     [SerializeField] float focusRotRate;
 
+    [SerializeField] private bool focusingOnObjs;
+    [SerializeField] private List<SaveObject> objsToFocus;
+
     Coroutine resetRot;
+    Coroutine focusObjsRoutine;
 
 
     private void Awake()
@@ -57,9 +62,8 @@ public class CameraController : MonoBehaviour
             offset.z = zOffMax;
     }
 
-    //Late Update should always be used for camera follow logic
-    //This calculates after all other update logic to ensure that it uses the most accurate position values
-    void LateUpdate()
+    //Fixed Update keeps the camera on the same update step as the player's movement position calculation
+    void FixedUpdate()
     {
         smoothTime = focus ? focusSmoothTime : normalSmoothTime;
 
@@ -75,8 +79,8 @@ public class CameraController : MonoBehaviour
                     : camOffset.x + offset.x;
             pos.y +=
                 PlayerController.instance.IsSeen()
-                || PlayerController.instance.state == PlayerController.States.radio
-                || PlayerController.instance.state == PlayerController.States.interacting
+                //|| PlayerController.instance.state == PlayerController.States.radio
+                //|| PlayerController.instance.state == PlayerController.States.interacting
                     ? camOffset.y + (1.5f * offset.y)
                     : camOffset.y + offset.y;
             pos.z +=
@@ -98,7 +102,7 @@ public class CameraController : MonoBehaviour
         Vector3 dir = target.position - transform.position;
         Quaternion rot = Quaternion.LookRotation(dir);
         Vector3 eulerRot = rot.eulerAngles; //modify the euler values for the camera rotation directly
-        eulerRot = new Vector3(Mathf.Clamp(eulerRot.x, -15f, 15f), offset.x < 0 ? -4 : 0, 0); //clamp rotation values
+        eulerRot = new Vector3(Mathf.Clamp(eulerRot.x, -15f, 15f), offset.x < 0 ? -4 : 0, 0); //clamp rotation values //  eulerRot.x, -15f, 3f)
         rot = Quaternion.Euler(eulerRot);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, setRot ? target.rotation : rot, rotRate * Time.deltaTime); //Update camera rotation
@@ -109,6 +113,14 @@ public class CameraController : MonoBehaviour
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, focus ? 60f : 20f, focusRate * Time.deltaTime); //update camera field of view based on focus state
         }
         catch { }
+    }
+
+    private void LateUpdate()
+    {
+        if (objsToFocus.Count > 0 && focusObjsRoutine == null)
+        {
+            StartFocusingObjs();
+        }
     }
 
 
@@ -162,6 +174,45 @@ public class CameraController : MonoBehaviour
     {
         return focus;
     }
+
+
+
+    //Focus object list functions
+    //Used to cycle through a list of objects to focus/activate
+    //Allows for viewing/activating multiple objects at once
+    //without sending multiple calls to the CameraController class
+    public void AddObjToFocus(SaveObject newObj)
+    {
+        List<SaveObject> tempList = objsToFocus;
+        tempList.Add(newObj);
+        objsToFocus = tempList;
+    }
+
+    void StartFocusingObjs()
+    {
+        if (focusObjsRoutine == null)
+            focusObjsRoutine = StartCoroutine(StartFocusObjsRoutine());
+    }
+
+    IEnumerator StartFocusObjsRoutine()
+    {
+        bool tempRotSet = setRot;
+        setRot = false;
+
+        for (int i = 0; i < objsToFocus.Count; i++)
+        {
+            CameraController.instance.SetTarget(objsToFocus[i].transform);
+
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        setRot = tempRotSet;
+        CameraController.instance.LoadLastTarget();
+
+        objsToFocus.Clear();
+        focusObjsRoutine = null;
+    }
+
 
 
     //Object Rot Get/Set

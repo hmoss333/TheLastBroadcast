@@ -6,14 +6,9 @@ using UnityEngine.Serialization;
 
 public class ButtonController : InteractObject
 {
-    [SerializeField] SaveObject[] objectsToActivate;
     [SerializeField] string triggerText;
     [SerializeField] float activateDelay = 0.5f;
     Coroutine triggerRoutine;
-
-    [FormerlySerializedAs("onTrigger")]
-    [SerializeField]
-    private UnityEvent m_OnTrigger = new UnityEvent();
 
 
     public override void Interact()
@@ -31,11 +26,11 @@ public class ButtonController : InteractObject
             CameraController.instance.FocusTarget();
         }
 
-        UIController.instance.SetDialogueText(triggerText);
-        UIController.instance.ToggleDialogueUI(true);
-
-        if (triggerRoutine == null)
-            triggerRoutine = StartCoroutine(ActivateObjects());
+        if (triggerText != string.Empty)
+        {
+            UIController.instance.SetDialogueText(triggerText, false);
+            UIController.instance.ToggleDialogueUI(true);
+        }
     }
 
     public override void EndInteract()
@@ -47,22 +42,8 @@ public class ButtonController : InteractObject
             CameraController.instance.FocusTarget();
         }
 
+        m_OnTrigger.Invoke();
         UIController.instance.ToggleDialogueUI(false);
         SetHasActivated();
-    }
-
-    IEnumerator ActivateObjects()
-    {
-        //Activate all interact objects in list
-        for (int i = 0; i < objectsToActivate.Length; i++)
-        {
-            objectsToActivate[i].Activate();
-
-            yield return new WaitForSeconds(activateDelay);
-        }
-
-        m_OnTrigger.Invoke();
-
-        triggerRoutine = null;
     }
 }

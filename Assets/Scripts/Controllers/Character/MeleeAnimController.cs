@@ -10,10 +10,23 @@ public class MeleeAnimController : MonoBehaviour
     void Start()
     {
         col.isTrigger = true;
+        col.enabled = false;
     }
 
     public void ToggleMeleeCollider()
     {
         col.enabled = !col.enabled;
+    }
+
+
+    //Set Hurt State
+    public void StartHurtState()
+    {
+        PlayerController.instance.SetState(PlayerController.States.hurt);
+    }
+
+    public void EndHurtState()
+    {
+        PlayerController.instance.SetState(PlayerController.States.idle);
     }
 }

@@ -75,10 +75,12 @@ public class TVController : SavePointController
             //Focus on TV screen
             PlayerController.instance.ToggleAvatar();
             CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);
+            CameraController.instance.transform.position = CameraController.instance.GetTarget().position;
+                //solves an issue where the camera was not getting a consistent view of the TV if approached from odd angles
             CameraController.instance.FocusTarget();
 
             //Display 'Saving...' text
-            UIController.instance.SetDialogueText("Saving...");
+            UIController.instance.SetDialogueText("Saving...", true);
             UIController.instance.ToggleDialogueUI(interacting);
 
             if (interacting)
@@ -87,6 +89,7 @@ public class TVController : SavePointController
                 SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);
                 SaveDataController.instance.SaveFile();
                 SaveDataController.instance.SaveObjectData();
+                InventoryController.instance.SaveItemData();
             }
         }
     }

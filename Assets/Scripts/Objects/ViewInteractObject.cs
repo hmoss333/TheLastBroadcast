@@ -44,7 +44,7 @@ public class ViewInteractObject : InteractObject
         base.StartInteract();
         PlayerController.instance.animator.SetBool("isInspecting", true);
 
-        UIController.instance.SetDialogueText(string.Empty);
+        UIController.instance.SetDialogueText(string.Empty, false);
         UIController.instance.ToggleDialogueUI(true);
 
         if (vrRoutine == null)

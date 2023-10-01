@@ -554,6 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7686404432064916494}
   - component: {fileID: 6505529831997096470}
+  - component: {fileID: 781018197971842479}
   m_Layer: 0
   m_Name: Radio_Lock
   m_TagString: Untagged
@@ -595,15 +596,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae8c04d2685fb46d1801f79cefdd3a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 96de2f92-bc6f-4839-b337-fea4ac219446
   active: 1
   hasActivated: 0
-  interacting: 0
+  hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
   checkRadius: 4
   checkTime: 2
   checkFrequency: 0
   checkOffset: 0.5
+  unlockTime: 0.5
   mesh: {fileID: 7686404432062492392}
+  focusObjs: 1
   objectsToActivate: []
+--- !u!114 &781018197971842479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686404432064426030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id:
+    Value: 
 --- !u!1 &8774984751143612321
 GameObject:
   m_ObjectHideFlags: 0

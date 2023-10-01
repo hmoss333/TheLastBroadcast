@@ -13,8 +13,9 @@ public class MeleeController : MonoBehaviour
         if (tags.Contains(collision.tag))
         {
             Health targetHealth = collision.GetComponent<Health>();
-            if (targetHealth != null)
+            if (targetHealth != null && !targetHealth.isHit)
             {
+                print($"Hit {collision.gameObject.name}");
                 targetHealth.Hurt(damage, true);
             }
         }

@@ -1,13 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
+//[RequireComponent(typeof(ParticleSystem))]
 public class Health : MonoBehaviour
 {
-    [SerializeField] int health;
-    [SerializeField] bool shockEffect, isHit;
+    public int currentHealth;// { get; private set; }
+    [SerializeField] bool shockEffect;
+    public bool isHit { get; private set; }
     [SerializeField] float cooldownTime = 1f;
     CharacterController character;
+
+    [FormerlySerializedAs("onTrigger")]
+    [SerializeField]
+    private UnityEvent m_OnTrigger = new UnityEvent();
 
     private void Start()
     {
@@ -19,15 +27,16 @@ public class Health : MonoBehaviour
         if (!isHit)
         {
             isHit = true;
-            health -= value;
-            print($"{gameObject.name} health = {health}");
+            currentHealth -= value;
+            print($"{gameObject.name} health = {currentHealth}");
+            m_OnTrigger.Invoke();
 
             if (shockEffect)
             {
                 CamEffectController.instance.ShockEffect(0.25f);
             }
 
-            if (health <= 0)
+            if (currentHealth <= 0)
             {
                 if (character != null)
                     character.dead = true;
@@ -35,7 +44,12 @@ public class Health : MonoBehaviour
             else
             {
                 if (character != null && stagger == true)
+                {
                     character.hurt = true;
+                }
+
+                if (character != null && character.tag == "Player")
+                    ScrollHealth.instance.toggled = true;
 
                 StartCoroutine(HitCooldown(cooldownTime));
             }
@@ -44,15 +58,15 @@ public class Health : MonoBehaviour
 
     public void ModifyHealth(int value)
     {
-        health += value;
-        print($"{gameObject.name} health = {health}");
+        currentHealth += value;
+        print($"{gameObject.name} health = {currentHealth}");
 
         if (shockEffect)
         {
             CamEffectController.instance.ShockEffect(0.25f);
         }
 
-        if (character != null && health <= 0)
+        if (character != null && currentHealth <= 0)
         {
             character.dead = true;
         }
@@ -65,13 +79,8 @@ public class Health : MonoBehaviour
         isHit = false;
     }
 
-    public int CurrentHealth()
-    {
-        return health;
-    }
-
     public void SetHealth(int value)
     {
-        health = value;
+        currentHealth = value;
     }
 }

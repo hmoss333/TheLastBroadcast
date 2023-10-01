@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 
-public class StaticBarrier : MonoBehaviour
+public class StaticBarrier : SaveObject
 {
     private BoxCollider col;
     private Renderer rend;
@@ -13,7 +13,7 @@ public class StaticBarrier : MonoBehaviour
     [SerializeField] AudioSource collideAudio;
     Material tempMat;
     float dissolveVal;
-    bool dissolving, activated;
+    bool dissolving;
 
 
     // Start is called before the first frame update
@@ -36,12 +36,12 @@ public class StaticBarrier : MonoBehaviour
 
             if (dissolveVal >= 1f)
             {
-                activated = true;
                 dissolving = false;
+                SetHasActivated();
             }
         }
 
-        this.gameObject.SetActive(!activated);
+        this.gameObject.SetActive(!hasActivated);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,6 +49,7 @@ public class StaticBarrier : MonoBehaviour
         if (other.gameObject.tag == "Player" && !dissolving)
         {
             var materials = rend.sharedMaterials.ToList();
+            materials.Clear();
             materials.Add(tempMat);
             rend.materials = materials.ToArray();
 

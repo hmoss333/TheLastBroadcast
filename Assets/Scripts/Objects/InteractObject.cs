@@ -1,18 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class InteractObject : SaveObject
 {
-    public bool interacting;
+    [HideInInspector] public bool interacting;
     public string inactiveText;
     public Transform focusPoint;
+
 
     public virtual void Interact()
     {
         interacting = !interacting;
 
-        if (active)
+        if (InventoryController.instance.selectedItem != null
+            && InventoryController.instance.selectedItem.itemInstance.id == inventoryItemID
+            && needItem)
+        {
+            active = true;
+            needItem = false;
+            InventoryController.instance.RemoveItem(inventoryItemID);
+            UIController.instance.SetDialogueText($"Used {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}", false);
+            UIController.instance.ToggleDialogueUI(interacting);
+        }
+
+        if (active && !needItem)
         {
             if (interacting)
             {
@@ -21,11 +36,11 @@ public class InteractObject : SaveObject
             else
             {
                 EndInteract();
-            }
+            }         
         }
         else
         {
-            UIController.instance.SetDialogueText(inactiveText);
+            UIController.instance.SetDialogueText(inactiveText, false);
             UIController.instance.ToggleDialogueUI(interacting);
         }
     }

@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Health))]
 public class OnDeathTrigger : MonoBehaviour
 {
-    [SerializeField] private bool triggered, focusOnActivate;
-    [SerializeField] private GameObject[] objectsToActivate;
+    [SerializeField] private bool triggered;
+    [SerializeField] private float activateTime;
     Health objHealth;
     Coroutine triggerObjs;
+
+    [FormerlySerializedAs("onTrigger")]
+    [SerializeField]
+    private UnityEvent m_OnTrigger = new UnityEvent();
 
     private void Start()
     {
@@ -17,47 +23,16 @@ public class OnDeathTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (objHealth.CurrentHealth() <= 0 && !triggered)
+        if (objHealth.currentHealth <= 0 && !triggered)
         {
             triggered = true;
-            TriggerObjects();
+            m_OnTrigger.Invoke();
+            this.enabled = false;
         }
     }
 
-    void TriggerObjects()
+    public void InstantiateObj(GameObject obj)
     {
-        if (triggerObjs == null)
-            StartCoroutine(TriggerObjectsRoutine());
-    }
-
-    IEnumerator TriggerObjectsRoutine()
-    {
-        for (int i = 0; i < objectsToActivate.Length; i++)
-        {
-            InteractObject tempInteract = objectsToActivate[i].GetComponent<InteractObject>();
-            if (focusOnActivate && objectsToActivate[i].transform.parent.gameObject.activeSelf)
-            {
-                CameraController.instance.SetTarget(tempInteract != null && tempInteract.focusPoint != null
-                    ? tempInteract.focusPoint : objectsToActivate[i].transform);
-                CameraController.instance.transform.position = tempInteract != null && tempInteract.focusPoint != null
-                    ? tempInteract.focusPoint.position : objectsToActivate[i].gameObject.transform.position;
-            }
-
-            if (tempInteract != null)
-                tempInteract.Activate();
-            else
-                objectsToActivate[i].SetActive(!objectsToActivate[i].activeSelf);
-
-            yield return new WaitForSeconds(2f);
-        }
-
-        if (CameraController.instance.GetTarget() != PlayerController.instance.transform)
-        {
-            CameraController.instance.LoadLastTarget();
-            CameraController.instance.transform.position = CameraController.instance.GetLastTarget().position;
-        }
-
-        triggerObjs = null;
-        this.enabled = false;
+        GameObject tempObj = Instantiate(obj, transform.position, Quaternion.identity);
     }
 }

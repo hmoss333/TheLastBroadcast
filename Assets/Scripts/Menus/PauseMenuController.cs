@@ -7,8 +7,10 @@ public class PauseMenuController : MonoBehaviour
 {
     public static PauseMenuController instance;
 
-    [SerializeField] GameObject pauseMenu, settingMenu, controlMenu;
+    [SerializeField] GameObject pauseMenu;//, inventoryMenu, abilityMenu, settingMenu;
     [SerializeField] public bool isPaused;
+    [SerializeField] List<GameObject> menuPanels;
+    int menuIndex = 0;
 
     Coroutine ls;
 
@@ -22,17 +24,39 @@ public class PauseMenuController : MonoBehaviour
     {
         isPaused = false;
         PauseGame(isPaused);
+        ToggleMenu(0);
     }
 
     public void Update()
     {
         if (PlayerController.instance.inputMaster.Player.Pause.triggered
             && PlayerController.instance.state != PlayerController.States.interacting
-            && PlayerController.instance.state != PlayerController.States.listening)
+            && PlayerController.instance.state != PlayerController.States.listening
+            && PlayerController.instance.state != PlayerController.States.wakeUp)
         {
             isPaused = !isPaused;
 
             PauseGame(isPaused);
+        }
+
+        if (isPaused)
+        {           
+            if (PlayerController.instance.inputMaster.Player.MenuLeft.triggered)
+            {
+                menuIndex--;
+                if (menuIndex < 0)
+                    menuIndex = menuPanels.Count - 1;
+
+                ToggleMenu(menuIndex);
+            }
+            if (PlayerController.instance.inputMaster.Player.MenuRight.triggered)
+            {
+                menuIndex++;
+                if (menuIndex > menuPanels.Count - 1)
+                    menuIndex = 0;
+
+                ToggleMenu(menuIndex);
+            }
         }
     }
 
@@ -42,16 +66,23 @@ public class PauseMenuController : MonoBehaviour
         Time.timeScale = paused ? 0f : 1f;
     }
 
+    void ToggleMenu(int index)
+    {
+        for (int i = 0; i < menuPanels.Count; i++)
+        {
+            menuPanels[i].SetActive(i == index);
+        }
+    }
+
+    public GameObject CurrentPanel()
+    {
+        return menuPanels[menuIndex];
+    }
+
     public void SettingMenu()
     {
         print("Load setting menu here");
-        settingMenu.SetActive(!settingMenu.activeSelf);
-    }
-
-    public void ControlMenu()
-    {
-        print("Load control menu here");
-        controlMenu.SetActive(!controlMenu.activeSelf);
+        //settingMenu.SetActive(!settingMenu.activeSelf);
     }
 
     public void MainMenu()
@@ -59,33 +90,4 @@ public class PauseMenuController : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadSceneAsync("MainMenu");
     }
-
-    public void ReturnToOffice()
-    {
-        if (ls == null)
-            ls = StartCoroutine(LoadScene("Office"));
-    }
-
-    IEnumerator LoadScene(string sceneToLoad)
-    {
-        print($"Loading scene {sceneToLoad}");
-        pauseMenu.SetActive(false);
-        Time.timeScale = 1f;
-        FadeController.instance.StartFade(1f, 1f);
-
-        while (FadeController.instance.isFading)
-            yield return null;
-
-        SceneManager.LoadSceneAsync(sceneToLoad);
-
-        ls = null;
-    }
-
-    //TODO design pause menu
-    /// <summary>
-    /// Toggle through menus
-    ///// Settings/Control Scheme/Quit (done)
-    ///// Inventory/Abilities/Stations
-    ///// Lore
-    /// </summary>
 }

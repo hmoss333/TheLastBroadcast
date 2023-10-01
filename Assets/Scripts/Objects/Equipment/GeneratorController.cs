@@ -6,14 +6,12 @@ using UnityEngine.UI;
 public class GeneratorController : InteractObject
 {
     [NaughtyAttributes.HorizontalLine]
-    [Header("Equipment References")]
-    [SerializeField] private SaveObject[] objectsToActivate;
-
-    [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
+    [SerializeField] private Light activeLight;
     [SerializeField] private GameObject miniGameUI;
     [SerializeField] private Image miniGameRotObj, buttonIcon;
     private int hitCount;
+    private bool playing = false;
     [SerializeField] private float turnSpeed, angle = 0, radius = 7.5f;
     private Coroutine resetColor;
 
@@ -21,19 +19,20 @@ public class GeneratorController : InteractObject
 
     private void Update()
     {
-        if (interacting)
+        if (playing)
         {
             turnSpeed = (2f * Mathf.PI) * (2f * hitCount + radius);
             angle -= turnSpeed * Time.deltaTime;
             miniGameRotObj.transform.rotation = Quaternion.Euler(0, 0, angle * radius);
         }
 
-        miniGameUI.SetActive(interacting);
+        activeLight.color = active && !hasActivated ? Color.yellow : !active && !hasActivated ? Color.red : Color.green; //hasActivated ? Color.green : Color.red;
+        miniGameUI.SetActive(playing);//interacting && active);
     }
 
     public override void Interact()
     {
-        if (active && !hasActivated && !interacting)
+        if (!hasActivated && !playing)
         {
             base.Interact();
         }
@@ -46,6 +45,11 @@ public class GeneratorController : InteractObject
         CameraController.instance.FocusTarget();
         if (CameraController.instance.GetTriggerState())
             CameraController.instance.SetRotation(true);
+
+        if (active && interacting)
+        {
+            playing = true;
+        }
     }
 
     public void Hit()
@@ -90,15 +94,13 @@ public class GeneratorController : InteractObject
 
     void TurnOn()
     {
-        for (int i = 0; i < objectsToActivate.Length; i++)
-        {
-            objectsToActivate[i].Activate();
-        }
+        m_OnTrigger.Invoke();
 
         SetHasActivated();
+        playing = false;
 
         PlayerController.instance.ToggleAvatar();
-        CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
+        CameraController.instance.SetTarget(CameraController.instance.GetLastTarget());
         CameraController.instance.FocusTarget();
         if (CameraController.instance.GetTriggerState())
             CameraController.instance.SetRotation(true);
