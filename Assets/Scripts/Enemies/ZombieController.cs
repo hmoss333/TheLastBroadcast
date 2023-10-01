@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 //using static UnityEditor.Experimental.GraphView.GraphView;
 //using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
@@ -16,14 +17,23 @@ public class ZombieController : CharacterController
     [SerializeField] private int damage;
 
     SaveObject saveObj;
+    NavMeshAgent agent;
 
     // Start is called before the first frame update
     override public void Start()
     {
         melee.damage = damage;
-        storedSpeed = speed;
+        //storedSpeed = speed;
         tempFocusTime = focusTime;
         saveObj = GetComponent<SaveObject>();
+
+        //Add NavMeshAgent at runtime
+        NavMeshAgent tempAgent = this.gameObject.AddComponent<NavMeshAgent>();
+        tempAgent.baseOffset = 1f;
+        tempAgent.speed = speed;
+        tempAgent.angularSpeed = 0f;
+        tempAgent.acceleration = 100f;
+        agent = tempAgent;
 
         base.Start();
     }
@@ -80,6 +90,7 @@ public class ZombieController : CharacterController
                     if (!isPlaying("Melee"))
                     {
                         transform.LookAt(playerPos);
+                        agent.SetDestination(playerPos);
                     }
                 }
 
@@ -110,8 +121,8 @@ public class ZombieController : CharacterController
 
         if (!isPlaying("Sleep") && !isPlaying("WakeUp"))
         {
-            storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed;
-            rb.velocity = transform.forward * storedSpeed;
+            agent.speed = !isPlaying("Move") || dist <= attackDist ? 0f : speed; //storedSpeed
+            //rb.velocity = transform.forward * storedSpeed;
         }
 
         if (!dead && seePlayer)
