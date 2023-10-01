@@ -197,16 +197,19 @@ public class CameraController : MonoBehaviour
     IEnumerator StartFocusObjsRoutine()
     {
         bool tempRotSet = setRot;
+        bool tempTriggerState = inTrigger;
         setRot = false;
+        inTrigger = false;
 
         for (int i = 0; i < objsToFocus.Count; i++)
         {
             CameraController.instance.SetTarget(objsToFocus[i].transform);
 
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2.5f);
         }
 
         setRot = tempRotSet;
+        inTrigger = tempTriggerState;
         CameraController.instance.LoadLastTarget();
 
         objsToFocus.Clear();

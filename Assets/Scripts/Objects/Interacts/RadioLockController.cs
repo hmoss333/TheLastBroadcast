@@ -65,6 +65,13 @@ public class RadioLockController : SaveObject
         mesh.material.color = hasActivated ? Color.green : mesh.material.color;
     }
 
+    public void Lock()
+    {
+        active = false;
+        Activate();
+        hasActivated = false;
+    }
+
     public void Unlock()
     {
         if (unlockRoutine == null)

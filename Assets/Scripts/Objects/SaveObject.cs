@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(IDGenerator))]
 public class SaveObject : MonoBehaviour
@@ -12,6 +13,9 @@ public class SaveObject : MonoBehaviour
     public bool active = true, hasActivated, focusOnActivate = false, hideOnLoad = false, needItem = false;
     public int inventoryItemID;
 
+    [NaughtyAttributes.HorizontalLine]
+
+    [Header("Event Triggers")]
     [FormerlySerializedAs("onTrigger")]
     public UnityEvent m_OnTrigger = new UnityEvent();
 
