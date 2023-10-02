@@ -94,7 +94,7 @@ public class ZombieController : CharacterController
                     }
                 }
 
-                attacking = dist <= attackDist && !attacking && !isPlaying("Melee") ? true : false;
+                attacking = dist <= attackDist && !attacking ? true : false; //&& !isPlaying("Melee")
             }
             else
             {
