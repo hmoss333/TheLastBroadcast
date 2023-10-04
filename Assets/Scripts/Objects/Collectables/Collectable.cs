@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Collectable : InteractObject
 {
+    public override void Interact()
+    {
+        if (!hasActivated)
+            base.Interact();
+    }
+
     public override void StartInteract()
     {
         string collectText = $"Found a {InventoryController.instance.itemDict[inventoryItemID].itemData.itemName}";
