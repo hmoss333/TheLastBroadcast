@@ -16,6 +16,7 @@ public class RadioController : MonoBehaviour
     public float currentCharge { get; private set; }
     public float currentFrequency { get; private set; }
     public bool isActive { get; private set; }
+    public bool listening { get; private set; }
     public bool abilityMode { get; private set; }
 
     [NaughtyAttributes.HorizontalLine]
@@ -106,7 +107,7 @@ public class RadioController : MonoBehaviour
         chargeSlider.gameObject.SetActive(SaveDataController.instance.saveData.abilities.radio_special);
 
         //Move radio panel into position based on active state
-        overlayPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(overlayPanel.GetComponent<RectTransform>().anchoredPosition, isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
+        overlayPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(overlayPanel.GetComponent<RectTransform>().anchoredPosition, isActive || listening ? activePos : inactivePos, slideSpeed * Time.deltaTime);
         abilityPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(abilityPanel.GetComponent<RectTransform>().anchoredPosition, abilityMode ? abilityActivePos : abilityInactivePos, slideSpeed * Time.deltaTime);
 
         //Toggle ability sprites
@@ -118,6 +119,12 @@ public class RadioController : MonoBehaviour
     public void SetActive(bool activeVal)
     {
         isActive = activeVal;
+    }
+
+    public void Listening(bool activeVal)
+    {
+        listening = activeVal;
+        isActive = listening;
     }
 
     public void ModifyCharge(float chargeVal)

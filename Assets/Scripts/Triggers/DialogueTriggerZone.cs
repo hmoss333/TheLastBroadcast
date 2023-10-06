@@ -6,6 +6,7 @@ using UnityEngine;
 public class DialogueTriggerZone : MonoBehaviour
 {
     private DialogueController dialogueObj;
+    [SerializeField] bool setFocusPointRot = true; [Tooltip("Used with the DialogueController's focus point. Determines if the camera should match the focus point's rotation. Default to true.")]
 
     private void Start()
     {
@@ -29,7 +30,7 @@ public class DialogueTriggerZone : MonoBehaviour
             if (dialogueObj.focusPoint != null)
             {
                 CameraController.instance.SetTarget(dialogueObj.focusPoint); //Set the new camera target to the camPos
-                CameraController.instance.SetRotation(true); //Force rotation
+                CameraController.instance.SetRotation(setFocusPointRot); //Force rotation
             }
             dialogueObj.Interact();
         }
