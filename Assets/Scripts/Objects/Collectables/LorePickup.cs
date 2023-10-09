@@ -4,20 +4,17 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+//TODO
+//Update class to inherit from Dialogue Controller to handle dialogue progression
+//Add to saved lore list if collected
+//Still use a JSON for storing/loading text (?)
 public class LorePickup : InteractObject
 {
-    //public enum Type { personalLogs, researchNotes, secretHistory }
-    //public Type loreType;
     [SerializeField] string loreText, loreTitle; //this should be loaded from csv file
     [SerializeField] int loreId;
+    [SerializeField] List<string> dialogueItems;
 
-
-    private void Start()
-    {
-        gameObject.SetActive(!hasActivated);
-
-
-    }
 
     public int GetID()
     {
@@ -41,6 +38,5 @@ public class LorePickup : InteractObject
         SaveDataController.instance.SaveLoreData(loreId);
         UIController.instance.ToggleLoreUI(loreText, loreTitle);
         SetHasActivated();
-        gameObject.SetActive(false);
     }
 }
