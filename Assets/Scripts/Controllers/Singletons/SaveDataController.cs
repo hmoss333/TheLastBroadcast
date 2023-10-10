@@ -141,14 +141,16 @@ public class SaveDataController : MonoBehaviour
             loreSaveData = tempContainer;
 
             lorePickups = GameObject.FindObjectsOfType<LorePickup>();
-            for (int i = 0; i < lorePickups.Length; i++)
-            {
-                foreach (LoreData lore in loreSaveData.loreData)
-                {
-                    if (lorePickups[i].GetID() == lore.id)
-                        lorePickups[i].SetValue(lore.text, lore.title);
-                }
-            }
+            //TODO
+            //Still used, just re-working logic
+            //for (int i = 0; i < lorePickups.Length; i++)
+            //{
+            //    foreach (LoreData lore in loreSaveData.loreData)
+            //    {
+            //        if (lorePickups[i].GetID() == lore.id)
+            //            lorePickups[i].SetValue(lore.text, lore.title);
+            //    }
+            //}
         }
         else
         {
