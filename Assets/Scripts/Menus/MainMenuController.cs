@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using TMPro;
 using System.IO;
 
+
 public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] GameObject mainMenuCanvas;
+    [SerializeField] Button[] menuButtons;
+    [SerializeField] int index;
+    InputMaster inputMaster;
     [SerializeField] GameObject loadGameCanvas;
-    [SerializeField] TextMeshProUGUI loadGameText, debugText;
+    [SerializeField] Button loadGameButton;
+    [SerializeField] TextMeshProUGUI loadGameText, versionText;
     [SerializeField] SpriteRenderer radioLight;
     [SerializeField] AudioSource backgroundAudio;
     [SerializeField] float maxAudioVolume;
@@ -19,16 +24,21 @@ public class MainMenuController : MonoBehaviour
     string sceneToLoad;
 
     EventSystem eventSystem;
-    [SerializeField] GameObject loadButton;
+
 
     private void Start()
     {
         eventSystem = FindObjectOfType<EventSystem>();
+        inputMaster = new InputMaster();
+        inputMaster.Enable();
 
-        mainMenuCanvas.SetActive(true);
         loadGameCanvas.SetActive(false);
         defaultColor = radioLight.color;
         fadeColor = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
+        index = 0;
+        menuButtons[index].Select();
+
+        versionText.text = $"Version: {Application.version}";
 
         //StartCoroutine(FadeAudio(backgroundAudio, maxAudioVolume, 10f));
     }
@@ -36,17 +46,56 @@ public class MainMenuController : MonoBehaviour
     private void Update()
     {
         radioLight.color = Color.Lerp(defaultColor, fadeColor, Mathf.PingPong(Time.time, 1));
-        backgroundAudio.volume = Mathf.Lerp(0f, maxAudioVolume, Time.time / 10f);    
+        backgroundAudio.volume = Mathf.Lerp(0f, maxAudioVolume, Time.time / 10f);
 
+        //Loading saved game
         if (loadingScene)
         {
-            mainMenuCanvas.SetActive(false);
             loadGameCanvas.SetActive(false);
 
             if (!FadeController.instance.isFading)
             {
                 print("Change scene");
                 SceneManager.LoadScene(sceneToLoad);
+            }
+        }
+        //Menu controls
+        else
+        {
+            if (loadGameCanvas.activeSelf)
+            {
+                if (inputMaster.Player.Interact.triggered)
+                {
+                    loadGameButton.onClick.Invoke();
+                }
+                else if (inputMaster.Player.Melee.triggered)
+                {
+                    loadGameCanvas.SetActive(false);
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    index--;
+                    if (index < 0)
+                        index = 0;
+                    menuButtons[index].Select();
+                    print(menuButtons[index].name);
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    index++;
+                    if (index > menuButtons.Length - 1)
+                        index = menuButtons.Length - 1;
+                    menuButtons[index].Select();
+                    print(menuButtons[index].name);
+                }
+
+                if (inputMaster.Player.Interact.triggered)
+                {
+                    menuButtons[index].onClick.Invoke();
+                }
             }
         }
     }
@@ -90,7 +139,6 @@ public class MainMenuController : MonoBehaviour
         }
 
         SaveDataController.instance.CreateNewSaveFile();
-        mainMenuCanvas.SetActive(false);
         FadeController.instance.StartFade(1, 1.5f);
         sceneToLoad = "Intro"; 
         loadingScene = true;
@@ -103,10 +151,9 @@ public class MainMenuController : MonoBehaviour
         if (SaveDataController.instance.saveData.currentScene != string.Empty)
         {
             loadGameText.text = $"Last save point: {SaveDataController.instance.saveData.currentScene}";
-            mainMenuCanvas.SetActive(false);
             loadGameCanvas.SetActive(true);
 
-            eventSystem.SetSelectedGameObject(loadButton);
+            //eventSystem.SetSelectedGameObject(loadButton);
         }
     }
 
