@@ -14,7 +14,7 @@ public class LorePickup : InteractObject
 {
     [SerializeField] string loreTitle; //this should be loaded from csv file
     [SerializeField] int loreId;
-    [SerializeField] string[] lines;
+    [SerializeField] List<string> lines = new List<string>();
     [SerializeField] int index;
     private bool canInteract;
     private float iconTimer = 4f;
@@ -61,7 +61,7 @@ public class LorePickup : InteractObject
     {
         if (!canInteract && !TextWriter.instace.isTyping)
         {
-            if (index < lines.Length)
+            if (index < lines.Count)
             {
                 interacting = true; //Still in the dialogue tree
                 canInteract = true; //Ready for next input
@@ -88,11 +88,11 @@ public class LorePickup : InteractObject
         }
     }
 
-    //public void SetValue(string text, string title)
-    //{
-    //    loreText = text;
-    //    loreTitle = title;
-    //}
+    public void SetValue(List<string> textStrings, string title)
+    {
+        lines = textStrings;
+        loreTitle = title;
+    }
 
     //public override void StartInteract()
     //{
