@@ -6,12 +6,17 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.GraphicsBuffer;
+//using UnityEngine.UIElements;
 
 
 public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] Button[] menuButtons;
-    [SerializeField] int index;
+    [SerializeField] MainMenuElement[] menuElements;
+    [SerializeField] MainMenuElement currentElement;
+    [SerializeField] float camSpeed;
+    private int index;
     InputMaster inputMaster;
     [SerializeField] GameObject loadGameCanvas;
     [SerializeField] Button loadGameButton;
@@ -36,7 +41,8 @@ public class MainMenuController : MonoBehaviour
         defaultColor = radioLight.color;
         fadeColor = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
         index = 0;
-        menuButtons[index].Select();
+        currentElement = menuElements[index];
+        //menuButtons[index].Select();
 
         versionText.text = $"Version: {Application.version}";
 
@@ -75,29 +81,39 @@ public class MainMenuController : MonoBehaviour
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.UpArrow))
+                float inputVal = inputMaster.Player.Move.ReadValue<Vector2>().y;
+                bool inputCheck = inputMaster.Player.Move.triggered;
+                if (inputVal > 0 && inputCheck)
                 {
                     index--;
                     if (index < 0)
-                        index = 0;
-                    menuButtons[index].Select();
-                    print(menuButtons[index].name);
+                        index = menuElements.Length - 1;
+
+                    print(menuElements[index].button.name);
                 }
-                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                else if (inputVal < 0 && inputCheck)
                 {
                     index++;
-                    if (index > menuButtons.Length - 1)
-                        index = menuButtons.Length - 1;
-                    menuButtons[index].Select();
-                    print(menuButtons[index].name);
+                    if (index > menuElements.Length - 1)
+                        index = 0;
+
+                    print(menuElements[index].button.name);
                 }
 
                 if (inputMaster.Player.Interact.triggered)
                 {
-                    menuButtons[index].onClick.Invoke();
+                    currentElement.onClick();
                 }
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        currentElement = menuElements[index];
+
+        Camera.main.transform.rotation = Quaternion.Slerp(Camera.main.transform.rotation, currentElement.pos.rotation, camSpeed * Time.deltaTime);
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, currentElement.pos.position, camSpeed * Time.deltaTime);
     }
 
     public void NewGameButton()
@@ -178,5 +194,17 @@ public class MainMenuController : MonoBehaviour
             audioSource.volume = delta;
             yield return null;
         }
+    }
+}
+
+[System.Serializable]
+public class MainMenuElement
+{
+    public Transform pos;
+    public Button button;
+
+    public void onClick()
+    {
+        button.onClick.Invoke();
     }
 }
