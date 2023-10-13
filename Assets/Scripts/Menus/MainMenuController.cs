@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
@@ -42,7 +43,6 @@ public class MainMenuController : MonoBehaviour
         fadeColor = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
         index = 0;
         currentElement = menuElements[index];
-        //menuButtons[index].Select();
 
         versionText.text = $"Version: {Application.version}";
 
@@ -81,23 +81,19 @@ public class MainMenuController : MonoBehaviour
             }
             else
             {
-                float inputVal = inputMaster.Player.Move.ReadValue<Vector2>().y;
+                Vector2 inputVal = inputMaster.Player.Move.ReadValue<Vector2>();
                 bool inputCheck = inputMaster.Player.Move.triggered;
-                if (inputVal > 0 && inputCheck)
+                if ((inputVal.y > 0 || inputVal.x < 0) && inputCheck)
                 {
                     index--;
                     if (index < 0)
                         index = menuElements.Length - 1;
-
-                    print(menuElements[index].button.name);
                 }
-                else if (inputVal < 0 && inputCheck)
+                else if ((inputVal.y < 0 || inputVal.x > 0) && inputCheck)
                 {
                     index++;
                     if (index > menuElements.Length - 1)
                         index = 0;
-
-                    print(menuElements[index].button.name);
                 }
 
                 if (inputMaster.Player.Interact.triggered)
@@ -200,11 +196,13 @@ public class MainMenuController : MonoBehaviour
 [System.Serializable]
 public class MainMenuElement
 {
+    public enum MenuOption { title, continueGame, newGame, settings, exit }
+    public MenuOption menuOption;
     public Transform pos;
-    public Button button;
+    public UnityEvent trigger;
 
     public void onClick()
     {
-        button.onClick.Invoke();
+        trigger.Invoke();
     }
 }
