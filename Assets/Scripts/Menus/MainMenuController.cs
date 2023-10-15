@@ -9,7 +9,6 @@ using TMPro;
 using System.IO;
 using static UnityEditor.PlayerSettings;
 using static UnityEngine.GraphicsBuffer;
-//using UnityEngine.UIElements;
 
 
 public class MainMenuController : MonoBehaviour
@@ -19,13 +18,10 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] float camSpeed;
     private int index;
     InputMaster inputMaster;
-    [SerializeField] GameObject loadGameCanvas;
+    [SerializeField] CanvasGroup loadGameCanvas, settingsCanvas;
     [SerializeField] Button loadGameButton;
     [SerializeField] TextMeshProUGUI loadGameText, versionText;
-    [SerializeField] SpriteRenderer radioLight;
-    [SerializeField] AudioSource backgroundAudio;
     [SerializeField] float maxAudioVolume;
-    Color defaultColor, fadeColor;
     bool loadingScene;
     string sceneToLoad;
 
@@ -38,9 +34,7 @@ public class MainMenuController : MonoBehaviour
         inputMaster = new InputMaster();
         inputMaster.Enable();
 
-        loadGameCanvas.SetActive(false);
-        defaultColor = radioLight.color;
-        fadeColor = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
+        loadGameCanvas.gameObject.SetActive(false);
         index = 0;
         currentElement = menuElements[index];
 
@@ -51,13 +45,10 @@ public class MainMenuController : MonoBehaviour
 
     private void Update()
     {
-        radioLight.color = Color.Lerp(defaultColor, fadeColor, Mathf.PingPong(Time.time, 1));
-        backgroundAudio.volume = Mathf.Lerp(0f, maxAudioVolume, Time.time / 10f);
-
         //Loading saved game
         if (loadingScene)
         {
-            loadGameCanvas.SetActive(false);
+            loadGameCanvas.gameObject.SetActive(false);
 
             if (!FadeController.instance.isFading)
             {
@@ -68,7 +59,7 @@ public class MainMenuController : MonoBehaviour
         //Menu controls
         else
         {
-            if (loadGameCanvas.activeSelf)
+            if (loadGameCanvas.gameObject.activeSelf)
             {
                 if (inputMaster.Player.Interact.triggered)
                 {
@@ -76,20 +67,20 @@ public class MainMenuController : MonoBehaviour
                 }
                 else if (inputMaster.Player.Melee.triggered)
                 {
-                    loadGameCanvas.SetActive(false);
+                    loadGameCanvas.gameObject.SetActive(false);
                 }
             }
             else
             {
                 Vector2 inputVal = inputMaster.Player.Move.ReadValue<Vector2>();
                 bool inputCheck = inputMaster.Player.Move.triggered;
-                if ((inputVal.y > 0 || inputVal.x < 0) && inputCheck)
+                if (inputVal.x < 0 && inputCheck)
                 {
                     index--;
                     if (index < 0)
                         index = menuElements.Length - 1;
                 }
-                else if ((inputVal.y < 0 || inputVal.x > 0) && inputCheck)
+                else if (inputVal.x > 0 && inputCheck)
                 {
                     index++;
                     if (index > menuElements.Length - 1)
@@ -100,6 +91,9 @@ public class MainMenuController : MonoBehaviour
                 {
                     currentElement.onClick();
                 }
+
+
+                settingsCanvas.interactable = currentElement.menuOption == MainMenuElement.MenuOption.settings;
             }
         }
     }
@@ -163,9 +157,7 @@ public class MainMenuController : MonoBehaviour
         if (SaveDataController.instance.saveData.currentScene != string.Empty)
         {
             loadGameText.text = $"Last save point: {SaveDataController.instance.saveData.currentScene}";
-            loadGameCanvas.SetActive(true);
-
-            //eventSystem.SetSelectedGameObject(loadButton);
+            loadGameCanvas.gameObject.SetActive(true);
         }
     }
 
@@ -190,6 +182,11 @@ public class MainMenuController : MonoBehaviour
             audioSource.volume = delta;
             yield return null;
         }
+    }
+
+    public void Test(string echo)
+    {
+        print(echo); 
     }
 }
 
