@@ -7,30 +7,29 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.GraphicsBuffer;
+//using static UnityEditor.PlayerSettings;
+//using static UnityEngine.GraphicsBuffer;
 
 
 public class MainMenuController : MonoBehaviour
 {
     [SerializeField] MainMenuElement[] menuElements;
-    [SerializeField] MainMenuElement currentElement;
+    public MainMenuElement currentElement { get; private set; }
     [SerializeField] float camSpeed;
     private int index;
-    InputMaster inputMaster;
+    public InputMaster inputMaster;
     [SerializeField] CanvasGroup loadGameCanvas, settingsCanvas;
     [SerializeField] Button loadGameButton;
     [SerializeField] TextMeshProUGUI loadGameText, versionText;
     [SerializeField] float maxAudioVolume;
     bool loadingScene;
     string sceneToLoad;
-
-    EventSystem eventSystem;
+    SettingsMenuController settingsMenu;
 
 
     private void Start()
     {
-        eventSystem = FindObjectOfType<EventSystem>();
+        settingsMenu = GetComponent<SettingsMenuController>();
         inputMaster = new InputMaster();
         inputMaster.Enable();
 
@@ -70,7 +69,7 @@ public class MainMenuController : MonoBehaviour
                     loadGameCanvas.gameObject.SetActive(false);
                 }
             }
-            else
+            else if (!settingsMenu.updatingSettings)
             {
                 Vector2 inputVal = inputMaster.Player.Move.ReadValue<Vector2>();
                 bool inputCheck = inputMaster.Player.Move.triggered;
@@ -79,23 +78,26 @@ public class MainMenuController : MonoBehaviour
                     index--;
                     if (index < 0)
                         index = menuElements.Length - 1;
+
+                    settingsMenu.GetSettings();
                 }
                 else if (inputVal.x > 0 && inputCheck)
                 {
                     index++;
                     if (index > menuElements.Length - 1)
                         index = 0;
+
+                    settingsMenu.GetSettings();
                 }
 
                 if (inputMaster.Player.Interact.triggered)
                 {
                     currentElement.onClick();
                 }
-
-
-                settingsCanvas.interactable = currentElement.menuOption == MainMenuElement.MenuOption.settings;
             }
         }
+
+        settingsCanvas.interactable = currentElement.menuOption == MainMenuElement.MenuOption.settings;       
     }
 
     private void FixedUpdate()
