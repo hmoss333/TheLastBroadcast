@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class MoveInteract : InteractObject
 {
-    [SerializeField] Vector3 defaultPos, activatedPos;
+    [NaughtyAttributes.HorizontalLine]
+
+    [SerializeField] Vector3[] positions;
     [SerializeField] float moveSpeed;
     [SerializeField] string triggerText;
     Coroutine moveObjRout;
@@ -12,13 +15,8 @@ public class MoveInteract : InteractObject
 
     private void Start()
     {
-        defaultPos = transform.localPosition;
-        //inputCount = 0;
-
         if (hasActivated)
-            transform.localPosition = activatedPos;
-        else
-            transform.localPosition = defaultPos;
+            transform.localPosition = positions[positions.Length];
     }
 
     public override void Interact()
@@ -51,20 +49,20 @@ public class MoveInteract : InteractObject
     IEnumerator MoveObjRoutine()
     {
         SetHasActivated();
-        //PlayerController.instance.animator.SetTrigger("isMovingObj");
+        PlayerController.instance.animator.SetTrigger("isMovingObj");
 
-        while (transform.localPosition != activatedPos)
+        for (int i = 0; i < positions.Length; i++)
         {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, activatedPos, moveSpeed * Time.deltaTime);
-
-            float dist = Vector3.Distance(transform.localPosition, activatedPos);
-            if (dist <= 0.25f)
+            while(true)
             {
-                print(dist);
-                break;
-            }
+                transform.localPosition = Vector3.Lerp(transform.localPosition, positions[i], moveSpeed * Time.deltaTime);
 
-            yield return null;
+                float dist = Vector3.Distance(transform.localPosition, positions[i]);
+                if (dist <= 0.25)
+                    break;
+
+                yield return null;
+            }
         }
 
         moveObjRout = null;
