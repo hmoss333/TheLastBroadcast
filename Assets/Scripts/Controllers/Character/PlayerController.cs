@@ -19,7 +19,7 @@ public class PlayerController : CharacterController
     [NaughtyAttributes.HorizontalLine]
     [Header("Player State Variables")]
     private bool isSeen;// { get; private set; }
-    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, consuming, hurt, dead }
+    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, movingObj, consuming, hurt, dead }
     public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
@@ -226,6 +226,12 @@ public class PlayerController : CharacterController
                     SetState(States.idle);
                 }
                 break;
+            case States.movingObj:
+                if (!isPlaying("MoveObj"))
+                {
+                    SetState(States.idle);
+                }
+                break;
             case States.consuming:
                 if (inputMaster.Player.Interact.IsPressed()
                     && InventoryController.instance.selectedItem != null
@@ -342,6 +348,8 @@ public class PlayerController : CharacterController
         gasMaskOverlay.SetActive(gasMaskObj.activeSelf);
         //Listening
         animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
+        //Moving Object
+        if (isPlaying("MoveObj")) { state = States.movingObj; }
         //Healing
         animator.SetBool("isConsuming", state == States.consuming); //toggle animation if consuming
         useHighlight.gameObject.SetActive(state == States.consuming);

@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a0befd7b5554da79b464e7748a29f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueObj: {fileID: 4028544}
+  setFocusPointRot: 1
 --- !u!114 &4028544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,9 +188,13 @@ MonoBehaviour:
   id: dd8850eb-e59d-4fb4-9381-8d638c512270
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
   needItem: 0
   inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -202,9 +206,6 @@ MonoBehaviour:
   - Please be patient as some things are still under active development
   - Thank you!
   index: 0
-  m_OnTrigger:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &4028545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1463,13 +1464,10 @@ MonoBehaviour:
   id: 659e6f11-ba02-426d-8a8d-9a18b82e5b11
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
   needItem: 0
   inventoryItemID: 0
-  interacting: 0
-  inactiveText: 
-  focusPoint: {fileID: 0}
-  objectsToActivate: []
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -1533,6 +1531,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interacting: 0
+  inactiveText: 
+  focusPoint: {fileID: 0}
 --- !u!114 &225178889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4897,9 +4898,13 @@ MonoBehaviour:
   id: ff39d466-7556-491c-a1ca-3fdd6d903c51
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
   needItem: 0
   inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -6455,16 +6460,10 @@ MonoBehaviour:
   id: 0a065193-abe2-494c-81a8-2f13fc1139bd
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
   needItem: 0
   inventoryItemID: 0
-  interacting: 0
-  checkRadius: 4
-  checkTime: 2
-  checkFrequency: 0
-  checkOffset: 0.5
-  mesh: {fileID: 1321352110}
-  objectsToActivate: []
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -6480,6 +6479,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interacting: 0
+  checkRadius: 4
+  checkTime: 2
+  checkFrequency: 0
+  checkOffset: 0.5
+  mesh: {fileID: 1321352110}
 --- !u!114 &1321352108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7186,12 +7191,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3b0c891667c4a3a974d9c69edc3457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 346b4798-7975-482b-8909-e88a2d638ebc
+  id: 572a43d3-dc10-4609-b178-e8245b6428f9
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 1
   needItem: 0
   inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1562415090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7816,6 +7825,7 @@ Transform:
   - {fileID: 1991465419}
   - {fileID: 797339636}
   - {fileID: 1895022446}
+  - {fileID: 4338198122823404670}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7955,9 +7965,13 @@ MonoBehaviour:
   id: 75af40f9-e9d6-4f9b-9bb2-8f7fd731e93b
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
   needItem: 0
   inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -8094,9 +8108,13 @@ MonoBehaviour:
   id: 0f4c4933-1f9c-4a2f-ae81-f258dd0029c8
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
   needItem: 0
   inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -8232,16 +8250,10 @@ MonoBehaviour:
   id: 5e66b65f-677e-469f-9968-89b5bb142f37
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
   needItem: 0
   inventoryItemID: 0
-  interacting: 0
-  checkRadius: 4
-  checkTime: 2
-  checkFrequency: 0
-  checkOffset: 0.5
-  mesh: {fileID: 1808523541}
-  objectsToActivate: []
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -8257,6 +8269,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interacting: 0
+  checkRadius: 4
+  checkTime: 2
+  checkFrequency: 0
+  checkOffset: 0.5
+  mesh: {fileID: 1808523541}
 --- !u!114 &1808523539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8518,7 +8536,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1895022445}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 3.75, y: 0.5, z: 7.25}
+  m_LocalPosition: {x: -2.06, y: 0.5, z: 7.25}
   m_LocalScale: {x: 0.1, y: 1, z: 0.10000001}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8541,9 +8559,13 @@ MonoBehaviour:
   id: 2d50793b-d523-4e07-801c-ec7ab91f8627
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
   needItem: 0
   inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -9426,13 +9448,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Collectable
       objectReference: {fileID: 0}
+    - target: {fileID: 2874112705022551273, guid: 65bd345091ba44b7e95b12156c1af88f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2874112705022551274, guid: 65bd345091ba44b7e95b12156c1af88f, type: 3}
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2874112705022551274, guid: 65bd345091ba44b7e95b12156c1af88f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2
+      value: -1.87
       objectReference: {fileID: 0}
     - target: {fileID: 2874112705022551274, guid: 65bd345091ba44b7e95b12156c1af88f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9440,7 +9466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2874112705022551274, guid: 65bd345091ba44b7e95b12156c1af88f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.5
+      value: 2.65
       objectReference: {fileID: 0}
     - target: {fileID: 2874112705022551274, guid: 65bd345091ba44b7e95b12156c1af88f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9484,6 +9510,148 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65bd345091ba44b7e95b12156c1af88f, type: 3}
+--- !u!4 &4338198122823404670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4340639100152049176}
+  m_LocalRotation: {x: -0.00000003774895, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: -2, y: 0, z: 6.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1793927200}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4340639100152049176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4338198122823404670}
+  - component: {fileID: 4344970878869859160}
+  - component: {fileID: 4353192681665928854}
+  - component: {fileID: 4353192681665928857}
+  - component: {fileID: 4353192681665928856}
+  - component: {fileID: 4353192681665928855}
+  m_Layer: 8
+  m_Name: BigShelf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!33 &4344970878869859160
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4340639100152049176}
+  m_Mesh: {fileID: 4300000, guid: c32ce9c3e63df0d45ac0b666ec6aad42, type: 3}
+--- !u!23 &4353192681665928854
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4340639100152049176}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: cea322a477d35094e86b3242e3bbd2c9, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4353192681665928855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4340639100152049176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5503306ffee5a47e78ab664c670f7e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 272720ab-cdce-4052-a0f5-1aa5854eca11
+  active: 1
+  hasActivated: 0
+  focusOnActivate: 0
+  hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  interacting: 0
+  inactiveText: It's too heavy to move
+  focusPoint: {fileID: 0}
+  positions:
+  - {x: -4.5, y: 0, z: 6.81}
+  moveSpeed: 0.5
+  triggerText: It looks like there's a hidden button
+--- !u!114 &4353192681665928856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4340639100152049176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id:
+    Value: 272720ab-cdce-4052-a0f5-1aa5854eca11
+--- !u!65 &4353192681665928857
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4340639100152049176}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.3856668, y: 2.689515, z: 1.1041751}
+  m_Center: {x: -0.0037454963, y: 1.3394525, z: -0.0061484873}
 --- !u!1001 &5732094773375294480
 PrefabInstance:
   m_ObjectHideFlags: 0
