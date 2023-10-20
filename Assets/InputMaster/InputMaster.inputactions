@@ -15,13 +15,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Radio",
-                    "type": "Value",
-                    "id": "1c8cb5b7-eebc-4d5d-a6cc-6f5b13cf6ffa",
+                    "name": "Flashlight",
+                    "type": "Button",
+                    "id": "794e5b2c-fbf4-478f-ae3a-fc151b1ed0cc",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Melee",
@@ -33,15 +33,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RadioSpecial",
-                    "type": "Value",
-                    "id": "e70f128a-e15e-4131-a2bd-02cdba43cd0c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Move",
                     "type": "Value",
                     "id": "878ca8ad-44ec-42be-919b-2656e1cffed6",
@@ -51,13 +42,31 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "ShiftCamera",
+                    "name": "Run",
                     "type": "Button",
-                    "id": "f5642a3f-0323-4e0e-a722-d9c68755a4d1",
+                    "id": "a8510fc9-778d-4205-a645-832d1eb10e02",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Radio",
+                    "type": "Value",
+                    "id": "1c8cb5b7-eebc-4d5d-a6cc-6f5b13cf6ffa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RadioSpecial",
+                    "type": "Value",
+                    "id": "e70f128a-e15e-4131-a2bd-02cdba43cd0c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "TuneRadio",
@@ -105,18 +114,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Flashlight",
+                    "name": "ShiftCamera",
                     "type": "Button",
-                    "id": "794e5b2c-fbf4-478f-ae3a-fc151b1ed0cc",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Run",
-                    "type": "Button",
-                    "id": "a8510fc9-778d-4205-a645-832d1eb10e02",
+                    "id": "f5642a3f-0323-4e0e-a722-d9c68755a4d1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -170,28 +170,6 @@
                 },
                 {
                     "name": "",
-                    "id": "55f5809c-85df-4839-b11b-fb2bd397d9f6",
-                    "path": "<SwitchProControllerHID>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Switch Pro Controller",
-                    "action": "Melee",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d40765d9-f9e8-49c5-b3fb-39de05d9030b",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Melee",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "9063cdf3-a1f6-4974-a821-0df1690a922a",
                     "path": "<SwitchProControllerHID>/rightTrigger",
                     "interactions": "",
@@ -209,6 +187,116 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "RadioSpecial",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "648af070-0d8e-4396-8906-82cb7e4fff75",
+                    "path": "<SwitchProControllerHID>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Switch Pro Controller",
+                    "action": "Health",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f860917-5b86-41ae-aac8-1614ac9cebae",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Health",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "050725b0-9945-4eaf-858a-5ca3a7a84362",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Switch Pro Controller",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5ec484e9-7a65-4f83-b634-0c9e027e84fb",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "34312987-11c7-452d-8262-f831a6f0cbda",
+                    "path": "<SwitchProControllerHID>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Switch Pro Controller",
+                    "action": "MenuLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1977a220-95f6-4dac-83e9-1d5f1c0c7f93",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MenuLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "869d3bd7-187a-40e7-a1e3-bf33539ca477",
+                    "path": "<SwitchProControllerHID>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Switch Pro Controller",
+                    "action": "MenuRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ed2d36b6-8d0a-4288-8e78-c98a254f4ea1",
+                    "path": "<Keyboard>/rightShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MenuRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe27a161-c346-4bf1-ac7f-815a18a723e3",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Switch Pro Controller",
+                    "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04abb287-6cb1-44d1-9d09-a9f9e13a12b9",
+                    "path": "<Keyboard>/rightMeta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -335,28 +423,6 @@
                 },
                 {
                     "name": "",
-                    "id": "41edca75-117d-47bd-b349-1b9e56e9f747",
-                    "path": "<Gamepad>/rightStickPress",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Switch Pro Controller",
-                    "action": "ShiftCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1f704688-5de5-4ec4-a8d5-16ca97dd3c33",
-                    "path": "<Keyboard>/leftCtrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ShiftCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "413745f6-da5b-4b62-bbaa-9e479420ee06",
                     "path": "<SwitchProControllerHID>/rightStick",
                     "interactions": "",
@@ -434,94 +500,6 @@
                 },
                 {
                     "name": "",
-                    "id": "648af070-0d8e-4396-8906-82cb7e4fff75",
-                    "path": "<SwitchProControllerHID>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Switch Pro Controller",
-                    "action": "Health",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3f860917-5b86-41ae-aac8-1614ac9cebae",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Health",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "050725b0-9945-4eaf-858a-5ca3a7a84362",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Switch Pro Controller",
-                    "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5ec484e9-7a65-4f83-b634-0c9e027e84fb",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "34312987-11c7-452d-8262-f831a6f0cbda",
-                    "path": "<SwitchProControllerHID>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Switch Pro Controller",
-                    "action": "MenuLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1977a220-95f6-4dac-83e9-1d5f1c0c7f93",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "MenuLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "869d3bd7-187a-40e7-a1e3-bf33539ca477",
-                    "path": "<SwitchProControllerHID>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Switch Pro Controller",
-                    "action": "MenuRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ed2d36b6-8d0a-4288-8e78-c98a254f4ea1",
-                    "path": "<Keyboard>/rightShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "MenuRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "cf2a0795-f532-480b-a064-8d3ebc4bf100",
                     "path": "<SwitchProControllerHID>/rightTrigger",
                     "interactions": "",
@@ -544,23 +522,45 @@
                 },
                 {
                     "name": "",
-                    "id": "fe27a161-c346-4bf1-ac7f-815a18a723e3",
-                    "path": "<Gamepad>/rightTrigger",
+                    "id": "55f5809c-85df-4839-b11b-fb2bd397d9f6",
+                    "path": "<SwitchProControllerHID>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Switch Pro Controller",
-                    "action": "Run",
+                    "action": "Melee",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "04abb287-6cb1-44d1-9d09-a9f9e13a12b9",
-                    "path": "<Keyboard>/rightMeta",
+                    "id": "d40765d9-f9e8-49c5-b3fb-39de05d9030b",
+                    "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Run",
+                    "groups": "Keyboard",
+                    "action": "Melee",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41edca75-117d-47bd-b349-1b9e56e9f747",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Switch Pro Controller",
+                    "action": "ShiftCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1f704688-5de5-4ec4-a8d5-16ca97dd3c33",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ShiftCamera",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -37,13 +37,13 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Radio"",
-                    ""type"": ""Value"",
-                    ""id"": ""1c8cb5b7-eebc-4d5d-a6cc-6f5b13cf6ffa"",
+                    ""name"": ""Flashlight"",
+                    ""type"": ""Button"",
+                    ""id"": ""794e5b2c-fbf4-478f-ae3a-fc151b1ed0cc"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Melee"",
@@ -55,15 +55,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""RadioSpecial"",
-                    ""type"": ""Value"",
-                    ""id"": ""e70f128a-e15e-4131-a2bd-02cdba43cd0c"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""878ca8ad-44ec-42be-919b-2656e1cffed6"",
@@ -73,13 +64,31 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""ShiftCamera"",
+                    ""name"": ""Run"",
                     ""type"": ""Button"",
-                    ""id"": ""f5642a3f-0323-4e0e-a722-d9c68755a4d1"",
+                    ""id"": ""a8510fc9-778d-4205-a645-832d1eb10e02"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Radio"",
+                    ""type"": ""Value"",
+                    ""id"": ""1c8cb5b7-eebc-4d5d-a6cc-6f5b13cf6ffa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RadioSpecial"",
+                    ""type"": ""Value"",
+                    ""id"": ""e70f128a-e15e-4131-a2bd-02cdba43cd0c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""TuneRadio"",
@@ -127,18 +136,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Flashlight"",
+                    ""name"": ""ShiftCamera"",
                     ""type"": ""Button"",
-                    ""id"": ""794e5b2c-fbf4-478f-ae3a-fc151b1ed0cc"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Run"",
-                    ""type"": ""Button"",
-                    ""id"": ""a8510fc9-778d-4205-a645-832d1eb10e02"",
+                    ""id"": ""f5642a3f-0323-4e0e-a722-d9c68755a4d1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -192,28 +192,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""55f5809c-85df-4839-b11b-fb2bd397d9f6"",
-                    ""path"": ""<SwitchProControllerHID>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Switch Pro Controller"",
-                    ""action"": ""Melee"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d40765d9-f9e8-49c5-b3fb-39de05d9030b"",
-                    ""path"": ""<Keyboard>/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Melee"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""9063cdf3-a1f6-4974-a821-0df1690a922a"",
                     ""path"": ""<SwitchProControllerHID>/rightTrigger"",
                     ""interactions"": """",
@@ -231,6 +209,116 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""RadioSpecial"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""648af070-0d8e-4396-8906-82cb7e4fff75"",
+                    ""path"": ""<SwitchProControllerHID>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""Health"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f860917-5b86-41ae-aac8-1614ac9cebae"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Health"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""050725b0-9945-4eaf-858a-5ca3a7a84362"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ec484e9-7a65-4f83-b634-0c9e027e84fb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34312987-11c7-452d-8262-f831a6f0cbda"",
+                    ""path"": ""<SwitchProControllerHID>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""MenuLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1977a220-95f6-4dac-83e9-1d5f1c0c7f93"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MenuLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""869d3bd7-187a-40e7-a1e3-bf33539ca477"",
+                    ""path"": ""<SwitchProControllerHID>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""MenuRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ed2d36b6-8d0a-4288-8e78-c98a254f4ea1"",
+                    ""path"": ""<Keyboard>/rightShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MenuRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe27a161-c346-4bf1-ac7f-815a18a723e3"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04abb287-6cb1-44d1-9d09-a9f9e13a12b9"",
+                    ""path"": ""<Keyboard>/rightMeta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -357,28 +445,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""41edca75-117d-47bd-b349-1b9e56e9f747"",
-                    ""path"": ""<Gamepad>/rightStickPress"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Switch Pro Controller"",
-                    ""action"": ""ShiftCamera"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1f704688-5de5-4ec4-a8d5-16ca97dd3c33"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""ShiftCamera"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""413745f6-da5b-4b62-bbaa-9e479420ee06"",
                     ""path"": ""<SwitchProControllerHID>/rightStick"",
                     ""interactions"": """",
@@ -456,94 +522,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""648af070-0d8e-4396-8906-82cb7e4fff75"",
-                    ""path"": ""<SwitchProControllerHID>/leftShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Switch Pro Controller"",
-                    ""action"": ""Health"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3f860917-5b86-41ae-aac8-1614ac9cebae"",
-                    ""path"": ""<Keyboard>/tab"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Health"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""050725b0-9945-4eaf-858a-5ca3a7a84362"",
-                    ""path"": ""<Gamepad>/start"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Switch Pro Controller"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5ec484e9-7a65-4f83-b634-0c9e027e84fb"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""34312987-11c7-452d-8262-f831a6f0cbda"",
-                    ""path"": ""<SwitchProControllerHID>/leftShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Switch Pro Controller"",
-                    ""action"": ""MenuLeft"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1977a220-95f6-4dac-83e9-1d5f1c0c7f93"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""MenuLeft"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""869d3bd7-187a-40e7-a1e3-bf33539ca477"",
-                    ""path"": ""<SwitchProControllerHID>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Switch Pro Controller"",
-                    ""action"": ""MenuRight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ed2d36b6-8d0a-4288-8e78-c98a254f4ea1"",
-                    ""path"": ""<Keyboard>/rightShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""MenuRight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""cf2a0795-f532-480b-a064-8d3ebc4bf100"",
                     ""path"": ""<SwitchProControllerHID>/rightTrigger"",
                     ""interactions"": """",
@@ -566,23 +544,45 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""fe27a161-c346-4bf1-ac7f-815a18a723e3"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""id"": ""55f5809c-85df-4839-b11b-fb2bd397d9f6"",
+                    ""path"": ""<SwitchProControllerHID>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Switch Pro Controller"",
-                    ""action"": ""Run"",
+                    ""action"": ""Melee"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""04abb287-6cb1-44d1-9d09-a9f9e13a12b9"",
-                    ""path"": ""<Keyboard>/rightMeta"",
+                    ""id"": ""d40765d9-f9e8-49c5-b3fb-39de05d9030b"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Run"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Melee"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""41edca75-117d-47bd-b349-1b9e56e9f747"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""ShiftCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1f704688-5de5-4ec4-a8d5-16ca97dd3c33"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ShiftCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -617,18 +617,18 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
-        m_Player_Radio = m_Player.FindAction("Radio", throwIfNotFound: true);
+        m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
         m_Player_Melee = m_Player.FindAction("Melee", throwIfNotFound: true);
-        m_Player_RadioSpecial = m_Player.FindAction("RadioSpecial", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_ShiftCamera = m_Player.FindAction("ShiftCamera", throwIfNotFound: true);
+        m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
+        m_Player_Radio = m_Player.FindAction("Radio", throwIfNotFound: true);
+        m_Player_RadioSpecial = m_Player.FindAction("RadioSpecial", throwIfNotFound: true);
         m_Player_TuneRadio = m_Player.FindAction("TuneRadio", throwIfNotFound: true);
         m_Player_Health = m_Player.FindAction("Health", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_MenuLeft = m_Player.FindAction("MenuLeft", throwIfNotFound: true);
         m_Player_MenuRight = m_Player.FindAction("MenuRight", throwIfNotFound: true);
-        m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
-        m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
+        m_Player_ShiftCamera = m_Player.FindAction("ShiftCamera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -689,35 +689,35 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Interact;
-    private readonly InputAction m_Player_Radio;
+    private readonly InputAction m_Player_Flashlight;
     private readonly InputAction m_Player_Melee;
-    private readonly InputAction m_Player_RadioSpecial;
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_ShiftCamera;
+    private readonly InputAction m_Player_Run;
+    private readonly InputAction m_Player_Radio;
+    private readonly InputAction m_Player_RadioSpecial;
     private readonly InputAction m_Player_TuneRadio;
     private readonly InputAction m_Player_Health;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_MenuLeft;
     private readonly InputAction m_Player_MenuRight;
-    private readonly InputAction m_Player_Flashlight;
-    private readonly InputAction m_Player_Run;
+    private readonly InputAction m_Player_ShiftCamera;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
         public PlayerActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
-        public InputAction @Radio => m_Wrapper.m_Player_Radio;
+        public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
         public InputAction @Melee => m_Wrapper.m_Player_Melee;
-        public InputAction @RadioSpecial => m_Wrapper.m_Player_RadioSpecial;
         public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @ShiftCamera => m_Wrapper.m_Player_ShiftCamera;
+        public InputAction @Run => m_Wrapper.m_Player_Run;
+        public InputAction @Radio => m_Wrapper.m_Player_Radio;
+        public InputAction @RadioSpecial => m_Wrapper.m_Player_RadioSpecial;
         public InputAction @TuneRadio => m_Wrapper.m_Player_TuneRadio;
         public InputAction @Health => m_Wrapper.m_Player_Health;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @MenuLeft => m_Wrapper.m_Player_MenuLeft;
         public InputAction @MenuRight => m_Wrapper.m_Player_MenuRight;
-        public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
-        public InputAction @Run => m_Wrapper.m_Player_Run;
+        public InputAction @ShiftCamera => m_Wrapper.m_Player_ShiftCamera;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -730,21 +730,24 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Radio.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadio;
-                @Radio.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadio;
-                @Radio.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadio;
+                @Flashlight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
+                @Flashlight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
+                @Flashlight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
                 @Melee.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMelee;
                 @Melee.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMelee;
                 @Melee.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMelee;
-                @RadioSpecial.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadioSpecial;
-                @RadioSpecial.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadioSpecial;
-                @RadioSpecial.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadioSpecial;
                 @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @ShiftCamera.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShiftCamera;
-                @ShiftCamera.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShiftCamera;
-                @ShiftCamera.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShiftCamera;
+                @Run.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @Radio.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadio;
+                @Radio.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadio;
+                @Radio.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadio;
+                @RadioSpecial.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadioSpecial;
+                @RadioSpecial.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadioSpecial;
+                @RadioSpecial.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRadioSpecial;
                 @TuneRadio.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTuneRadio;
                 @TuneRadio.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTuneRadio;
                 @TuneRadio.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTuneRadio;
@@ -760,12 +763,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @MenuRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuRight;
                 @MenuRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuRight;
                 @MenuRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuRight;
-                @Flashlight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
-                @Flashlight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
-                @Flashlight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
-                @Run.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
-                @Run.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
-                @Run.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @ShiftCamera.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShiftCamera;
+                @ShiftCamera.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShiftCamera;
+                @ShiftCamera.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShiftCamera;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -773,21 +773,24 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
-                @Radio.started += instance.OnRadio;
-                @Radio.performed += instance.OnRadio;
-                @Radio.canceled += instance.OnRadio;
+                @Flashlight.started += instance.OnFlashlight;
+                @Flashlight.performed += instance.OnFlashlight;
+                @Flashlight.canceled += instance.OnFlashlight;
                 @Melee.started += instance.OnMelee;
                 @Melee.performed += instance.OnMelee;
                 @Melee.canceled += instance.OnMelee;
-                @RadioSpecial.started += instance.OnRadioSpecial;
-                @RadioSpecial.performed += instance.OnRadioSpecial;
-                @RadioSpecial.canceled += instance.OnRadioSpecial;
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @ShiftCamera.started += instance.OnShiftCamera;
-                @ShiftCamera.performed += instance.OnShiftCamera;
-                @ShiftCamera.canceled += instance.OnShiftCamera;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
+                @Radio.started += instance.OnRadio;
+                @Radio.performed += instance.OnRadio;
+                @Radio.canceled += instance.OnRadio;
+                @RadioSpecial.started += instance.OnRadioSpecial;
+                @RadioSpecial.performed += instance.OnRadioSpecial;
+                @RadioSpecial.canceled += instance.OnRadioSpecial;
                 @TuneRadio.started += instance.OnTuneRadio;
                 @TuneRadio.performed += instance.OnTuneRadio;
                 @TuneRadio.canceled += instance.OnTuneRadio;
@@ -803,12 +806,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @MenuRight.started += instance.OnMenuRight;
                 @MenuRight.performed += instance.OnMenuRight;
                 @MenuRight.canceled += instance.OnMenuRight;
-                @Flashlight.started += instance.OnFlashlight;
-                @Flashlight.performed += instance.OnFlashlight;
-                @Flashlight.canceled += instance.OnFlashlight;
-                @Run.started += instance.OnRun;
-                @Run.performed += instance.OnRun;
-                @Run.canceled += instance.OnRun;
+                @ShiftCamera.started += instance.OnShiftCamera;
+                @ShiftCamera.performed += instance.OnShiftCamera;
+                @ShiftCamera.canceled += instance.OnShiftCamera;
             }
         }
     }
@@ -834,17 +834,17 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnInteract(InputAction.CallbackContext context);
-        void OnRadio(InputAction.CallbackContext context);
+        void OnFlashlight(InputAction.CallbackContext context);
         void OnMelee(InputAction.CallbackContext context);
-        void OnRadioSpecial(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
-        void OnShiftCamera(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
+        void OnRadio(InputAction.CallbackContext context);
+        void OnRadioSpecial(InputAction.CallbackContext context);
         void OnTuneRadio(InputAction.CallbackContext context);
         void OnHealth(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnMenuLeft(InputAction.CallbackContext context);
         void OnMenuRight(InputAction.CallbackContext context);
-        void OnFlashlight(InputAction.CallbackContext context);
-        void OnRun(InputAction.CallbackContext context);
+        void OnShiftCamera(InputAction.CallbackContext context);
     }
 }
