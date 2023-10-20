@@ -9,6 +9,7 @@ public class PlayerController : CharacterController
 {
     public static PlayerController instance;
 
+    [SerializeField] float runSpeed;
     [SerializeField] float rotSpeed;
     private float horizontal, vertical;
     private Vector3 lastDir, lastDir1, lastDir2;
@@ -25,6 +26,9 @@ public class PlayerController : CharacterController
     public AbilityStates abilityState { get; private set; }
     [SerializeField] private Health health;
     public int maxHealth { get; private set; }
+    [SerializeField] float stamina = 10f;
+    public bool running { get; private set; }
+    private bool rechargeStamina;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
@@ -188,7 +192,22 @@ public class PlayerController : CharacterController
             case States.moving:
                 if (!PauseMenuController.instance.isPaused)
                 {
-                    speed = storedSpeed;
+                    if (inputMaster.Player.Run.ReadValue<float>() > 0
+                        && stamina > 0
+                        && !rechargeStamina)
+                    {
+                        running = true;
+                        stamina -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        running = false;
+                    }
+
+
+                    speed = running ? runSpeed : storedSpeed;
+
+                    //speed = storedSpeed;
 
                     horizontal = Mathf.Round(move.x * 10f) * 0.1f;
                     vertical = Mathf.Round(move.y * 10f) * 0.1f;
@@ -281,6 +300,25 @@ public class PlayerController : CharacterController
         }
 
 
+        //Stamina System
+        //If out of stamina, force recharge
+        if (stamina <= 0)
+        {
+            stamina = 0;
+            rechargeStamina = true;
+        }
+        //Recharge stamina if less than max and not running
+        if (stamina < 5f && !running)
+        {
+            stamina += Time.deltaTime * 2f;
+        }
+        //Let player run again if stamina is above threshold
+        if (stamina >= 2f && rechargeStamina)
+        {
+            rechargeStamina = false;
+        }
+
+
         //Handle player interaction inputs
         if (interactObj != null
             && !PauseMenuController.instance.isPaused
@@ -330,6 +368,7 @@ public class PlayerController : CharacterController
 
         //Moving
         animator.SetBool("isMoving", state == States.moving);
+        animator.SetBool("isRunning", state == States.moving && running);
         //Falling
         animator.SetBool("isFalling", rb.velocity.y < -1f ? true : false);
         //Waking Up

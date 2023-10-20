@@ -134,6 +134,15 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8510fc9-778d-4205-a645-832d1eb10e02"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -554,6 +563,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""action"": ""Flashlight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe27a161-c346-4bf1-ac7f-815a18a723e3"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04abb287-6cb1-44d1-9d09-a9f9e13a12b9"",
+                    ""path"": ""<Keyboard>/rightMeta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -597,6 +628,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         m_Player_MenuLeft = m_Player.FindAction("MenuLeft", throwIfNotFound: true);
         m_Player_MenuRight = m_Player.FindAction("MenuRight", throwIfNotFound: true);
         m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
+        m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -668,6 +700,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MenuLeft;
     private readonly InputAction m_Player_MenuRight;
     private readonly InputAction m_Player_Flashlight;
+    private readonly InputAction m_Player_Run;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -684,6 +717,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         public InputAction @MenuLeft => m_Wrapper.m_Player_MenuLeft;
         public InputAction @MenuRight => m_Wrapper.m_Player_MenuRight;
         public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
+        public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -729,6 +763,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Flashlight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
                 @Flashlight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
                 @Flashlight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
+                @Run.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -769,6 +806,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Flashlight.started += instance.OnFlashlight;
                 @Flashlight.performed += instance.OnFlashlight;
                 @Flashlight.canceled += instance.OnFlashlight;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
             }
         }
     }
@@ -805,5 +845,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         void OnMenuLeft(InputAction.CallbackContext context);
         void OnMenuRight(InputAction.CallbackContext context);
         void OnFlashlight(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
     }
 }
