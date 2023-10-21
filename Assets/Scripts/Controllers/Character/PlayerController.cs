@@ -20,15 +20,14 @@ public class PlayerController : CharacterController
     [NaughtyAttributes.HorizontalLine]
     [Header("Player State Variables")]
     private bool isSeen;// { get; private set; }
-    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, movingObj, consuming, hurt, dead }
+    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, movingObj, consuming, stunned, hurt, dead }
     public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
     [SerializeField] private Health health;
     public int maxHealth { get; private set; }
-    [SerializeField] float stamina = 10f;
+    [SerializeField] float stamina = 5f;
     public bool running { get; private set; }
-    private bool rechargeStamina;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
@@ -192,22 +191,14 @@ public class PlayerController : CharacterController
             case States.moving:
                 if (!PauseMenuController.instance.isPaused)
                 {
-                    if (inputMaster.Player.Run.ReadValue<float>() > 0
-                        && stamina > 0
-                        && !rechargeStamina)
+                    if (inputMaster.Player.Run.ReadValue<float>() > 0 && stamina > 0)
                     {
                         running = true;
-                        stamina -= Time.deltaTime;
+                        stamina -= (isSeen ? 2f : 1f) * Time.deltaTime;
                     }
-                    else
-                    {
-                        running = false;
-                    }
-
+                    else { running = false; }
 
                     speed = running ? runSpeed : storedSpeed;
-
-                    //speed = storedSpeed;
 
                     horizontal = Mathf.Round(move.x * 10f) * 0.1f;
                     vertical = Mathf.Round(move.y * 10f) * 0.1f;
@@ -288,6 +279,13 @@ public class PlayerController : CharacterController
                     SetState(States.idle);
                 }
                 break;
+            case States.stunned:
+                if (!isPlaying("Stunned"))
+                {
+                    print("End stun animation");
+                    SetState(States.idle);
+                }
+                break;
             case States.hurt:
                 RadioController.instance.SetActive(false);
                 break;
@@ -301,21 +299,18 @@ public class PlayerController : CharacterController
 
 
         //Stamina System
-        //If out of stamina, force recharge
+        //If out of stamina, stop running and force recharge
         if (stamina <= 0)
         {
             stamina = 0;
-            rechargeStamina = true;
+            running = false;
+            animator.SetTrigger("isStunned");
+            SetState(States.stunned);
         }
         //Recharge stamina if less than max and not running
         if (stamina < 5f && !running)
         {
             stamina += Time.deltaTime * 2f;
-        }
-        //Let player run again if stamina is above threshold
-        if (stamina >= 2f && rechargeStamina)
-        {
-            rechargeStamina = false;
         }
 
 
