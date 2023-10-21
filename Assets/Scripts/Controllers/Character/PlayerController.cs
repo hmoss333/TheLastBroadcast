@@ -86,7 +86,7 @@ public class PlayerController : CharacterController
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (state == States.radio || state == States.attacking || state == States.listening || state == States.wakeUp
+        if (state == States.radio || state == States.attacking || state == States.listening || state == States.wakeUp || state == States.stunned
             || abilityState == AbilityStates.invisible || abilityState == AbilityStates.isRat)
         {
             interactObj = null;
