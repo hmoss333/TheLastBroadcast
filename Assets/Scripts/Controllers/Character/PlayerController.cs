@@ -26,7 +26,7 @@ public class PlayerController : CharacterController
     public AbilityStates abilityState { get; private set; }
     [SerializeField] private Health health;
     public int maxHealth { get; private set; }
-    [SerializeField] float stamina = 5f;
+    public float stamina { get; private set; }
     public bool running { get; private set; }
 
     [NaughtyAttributes.HorizontalLine]
@@ -67,6 +67,7 @@ public class PlayerController : CharacterController
     {
         storedSpeed = speed;
         melee.damage = damage;
+        stamina = 5f;
         gasMaskObj.SetActive(false);
         health.SetHealth(SaveDataController.instance.saveData.maxHealth);
 
@@ -217,6 +218,7 @@ public class PlayerController : CharacterController
 
                     if (move.x == 0f && move.y == 0f)
                     {
+                        running = false;
                         SetState(States.idle);
                     }
                 }
