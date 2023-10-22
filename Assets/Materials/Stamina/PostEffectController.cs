@@ -6,6 +6,7 @@ public class PostEffectController : MonoBehaviour
 {
     [SerializeField] Shader postShader;
     Material postEffectMaterial;
+    [Range(0f, 1.2f)]
     [SerializeField] float radius, feather;
     [SerializeField] Color tintColor;
 
@@ -17,7 +18,12 @@ public class PostEffectController : MonoBehaviour
 
     private void Update()
     {
-        radius = PlayerController.instance.stamina / 5f;
+        radius = PlayerController.instance.stamina / 3.5f;
+        if (radius > 1.2f)
+            radius = 1.2f;
+        if (radius < 0)
+            radius = 0;
+
     }
 
     private void OnRenderImage(RenderTexture src, RenderTexture dest)
