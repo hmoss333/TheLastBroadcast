@@ -39,6 +39,8 @@ public class MainMenuController : MonoBehaviour
 
         versionText.text = $"Version: {Application.version}";
 
+        FadeController.instance.StartFade(0f, 1f);
+
         //StartCoroutine(FadeAudio(backgroundAudio, maxAudioVolume, 10f));
     }
 
@@ -172,6 +174,8 @@ public class MainMenuController : MonoBehaviour
 
     public void QuitGameButton()
     {
+        FadeController.instance.StartFade(1.0f, 1f);
+
         Application.Quit();
     }
 
