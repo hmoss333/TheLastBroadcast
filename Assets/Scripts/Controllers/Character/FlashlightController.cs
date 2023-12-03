@@ -39,9 +39,12 @@ public class FlashlightController : MonoBehaviour
             && (PlayerController.instance.state == PlayerController.States.idle || PlayerController.instance.state == PlayerController.States.moving)
             && PlayerController.instance.abilityState == PlayerController.AbilityStates.none)
         {
-            isOn = PlayerController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0 && flashlightTime > 0f && !isCharging
-                ? true
-                : false;
+            isOn = PlayerController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0
+                && !PlayerController.instance.running
+                && flashlightTime > 0f
+                && !isCharging
+                    ? true
+                    : false;
 
             if (isOn)
             {
