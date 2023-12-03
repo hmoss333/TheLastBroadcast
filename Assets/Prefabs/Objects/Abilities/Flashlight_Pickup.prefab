@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6083146732114655627}
   - component: {fileID: 8040774512508553494}
   - component: {fileID: 4910928714231077446}
+  - component: {fileID: 4209528098623610632}
   m_Layer: 8
   m_Name: Flashlight_Pickup
   m_TagString: Untagged
@@ -32,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2565406411538176523}
+  - {fileID: 7494820183052314869}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -60,10 +62,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f0730b65cad49da8fc98252aa72a26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 9a3cd95f-f8b7-4188-94fd-6b0b841afca8
+  id: 9f5e7744-ec74-469d-a159-53d187c05b54
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
   focusPoint: {fileID: 0}
@@ -84,6 +92,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id:
     Value: 
+--- !u!114 &4209528098623610632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462965014302304620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd4856e86b444504b3279819ce64fbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPrefab: {fileID: 7494820183052314864}
 --- !u!1 &2598751770638358125
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,3 +425,70 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &6299871159949484311
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1462965014302799180}
+    m_Modifications:
+    - target: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570960444113979879, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+      propertyPath: m_Name
+      value: CollectableEffect
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+--- !u!1 &7494820183052314864 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4570960444113979879, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+  m_PrefabInstance: {fileID: 6299871159949484311}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7494820183052314869 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4570960444113979874, guid: 9930e6ad48d9b4c78a76f61a46c65733, type: 3}
+  m_PrefabInstance: {fileID: 6299871159949484311}
+  m_PrefabAsset: {fileID: 0}
