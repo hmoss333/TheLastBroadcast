@@ -50,20 +50,23 @@ public class UIController : MonoBehaviour
         inputIcon.color = tempColor;
     }
 
-    public void ToggleLoreUI(string text, string title)
+    public void ToggleLoreUI(bool value)
     {
-        uiActive = !uiActive;
+        loreObject.SetActive(value);
+    }
+
+    public void SetLoreText(string text, string title)
+    {
         loreText.text = text;
         loreTitle.text = title;
-        loreObject.SetActive(uiActive);
     }
 
     public void ToggleAbilityUI(string text, Sprite icon)
     {
-        uiActive = !uiActive;
+        //uiActive = !uiActive;
         abilityText.text = text;
         abilityIcon.sprite = icon;
-        abilityObject.SetActive(uiActive);
+        abilityObject.SetActive(!abilityObject.activeSelf); //uiActive
     }
 
     public void SetDialogueText(string text, bool typeText)
