@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -27,7 +28,7 @@ public class SaveDataController : MonoBehaviour
 
         saveDestination = System.IO.Path.Combine(Application.persistentDataPath, "Save", "save.json");
         levelDestination = System.IO.Path.Combine(Application.persistentDataPath, "LevelData");
-        loreDestination = System.IO.Path.Combine(Application.persistentDataPath, "Lore", "loreData.json");
+        loreDestination = System.IO.Path.Combine(Application.streamingAssetsPath, "loreData.json");//System.IO.Path.Combine(Application.persistentDataPath, "Lore", "loreData.json");
         saveData = new SaveData();
 
         LoadFile();
@@ -132,54 +133,40 @@ public class SaveDataController : MonoBehaviour
 
     public void LoadLoreData()
     {
-        if (File.Exists(loreDestination))
-        {
-            print("Loading lore data");
-            LoreSaveData tempContainer = new LoreSaveData();
-            string jsonData = File.ReadAllText(loreDestination);
-            tempContainer = JsonUtility.FromJson<LoreSaveData>(jsonData);
-            loreSaveData = tempContainer;
+        //Load lore data from streamingassets location
+        LoreSaveData tempContainer = new LoreSaveData();
+        string jsonData = File.ReadAllText(loreDestination);
+        tempContainer = JsonUtility.FromJson<LoreSaveData>(jsonData);
+        loreSaveData = tempContainer;
 
-            lorePickups = GameObject.FindObjectsOfType<LorePickup>();
-            for (int i = 0; i < lorePickups.Length; i++)
+        lorePickups = GameObject.FindObjectsOfType<LorePickup>();
+        for (int i = 0; i < lorePickups.Length; i++)
+        {
+            foreach (LoreData lore in loreSaveData.loreData)
             {
-                foreach (LoreData lore in loreSaveData.loreData)
-                {
-                    if (lorePickups[i].GetID() == lore.id)
-                        lorePickups[i].SetValue(lore.text, lore.title);
-                }
+                if (lorePickups[i].GetID() == lore.id)
+                    lorePickups[i].SetValue(lore.text, lore.title);
             }
-        }
-        else
-        {
-            print("Creating new lore file from resources");
-            Directory.CreateDirectory(System.IO.Path.Combine(Application.persistentDataPath, "Lore"));
-            string tempDest = System.IO.Path.Combine(Application.streamingAssetsPath, "loreData.json");
-            LoreSaveData tempContainer = new LoreSaveData();
-            string jsonData = File.ReadAllText(tempDest);
-            tempContainer = JsonUtility.FromJson<LoreSaveData>(jsonData);
-
-            loreSaveData = tempContainer;
-            SaveLoreData(-1);
         }
     }
 
-    public void SaveLoreData(int id)
-    {
-        for (int i = 0; i < loreSaveData.loreData.Count; i++)
-        {
-            if (loreSaveData.loreData[i].id == id)
-            {
-                loreSaveData.loreData[i].collected = true;
-                break;
-            }
-        }
+    //Pulling for now as we are not supporting re-reading lore from the menu at the moment
+    //public void SaveLoreData(int id)
+    //{
+    //    for (int i = 0; i < loreSaveData.loreData.Count; i++)
+    //    {
+    //        if (loreSaveData.loreData[i].id == id)
+    //        {
+    //            loreSaveData.loreData[i].collected = true;
+    //            break;
+    //        }
+    //    }
 
-        //TODO save lore data for specified ID
-        string jsonData = JsonUtility.ToJson(loreSaveData);
-        print("Saving Lore Data:" + jsonData);
-        File.WriteAllText(loreDestination, jsonData);
-    }
+    //    //TODO save lore data for specified ID
+    //    string jsonData = JsonUtility.ToJson(loreSaveData);
+    //    print("Saving Lore Data:" + jsonData);
+    //    File.WriteAllText(loreDestination, jsonData);
+    //}
 
 
     //Initialize save file with correct formatting/values
@@ -426,5 +413,5 @@ public class LoreData
     public int id;
     public bool collected;
     public string title;
-    public string text;
+    public List<string> text;
 }
