@@ -15,7 +15,7 @@ using UnityEngine;
 public class LightFlicker : MonoBehaviour
 {
     [Tooltip("External light to flicker; you can leave this null if you attach script to a light")]
-    public new Light light;
+    new Light light;
     [Tooltip("Minimum random light intensity")]
     public float minIntensity = 0f;
     [Tooltip("Maximum random light intensity")]
@@ -44,11 +44,7 @@ public class LightFlicker : MonoBehaviour
     void Start()
     {
         smoothQueue = new Queue<float>(smoothing);
-        // External or internal light?
-        if (light == null)
-        {
-            light = GetComponent<Light>();
-        }
+        light = GetComponent<Light>();
     }
 
     void Update()
