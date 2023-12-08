@@ -13,12 +13,15 @@ using System.IO;
 
 public class MainMenuController : MonoBehaviour
 {
+    public static MainMenuController instance;
+
     [SerializeField] MainMenuElement[] menuElements;
     public MainMenuElement currentElement { get; private set; }
+    [SerializeField] Transform loadCamPos;
     [SerializeField] float camSpeed;
     private int index;
     public InputMaster inputMaster;
-    [SerializeField] CanvasGroup loadGameCanvas, settingsCanvas;
+    public CanvasGroup settingsCanvas, loadGameCanvas;
     [SerializeField] Button loadGameButton;
     [SerializeField] TextMeshProUGUI loadGameText, versionText;
     [SerializeField] float maxAudioVolume;
@@ -26,6 +29,14 @@ public class MainMenuController : MonoBehaviour
     string sceneToLoad;
     SettingsMenuController settingsMenu;
 
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
+    }
 
     private void Start()
     {
@@ -106,8 +117,8 @@ public class MainMenuController : MonoBehaviour
     {
         currentElement = menuElements[index];
 
-        Camera.main.transform.rotation = Quaternion.Slerp(Camera.main.transform.rotation, currentElement.pos.rotation, camSpeed * Time.deltaTime);
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, currentElement.pos.position, camSpeed * Time.deltaTime);
+        Camera.main.transform.rotation = Quaternion.Slerp(Camera.main.transform.rotation, loadGameCanvas.gameObject.activeSelf ? loadCamPos.rotation : currentElement.pos.rotation, camSpeed * Time.deltaTime);
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, loadGameCanvas.gameObject.activeSelf ? loadCamPos.position : currentElement.pos.position, camSpeed * Time.deltaTime);
     }
 
     public void NewGameButton()

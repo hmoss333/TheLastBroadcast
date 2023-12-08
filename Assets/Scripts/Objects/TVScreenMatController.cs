@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [RequireComponent(typeof(Renderer))]
 public class TVScreenMatController : MonoBehaviour
 {
-    [SerializeField] Material baseMat, imageFlashMat;
+    [SerializeField] Material baseMat, loadMat, imageFlashMat;
     [SerializeField] float imageFlashTime;
     [SerializeField] float countdownTimer;
+    [SerializeField] bool inLoadingScreen;
     float countdownTemp;
     Renderer tvRend;
     Coroutine tvFlashRoutine;
@@ -21,6 +23,20 @@ public class TVScreenMatController : MonoBehaviour
 
     private void Update()
     {
+        Material[] tempMats = tvRend.materials;
+        List<Material> matList = tempMats.ToList<Material>();
+
+        if (MainMenuController.instance.loadGameCanvas.gameObject.activeSelf && !inLoadingScreen)
+        {
+            inLoadingScreen = true;
+            SwapMat(baseMat, loadMat, tvRend);
+        }
+        else if (!MainMenuController.instance.loadGameCanvas.gameObject.activeSelf && inLoadingScreen)
+        {
+            inLoadingScreen = false;
+            SwapMat(loadMat, baseMat, tvRend);
+        }
+
         countdownTimer -= Time.deltaTime;
         if (countdownTimer <= 0)
         {
@@ -54,11 +70,11 @@ public class TVScreenMatController : MonoBehaviour
 
     IEnumerator FlashMatRoutine()
     {
-        SwapMat(baseMat, imageFlashMat, tvRend);
+        SwapMat(inLoadingScreen ? loadMat : baseMat, imageFlashMat, tvRend);
 
         yield return new WaitForSeconds(imageFlashTime);
 
-        SwapMat(imageFlashMat, baseMat, tvRend);
+        SwapMat(imageFlashMat, inLoadingScreen ? loadMat : baseMat, tvRend);
 
         tvFlashRoutine = null;
     }
