@@ -118,11 +118,11 @@ public class TransmitterController : InteractObject
             if (active)
             {
                 currentFrequency = 0.0f;
-                PlayerController.instance.ToggleAvatar();
-                CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
-                CameraController.instance.FocusTarget();
-                if (CameraController.instance.GetTriggerState())
-                    CameraController.instance.SetRotation(true);
+                //PlayerController.instance.ToggleAvatar();
+                //CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
+                //CameraController.instance.FocusTarget();
+                //if (CameraController.instance.GetTriggerState())
+                //    CameraController.instance.SetRotation(true);
             }
         }
 

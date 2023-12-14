@@ -59,6 +59,21 @@ public class DialogueController : InteractObject
     {
         if (!canInteract && !TextWriter.instace.isTyping)
         {
+            /////Temp
+            if ((index < 1 || index > lines.Length - 1)
+                && focusPoint != null)
+            {
+                print("Focus camera");
+                PlayerController.instance.ToggleAvatar();
+                CameraController.instance.SetTarget(focusPoint);// : CameraController.instance.GetLastTarget());
+                CameraController.instance.FocusTarget();
+                if (CameraController.instance.GetTriggerState())
+                    CameraController.instance.SetRotation(true);
+            }
+            /////
+            
+
+
             if (index < lines.Length)
             {
                 interacting = true; //Still in the dialogue tree

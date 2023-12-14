@@ -31,7 +31,7 @@ public class InteractObject : SaveObject
         {
             if (interacting)
             {
-                StartInteract();
+                StartInteract();            
             }
             else
             {
@@ -43,6 +43,15 @@ public class InteractObject : SaveObject
             UIController.instance.SetDialogueText(inactiveText, false);
             UIController.instance.ToggleDialogueUI(interacting);
         }
+
+        //if (focusPoint != null)
+        //{
+        //    PlayerController.instance.ToggleAvatar();
+        //    CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
+        //    CameraController.instance.FocusTarget();
+        //    if (CameraController.instance.GetTriggerState())
+        //        CameraController.instance.SetRotation(true);
+        //}
     }
 
     public virtual void StartInteract()
