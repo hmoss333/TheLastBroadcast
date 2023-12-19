@@ -20,6 +20,7 @@ public class UIController : MonoBehaviour
 
     [Header("Dialogue Variables")]
     [SerializeField] Image dialogueBackground;
+    [SerializeField] GameObject quotationMarks;
     [SerializeField] TextMeshProUGUI dialogueText;
     [SerializeField] Image inputIcon;
     float pulseTime = 0.5f;
@@ -49,20 +50,23 @@ public class UIController : MonoBehaviour
         inputIcon.color = tempColor;
     }
 
-    public void ToggleLoreUI(string text, string title)
+    public void ToggleLoreUI(bool value)
     {
-        uiActive = !uiActive;
+        loreObject.SetActive(value);
+    }
+
+    public void SetLoreText(string text, string title)
+    {
         loreText.text = text;
         loreTitle.text = title;
-        loreObject.SetActive(uiActive);
     }
 
     public void ToggleAbilityUI(string text, Sprite icon)
     {
-        uiActive = !uiActive;
+        //uiActive = !uiActive;
         abilityText.text = text;
         abilityIcon.sprite = icon;
-        abilityObject.SetActive(uiActive);
+        abilityObject.SetActive(!abilityObject.activeSelf); //uiActive
     }
 
     public void SetDialogueText(string text, bool typeText)
@@ -76,6 +80,11 @@ public class UIController : MonoBehaviour
     {
         dialogueText.gameObject.SetActive(value);
         StartCoroutine(FadeTo(value ? 1f : 0f, 0.65f));
+    }
+
+    public void ToggleQuoteMarks(bool value)
+    {
+        quotationMarks.SetActive(value);
     }
 
     public void ToggleDialogueInputIcon(bool value)
