@@ -205,7 +205,7 @@ public class CameraController : MonoBehaviour
         {
             CameraController.instance.SetTarget(objsToFocus[i].transform);
 
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(2f);
         }
 
         setRot = tempRotSet;
