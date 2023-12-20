@@ -7356,7 +7356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3b0c891667c4a3a974d9c69edc3457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: da3e4a65-3146-4f9c-9b31-0d46b26e272f
+  id: 
   active: 1
   hasActivated: 0
   focusOnActivate: 0
@@ -9619,8 +9619,6 @@ GameObject:
   - component: {fileID: 2115044157}
   - component: {fileID: 2115044156}
   - component: {fileID: 2115044155}
-  - component: {fileID: 2115044159}
-  - component: {fileID: 2115044158}
   - component: {fileID: 2115044153}
   m_Layer: 0
   m_Name: Cube
@@ -9628,7 +9626,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2115044153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9645,10 +9643,10 @@ MonoBehaviour:
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2115044158}
-        m_TargetAssemblyTypeName: SaveObject, Assembly-CSharp
-        m_MethodName: SetHasActivated
-        m_Mode: 1
+      - m_Target: {fileID: 2115044152}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9722,42 +9720,6 @@ Transform:
   m_Father: {fileID: 1793927200}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2115044158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2115044152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd3b0c891667c4a3a974d9c69edc3457, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 49773f89-9d61-46d4-bacb-b451eccfaee9
-  active: 1
-  hasActivated: 0
-  focusOnActivate: 1
-  hideOnLoad: 1
-  needItem: 0
-  inventoryItemID: 0
-  m_OnTrigger:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &2115044159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2115044152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _id:
-    Value: 49773f89-9d61-46d4-bacb-b451eccfaee9
 --- !u!4 &1289744140720663412 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2874112705022551274, guid: 65bd345091ba44b7e95b12156c1af88f, type: 3}
