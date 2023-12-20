@@ -23,5 +23,7 @@ public class Collectable : InteractObject
         base.EndInteract();
         UIController.instance.ToggleDialogueUI(false);
         SetHasActivated();
+
+        m_OnTrigger.Invoke();
     }
 }

@@ -704,7 +704,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 900f14f6cb2a8453397afddaefbc3400, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -817,11 +817,16 @@ MonoBehaviour:
   id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
   needItem: 0
   inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: It doesn't seem to have any power
+  focusOnInteract: 0
   focusPoint: {fileID: 8157713389140019235}
   targetFrequency: 0
   minTarget: 2
@@ -829,15 +834,13 @@ MonoBehaviour:
   rotSpeed: 0.5
   offSet: 0.25
   countdownTime: 3
+  triggerDelay: 1.5
   frequencyText: {fileID: 349604186193334092}
   lightMesh: {fileID: 5493761338884221568}
   dialObj: {fileID: 7331367623915907189}
   stationColor: {r: 0.02745098, g: 0.6431373, b: 0.26666668, a: 1}
   presetColor: {r: 0.25490198, g: 0.9019608, b: 1, a: 1}
   staticSource: {fileID: 7832150619088060512}
-  m_OnTrigger:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &5507578705995831974
 PrefabInstance:
   m_ObjectHideFlags: 0

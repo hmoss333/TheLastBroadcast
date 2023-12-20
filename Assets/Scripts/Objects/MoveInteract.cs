@@ -49,7 +49,8 @@ public class MoveInteract : InteractObject
     IEnumerator MoveObjRoutine()
     {
         SetHasActivated();
-        PlayerController.instance.animator.SetTrigger("isMovingObj");
+        //PlayerController.instance.animator.SetTrigger("isMovingObj");
+        m_OnTrigger.Invoke();
 
         for (int i = 0; i < positions.Length; i++)
         {

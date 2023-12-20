@@ -3,45 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
+using UnityEngine.UI;
 using TMPro;
 using System.IO;
+//using static UnityEditor.PlayerSettings;
+//using static UnityEngine.GraphicsBuffer;
+
 
 public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] GameObject mainMenuCanvas;
-    [SerializeField] GameObject loadGameCanvas;
-    [SerializeField] TextMeshProUGUI loadGameText, debugText;
-    [SerializeField] SpriteRenderer radioLight;
-    [SerializeField] AudioSource backgroundAudio;
+    public static MainMenuController instance;
+
+    [SerializeField] MainMenuElement[] menuElements;
+    public MainMenuElement currentElement { get; private set; }
+    [SerializeField] Transform loadCamPos;
+    [SerializeField] float camSpeed;
+    private int index;
+    public InputMaster inputMaster;
+    public CanvasGroup settingsCanvas, loadGameCanvas;
+    [SerializeField] Button loadGameButton;
+    [SerializeField] TextMeshProUGUI loadGameText, versionText;
+    [SerializeField] AudioSource audioSource;
     [SerializeField] float maxAudioVolume;
-    Color defaultColor, fadeColor;
     bool loadingScene;
     string sceneToLoad;
+    SettingsMenuController settingsMenu;
 
-    EventSystem eventSystem;
-    [SerializeField] GameObject loadButton;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
+    }
 
     private void Start()
     {
-        eventSystem = FindObjectOfType<EventSystem>();
+        settingsMenu = GetComponent<SettingsMenuController>();
+        inputMaster = new InputMaster();
+        inputMaster.Enable();
 
-        mainMenuCanvas.SetActive(true);
-        loadGameCanvas.SetActive(false);
-        defaultColor = radioLight.color;
-        fadeColor = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
+        loadGameCanvas.gameObject.SetActive(false);
+        index = 0;
+        currentElement = menuElements[index];
+
+        versionText.text = $"Version: {Application.version}";
+
+        FadeController.instance.StartFade(0f, 1f);
 
         //StartCoroutine(FadeAudio(backgroundAudio, maxAudioVolume, 10f));
     }
 
     private void Update()
     {
-        radioLight.color = Color.Lerp(defaultColor, fadeColor, Mathf.PingPong(Time.time, 1));
-        backgroundAudio.volume = Mathf.Lerp(0f, maxAudioVolume, Time.time / 10f);    
-
+        //Loading saved game
         if (loadingScene)
         {
-            mainMenuCanvas.SetActive(false);
-            loadGameCanvas.SetActive(false);
+            loadGameCanvas.gameObject.SetActive(false);
 
             if (!FadeController.instance.isFading)
             {
@@ -49,6 +69,60 @@ public class MainMenuController : MonoBehaviour
                 SceneManager.LoadScene(sceneToLoad);
             }
         }
+        //Menu controls
+        else
+        {
+            if (loadGameCanvas.gameObject.activeSelf)
+            {
+                if (inputMaster.Player.Interact.triggered)
+                {                   
+                    loadGameButton.onClick.Invoke();
+                }
+                else if (inputMaster.Player.Melee.triggered)
+                {
+                    loadGameCanvas.gameObject.SetActive(false);
+                }
+            }
+            else if (!settingsMenu.updatingSettings)
+            {
+                Vector2 inputVal = inputMaster.Player.Move.ReadValue<Vector2>();
+                bool inputCheck = inputMaster.Player.Move.triggered;
+                if (inputVal.x < 0 && inputCheck)
+                {
+                    index--;
+                    if (index < 0)
+                        index = menuElements.Length - 1;
+
+                    settingsMenu.GetSettings();
+                }
+                else if (inputVal.x > 0 && inputCheck)
+                {
+                    index++;
+                    if (index > menuElements.Length - 1)
+                        index = 0;
+
+                    settingsMenu.GetSettings();
+                }
+
+                if (inputMaster.Player.Interact.triggered)
+                {
+                    audioSource.Stop();
+                    audioSource.clip = currentElement.clip;
+                    audioSource.Play();
+                    currentElement.onClick();
+                }
+            }
+        }
+
+        settingsCanvas.interactable = currentElement.menuOption == MainMenuElement.MenuOption.settings;       
+    }
+
+    private void FixedUpdate()
+    {
+        currentElement = menuElements[index];
+
+        Camera.main.transform.rotation = Quaternion.Slerp(Camera.main.transform.rotation, loadGameCanvas.gameObject.activeSelf ? loadCamPos.rotation : currentElement.pos.rotation, camSpeed * Time.deltaTime);
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, loadGameCanvas.gameObject.activeSelf ? loadCamPos.position : currentElement.pos.position, camSpeed * Time.deltaTime);
     }
 
     public void NewGameButton()
@@ -90,7 +164,6 @@ public class MainMenuController : MonoBehaviour
         }
 
         SaveDataController.instance.CreateNewSaveFile();
-        mainMenuCanvas.SetActive(false);
         FadeController.instance.StartFade(1, 1.5f);
         sceneToLoad = "Intro"; 
         loadingScene = true;
@@ -103,10 +176,7 @@ public class MainMenuController : MonoBehaviour
         if (SaveDataController.instance.saveData.currentScene != string.Empty)
         {
             loadGameText.text = $"Last save point: {SaveDataController.instance.saveData.currentScene}";
-            mainMenuCanvas.SetActive(false);
-            loadGameCanvas.SetActive(true);
-
-            eventSystem.SetSelectedGameObject(loadButton);
+            loadGameCanvas.gameObject.SetActive(true);
         }
     }
 
@@ -119,6 +189,8 @@ public class MainMenuController : MonoBehaviour
 
     public void QuitGameButton()
     {
+        FadeController.instance.StartFade(1.0f, 1f);
+
         Application.Quit();
     }
 
@@ -131,5 +203,25 @@ public class MainMenuController : MonoBehaviour
             audioSource.volume = delta;
             yield return null;
         }
+    }
+
+    public void Test(string echo)
+    {
+        print(echo); 
+    }
+}
+
+[System.Serializable]
+public class MainMenuElement
+{
+    public enum MenuOption { title, continueGame, newGame, settings, exit }
+    public MenuOption menuOption;
+    public Transform pos;
+    public AudioClip clip;
+    public UnityEvent trigger;
+
+    public void onClick()
+    {
+        trigger.Invoke();
     }
 }

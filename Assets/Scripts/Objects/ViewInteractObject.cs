@@ -57,6 +57,7 @@ public class ViewInteractObject : InteractObject
     {
         base.EndInteract();
         PlayerController.instance.animator.SetBool("isInspecting", false);
+        m_OnTrigger.Invoke();
 
         UIController.instance.ToggleDialogueUI(false);
 
