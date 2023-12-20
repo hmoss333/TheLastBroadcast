@@ -24,6 +24,7 @@ public class MainMenuController : MonoBehaviour
     public CanvasGroup settingsCanvas, loadGameCanvas;
     [SerializeField] Button loadGameButton;
     [SerializeField] TextMeshProUGUI loadGameText, versionText;
+    [SerializeField] AudioSource audioSource;
     [SerializeField] float maxAudioVolume;
     bool loadingScene;
     string sceneToLoad;
@@ -74,7 +75,7 @@ public class MainMenuController : MonoBehaviour
             if (loadGameCanvas.gameObject.activeSelf)
             {
                 if (inputMaster.Player.Interact.triggered)
-                {
+                {                   
                     loadGameButton.onClick.Invoke();
                 }
                 else if (inputMaster.Player.Melee.triggered)
@@ -105,6 +106,9 @@ public class MainMenuController : MonoBehaviour
 
                 if (inputMaster.Player.Interact.triggered)
                 {
+                    audioSource.Stop();
+                    audioSource.clip = currentElement.clip;
+                    audioSource.Play();
                     currentElement.onClick();
                 }
             }
@@ -213,6 +217,7 @@ public class MainMenuElement
     public enum MenuOption { title, continueGame, newGame, settings, exit }
     public MenuOption menuOption;
     public Transform pos;
+    public AudioClip clip;
     public UnityEvent trigger;
 
     public void onClick()
