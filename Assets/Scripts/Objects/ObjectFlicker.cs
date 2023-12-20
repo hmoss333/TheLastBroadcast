@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
+//Any flicker object should be set as a child of the controller object so that it can be toggled without interrupting the Blink coroutine
 public class ObjectFlicker : MonoBehaviour
 {
     [SerializeField] float duration;
-    Renderer renderer;
+    [SerializeField] GameObject objToFlicker;
 
     public UnityEvent m_OnTrigger = new UnityEvent();
 
-
-    private void Awake()
-    {
-        renderer = GetComponent<Renderer>();
-    }
 
     public void StartFlicker()
     {
@@ -26,13 +23,13 @@ public class ObjectFlicker : MonoBehaviour
         float endTime = Time.time + waitTime;
         while (Time.time < endTime)
         {
-            renderer.enabled = false;
+            objToFlicker.SetActive(false);
             yield return new WaitForSeconds(Random.Range(0.0f, 0.1f));
-            renderer.enabled = true;
+            objToFlicker.SetActive(true);
             yield return new WaitForSeconds(Random.Range(0.0f, 0.1f));
         }
 
-        renderer.enabled = false; //hide object
+        objToFlicker.SetActive(false);
         m_OnTrigger.Invoke(); //call any event triggers once flicker has completed
     }
 }
