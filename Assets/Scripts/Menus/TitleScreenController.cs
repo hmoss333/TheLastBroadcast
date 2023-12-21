@@ -13,6 +13,7 @@ public class TitleScreenController : MonoBehaviour
     [SerializeField] TextMeshProUGUI titleText, quoteText, sigText;
     [SerializeField] float fadeSpeed, startDelayTime, quoteDelayTime, glitchDelayTime, titleDelayTime, titleDisplayTime, sceneDelayTime;
     private float targetVolume, t = 0f;
+    [SerializeField] string sceneToLoad;
 
 
     // Start is called before the first frame update
@@ -103,6 +104,6 @@ public class TitleScreenController : MonoBehaviour
         yield return new WaitForSeconds(sceneDelayTime);
 
         //Load next scene
-        SceneManager.LoadSceneAsync(3);
+        SceneManager.LoadSceneAsync(sceneToLoad);
     }
 }
