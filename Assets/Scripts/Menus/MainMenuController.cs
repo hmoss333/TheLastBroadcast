@@ -182,14 +182,22 @@ public class MainMenuController : MonoBehaviour
 
     public void StartSavedGame()
     {
-        FadeController.instance.StartFade(1, 1.5f);
+        FadeController.instance.StartFade(1.0f, 1.5f);
         sceneToLoad = SaveDataController.instance.saveData.currentScene;
         loadingScene = true;
     }
 
     public void QuitGameButton()
     {
+        StartCoroutine(QuitGame());
+    }
+
+    IEnumerator QuitGame()
+    {
         FadeController.instance.StartFade(1.0f, 1f);
+
+        while (FadeController.instance.isFading)
+            yield return null;
 
         Application.Quit();
     }
@@ -203,11 +211,6 @@ public class MainMenuController : MonoBehaviour
             audioSource.volume = delta;
             yield return null;
         }
-    }
-
-    public void Test(string echo)
-    {
-        print(echo); 
     }
 }
 
