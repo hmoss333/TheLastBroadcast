@@ -18,13 +18,13 @@ public class AccessTunelMazeExitPoint : MonoBehaviour
     public void Initialize()
     {
         isExit = true;
-        audioSource.mute = true;
+        audioSource.mute = false;
     }
 
     public void SetFalse()
     {
         isExit = false;
-        audioSource.mute = false;
+        audioSource.mute = true;
     }
 
     private void OnTriggerEnter(Collider other)
