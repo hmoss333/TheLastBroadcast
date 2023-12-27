@@ -16,6 +16,7 @@ public class UIController : MonoBehaviour
     [Header("Ability Variables")]
     [SerializeField] GameObject abilityObject;
     [SerializeField] Image abilityBackground, abilityIcon;
+    [SerializeField] TextMeshProUGUI abilityName;
     [SerializeField] TextMeshProUGUI abilityText;
 
     [Header("Dialogue Variables")]
@@ -61,9 +62,10 @@ public class UIController : MonoBehaviour
         loreTitle.text = title;
     }
 
-    public void ToggleAbilityUI(string text, Sprite icon)
+    public void ToggleAbilityUI(string name, string text, Sprite icon)
     {
         //uiActive = !uiActive;
+        abilityName.text = name;
         abilityText.text = text;
         abilityIcon.sprite = icon;
         abilityObject.SetActive(!abilityObject.activeSelf); //uiActive

@@ -142,7 +142,7 @@ public class TranscieverController : InteractObject
         {
             hasActivated = true;
             //SaveDataController.instance.SaveObjectData();
-            UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
+            UIController.instance.ToggleAbilityUI(abilityToGive.ToString(), abilityText, abilityIcon);
         }
     }
 
@@ -154,7 +154,7 @@ public class TranscieverController : InteractObject
         SaveDataController.instance.GiveRadioAbility(abilityName); //Give new ability station
         //SaveDataController.instance.SaveFile();
 
-        UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
+        UIController.instance.ToggleAbilityUI(abilityToGive.ToString(), abilityText, abilityIcon);
     }
 
     void GetStationdata(string abilityName)
