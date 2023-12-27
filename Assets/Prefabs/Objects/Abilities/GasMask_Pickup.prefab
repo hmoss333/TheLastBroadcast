@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 512160066047684651}
   - component: {fileID: 4365998762963764344}
   - component: {fileID: 1893440719385453538}
+  - component: {fileID: 3281396093888844184}
   m_Layer: 8
   m_Name: GasMask_Pickup
   m_TagString: Untagged
@@ -59,13 +60,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f0730b65cad49da8fc98252aa72a26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
+  hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 0}
   collectType: 2
-  abilityText: A standard gasmask, this will protect the wearer from any potentially
-    toxic chemicals
+  abilityText: A standard issue gasmask, this will protect the wearer from toxic
+    chemicals. Equip from the inventory screen.
   abilityIcon: {fileID: 21300000, guid: 58bbab9d347d74b3eb08503daf74d38b, type: 3}
+--- !u!114 &3281396093888844184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063612156035883765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id:
+    Value: 
 --- !u!1 &8835044534957894225
 GameObject:
   m_ObjectHideFlags: 0

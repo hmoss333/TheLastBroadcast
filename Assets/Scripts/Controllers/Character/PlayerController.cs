@@ -31,7 +31,7 @@ public class PlayerController : CharacterController
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Interact Variables")]
-    [SerializeField] private GameObject interactIcon;
+    [SerializeField] private InteractIcon_Controller interactIcon;
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
     private InteractObject interactObj;
@@ -109,7 +109,7 @@ public class PlayerController : CharacterController
             interactObj = null;
         }
 
-        interactIcon.SetActive(interactObj != null && !interactObj.hasActivated);
+        interactIcon.UpdateIcon(state == States.interacting, interactObj);
 
 
         //Hit wall check
@@ -187,7 +187,7 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.interacting:
-                interactIcon.SetActive(false); //hide interact icon while interacting
+                //interactIcon.SetActive(false); //hide interact icon while interacting
                 break;
             case States.moving:
                 if (!PauseMenuController.instance.isPaused)
