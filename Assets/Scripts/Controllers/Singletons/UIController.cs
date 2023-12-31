@@ -23,6 +23,7 @@ public class UIController : MonoBehaviour
     [SerializeField] Image dialogueBackground;
     [SerializeField] GameObject quotationMarks;
     [SerializeField] TextMeshProUGUI dialogueText;
+    [SerializeField] TextMeshProUGUI dialogueSpeakerName;
     [SerializeField] Image inputIcon;
     float pulseTime = 0.5f;
     float inputAlpha;
@@ -84,8 +85,9 @@ public class UIController : MonoBehaviour
         StartCoroutine(FadeTo(value ? 1f : 0f, 0.65f));
     }
 
-    public void ToggleQuoteMarks(bool value)
+    public void ToggleQuoteMarks(string speakerName, bool value)
     {
+        dialogueSpeakerName.text = speakerName;
         quotationMarks.SetActive(value);
     }
 
