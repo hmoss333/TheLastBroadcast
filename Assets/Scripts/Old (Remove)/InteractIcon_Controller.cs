@@ -26,7 +26,7 @@ public class InteractIcon_Controller : MonoBehaviour
     {
         bool canDisplay = false;
         if (interactObject != null)
-            canDisplay = interactObject.active;
+            canDisplay = !interactObject.hasActivated;
 
         if (!isInteracting && canDisplay)
             isActive = true;
