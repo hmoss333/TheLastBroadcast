@@ -10,6 +10,7 @@ using UnityEngine.Serialization;
 public class DialogueController : InteractObject
 {
     [SerializeField] bool talkOnce, quoteMarks;
+    [SerializeField] private string speakerName;
     [SerializeField] private string[] lines;
     [SerializeField] private int index;
     private bool canInteract, pauseTyping;
@@ -80,7 +81,7 @@ public class DialogueController : InteractObject
                 canInteract = true; //Ready for next input
                 UIController.instance.SetDialogueText(lines[index], true);
                 if (quoteMarks)
-                    UIController.instance.ToggleQuoteMarks(true);
+                    UIController.instance.ToggleQuoteMarks(speakerName, true);
             }
             else
             {
@@ -96,7 +97,7 @@ public class DialogueController : InteractObject
 
                 PlayerController.instance.SetState(PlayerController.States.idle); //Release player from interact state
                 UIController.instance.ToggleDialogueInputIcon(false); //Force disable Input Icon
-                UIController.instance.ToggleQuoteMarks(false); //Disable quotation marks
+                UIController.instance.ToggleQuoteMarks(speakerName, false); //Disable quotation marks
 
                 m_OnTrigger.Invoke();
             }

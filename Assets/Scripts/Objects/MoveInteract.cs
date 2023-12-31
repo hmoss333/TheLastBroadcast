@@ -16,7 +16,7 @@ public class MoveInteract : InteractObject
     private void Start()
     {
         if (hasActivated)
-            transform.localPosition = positions[positions.Length];
+            transform.localPosition = positions[positions.Length - 1];
     }
 
     public override void Interact()

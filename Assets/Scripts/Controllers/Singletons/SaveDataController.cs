@@ -90,6 +90,7 @@ public class SaveDataController : MonoBehaviour
                         sceneObjects[i].hasActivated = obj.hasActivated;
                         sceneObjects[i].needItem = obj.needItem;
                         sceneObjects[i].inventoryItemID = obj.inventoryItemID;
+                        sceneObjects[i].InitializeObject();
                         break;
                     }
                 }
