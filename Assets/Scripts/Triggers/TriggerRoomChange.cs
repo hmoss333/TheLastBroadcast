@@ -12,7 +12,10 @@ public class TriggerRoomChange : DoorController
         if (other.tag == "Player")
         {
             if (animationTrigger != string.Empty)
+            {
                 other.GetComponentInChildren<Animator>().SetTrigger(animationTrigger);
+                PlayerController.instance.SetState(PlayerController.States.interacting);
+            }
 
             Interact();
         }
