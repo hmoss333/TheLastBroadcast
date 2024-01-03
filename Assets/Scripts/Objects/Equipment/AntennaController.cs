@@ -87,5 +87,7 @@ public class AntennaController : InteractObject
         if (CameraController.instance.GetTriggerState())
             CameraController.instance.SetRotation(true);
         PlayerController.instance.SetState(PlayerController.States.idle);
+
+        m_OnTrigger.Invoke();
     }
 }
