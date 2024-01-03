@@ -14,7 +14,7 @@ public class TranscieverController : InteractObject
 
     [Header("Ability Values")]
     [SerializeField] float targetFrequency;
-    [SerializeField] enum AbilityToGive { Tune, Invisibility, Rats };
+    [SerializeField] enum AbilityToGive { None, Tune, Invisibility, Rats };
     [SerializeField] AbilityToGive abilityToGive;
 
     [Header("Transmitter Frequency Values")]
@@ -40,7 +40,12 @@ public class TranscieverController : InteractObject
 
     private void Start()
     {
-        GetStationdata(abilityToGive.ToString());
+        if (abilityToGive != AbilityToGive.None)
+            GetStationdata(abilityToGive.ToString());
+        else
+            targetFrequency = Random.Range(4.5f, 8.5f); //Set random targetFrequency
+
+
         frequencyText.gameObject.SetActive(false);
     }
 
@@ -104,7 +109,14 @@ public class TranscieverController : InteractObject
             {
                 startCountdown = false;
                 gaveAbility = true;
-                GiveStationAbility(abilityToGive.ToString());
+                hasActivated = true;
+                interacting = false;
+                m_OnTrigger.Invoke();
+
+                if (abilityToGive != AbilityToGive.None)
+                    GiveStationAbility(abilityToGive.ToString());
+                else
+                    StartCoroutine(TurnOnRoutine());
             }
         }
         else
@@ -170,5 +182,17 @@ public class TranscieverController : InteractObject
                 break;
             }
         }
+    }
+
+    IEnumerator TurnOnRoutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        PlayerController.instance.ToggleAvatar();
+        CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
+        CameraController.instance.FocusTarget();
+        if (CameraController.instance.GetTriggerState())
+            CameraController.instance.SetRotation(true);
+        PlayerController.instance.SetState(PlayerController.States.idle);
     }
 }
