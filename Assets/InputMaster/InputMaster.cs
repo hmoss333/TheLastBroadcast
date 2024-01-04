@@ -170,6 +170,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""3c73688d-4706-4e60-9db6-0827a7d7a80d"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""Radio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a68d0f06-3e84-41c7-81e4-26f844da87cd"",
+                    ""path"": ""<DualShockGamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
+                    ""action"": ""Radio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""fbc9aff4-00c0-4664-b7df-a318a494572f"",
                     ""path"": ""<SwitchProControllerHID>/buttonEast"",
                     ""interactions"": """",
@@ -186,6 +208,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0e3c715-f87f-413d-84f0-ccad0a64cc3d"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59859397-6d0a-453d-9eba-626232c78c01"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -214,6 +258,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""960dfd1e-9187-4b2f-b62b-a15586265091"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""RadioSpecial"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e295097c-500e-47f7-b4c0-a66dd248f59a"",
+                    ""path"": ""<DualShockGamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
+                    ""action"": ""RadioSpecial"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""648af070-0d8e-4396-8906-82cb7e4fff75"",
                     ""path"": ""<SwitchProControllerHID>/leftShoulder"",
                     ""interactions"": """",
@@ -236,8 +302,30 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""42a8d8d1-514b-46df-9ffb-3d597460cf3a"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""Health"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""106f64b1-b900-4f3e-b624-2e8f97d7a919"",
+                    ""path"": ""<DualShockGamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
+                    ""action"": ""Health"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""050725b0-9945-4eaf-858a-5ca3a7a84362"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""path"": ""<SwitchProControllerHID>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Switch Pro Controller"",
@@ -252,6 +340,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""56d70114-1e82-4110-ada9-12e338cb0003"",
+                    ""path"": ""<XInputController>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""83c4228f-5b3b-4cf1-b7b5-0dd001c389ea"",
+                    ""path"": ""<DualShockGamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -280,6 +390,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""cd798403-b413-43cf-87aa-55542492b411"",
+                    ""path"": ""<XInputController>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""MenuLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ab9cf8c-77bf-4362-a3f3-2d0d82b9b269"",
+                    ""path"": ""<DualShockGamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
+                    ""action"": ""MenuLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""869d3bd7-187a-40e7-a1e3-bf33539ca477"",
                     ""path"": ""<SwitchProControllerHID>/rightShoulder"",
                     ""interactions"": """",
@@ -302,12 +434,23 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""fe27a161-c346-4bf1-ac7f-815a18a723e3"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""id"": ""dd21acdd-b3de-4d0e-a105-1deef309b22e"",
+                    ""path"": ""<XInputController>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Switch Pro Controller"",
-                    ""action"": ""Run"",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""MenuRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6862bed-2ea8-4224-8d80-61dbefa172b8"",
+                    ""path"": ""<DualShockGamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
+                    ""action"": ""MenuRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -445,6 +588,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""925ceeaa-2864-44a0-a422-3b98d7ea7e61"",
+                    ""path"": ""<XInputController>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6467e522-6557-4b5d-85b0-15ab1802085c"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""413745f6-da5b-4b62-bbaa-9e479420ee06"",
                     ""path"": ""<SwitchProControllerHID>/rightStick"",
                     ""interactions"": """",
@@ -522,6 +687,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""42e4355e-ef97-4300-b4fa-e2e4965df770"",
+                    ""path"": ""<XInputController>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""TuneRadio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c3aee55-8cf3-4902-9f79-bf63c6e728a8"",
+                    ""path"": ""<DualShockGamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
+                    ""action"": ""TuneRadio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""cf2a0795-f532-480b-a064-8d3ebc4bf100"",
                     ""path"": ""<SwitchProControllerHID>/rightTrigger"",
                     ""interactions"": """",
@@ -538,6 +725,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
+                    ""action"": ""Flashlight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""13f31539-76af-4cfa-8462-3040574c9acf"",
+                    ""path"": ""<XInputController>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""Flashlight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04b52d4c-c901-4d34-8b70-7586e3958096"",
+                    ""path"": ""<DualShockGamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
                     ""action"": ""Flashlight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -566,6 +775,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a01880e7-daa7-420a-805e-b90ce29d97f1"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""Melee"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d4fec83-12a6-49dd-b6b1-9374f0c2bd9c"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
+                    ""action"": ""Melee"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""41edca75-117d-47bd-b349-1b9e56e9f747"",
                     ""path"": ""<Gamepad>/rightStickPress"",
                     ""interactions"": """",
@@ -582,6 +813,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
+                    ""action"": ""ShiftCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ee94553-6672-4f0c-bb38-8637a3ceaff5"",
+                    ""path"": ""<XInputController>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox Controller"",
+                    ""action"": ""ShiftCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""42691de2-95db-4ad8-a8a2-3ddb197f3a57"",
+                    ""path"": ""<DualShockGamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayStation Controller"",
                     ""action"": ""ShiftCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -611,6 +864,16 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""XBox Controller"",
+            ""bindingGroup"": ""XBox Controller"",
+            ""devices"": []
+        },
+        {
+            ""name"": ""PlayStation Controller"",
+            ""bindingGroup"": ""PlayStation Controller"",
+            ""devices"": []
         }
     ]
 }");
@@ -829,6 +1092,24 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         {
             if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
             return asset.controlSchemes[m_KeyboardSchemeIndex];
+        }
+    }
+    private int m_XBoxControllerSchemeIndex = -1;
+    public InputControlScheme XBoxControllerScheme
+    {
+        get
+        {
+            if (m_XBoxControllerSchemeIndex == -1) m_XBoxControllerSchemeIndex = asset.FindControlSchemeIndex("XBox Controller");
+            return asset.controlSchemes[m_XBoxControllerSchemeIndex];
+        }
+    }
+    private int m_PlayStationControllerSchemeIndex = -1;
+    public InputControlScheme PlayStationControllerScheme
+    {
+        get
+        {
+            if (m_PlayStationControllerSchemeIndex == -1) m_PlayStationControllerSchemeIndex = asset.FindControlSchemeIndex("PlayStation Controller");
+            return asset.controlSchemes[m_PlayStationControllerSchemeIndex];
         }
     }
     public interface IPlayerActions

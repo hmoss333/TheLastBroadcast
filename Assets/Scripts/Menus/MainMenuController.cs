@@ -86,8 +86,8 @@ public class MainMenuController : MonoBehaviour
             else if (!settingsMenu.updatingSettings)
             {
                 Vector2 inputVal = inputMaster.Player.Move.ReadValue<Vector2>();
-                bool inputCheck = inputMaster.Player.Move.triggered;
-                if (inputVal.x < 0 && inputCheck)
+                bool inputCheck = inputMaster.Player.Move.WasPressedThisFrame();
+                if (Mathf.RoundToInt(inputVal.x) < 0 && inputCheck)
                 {
                     index--;
                     if (index < 0)
@@ -95,7 +95,7 @@ public class MainMenuController : MonoBehaviour
 
                     settingsMenu.GetSettings();
                 }
-                else if (inputVal.x > 0 && inputCheck)
+                else if (Mathf.RoundToInt(inputVal.x) > 0 && inputCheck)
                 {
                     index++;
                     if (index > menuElements.Length - 1)
