@@ -20,15 +20,8 @@ public class SaveObject : MonoBehaviour
     public UnityEvent m_OnTrigger = new UnityEvent();
 
 
-    private void Start()
-    {
-        if ((hasActivated || !active) && hideOnLoad)
-        {
-            gameObject.SetActive(false);
-        }
-    }
-
-    private void OnEnable()
+    //Called when a scene is loaded after the object's active and hasActivated values have been loaded from file 
+    public void InitializeObject()
     {
         if ((hasActivated || !active) && hideOnLoad)
         {

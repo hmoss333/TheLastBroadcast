@@ -13,19 +13,31 @@ using System.IO;
 
 public class MainMenuController : MonoBehaviour
 {
+    public static MainMenuController instance;
+
     [SerializeField] MainMenuElement[] menuElements;
     public MainMenuElement currentElement { get; private set; }
+    [SerializeField] Transform loadCamPos;
     [SerializeField] float camSpeed;
     private int index;
     public InputMaster inputMaster;
-    [SerializeField] CanvasGroup loadGameCanvas, settingsCanvas;
+    public CanvasGroup settingsCanvas, loadGameCanvas;
     [SerializeField] Button loadGameButton;
     [SerializeField] TextMeshProUGUI loadGameText, versionText;
+    [SerializeField] AudioSource audioSource;
     [SerializeField] float maxAudioVolume;
     bool loadingScene;
     string sceneToLoad;
     SettingsMenuController settingsMenu;
 
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
+    }
 
     private void Start()
     {
@@ -38,6 +50,8 @@ public class MainMenuController : MonoBehaviour
         currentElement = menuElements[index];
 
         versionText.text = $"Version: {Application.version}";
+
+        FadeController.instance.StartFade(0f, 1f);
 
         //StartCoroutine(FadeAudio(backgroundAudio, maxAudioVolume, 10f));
     }
@@ -61,7 +75,7 @@ public class MainMenuController : MonoBehaviour
             if (loadGameCanvas.gameObject.activeSelf)
             {
                 if (inputMaster.Player.Interact.triggered)
-                {
+                {                   
                     loadGameButton.onClick.Invoke();
                 }
                 else if (inputMaster.Player.Melee.triggered)
@@ -72,8 +86,8 @@ public class MainMenuController : MonoBehaviour
             else if (!settingsMenu.updatingSettings)
             {
                 Vector2 inputVal = inputMaster.Player.Move.ReadValue<Vector2>();
-                bool inputCheck = inputMaster.Player.Move.triggered;
-                if (inputVal.x < 0 && inputCheck)
+                bool inputCheck = inputMaster.Player.Move.WasPressedThisFrame();
+                if (Mathf.RoundToInt(inputVal.x) < 0 && inputCheck)
                 {
                     index--;
                     if (index < 0)
@@ -81,7 +95,7 @@ public class MainMenuController : MonoBehaviour
 
                     settingsMenu.GetSettings();
                 }
-                else if (inputVal.x > 0 && inputCheck)
+                else if (Mathf.RoundToInt(inputVal.x) > 0 && inputCheck)
                 {
                     index++;
                     if (index > menuElements.Length - 1)
@@ -92,6 +106,9 @@ public class MainMenuController : MonoBehaviour
 
                 if (inputMaster.Player.Interact.triggered)
                 {
+                    audioSource.Stop();
+                    audioSource.clip = currentElement.clip;
+                    audioSource.Play();
                     currentElement.onClick();
                 }
             }
@@ -104,8 +121,8 @@ public class MainMenuController : MonoBehaviour
     {
         currentElement = menuElements[index];
 
-        Camera.main.transform.rotation = Quaternion.Slerp(Camera.main.transform.rotation, currentElement.pos.rotation, camSpeed * Time.deltaTime);
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, currentElement.pos.position, camSpeed * Time.deltaTime);
+        Camera.main.transform.rotation = Quaternion.Slerp(Camera.main.transform.rotation, loadGameCanvas.gameObject.activeSelf ? loadCamPos.rotation : currentElement.pos.rotation, camSpeed * Time.deltaTime);
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, loadGameCanvas.gameObject.activeSelf ? loadCamPos.position : currentElement.pos.position, camSpeed * Time.deltaTime);
     }
 
     public void NewGameButton()
@@ -165,13 +182,23 @@ public class MainMenuController : MonoBehaviour
 
     public void StartSavedGame()
     {
-        FadeController.instance.StartFade(1, 1.5f);
+        FadeController.instance.StartFade(1.0f, 1.5f);
         sceneToLoad = SaveDataController.instance.saveData.currentScene;
         loadingScene = true;
     }
 
     public void QuitGameButton()
     {
+        StartCoroutine(QuitGame());
+    }
+
+    IEnumerator QuitGame()
+    {
+        FadeController.instance.StartFade(1.0f, 1f);
+
+        while (FadeController.instance.isFading)
+            yield return null;
+
         Application.Quit();
     }
 
@@ -185,11 +212,6 @@ public class MainMenuController : MonoBehaviour
             yield return null;
         }
     }
-
-    public void Test(string echo)
-    {
-        print(echo); 
-    }
 }
 
 [System.Serializable]
@@ -198,6 +220,7 @@ public class MainMenuElement
     public enum MenuOption { title, continueGame, newGame, settings, exit }
     public MenuOption menuOption;
     public Transform pos;
+    public AudioClip clip;
     public UnityEvent trigger;
 
     public void onClick()

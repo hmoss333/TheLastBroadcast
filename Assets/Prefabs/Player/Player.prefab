@@ -1400,8 +1400,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   checkDist: 10
-  flashlightTime: 10
-  flickerVal: 3
+  flashlightTime: 15
+  flickerVal: 5
   rechargeRate: 1.5
 --- !u!1 &2620357245112452162
 GameObject:
@@ -1656,7 +1656,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 900f14f6cb2a8453397afddaefbc3400, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.025
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3801,7 +3801,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
+  m_Radius: 0.4
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -3854,8 +3854,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: Keyboard
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -3912,12 +3912,13 @@ MonoBehaviour:
   rb: {fileID: 0}
   col: {fileID: 0}
   animator: {fileID: 199947665006198363}
+  runSpeed: 5
   rotSpeed: 15
   lookTransform: {fileID: 3825982486242999916}
   lookOffset: 1.5
   state: 0
   health: {fileID: 2647051179905232537}
-  interactIcon: {fileID: 1445516593722355896}
+  interactIcon: {fileID: 1606648038}
   layer:
     serializedVersion: 2
     m_Bits: 257
@@ -3931,6 +3932,7 @@ MonoBehaviour:
   gasMaskOverlay: {fileID: 6882051387586831634}
   melee: {fileID: 6571086900046981951}
   damage: 1
+  inputDevice: 
 --- !u!114 &3308665666861343286
 MonoBehaviour:
   m_ObjectHideFlags: 0

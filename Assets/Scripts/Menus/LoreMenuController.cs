@@ -44,16 +44,17 @@ public class LoreMenuController : MonoBehaviour
 
     public void LoadLoreData(int id)
     {
-        for (int i = 0; i < currentLoreData.Count; i++)
-        {
-            if (currentLoreData[i].id == id)
-            {
-                print($"Loading lore data for index {currentLoreData[i].id}");
-                loreTitle.text = currentLoreData[i].title != "" ? currentLoreData[i].title : $"Missing Title: {currentLoreData[i].id}";
-                loreText.text = currentLoreData[i].text != "" ? currentLoreData[i].text : $"Missing Text: {currentLoreData[i].id}";
-                break;
-            }
-        }
+        print("TODO: load lore data to visible space in pause menu");
+        //for (int i = 0; i < currentLoreData.Count; i++)
+        //{
+        //    if (currentLoreData[i].id == id)
+        //    {
+        //        print($"Loading lore data for index {currentLoreData[i].id}");
+        //        loreTitle.text = currentLoreData[i].title != "" ? currentLoreData[i].title : $"Missing Title: {currentLoreData[i].id}";
+        //        loreText.text = currentLoreData[i].text != "" ? currentLoreData[i].text : $"Missing Text: {currentLoreData[i].id}";
+        //        break;
+        //    }
+        //}
     }
 
     //TODO

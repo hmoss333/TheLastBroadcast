@@ -16,11 +16,14 @@ public class UIController : MonoBehaviour
     [Header("Ability Variables")]
     [SerializeField] GameObject abilityObject;
     [SerializeField] Image abilityBackground, abilityIcon;
+    [SerializeField] TextMeshProUGUI abilityName;
     [SerializeField] TextMeshProUGUI abilityText;
 
     [Header("Dialogue Variables")]
     [SerializeField] Image dialogueBackground;
+    [SerializeField] GameObject quotationMarks;
     [SerializeField] TextMeshProUGUI dialogueText;
+    [SerializeField] TextMeshProUGUI dialogueSpeakerName;
     [SerializeField] Image inputIcon;
     float pulseTime = 0.5f;
     float inputAlpha;
@@ -38,8 +41,8 @@ public class UIController : MonoBehaviour
         else
             Destroy(this);
 
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
@@ -49,20 +52,24 @@ public class UIController : MonoBehaviour
         inputIcon.color = tempColor;
     }
 
-    public void ToggleLoreUI(string text, string title)
+    public void ToggleLoreUI(bool value)
     {
-        uiActive = !uiActive;
-        loreText.text = text;
-        loreTitle.text = title;
-        loreObject.SetActive(uiActive);
+        loreObject.SetActive(value);
     }
 
-    public void ToggleAbilityUI(string text, Sprite icon)
+    public void SetLoreText(string text, string title)
     {
-        uiActive = !uiActive;
+        loreText.text = text;
+        loreTitle.text = title;
+    }
+
+    public void ToggleAbilityUI(string name, string text, Sprite icon)
+    {
+        //uiActive = !uiActive;
+        abilityName.text = name;
         abilityText.text = text;
         abilityIcon.sprite = icon;
-        abilityObject.SetActive(uiActive);
+        abilityObject.SetActive(!abilityObject.activeSelf); //uiActive
     }
 
     public void SetDialogueText(string text, bool typeText)
@@ -76,6 +83,12 @@ public class UIController : MonoBehaviour
     {
         dialogueText.gameObject.SetActive(value);
         StartCoroutine(FadeTo(value ? 1f : 0f, 0.65f));
+    }
+
+    public void ToggleQuoteMarks(string speakerName, bool value)
+    {
+        dialogueSpeakerName.text = speakerName;
+        quotationMarks.SetActive(value);
     }
 
     public void ToggleDialogueInputIcon(bool value)

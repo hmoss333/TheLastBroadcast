@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using UnityEngine.Windows;
 
 public class AbilityPickup : InteractObject
 {
@@ -41,7 +42,9 @@ public class AbilityPickup : InteractObject
             genAbilityText = abilityText;
         }
 
-        UIController.instance.ToggleAbilityUI(genAbilityText, abilityIcon);
+        string abilityName = collectType.ToString();
+        abilityName = abilityName[0].ToString().ToUpper() + abilityName.Substring(1);
+        UIController.instance.ToggleAbilityUI(abilityName, genAbilityText, abilityIcon);
         SaveDataController.instance.GiveAbility(collectType.ToString());
         print("Collected " + gameObject.name);
     }
@@ -49,7 +52,9 @@ public class AbilityPickup : InteractObject
     public override void EndInteract()
     {
         SetHasActivated();
-        UIController.instance.ToggleAbilityUI(abilityText, abilityIcon);
+        string abilityName = collectType.ToString();
+        abilityName = abilityName[0].ToString().ToUpper() + abilityName.Substring(1);
+        UIController.instance.ToggleAbilityUI(abilityName, abilityText, abilityIcon);
 
         m_OnTrigger.Invoke();
 
@@ -74,6 +79,7 @@ public class AbilityPickup : InteractObject
         InputAction inputAction = PlayerController.instance.inputMaster.FindAction(inputName);
         PlayerInput input = FindObjectOfType<PlayerInput>();
         string currentDevice = input.currentControlScheme;
+        print(currentDevice);
         int bindingVal;
 
         //Set binding based on current device
@@ -93,7 +99,7 @@ public class AbilityPickup : InteractObject
         string abilityTextBegin = getBetween(abilityText, "", "{");
         string buttonString = GetButtonName(getBetween(abilityText, "{", "}"));
         string abilityTextEnd = getBetween(abilityText, "}", ".");
-        string tempAbilityText = $"{abilityTextBegin}{buttonString}{abilityTextEnd}";
+        string tempAbilityText = $"{abilityTextBegin}<color=#E5E727>{buttonString}</color>{abilityTextEnd}";
 
         return tempAbilityText;
     }

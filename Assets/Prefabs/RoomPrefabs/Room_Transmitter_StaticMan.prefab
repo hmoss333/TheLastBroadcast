@@ -818,6 +818,7 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
 --- !u!1 &1150640600143543699
 GameObject:
@@ -841,7 +842,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1150640600143543698
 Transform:
   m_ObjectHideFlags: 0
@@ -985,8 +986,11 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - "\"\u2014to come is easy and takes hours; to go is different\u2014and may take
     centuries.\""
@@ -1006,6 +1010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a0befd7b5554da79b464e7748a29f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setFocusPointRot: 1
 --- !u!1 &1150640600267494004
 GameObject:
   m_ObjectHideFlags: 0
@@ -1468,7 +1473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1150640600873933002
 Transform:
   m_ObjectHideFlags: 0
@@ -1681,11 +1686,13 @@ MonoBehaviour:
       m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   exitPoint: {fileID: 0}
   exitRoom: {fileID: 0}
   triggerDelay: 0.5
   triggerTime: 1.5
+  animationTrigger: 
 --- !u!1 &1150640600950709126
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,6 +1842,7 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
 --- !u!1 &1150640601210395989
 GameObject:
@@ -1947,7 +1955,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1150640601261252712
 Transform:
   m_ObjectHideFlags: 0
@@ -2019,7 +2027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3b0c891667c4a3a974d9c69edc3457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: a77c4eb6-6be8-4acb-bf7b-d2902da02243
+  id: 
   active: 0
   hasActivated: 0
   focusOnActivate: 0
@@ -2659,6 +2667,7 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
 --- !u!1 &1150640601769882736
 GameObject:
@@ -2809,6 +2818,7 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
 --- !u!1 &1311304700177269738
 GameObject:
@@ -3938,7 +3948,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1734948511151321153
 Transform:
   m_ObjectHideFlags: 0
@@ -4025,7 +4035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3b0c891667c4a3a974d9c69edc3457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: cea84bb0-99fc-4223-b0f8-9ab73a3910d1
+  id: 
   active: 0
   hasActivated: 0
   focusOnActivate: 0
@@ -5130,6 +5140,7 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 7486389341066838685}
   targetFrequency: 0
   minTarget: 2.75
@@ -7134,7 +7145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8222698265434321422
 Transform:
   m_ObjectHideFlags: 0
@@ -7287,6 +7298,7 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
 --- !u!1 &7661456729403871087
 GameObject:
@@ -7909,7 +7921,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802622, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: id
-      value: 4c0f6497-f608-419a-8ead-ee1db4e7c7da
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39e71155a41b64740b341995cacafc81, type: 3}
@@ -14744,7 +14756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: f465391d-037c-401f-be04-cad5fee98391
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: active

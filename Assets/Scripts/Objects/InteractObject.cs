@@ -9,6 +9,7 @@ public class InteractObject : SaveObject
 {
     [HideInInspector] public bool interacting;
     public string inactiveText;
+    public bool focusOnInteract;
     public Transform focusPoint;
 
 
@@ -31,7 +32,7 @@ public class InteractObject : SaveObject
         {
             if (interacting)
             {
-                StartInteract();
+                StartInteract();            
             }
             else
             {
@@ -42,6 +43,15 @@ public class InteractObject : SaveObject
         {
             UIController.instance.SetDialogueText(inactiveText, false);
             UIController.instance.ToggleDialogueUI(interacting);
+        }
+
+        if (focusOnInteract && focusPoint != null)
+        {
+            PlayerController.instance.ToggleAvatar();
+            CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
+            CameraController.instance.FocusTarget();
+            if (CameraController.instance.GetTriggerState())
+                CameraController.instance.SetRotation(true);
         }
     }
 

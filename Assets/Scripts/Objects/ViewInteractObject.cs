@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class ViewInteractObject : InteractObject
 {
-    bool viewing;
+    [NaughtyAttributes.HorizontalLine]
 
     [SerializeField] Camera viewCam;
     [SerializeField] Camera mainCam;
+    bool viewing;
 
     RoomController viewRoom;
     RoomController currentRoom;
@@ -55,6 +57,7 @@ public class ViewInteractObject : InteractObject
     {
         base.EndInteract();
         PlayerController.instance.animator.SetBool("isInspecting", false);
+        m_OnTrigger.Invoke();
 
         UIController.instance.ToggleDialogueUI(false);
 

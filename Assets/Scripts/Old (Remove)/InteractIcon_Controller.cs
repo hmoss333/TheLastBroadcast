@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class InteractIcon_Controller : MonoBehaviour
 {
     bool isActive;
-    bool interacting;
-    InteractObject targetObj;
     Image icon;
     [SerializeField] float fadeTime;
 
@@ -20,21 +18,21 @@ public class InteractIcon_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, Mathf.PingPong(Time.time, fadeTime)/fadeTime);
-        try { transform.LookAt(Camera.main.transform); }
+        try
+        {
+            icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, Mathf.PingPong(Time.time, fadeTime) / fadeTime);
+            transform.LookAt(Camera.main.transform);
+        }
         catch { }
     }
 
     public void UpdateIcon(bool isInteracting, InteractObject interactObject)
     {
-        interacting = isInteracting;
-        targetObj = interactObject;
-
         bool canDisplay = false;
         if (interactObject != null)
-            canDisplay = interactObject.active;
+            canDisplay = !interactObject.hasActivated;
 
-        if (targetObj != null && !interacting && canDisplay)
+        if (!isInteracting && canDisplay)
             isActive = true;
         else
             isActive = false;

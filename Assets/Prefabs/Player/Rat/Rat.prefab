@@ -195,9 +195,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 3
   shockEffect: 1
-  isHit: 0
   cooldownTime: 1
-  hitEffect: {fileID: 4140390558042178662, guid: 566042e42bdab4633922b6835db1aaf6, type: 3}
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1979574040766100591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,7 +217,7 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 512
-  checkDist: 2
+  checkDist: 1
   melee: {fileID: 1295990072912259713}
   animator: {fileID: 6344636479763652339}
 --- !u!1 &6344636479773174913

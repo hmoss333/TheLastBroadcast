@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
     private float xTemp;
     Quaternion baseRot;
 
-    [SerializeField]
+    //[SerializeField] //useful for debugging
     private bool focus, setRot, inTrigger, hitWall;
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] float rotRate;
     [SerializeField] float focusRotRate;
 
-    [SerializeField] private bool focusingOnObjs;
+    private bool focusingOnObjs;
     [SerializeField] private List<SaveObject> objsToFocus;
 
     Coroutine resetRot;
@@ -205,7 +205,7 @@ public class CameraController : MonoBehaviour
         {
             CameraController.instance.SetTarget(objsToFocus[i].transform);
 
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(2f);
         }
 
         setRot = tempRotSet;
