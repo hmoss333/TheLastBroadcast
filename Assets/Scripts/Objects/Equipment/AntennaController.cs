@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class AntennaController : InteractObject
 {
-    [SerializeField] private bool turnedOn;
+    //[SerializeField] private bool turnedOn;
     [SerializeField] private float speed, currentValue, targetValue, offset;
     [SerializeField] float waitTime, checkTime;
     [SerializeField] GameObject miniGameUI, miniGameLight;
@@ -20,7 +20,7 @@ public class AntennaController : InteractObject
 
     private void Update()
     {
-        if (interacting && !turnedOn)
+        if (interacting && !hasActivated)//turnedOn)
         {
             float antennaValue = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y;
             currentValue += antennaValue * speed * Time.deltaTime;
@@ -42,7 +42,7 @@ public class AntennaController : InteractObject
             }
         }
 
-        miniGameUI.SetActive(active && interacting && !turnedOn);
+        miniGameUI.SetActive(active && interacting && !hasActivated);
         if (!active)
             miniGameLight.GetComponent<Renderer>().material.color = Color.black;
         if (hasActivated)
@@ -70,7 +70,6 @@ public class AntennaController : InteractObject
     void TurnOn()
     {
         miniGameLight.GetComponent<Renderer>().material.color = Color.green;
-        turnedOn = true;
         SetHasActivated();
         //SaveDataController.instance.SaveObjectData();
 
@@ -81,10 +80,14 @@ public class AntennaController : InteractObject
     {
         yield return new WaitForSeconds(1.5f);
 
-        turnedOn = true;
+        //turnedOn = true;
         PlayerController.instance.ToggleAvatar();
-        CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);
+        CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
         CameraController.instance.FocusTarget();
+        if (CameraController.instance.GetTriggerState())
+            CameraController.instance.SetRotation(true);
         PlayerController.instance.SetState(PlayerController.States.idle);
+
+        m_OnTrigger.Invoke();
     }
 }
