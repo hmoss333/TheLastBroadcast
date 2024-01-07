@@ -109,8 +109,6 @@ public class SceneInitController : MonoBehaviour
         }
 
         StartCoroutine(LateStart());
-
-        FadeController.instance.StartFade(0.0f, fadeInTime);
     }
 
     IEnumerator LateStart()
@@ -118,5 +116,7 @@ public class SceneInitController : MonoBehaviour
         yield return new WaitForSeconds(0.01f);
 
         CameraController.instance.transform.position = PlayerController.instance.gameObject.transform.position;
+
+        FadeController.instance.StartFade(0.0f, fadeInTime);
     }
 }
