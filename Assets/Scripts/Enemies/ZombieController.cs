@@ -17,23 +17,23 @@ public class ZombieController : CharacterController
     [SerializeField] private int damage;
 
     SaveObject saveObj;
-    NavMeshAgent agent;
+    //NavMeshAgent agent;
 
     // Start is called before the first frame update
     override public void Start()
     {
         melee.damage = damage;
-        //storedSpeed = speed;
+        storedSpeed = speed;
         tempFocusTime = focusTime;
         saveObj = GetComponent<SaveObject>();
 
         //Add NavMeshAgent at runtime
-        NavMeshAgent tempAgent = this.gameObject.AddComponent<NavMeshAgent>();
-        tempAgent.baseOffset = 1f;
-        tempAgent.speed = speed;
-        tempAgent.angularSpeed = 0f;
-        tempAgent.acceleration = 100f;
-        agent = tempAgent;
+        //NavMeshAgent tempAgent = this.gameObject.AddComponent<NavMeshAgent>();
+        //tempAgent.baseOffset = 1f;
+        //tempAgent.speed = speed;
+        //tempAgent.angularSpeed = 0f;
+        //tempAgent.acceleration = 100f;
+        //agent = tempAgent;
 
         base.Start();
     }
@@ -59,7 +59,7 @@ public class ZombieController : CharacterController
 
             if (dist <= seeDist || (seePlayer && dist <= loseDist))
             {
-                if (hits[0].collider.gameObject.CompareTag("Player"))
+                if (hits.Length > 0 && hits[0].collider.gameObject.CompareTag("Player"))
                 {
                     if (!seePlayer)
                     {
@@ -90,7 +90,7 @@ public class ZombieController : CharacterController
                     if (!isPlaying("Melee"))
                     {
                         transform.LookAt(playerPos);
-                        agent.SetDestination(playerPos);
+                        //agent.SetDestination(playerPos);
                     }
                 }
 
@@ -121,8 +121,8 @@ public class ZombieController : CharacterController
 
         if (!isPlaying("Sleep") && !isPlaying("WakeUp"))
         {
-            agent.speed = !isPlaying("Move") || dist <= attackDist ? 0f : speed; //storedSpeed
-            //rb.velocity = transform.forward * storedSpeed;
+            storedSpeed = !isPlaying("Move") || dist <= attackDist ? 0f : speed; //storedSpeed
+            rb.velocity = transform.forward * storedSpeed;
         }
 
         if (!dead && seePlayer)
