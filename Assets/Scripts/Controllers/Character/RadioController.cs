@@ -33,8 +33,8 @@ public class RadioController : MonoBehaviour
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Audio Elements")]
-    [SerializeField] private AudioSource staticSource;
-    [SerializeField] private AudioSource stationSource;
+    [SerializeField] public AudioSource staticSource;
+    //[SerializeField] private AudioSource stationSource;
 
 
 
