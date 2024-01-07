@@ -41,8 +41,10 @@ public class UIController : MonoBehaviour
         else
             Destroy(this);
 
+#if !UNITY_EDITOR
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+#endif
     }
 
     private void Update()
