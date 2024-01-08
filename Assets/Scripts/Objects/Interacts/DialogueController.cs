@@ -12,7 +12,7 @@ public class DialogueController : InteractObject
     [SerializeField] bool talkOnce, quoteMarks;
     [SerializeField] private string speakerName;
     [SerializeField] private string[] lines;
-    [SerializeField] private int index;
+    private int index;
     private bool canInteract, pauseTyping;
     private float iconTimer = 4f;
 
