@@ -430,4 +430,21 @@ public class PlayerController : CharacterController
     {
         isSeen = true;
     }
+
+
+
+    //WakeUp animation delay
+    public void PauseAnimation(float delayTime)
+    {
+        StartCoroutine(PauseAnimationRoutine(delayTime));
+    }
+
+    IEnumerator PauseAnimationRoutine(float delayTime)
+    {
+        animator.speed = 0f;
+
+        yield return new WaitForSeconds(delayTime);
+
+        animator.speed = 1f;
+    }
 }
