@@ -11,6 +11,8 @@ public class RadioController : MonoBehaviour
 
     [Header("Radio Control Variables")]
     [SerializeField] private float speed;
+    [SerializeField] private float maxVolume;
+    [SerializeField] private float volRate;
     private float maxFrequency = 10f;
     public float maxCharge { get; private set; }
     public float currentCharge { get; private set; }
@@ -34,7 +36,6 @@ public class RadioController : MonoBehaviour
     [NaughtyAttributes.HorizontalLine]
     [Header("Audio Elements")]
     [SerializeField] public AudioSource staticSource;
-    //[SerializeField] private AudioSource stationSource;
 
 
 
@@ -87,11 +88,17 @@ public class RadioController : MonoBehaviour
 
             if (SaveDataController.instance.saveData.abilities.radio_special)
                 abilityMode = PlayerController.instance.inputMaster.Player.RadioSpecial.ReadValue<float>() > 0 ? true : false;
+
+            if (staticSource.volume <= maxVolume)
+            {
+                staticSource.volume += Time.deltaTime * volRate;
+            }
         }
         else
         {
             abilityMode = false;
             currentFrequency = 0f;
+            staticSource.volume = 0;
         }
 
         staticSource.mute = !isActive;

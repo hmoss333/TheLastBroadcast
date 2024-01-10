@@ -20,6 +20,7 @@ public class UIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI abilityText;
 
     [Header("Dialogue Variables")]
+    [SerializeField] GameObject dialogueObject;
     [SerializeField] Image dialogueBackground;
     [SerializeField] GameObject quotationMarks;
     [SerializeField] TextMeshProUGUI dialogueText;
@@ -67,11 +68,10 @@ public class UIController : MonoBehaviour
 
     public void ToggleAbilityUI(string name, string text, Sprite icon)
     {
-        //uiActive = !uiActive;
         abilityName.text = name;
         abilityText.text = text;
         abilityIcon.sprite = icon;
-        abilityObject.SetActive(!abilityObject.activeSelf); //uiActive
+        abilityObject.SetActive(!abilityObject.activeSelf);
     }
 
     public void SetDialogueText(string text, bool typeText)
@@ -83,7 +83,7 @@ public class UIController : MonoBehaviour
 
     public void ToggleDialogueUI(bool value)
     {
-        dialogueText.gameObject.SetActive(value);
+        dialogueObject.SetActive(value);
         StartCoroutine(FadeTo(value ? 1f : 0f, 0.65f));
     }
 
