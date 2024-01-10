@@ -145,7 +145,7 @@ public class MainMenuController : MonoBehaviour
         //    //If a save file is found, display save file confirmation panel
         //}
 
-        if (Directory.Exists(System.IO.Path.Combine(Application.persistentDataPath, "Save")))
+        if (Directory.Exists(System.IO.Path.Combine(Application.persistentDataPath, "Save")) && SaveDataController.instance.saveData.currentScene != "")
         {
             print("Deleting old save file");
             Directory.Delete(System.IO.Path.Combine(Application.persistentDataPath, "Save"), true);
