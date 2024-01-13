@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering;
+using NaughtyAttributes;
+using System.Linq;
 
 
 //TODO
@@ -21,32 +23,9 @@ public class AudioController : MonoBehaviour
         if (instance == null)
             instance = this;
         else
-            Destroy(this);
+            Destroy(this);        
     }
 
-
-    private void OnValidate()
-    {
-        AudioSource[] sources = gameObject.GetComponentsInChildren<AudioSource>();
-        List<AudioSource> validAudio = new List<AudioSource>();
-        for (int i = 0; i < audioLayers.Count; i++)
-        {
-            for (int j = 0; j < sources.Length; j++)
-            {
-                if (audioLayers[i].audioSource == sources[j])
-                {
-                    validAudio.Add(sources[j]);
-                    break;
-                }
-            }
-        }
-
-        foreach (AudioSource source in sources)
-        {
-            if (!validAudio.Contains(source))
-                Destroy(source);
-        }
-    }
 
     private void Update()
     {
@@ -68,7 +47,6 @@ public class AudioController : MonoBehaviour
             if (!layer.audioSource.isPlaying)
                 layer.audioSource.Play(); 
         }
-
 
         CleanAudioSources();
     }
@@ -122,11 +100,22 @@ public class AudioController : MonoBehaviour
         audioLayers.Add(newLayer);
     }
 
-    //TODO improve this system. Dictionary may work better
+    //TODO improve these systems
+    //Dictionary may work better
     public void RemoveLayer(int layerID)
     {
         Destroy(audioLayers[layerID].audioSource);
         audioLayers.Remove(audioLayers[layerID]);
+    }
+
+    public void SetLayerVolume(int layerID, float volume)
+    {
+        audioLayers[layerID].volume = volume;
+    }
+
+    public void SetLayerLoop(int layerID, bool loop)
+    {
+        audioLayers[layerID].loop = loop;
     }
 
     private void CleanAudioSources()
