@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using NaughtyAttributes;
 using System.Linq;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 
 //TODO
@@ -77,10 +78,12 @@ public class AudioController : MonoBehaviour
     }
 
 
+
     ///Audio Layer System Controls
     public void AddLayer(AudioClip clip)
     {
         AudioLayer newLayer = new AudioLayer();
+        newLayer.ID = audioLayers.Count;
         newLayer.audioClip = clip;
         newLayer.volume = 1f;
         newLayer.mute = false;
@@ -92,6 +95,7 @@ public class AudioController : MonoBehaviour
     public void AddLayer(AudioClip clip, float volume, bool mute, bool loop)
     {
         AudioLayer newLayer = new AudioLayer();
+        newLayer.ID = audioLayers.Count;
         newLayer.audioClip = clip;
         newLayer.volume = volume;
         newLayer.mute = mute;
@@ -101,7 +105,25 @@ public class AudioController : MonoBehaviour
     }
 
     //TODO improve these systems
-    //Dictionary may work better
+    //Dictionary may work better    
+    public void PopLayer()
+    {
+        AudioLayer lastLayer = audioLayers.Last<AudioLayer>();
+        AudioSource lastSource = lastLayer.audioSource;
+        Destroy(lastSource);
+        audioLayers.Remove(lastLayer);
+    }
+
+    public void PopAllLayers()
+    {
+        foreach (AudioLayer layer in audioLayers)
+        {
+            AudioSource source = layer.audioSource;
+            Destroy(source);
+            audioLayers.Remove(layer);
+        }
+    }
+
     public void RemoveLayer(int layerID)
     {
         Destroy(audioLayers[layerID].audioSource);
@@ -122,6 +144,8 @@ public class AudioController : MonoBehaviour
     {
         AudioSource[] sources = gameObject.GetComponentsInChildren<AudioSource>();
         List<AudioSource> validAudio = new List<AudioSource>();
+        validAudio.Add(audioSource);
+
         for (int i = 0; i < audioLayers.Count; i++)
         {
             for (int j = 0; j < sources.Length; j++)
@@ -146,6 +170,7 @@ public class AudioController : MonoBehaviour
 [System.Serializable]
 public class AudioLayer
 {
+    public int ID;
     public AudioSource audioSource;
     public AudioClip audioClip;
     [Range(0, 1)]
