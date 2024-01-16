@@ -12,6 +12,8 @@ public class Health : MonoBehaviour
     public bool isHit { get; private set; }
     [SerializeField] float cooldownTime = 1f;
     CharacterController character;
+    [SerializeField] Transform bloodTransform;
+    [SerializeField] GameObject bloodPrefab;
 
     [FormerlySerializedAs("onTrigger")]
     [SerializeField]
@@ -31,10 +33,7 @@ public class Health : MonoBehaviour
             print($"{gameObject.name} health = {currentHealth}");
             m_OnTrigger.Invoke();
 
-            if (shockEffect)
-            {
-                CamEffectController.instance.ShockEffect(0.25f);
-            }
+            if (shockEffect) { CamEffectController.instance.ShockEffect(0.25f); }
 
             if (currentHealth <= 0)
             {
@@ -46,6 +45,7 @@ public class Health : MonoBehaviour
                 if (character != null && stagger == true)
                 {
                     character.hurt = true;
+                    if (bloodPrefab != null) { GameObject bloodInstance = Instantiate(bloodPrefab, bloodTransform.position, gameObject.transform.rotation); }
                 }
 
                 if (character != null && character.tag == "Player")
