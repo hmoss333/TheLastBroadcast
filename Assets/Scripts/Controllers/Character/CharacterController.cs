@@ -25,9 +25,13 @@ public class CharacterController : MonoBehaviour
         if (dead && !isPlaying("Dead"))
         {
             animator.SetTrigger("isDead");
-            rb.useGravity = false;
-            rb.isKinematic = true;
-            col.enabled = false;
+            try
+            {
+                rb.useGravity = false;
+                rb.isKinematic = true;
+                col.enabled = false;
+            }
+            catch { }
         }
         else if (hurt && !isPlaying("Hurt"))
         {
