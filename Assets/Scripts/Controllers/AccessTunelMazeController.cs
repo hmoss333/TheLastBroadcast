@@ -63,13 +63,17 @@ public class AccessTunelMazeController : MonoBehaviour
         FadeController.instance.StartFade(1.0f, 1.0f);
         while (FadeController.instance.isFading) { yield return null; }
 
+        PlayerController.instance.SetState(PlayerController.States.listening);
+
         PlayerController.instance.transform.position = initPoint.position;
-        PlayerController.instance.transform.rotation = initPoint.rotation;
+        PlayerController.instance.SetLastDir(initPoint.forward);
 
         RefreshMaze();
 
         FadeController.instance.StartFade(0.0f, 1.0f);
         while (FadeController.instance.isFading) { yield return null; }
+
+        PlayerController.instance.SetState(PlayerController.States.idle);
 
         initRoutine = null;
         print("End routine");
