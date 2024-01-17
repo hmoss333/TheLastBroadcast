@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class BossZombieController : CharacterController
 {
@@ -15,25 +17,24 @@ public class BossZombieController : CharacterController
     public enum BossState { idle, setup, aggro, hurt, dead }
     [SerializeField] BossState bossState;
     Health health;
-    Collider bossCollider;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Boss Prefab Variables")]
-    [SerializeField] GameObject shieldObject;
+    [SerializeField] GameObject tulpaBody;
     [SerializeField] BossRadioTower[] radioTowers;
-    [SerializeField] ZombieController zombiePrefab;
     [SerializeField] GameObject handLeft, handRight;
-    [SerializeField] Transform[] spawnPoints;
-    [SerializeField] DoorController[] roomDoors;
     SaveObject saveObj;
+
+
+    [Header("Event Triggers")]
+    [FormerlySerializedAs("onTrigger")]
+    public UnityEvent m_OnTrigger = new UnityEvent();
 
 
     private void Start()
     {
         health = GetComponent<Health>();
-        bossCollider = GetComponent<Collider>();
         saveObj = GetComponent<SaveObject>();
-        if (saveObj.hasActivated) { shieldObject.SetActive(true); }
 
         base.Start();
     }
@@ -41,8 +42,7 @@ public class BossZombieController : CharacterController
     private void Update()
     {
         if (bossState != BossState.dead && bossState != BossState.idle) { PlayerController.instance.SeePlayer(); }
-        bossCollider.enabled = bossState != BossState.dead ? !shieldObject.activeSelf : false;
-
+        tulpaBody.SetActive(bossState == BossState.aggro || bossState == BossState.setup);
 
         if (hurt)
         {
@@ -77,14 +77,11 @@ public class BossZombieController : CharacterController
                     //TODO
                     //Fire projectiles at player on set intervals
                     //If player takes too long to deal damage, reset the scenario
-                    if (!shieldObject.activeSelf)
+                    countDownTime -= Time.deltaTime;
+                    if (countDownTime <= 0f)
                     {
-                        countDownTime -= Time.deltaTime;
-                        if (countDownTime <= 0f)
-                        {
-                            countDownTime = 15f;
-                            SetState(BossState.setup);
-                        }
+                        countDownTime = 15f;
+                        SetState(BossState.setup);
                     }
                     break;
                 case BossState.hurt:
@@ -146,10 +143,6 @@ public class BossZombieController : CharacterController
 
         yield return new WaitForSeconds(1f);
 
-        shieldObject.SetActive(false);
-
-        yield return new WaitForSeconds(1f);
-
         PlayerController.instance.SetState(PlayerController.States.idle);
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
     }
@@ -166,10 +159,6 @@ public class BossZombieController : CharacterController
 
         yield return new WaitForSeconds(1f);
 
-        shieldObject.SetActive(true);
-
-        yield return new WaitForSeconds(1f);
-
         for (int i = 0; i < bossStage; i++)
         {
             int randVal = Random.Range(0, radioTowers.Length);
@@ -177,21 +166,6 @@ public class BossZombieController : CharacterController
             {
                 radioTowers[randVal].Activate();
                 CameraController.instance.SetTarget(radioTowers[randVal].transform);
-
-                yield return new WaitForSeconds(1f);
-            }
-            else { i--; }
-        }
-
-        List<int> randPos = new List<int>();
-        for (int i = 0; i < bossStage - 1; i++)
-        {
-            int randVal = Random.Range(0, radioTowers.Length);
-            if (!randPos.Contains(randVal))
-            {
-                ZombieController zombie = Instantiate(zombiePrefab, spawnPoints[randVal].position, Quaternion.identity, GetComponentInParent<RoomController>().gameObject.transform);
-                CameraController.instance.SetTarget(zombie.transform);
-                randPos.Add(randVal);
 
                 yield return new WaitForSeconds(1f);
             }
@@ -218,22 +192,12 @@ public class BossZombieController : CharacterController
 
         yield return new WaitForSeconds(1.5f);
 
-        shieldObject.SetActive(true);
-
-        yield return new WaitForSeconds(1.5f);
-
         foreach (BossRadioTower tower in radioTowers)
         {
             tower.DeActivate();
         }
 
-        for (int i = 0; i < roomDoors.Length; i++)
-        {
-            CameraController.instance.SetTarget(roomDoors[i].focusPoint);
-            yield return new WaitForSeconds(1f);
-            roomDoors[i].Activate();
-            yield return new WaitForSeconds(1f);
-        }
+        m_OnTrigger.Invoke();
 
         PlayerController.instance.SetState(PlayerController.States.idle);
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
