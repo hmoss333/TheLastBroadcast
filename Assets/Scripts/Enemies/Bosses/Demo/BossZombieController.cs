@@ -183,6 +183,7 @@ public class BossZombieController : MonoBehaviour
         }
 
         m_OnTrigger.Invoke();
+        saveObj.SetHasActivated();
 
         PlayerController.instance.SetState(PlayerController.States.idle);
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
