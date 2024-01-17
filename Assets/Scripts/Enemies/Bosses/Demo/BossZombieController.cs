@@ -12,7 +12,7 @@ public class BossZombieController : MonoBehaviour
     private float countDownTime = 15f;
     private int towerNum = 0;
     [SerializeField] private int bossStage = 1;
-    bool settingUp;
+    bool settingUp, isDead;
     public enum BossState { idle, setup, aggro, hurt, dead }
     [SerializeField] BossState bossState;
     Health health;
@@ -77,8 +77,9 @@ public class BossZombieController : MonoBehaviour
                     SetState(BossState.setup);
                     break;
                 case BossState.dead:
-                    if (!saveObj.hasActivated)
+                    if (!isDead)
                     {
+                        isDead = true;
                         StartCoroutine(Death());
                     }
                     break;
