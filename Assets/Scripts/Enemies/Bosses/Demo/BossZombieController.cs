@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using static UnityEngine.GraphicsBuffer;
 
 public class BossZombieController : MonoBehaviour
 {
@@ -126,7 +128,7 @@ public class BossZombieController : MonoBehaviour
             yield return new WaitForSeconds(3.5f);
 
             PlayerController.instance.SetState(PlayerController.States.idle);
-            CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+            //CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         }
     }
 
@@ -150,14 +152,14 @@ public class BossZombieController : MonoBehaviour
                 radioTowers[randVal].Activate();
                 CameraController.instance.SetTarget(radioTowers[randVal].transform);
 
-                yield return new WaitForSeconds(1.25f);
+                yield return new WaitForSeconds(1.75f);
             }
             else { i--; }
         }
 
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
 
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.5f);
 
         handLeft.SetActive(true);
         SetState(BossState.aggro);
