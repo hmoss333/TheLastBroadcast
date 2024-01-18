@@ -24,6 +24,7 @@ public class BossZombieController : SaveObject
     [SerializeField] Animator tulpaBody;
     [SerializeField] Transform camTarget;
     [SerializeField] BossRadioTower[] radioTowers;
+    bool attackLeft;
     [SerializeField] GameObject handLeft, handRight;
 
 
@@ -48,10 +49,7 @@ public class BossZombieController : SaveObject
             {
                 case BossState.idle:
                     float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
-                    //if (distanceToPlayer <= seeDist)
-                    //{
-                        SetState(BossState.setup);
-                    //}
+                    SetState(BossState.setup);
                     break;
                 case BossState.setup:
                     if (!settingUp)
@@ -62,9 +60,27 @@ public class BossZombieController : SaveObject
                     break;
                 case BossState.aggro:
                     //Attacking phase
+                    if (!handLeft.activeSelf && !handRight.activeSelf)
+                    {
+                        attackLeft = !attackLeft;
+
+                        if (attackLeft)
+                        {
+                            handLeft.SetActive(true);
+                            if (!isPlaying(tulpaBody, "Attack_Left"))
+                                tulpaBody.SetTrigger("attack_L");
+                        }
+                        else
+                        {
+                            handRight.SetActive(true);
+                            if (!isPlaying(tulpaBody, "Attack_Right"))
+                                tulpaBody.SetTrigger("attack_R");
+                        }
+                    }
                     break;
                 case BossState.hurt:
                     CameraController.instance.SetTarget(camTarget);
+                    CamEffectController.instance.ForceEffect();
 
                     avatarBody.SetTrigger("isHurt");
                     tulpaBody.SetTrigger("isHurt");
@@ -96,8 +112,9 @@ public class BossZombieController : SaveObject
         if (towerNum >= bossStage)
         {
             towerNum = 0;
-            handLeft.SetActive(false);
-            handRight.SetActive(false);
+            //handLeft.SetActive(false);
+            //handRight.SetActive(false);
+            health.Hurt(1, true);
 
             StartCoroutine(SetTowerStun());
         }
@@ -108,8 +125,10 @@ public class BossZombieController : SaveObject
         PlayerController.instance.SetState(PlayerController.States.listening);
         yield return new WaitForSeconds(0.5f);
 
+        handLeft.SetActive(false);
+        handRight.SetActive(false);
+
         CameraController.instance.SetTarget(camTarget);
-        health.Hurt(1, true);
 
         if (health.currentHealth <= 0)
         {
@@ -119,10 +138,9 @@ public class BossZombieController : SaveObject
         {
             SetState(BossState.hurt);
 
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(4.5f);
 
             PlayerController.instance.SetState(PlayerController.States.idle);
-            //CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         }
     }
 
@@ -137,6 +155,8 @@ public class BossZombieController : SaveObject
         CameraController.instance.SetTarget(camTarget);
 
         yield return new WaitForSeconds(3f);
+
+        CamEffectController.instance.SetEffectState(false);
 
         for (int i = 0; i < bossStage; i++)
         {
@@ -172,7 +192,7 @@ public class BossZombieController : SaveObject
         avatarBody.SetTrigger("isDead");
         tulpaBody.SetTrigger("isDead");
 
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(8f);
 
         foreach (BossRadioTower tower in radioTowers)
         {
@@ -184,5 +204,13 @@ public class BossZombieController : SaveObject
 
         PlayerController.instance.SetState(PlayerController.States.idle);
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+    }
+
+    public bool isPlaying(Animator animator, string stateName)
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+            return true;
+        else
+            return false;
     }
 }

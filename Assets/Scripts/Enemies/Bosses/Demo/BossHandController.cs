@@ -10,7 +10,7 @@ public class BossHandController : MonoBehaviour
     [SerializeField] float yOff;
     [SerializeField] int damage;
     private Vector3 handPos;
-    [SerializeField] GameObject partnerHand;
+    //[SerializeField] GameObject partnerHand;
 
     float tempDelay = 0f;
 
@@ -41,7 +41,7 @@ public class BossHandController : MonoBehaviour
 
                 if (transform.position.y <= 0.05f)
                 {
-                    partnerHand.SetActive(true);
+                    //partnerHand.SetActive(true);
                     SetState(State.reset);
                 }
                 break;

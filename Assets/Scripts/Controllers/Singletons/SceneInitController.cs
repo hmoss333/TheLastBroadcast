@@ -41,7 +41,8 @@ public class SceneInitController : MonoBehaviour
         //Reload scene on Player death
         if (PlayerController.instance.dead)
         {
-            FadeController.instance.StartFade(100f, 250f);
+            if (!FadeController.instance.isFading)
+                FadeController.instance.StartFade(1.0f, 0.5f);
 
             fadeTime -= Time.deltaTime;
             if (fadeTime < 0)
