@@ -1,58 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
-public class BossZombieController : CharacterController
+public class BossZombieController : MonoBehaviour
 {
     [NaughtyAttributes.HorizontalLine]
     [Header("Boss State Variables")]
     [SerializeField] private float seeDist;
     private float countDownTime = 15f;
-    [SerializeField] private int bossHitNum = 0;
-    [SerializeField] private int towerNum = 0;
+    private int towerNum = 0;
     [SerializeField] private int bossStage = 1;
-    bool settingUp;
+    bool settingUp, isDead;
     public enum BossState { idle, setup, aggro, hurt, dead }
     [SerializeField] BossState bossState;
     Health health;
-    Collider bossCollider;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Boss Prefab Variables")]
-    [SerializeField] GameObject shieldObject;
+    [SerializeField] Animator avatarBody;
+    [SerializeField] Animator tulpaBody;
+    [SerializeField] Transform camTarget;
     [SerializeField] BossRadioTower[] radioTowers;
-    [SerializeField] ZombieController zombiePrefab;
     [SerializeField] GameObject handLeft, handRight;
-    [SerializeField] Transform[] spawnPoints;
-    [SerializeField] DoorController[] roomDoors;
     SaveObject saveObj;
+
+
+    [Header("Event Triggers")]
+    [FormerlySerializedAs("onTrigger")]
+    public UnityEvent m_OnTrigger = new UnityEvent();
 
 
     private void Start()
     {
         health = GetComponent<Health>();
-        bossCollider = GetComponent<Collider>();
         saveObj = GetComponent<SaveObject>();
-        if (saveObj.hasActivated) { shieldObject.SetActive(true); }
 
-        base.Start();
+        //base.Start();
     }
 
     private void Update()
     {
         if (bossState != BossState.dead && bossState != BossState.idle) { PlayerController.instance.SeePlayer(); }
-        bossCollider.enabled = bossState != BossState.dead ? !shieldObject.activeSelf : false;
-
-
-        if (hurt)
-        {
-            SetState(BossState.hurt);
-        }
-        if (dead || saveObj.hasActivated)
-        {
-            dead = true;          
-            bossState = BossState.dead;
-        }
+        tulpaBody.gameObject.SetActive(bossState != BossState.idle && !saveObj.hasActivated);
 
 
         if (saveObj.active && !saveObj.hasActivated)
@@ -74,40 +65,21 @@ public class BossZombieController : CharacterController
                     }
                     break;
                 case BossState.aggro:
-                    //TODO
-                    //Fire projectiles at player on set intervals
-                    //If player takes too long to deal damage, reset the scenario
-                    if (!shieldObject.activeSelf)
-                    {
-                        countDownTime -= Time.deltaTime;
-                        if (countDownTime <= 0f)
-                        {
-                            countDownTime = 15f;
-                            SetState(BossState.setup);
-                        }
-                    }
+                    //Attacking phase
                     break;
                 case BossState.hurt:
-                    if (!isPlaying("Hurt"))
-                    {
-                        animator.SetTrigger("isHurt");
-                        bossHitNum++;                       
-                        if (bossHitNum == 3)
-                        {
-                            bossHitNum = 0;
-                            bossStage++;
-                            SetState(BossState.setup);
-                        }
-                        else
-                        {
-                            SetState(BossState.aggro);
-                        }
-                    }
+                    CameraController.instance.SetTarget(camTarget);
+
+                    avatarBody.SetTrigger("isHurt");
+                    tulpaBody.SetTrigger("isHurt");
+                    bossStage++;
+
+                    SetState(BossState.setup);
                     break;
                 case BossState.dead:
-                    if (!saveObj.hasActivated)
+                    if (!isDead)
                     {
-                        saveObj.SetHasActivated();
+                        isDead = true;
                         StartCoroutine(Death());
                     }
                     break;
@@ -115,8 +87,6 @@ public class BossZombieController : CharacterController
                     break;
             }
         }
-
-        base.Update();
     }
 
     public void SetState(BossState stateToSet)
@@ -142,16 +112,22 @@ public class BossZombieController : CharacterController
         PlayerController.instance.SetState(PlayerController.States.listening);
         yield return new WaitForSeconds(0.5f);
 
-        CameraController.instance.SetTarget(this.transform);
+        CameraController.instance.SetTarget(camTarget);
+        health.Hurt(1, true);
 
-        yield return new WaitForSeconds(1f);
+        if (health.currentHealth <= 0)
+        {
+            SetState(BossState.dead);
+        }
+        else
+        {
+            SetState(BossState.hurt);
 
-        shieldObject.SetActive(false);
+            yield return new WaitForSeconds(3.5f);
 
-        yield return new WaitForSeconds(1f);
-
-        PlayerController.instance.SetState(PlayerController.States.idle);
-        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+            PlayerController.instance.SetState(PlayerController.States.idle);
+            CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+        }
     }
 
     IEnumerator Setup()
@@ -162,13 +138,9 @@ public class BossZombieController : CharacterController
         {
             tower.DeActivate();
         }
-        CameraController.instance.SetTarget(this.transform);
+        CameraController.instance.SetTarget(camTarget);
 
-        yield return new WaitForSeconds(1f);
-
-        shieldObject.SetActive(true);
-
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         for (int i = 0; i < bossStage; i++)
         {
@@ -178,22 +150,7 @@ public class BossZombieController : CharacterController
                 radioTowers[randVal].Activate();
                 CameraController.instance.SetTarget(radioTowers[randVal].transform);
 
-                yield return new WaitForSeconds(1f);
-            }
-            else { i--; }
-        }
-
-        List<int> randPos = new List<int>();
-        for (int i = 0; i < bossStage - 1; i++)
-        {
-            int randVal = Random.Range(0, radioTowers.Length);
-            if (!randPos.Contains(randVal))
-            {
-                ZombieController zombie = Instantiate(zombiePrefab, spawnPoints[randVal].position, Quaternion.identity, GetComponentInParent<RoomController>().gameObject.transform);
-                CameraController.instance.SetTarget(zombie.transform);
-                randPos.Add(randVal);
-
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1.25f);
             }
             else { i--; }
         }
@@ -214,26 +171,20 @@ public class BossZombieController : CharacterController
         handLeft.SetActive(false);
         handRight.SetActive(false);
         PlayerController.instance.SetState(PlayerController.States.listening);
-        CameraController.instance.SetTarget(this.transform);
+        CameraController.instance.SetTarget(camTarget);
 
-        yield return new WaitForSeconds(1.5f);
+        avatarBody.SetTrigger("isDead");
+        tulpaBody.SetTrigger("isDead");
 
-        shieldObject.SetActive(true);
-
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(10f);
 
         foreach (BossRadioTower tower in radioTowers)
         {
             tower.DeActivate();
         }
 
-        for (int i = 0; i < roomDoors.Length; i++)
-        {
-            CameraController.instance.SetTarget(roomDoors[i].focusPoint);
-            yield return new WaitForSeconds(1f);
-            roomDoors[i].Activate();
-            yield return new WaitForSeconds(1f);
-        }
+        m_OnTrigger.Invoke();
+        saveObj.SetHasActivated();
 
         PlayerController.instance.SetState(PlayerController.States.idle);
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);

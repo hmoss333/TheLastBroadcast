@@ -56,10 +56,13 @@ public class CameraController : MonoBehaviour
         //}
 
         //Shift zOff based on forward/backwards movement
-        if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y < 0)
-            offset.z = zOffMin;
-        else if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y > 0)
-            offset.z = zOffMax;
+        if (PlayerController.instance.state == PlayerController.States.moving)
+        {
+            if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y < 0)
+                offset.z = zOffMin;
+            else if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y > 0)
+                offset.z = zOffMax;
+        }
     }
 
     //Fixed Update keeps the camera on the same update step as the player's movement position calculation
@@ -78,11 +81,7 @@ public class CameraController : MonoBehaviour
                     ? camOffset.x
                     : camOffset.x + offset.x;
             pos.y +=
-                PlayerController.instance.IsSeen()
-                //|| PlayerController.instance.state == PlayerController.States.radio
-                //|| PlayerController.instance.state == PlayerController.States.interacting
-                    ? camOffset.y + (1.5f * offset.y)
-                    : camOffset.y + offset.y;
+                camOffset.y + offset.y;
             pos.z +=
                 PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.radio

@@ -6,7 +6,7 @@ public class BossHandController : MonoBehaviour
 {
     enum State { idle, attacking, reset }
     [SerializeField] State bossState;
-    [SerializeField] float attackDelay, attackSpeed, resetSpeed, transperancy;
+    [SerializeField] float attackDelay, attackSpeed, resetSpeed;
     [SerializeField] float yOff;
     [SerializeField] int damage;
     private Vector3 handPos;
@@ -25,8 +25,7 @@ public class BossHandController : MonoBehaviour
         switch (bossState)
         {
             case State.idle:
-                handPos = PlayerController.instance.transform.position;
-                handPos = new Vector3(handPos.x, yOff, handPos.z);
+                handPos = new Vector3(PlayerController.instance.transform.position.x, yOff, PlayerController.instance.transform.position.z);
                 transform.position = handPos;
 
                 tempDelay += attackSpeed * Time.deltaTime;

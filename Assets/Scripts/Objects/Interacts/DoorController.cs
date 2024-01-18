@@ -15,8 +15,7 @@ public class DoorController : InteractObject
 
     private void Awake()
     {
-        if (exitPoint)
-            exitRoom = exitPoint.GetComponentInParent<RoomController>();
+        if (exitPoint) { exitRoom = exitPoint.GetComponentInParent<RoomController>(); }
     }
 
     public override void Interact()
