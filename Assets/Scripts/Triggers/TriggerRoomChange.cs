@@ -17,8 +17,7 @@ public class TriggerRoomChange : DoorController
                 PlayerController.instance.SetState(PlayerController.States.interacting);
             }
 
-            //Interact();
-            StartInteract();
+            Interact();
         }
     }
 }

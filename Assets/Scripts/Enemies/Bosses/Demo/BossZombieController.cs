@@ -150,7 +150,7 @@ public class BossZombieController : MonoBehaviour
                 radioTowers[randVal].Activate();
                 CameraController.instance.SetTarget(radioTowers[randVal].transform);
 
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1.25f);
             }
             else { i--; }
         }
@@ -176,7 +176,7 @@ public class BossZombieController : MonoBehaviour
         avatarBody.SetTrigger("isDead");
         tulpaBody.SetTrigger("isDead");
 
-        yield return new WaitForSeconds(7.5f);
+        yield return new WaitForSeconds(10f);
 
         foreach (BossRadioTower tower in radioTowers)
         {
