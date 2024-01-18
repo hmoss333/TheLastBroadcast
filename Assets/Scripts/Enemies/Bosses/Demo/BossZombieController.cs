@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using static UnityEngine.GraphicsBuffer;
 
-public class BossZombieController : MonoBehaviour
+public class BossZombieController : SaveObject
 {
     [NaughtyAttributes.HorizontalLine]
     [Header("Boss State Variables")]
-    [SerializeField] private float seeDist;
+    [SerializeField] private int bossStage = 1;
     private float countDownTime = 15f;
     private int towerNum = 0;
-    [SerializeField] private int bossStage = 1;
     bool settingUp, isDead;
     public enum BossState { idle, setup, aggro, hurt, dead }
     [SerializeField] BossState bossState;
@@ -24,38 +25,33 @@ public class BossZombieController : MonoBehaviour
     [SerializeField] Transform camTarget;
     [SerializeField] BossRadioTower[] radioTowers;
     [SerializeField] GameObject handLeft, handRight;
-    SaveObject saveObj;
-
-
-    [Header("Event Triggers")]
-    [FormerlySerializedAs("onTrigger")]
-    public UnityEvent m_OnTrigger = new UnityEvent();
 
 
     private void Start()
     {
         health = GetComponent<Health>();
-        saveObj = GetComponent<SaveObject>();
-
-        //base.Start();
+        if (hasActivated)
+        {
+            avatarBody.SetTrigger("isDead");
+        }
     }
 
     private void Update()
     {
         if (bossState != BossState.dead && bossState != BossState.idle) { PlayerController.instance.SeePlayer(); }
-        tulpaBody.gameObject.SetActive(bossState != BossState.idle && !saveObj.hasActivated);
+        tulpaBody.gameObject.SetActive(bossState != BossState.idle && !hasActivated);
 
 
-        if (saveObj.active && !saveObj.hasActivated)
+        if (active && !hasActivated)
         {
             switch (bossState)
             {
                 case BossState.idle:
                     float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
-                    if (distanceToPlayer <= seeDist)
-                    {
+                    //if (distanceToPlayer <= seeDist)
+                    //{
                         SetState(BossState.setup);
-                    }
+                    //}
                     break;
                 case BossState.setup:
                     if (!settingUp)
@@ -126,7 +122,7 @@ public class BossZombieController : MonoBehaviour
             yield return new WaitForSeconds(3.5f);
 
             PlayerController.instance.SetState(PlayerController.States.idle);
-            CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+            //CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         }
     }
 
@@ -150,14 +146,14 @@ public class BossZombieController : MonoBehaviour
                 radioTowers[randVal].Activate();
                 CameraController.instance.SetTarget(radioTowers[randVal].transform);
 
-                yield return new WaitForSeconds(1.25f);
+                yield return new WaitForSeconds(1.75f);
             }
             else { i--; }
         }
 
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
 
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.5f);
 
         handLeft.SetActive(true);
         SetState(BossState.aggro);
@@ -184,7 +180,7 @@ public class BossZombieController : MonoBehaviour
         }
 
         m_OnTrigger.Invoke();
-        saveObj.SetHasActivated();
+        SetHasActivated();
 
         PlayerController.instance.SetState(PlayerController.States.idle);
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
