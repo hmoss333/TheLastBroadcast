@@ -20,7 +20,7 @@ public class FootstepController : MonoBehaviour
     {
         Ray ray = new Ray(transform.position, Vector3.down);
         RaycastHit hit;
-        //Debug.DrawRay(transform.position, Vector3.down, Color.red);
+        Debug.DrawRay(transform.position, Vector3.down, Color.red);
 
         if (Physics.Raycast(ray, out hit, 1f, groundLayer))
         {
@@ -49,7 +49,7 @@ public class FootstepController : MonoBehaviour
 
     public void PlayStepClip()
     {
-        //print($"Playing footstep clip: {clip.name}");
+        print($"Playing footstep clip: {clip.name}");
         audioSource.Stop();
         audioSource.clip = clip;
         audioSource.Play();

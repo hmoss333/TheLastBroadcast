@@ -25,8 +25,7 @@ public class BossHandController : MonoBehaviour
         switch (bossState)
         {
             case State.idle:
-                //handPos = PlayerController.instance.transform.position;
-                handPos = new Vector3(PlayerController.instance.transform.position.x, yOff, PlayerController.instance.transform.position.z);//handPos.x, yOff, handPos.z);
+                handPos = new Vector3(PlayerController.instance.transform.position.x, yOff, PlayerController.instance.transform.position.z);
                 transform.position = handPos;
 
                 tempDelay += attackSpeed * Time.deltaTime;
