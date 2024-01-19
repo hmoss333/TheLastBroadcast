@@ -35,7 +35,7 @@ public class BossRadioTower : MonoBehaviour
             {
                 interacting = true;
                 mesh.material.color = Color.yellow;
-                CamEffectController.instance.SetEffectState(true);
+                //CamEffectController.instance.SetEffectState(true);
                 tempTime += Time.deltaTime;
                 if (tempTime >= checkTime)
                 {
