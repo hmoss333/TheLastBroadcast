@@ -194,6 +194,7 @@ public class SaveDataController : MonoBehaviour
 
     public void SetSavePoint(string sceneName, int ID)
     {
+        print($"Setting Save Scene: {sceneName}");
         saveData.currentScene = sceneName;
         sceneObjectContainer.savePointID = ID;
 

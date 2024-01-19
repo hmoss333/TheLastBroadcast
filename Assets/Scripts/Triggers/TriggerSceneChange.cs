@@ -53,8 +53,11 @@ public class TriggerSceneChange : MonoBehaviour
 
         targetVolume = 0;
 
-        try { SaveDataController.instance.SetSavePoint(sceneToLoad, 0); } catch { };
-        try { PlayerController.instance.ToggleAvatar(); } catch { };
+        if (sceneToLoad != "MainMenu" && sceneToLoad != "Intro")
+        {
+            try { SaveDataController.instance.SetSavePoint(sceneToLoad, 0); } catch { };
+            try { PlayerController.instance.ToggleAvatar(); } catch { };
+        }
         SceneManager.LoadSceneAsync(sceneToLoad);
     }
 }
