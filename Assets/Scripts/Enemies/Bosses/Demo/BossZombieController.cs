@@ -154,9 +154,11 @@ public class BossZombieController : SaveObject
         }
         CameraController.instance.SetTarget(camTarget);
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(0.35f);
 
         CamEffectController.instance.SetEffectState(false);
+
+        yield return new WaitForSeconds(2.65f);
 
         for (int i = 0; i < bossStage; i++)
         {
@@ -175,7 +177,6 @@ public class BossZombieController : SaveObject
 
         yield return new WaitForSeconds(0.5f);
 
-        handLeft.SetActive(true);
         SetState(BossState.aggro);
         settingUp = false;
 
