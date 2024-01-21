@@ -87,9 +87,31 @@ public class TitleScreenController : MonoBehaviour
             yield return null;
 
 
+        //Audio Pitch Changes
+        while (musicSource.pitch >= 0.25f)
+        {
+            musicSource.pitch -= Time.deltaTime;
+            yield return null;
+        }
+        while (musicSource.pitch <= 1.5f)
+        {
+            musicSource.pitch += Time.deltaTime;
+            yield return null;
+        }
+
+
         //Delay and activate glitch effect
         yield return new WaitForSeconds(glitchDelayTime);
         CamEffectController.instance.SetEffectState(true);
+
+
+        //Audio Pitch Down
+        while (musicSource.pitch >= 0.125f)
+        {
+            musicSource.pitch -= Time.deltaTime;
+            yield return null;
+        }
+
 
         yield return new WaitForSeconds(titleDisplayTime);
 
