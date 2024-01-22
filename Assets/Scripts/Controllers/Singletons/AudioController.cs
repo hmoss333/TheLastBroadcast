@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using NaughtyAttributes;
 using System.Linq;
-using static UnityEditor.Experimental.GraphView.GraphView;
+//using static UnityEditor.Experimental.GraphView.GraphView;
 
 
 //TODO
@@ -15,7 +15,7 @@ public class AudioController : MonoBehaviour
 {
     public static AudioController instance;
 
-    [SerializeField] AudioSource audioSource;
+    public AudioSource audioSource;
     [SerializeField] private List<AudioLayer> audioLayers;
 
 
