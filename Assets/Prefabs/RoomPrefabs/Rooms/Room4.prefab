@@ -1068,7 +1068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6191357091220801914
 Transform:
   m_ObjectHideFlags: 0
@@ -1113,8 +1113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d4e3bba048840a89c05c3b80413d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  backgroundAudioClip: {fileID: 8300000, guid: b2047cf533edc4c95b2c02b39ae143e2, type: 3}
 --- !u!1 &6191357091235437603
 GameObject:
   m_ObjectHideFlags: 0
@@ -1784,11 +1782,10 @@ MonoBehaviour:
   id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
-  interacting: 0
-  inactiveText: 
-  focusPoint: {fileID: 0}
-  objectsToActivate: []
+  needItem: 0
+  inventoryItemID: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -1816,6 +1813,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 0}
 --- !u!1 &6191357091677360320
 GameObject:
   m_ObjectHideFlags: 0
@@ -2579,11 +2580,10 @@ MonoBehaviour:
   id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
-  interacting: 0
-  inactiveText: 
-  focusPoint: {fileID: 0}
-  objectsToActivate: []
+  needItem: 0
+  inventoryItemID: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -2611,6 +2611,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 0}
 --- !u!1 &6191357092024919633
 GameObject:
   m_ObjectHideFlags: 0
@@ -2980,14 +2984,20 @@ MonoBehaviour:
   id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
-  securityLevel: 0
-  lockedText: Current security level is too low
   exitPoint: {fileID: 0}
   exitRoom: {fileID: 0}
+  triggerDelay: 0.5
   triggerTime: 0.5
   doorDelay: 2.5
   elevatorLight: {fileID: 6191357091911584804}
@@ -3023,11 +3033,10 @@ MonoBehaviour:
   id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
-  interacting: 0
-  inactiveText: 
-  focusPoint: {fileID: 0}
-  objectsToActivate: []
+  needItem: 0
+  inventoryItemID: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -3055,6 +3064,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 0}
 --- !u!114 &6191357092211661535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3678,17 +3691,23 @@ MonoBehaviour:
   id: 
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 1
-  interacting: 0
-  inactiveText: 
-  focusPoint: {fileID: 6191357091369239514}
-  talkOnce: 1
-  lines:
-  - There's the elevator but it doesn't seem to have any power
-  - Maybe there's a generator around here, somewhere
+  needItem: 0
+  inventoryItemID: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls: []
+  interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 6191357091369239514}
+  talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
+  lines:
+  - There's the elevator but it doesn't seem to have any power
+  - Maybe there's a generator around here, somewhere
 --- !u!114 &6191357092392697506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3701,7 +3720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a0befd7b5554da79b464e7748a29f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueObj: {fileID: 6191357092392697507}
+  setFocusPointRot: 1
 --- !u!1 &6191357092399905451
 GameObject:
   m_ObjectHideFlags: 0
@@ -4308,9 +4327,16 @@ MonoBehaviour:
   id: 
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   viewCam: {fileID: 0}
   mainCam: {fileID: 0}
@@ -4819,10 +4845,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3b0c891667c4a3a974d9c69edc3457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: d4c56164-159c-4469-85a5-f95e99bd7b36
+  id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6191357090862120074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4972,7 +5004,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802622, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: id
-      value: da9e96ea-f628-4de8-9b51-33ce7b543b59
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39e71155a41b64740b341995cacafc81, type: 3}
@@ -6021,7 +6053,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1491129535802875056, guid: d1d9ed5ebb6124ca587433d394a3bd6b, type: 3}
       propertyPath: id
-      value: 96484aa8-09aa-4138-ad9e-34ef41f435e3
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1491129535802875056, guid: d1d9ed5ebb6124ca587433d394a3bd6b, type: 3}
       propertyPath: active
@@ -6814,7 +6846,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: 4f5c89ab-0862-4fae-a696-df1a68911935
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: exitPoint
@@ -7188,22 +7220,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1483133, y: 1.671286, z: 0.030261008}
   m_Center: {x: -0.0045804987, y: 0.79842705, z: 0.0378756}
---- !u!114 &6191357091802667379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6190239384068496272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd3b0c891667c4a3a974d9c69edc3457, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: a85e792a-4da5-42e3-9ad2-52e7e35dc7a1
-  active: 0
-  hasActivated: 0
-  hideOnLoad: 1
 --- !u!114 &6191357091802667376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7218,6 +7234,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id:
     Value: 
+--- !u!114 &6191357091802667379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6190239384068496272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd3b0c891667c4a3a974d9c69edc3457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
+  active: 0
+  hasActivated: 0
+  focusOnActivate: 0
+  hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &6191357091847036788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7407,7 +7445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: 79236dfb-6474-4a39-acca-0afbb42df467
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: active
@@ -7613,7 +7651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: c1c055e3-457d-4a1f-ae97-d62a6acf47e9
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: active

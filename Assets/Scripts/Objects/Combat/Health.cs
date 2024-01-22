@@ -30,7 +30,6 @@ public class Health : MonoBehaviour
         {
             isHit = true;
             currentHealth -= value;
-            print($"{gameObject.name} health = {currentHealth}");
             m_OnTrigger.Invoke();
 
             if (shockEffect) { CamEffectController.instance.ShockEffect(0.25f); }

@@ -146,7 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c599f47c46b74221a110a4155db0ede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 897460241447594274}
   minIntensity: 0
   maxIntensity: 10
   smoothing: 5
@@ -381,11 +380,20 @@ MonoBehaviour:
   id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 897460242436719969}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - ...Broad...casting...
   - Take the Radio. Will open doors
@@ -394,9 +402,6 @@ MonoBehaviour:
   - Now. Elevator. Take the elevator
   - Hurry. Not much time
   - It is coming
-  m_OnTrigger:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &897460241638020518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,7 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a0befd7b5554da79b464e7748a29f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueObj: {fileID: 897460241638020517}
+  setFocusPointRot: 1
 --- !u!1 &897460241693165449
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,19 +545,25 @@ MonoBehaviour:
   id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 897460242587490109}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - Now. Elevator
   - Take the elevator
   - Hurry. Not much time
   - It is coming
-  m_OnTrigger:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &897460241693165495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,7 +576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a0befd7b5554da79b464e7748a29f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueObj: {fileID: 897460241693165494}
+  setFocusPointRot: 1
 --- !u!1 &897460241880237141
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,7 +933,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &897460242834671203
 Transform:
   m_ObjectHideFlags: 0
@@ -963,8 +974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d4e3bba048840a89c05c3b80413d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  backgroundAudioClip: {fileID: 0}
 --- !u!1001 &897460240806761988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1228,7 +1237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: 4d2ad5ef-307d-422b-828c-eef670d8b0f5
+      value: 6b84b6c4-bba4-41ce-afa0-2f6f8963bcd0
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: active
@@ -1504,7 +1513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802622, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: id
-      value: c9bb7249-50e9-4de5-bbd6-39b4e1ddcbcb
+      value: 14ec7a9c-7641-4d85-8708-7c5bd8d7f84b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39e71155a41b64740b341995cacafc81, type: 3}
@@ -1650,7 +1659,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6505529831997096470, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: id
-      value: 886ccbb2-4d0d-4abf-af0e-22b8d16e20c7
+      value: f9989e0a-99e5-4688-acf8-e87420bbe594
       objectReference: {fileID: 0}
     - target: {fileID: 6505529831997096470, guid: 6c10cb36df38e4c67b2d248e2b171a17, type: 3}
       propertyPath: active
@@ -2382,7 +2391,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: 4ee1811b-64eb-4247-98b2-0246bc77e862
+      value: 05385550-e22a-4a46-b803-d2c1343878bf
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: active

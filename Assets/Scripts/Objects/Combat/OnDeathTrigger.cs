@@ -10,7 +10,6 @@ public class OnDeathTrigger : MonoBehaviour
     [SerializeField] private bool triggered;
     [SerializeField] private float activateTime;
     Health objHealth;
-    Coroutine triggerObjs;
 
     [FormerlySerializedAs("onTrigger")]
     [SerializeField]
@@ -31,8 +30,8 @@ public class OnDeathTrigger : MonoBehaviour
         }
     }
 
-    public void InstantiateObj(GameObject obj)
-    {
-        GameObject tempObj = Instantiate(obj, transform.position, Quaternion.identity);
-    }
+    //public void InstantiateObj(GameObject obj)
+    //{
+    //    GameObject tempObj = Instantiate(obj, transform.position, Quaternion.identity);
+    //}
 }

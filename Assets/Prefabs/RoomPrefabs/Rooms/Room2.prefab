@@ -831,11 +831,10 @@ MonoBehaviour:
   id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
-  interacting: 0
-  inactiveText: 
-  focusPoint: {fileID: 0}
-  objectsToActivate: []
+  needItem: 0
+  inventoryItemID: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -863,6 +862,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 0}
 --- !u!1 &2767431629675021726
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,14 +1012,20 @@ MonoBehaviour:
   id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
-  securityLevel: 0
-  lockedText: Current security level is too low
   exitPoint: {fileID: 0}
   exitRoom: {fileID: 0}
+  triggerDelay: 0.5
   triggerTime: 0.5
   doorDelay: 2.5
   elevatorLight: {fileID: 2767431630361725828}
@@ -1052,11 +1061,10 @@ MonoBehaviour:
   id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
-  interacting: 0
-  inactiveText: 
-  focusPoint: {fileID: 0}
-  objectsToActivate: []
+  needItem: 0
+  inventoryItemID: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -1084,6 +1092,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 0}
 --- !u!114 &2767431629679702937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1629,11 +1641,10 @@ MonoBehaviour:
   id: 
   active: 0
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
-  interacting: 0
-  inactiveText: 
-  focusPoint: {fileID: 0}
-  objectsToActivate: []
+  needItem: 0
+  inventoryItemID: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -1661,6 +1672,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 0}
 --- !u!1 &2767431629856637762
 GameObject:
   m_ObjectHideFlags: 0
@@ -2917,17 +2932,23 @@ MonoBehaviour:
   id: 
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 1
-  interacting: 0
-  inactiveText: 
-  focusPoint: {fileID: 2767431629720960261}
-  talkOnce: 1
-  lines:
-  - There's the elevator but it doesn't seem to have any power
-  - Maybe there's a generator around here, somewhere
+  needItem: 0
+  inventoryItemID: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls: []
+  interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 2767431629720960261}
+  talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
+  lines:
+  - There's the elevator but it doesn't seem to have any power
+  - Maybe there's a generator around here, somewhere
 --- !u!114 &2767431630547677392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2940,7 +2961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a0befd7b5554da79b464e7748a29f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueObj: {fileID: 2767431630547677393}
+  setFocusPointRot: 1
 --- !u!1 &2767431630599358334
 GameObject:
   m_ObjectHideFlags: 0
@@ -3020,7 +3041,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2767431630650969426
 Transform:
   m_ObjectHideFlags: 0
@@ -3061,8 +3082,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d4e3bba048840a89c05c3b80413d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  backgroundAudioClip: {fileID: 8300000, guid: b2047cf533edc4c95b2c02b39ae143e2, type: 3}
 --- !u!1 &2767431630712516372
 GameObject:
   m_ObjectHideFlags: 0
@@ -4374,7 +4393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: 35dd0248-65bb-4da9-b979-678f5e734f19
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: exitPoint
@@ -5970,7 +5989,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1491129535802875056, guid: d1d9ed5ebb6124ca587433d394a3bd6b, type: 3}
       propertyPath: id
-      value: f89bbc4f-faf7-48b3-af0e-12e00279dea8
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1491129535802875056, guid: d1d9ed5ebb6124ca587433d394a3bd6b, type: 3}
       propertyPath: active
@@ -6314,7 +6333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: 30faa598-ada5-4e3e-9e54-b853a4712dd1
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: exitPoint
@@ -6516,7 +6535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: 2339a81e-15eb-4563-ba79-fa6bb16cc3c8
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: exitPoint
@@ -6850,7 +6869,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: 78850c9b-0de1-42ec-98d7-3e487e81a4ad
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: exitPoint
@@ -8820,7 +8839,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802622, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: id
-      value: f3f04f28-170f-45c8-af81-88dd1ca94c39
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39e71155a41b64740b341995cacafc81, type: 3}
