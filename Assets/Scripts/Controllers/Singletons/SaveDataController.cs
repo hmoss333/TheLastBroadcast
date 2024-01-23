@@ -28,7 +28,7 @@ public class SaveDataController : MonoBehaviour
 
         saveDestination = System.IO.Path.Combine(Application.persistentDataPath, "Save", "save.json");
         levelDestination = System.IO.Path.Combine(Application.persistentDataPath, "LevelData");
-        loreDestination = System.IO.Path.Combine(Application.streamingAssetsPath, "loreData.json");//System.IO.Path.Combine(Application.persistentDataPath, "Lore", "loreData.json");
+        loreDestination = System.IO.Path.Combine(Application.streamingAssetsPath, "loreData.json");
         saveData = new SaveData();
 
         LoadFile();
@@ -56,19 +56,19 @@ public class SaveDataController : MonoBehaviour
 
     public void SaveFile()
     {
-        //string jsonData = JsonUtility.ToJson(saveData);
-        //print("Saving Data:" + jsonData);
-        //File.WriteAllText(saveDestination, jsonData);
-        StartCoroutine(SaveFileRoutine());
-    }
-
-    IEnumerator SaveFileRoutine()
-    {
         string jsonData = JsonUtility.ToJson(saveData);
         print("Saving Data:" + jsonData);
         File.WriteAllText(saveDestination, jsonData);
-        yield return new WaitForSeconds(0.5f); //trying this
+        //StartCoroutine(SaveFileRoutine());
     }
+
+    //IEnumerator SaveFileRoutine()
+    //{
+    //    string jsonData = JsonUtility.ToJson(saveData);
+    //    print("Saving Data:" + jsonData);
+    //    File.WriteAllText(saveDestination, jsonData);
+    //    yield return new WaitForSeconds(0.5f); //trying this
+    //}
 
     public SaveData GetSaveData()
     {
@@ -110,36 +110,37 @@ public class SaveDataController : MonoBehaviour
             print("Creating new file");
             Directory.CreateDirectory(System.IO.Path.Combine(Application.persistentDataPath, "LevelData"));
             SaveObjectData();
+            LoadObjectData(sceneName);
         }
     }
 
     public void SaveObjectData()
     {
-        //SceneObjectsContainer tempContainer = new SceneObjectsContainer();
-        //tempContainer.sceneName = SceneManager.GetActiveScene().name;
-        //tempContainer.savePointID = sceneObjectContainer.savePointID;
+        SceneObjectsContainer tempContainer = new SceneObjectsContainer();
+        tempContainer.sceneName = SceneManager.GetActiveScene().name;
+        tempContainer.savePointID = sceneObjectContainer.savePointID;
 
-        /////TODO as scene sizes get larger this sort will take more time to complete
-        /////May be worth it to change to a per-object system
-        //SaveObject[] sceneObjects = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
-        //for (int i = 0; i < sceneObjects.Length; i++)
-        //{
-        //    SceneInteractObj tempObj = new SceneInteractObj();
-        //    tempObj.id = sceneObjects[i].id;
-        //    //tempObj.name = sceneObjects[i].name;
-        //    tempObj.active = sceneObjects[i].active;
-        //    tempObj.hasActivated = sceneObjects[i].hasActivated;
-        //    tempObj.needItem = sceneObjects[i].needItem;
-        //    tempObj.inventoryItemID = sceneObjects[i].inventoryItemID;
+        ///TODO as scene sizes get larger this sort will take more time to complete
+        ///May be worth it to change to a per-object system
+        SaveObject[] sceneObjects = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
+        for (int i = 0; i < sceneObjects.Length; i++)
+        {
+            SceneInteractObj tempObj = new SceneInteractObj();
+            tempObj.id = sceneObjects[i].id;
+            //tempObj.name = sceneObjects[i].name;
+            tempObj.active = sceneObjects[i].active;
+            tempObj.hasActivated = sceneObjects[i].hasActivated;
+            tempObj.needItem = sceneObjects[i].needItem;
+            tempObj.inventoryItemID = sceneObjects[i].inventoryItemID;
 
-        //    tempContainer.sceneObjects.Add(tempObj);
-        //}
+            tempContainer.sceneObjects.Add(tempObj);
+        }
 
-        //string tempPath = System.IO.Path.Combine(levelDestination, $"{tempContainer.sceneName}.json");
-        //string jsonData = JsonUtility.ToJson(tempContainer);
-        //print("Saving Object Data:" + jsonData);
-        //File.WriteAllText(tempPath, jsonData);
-        StartCoroutine(SaveObjectDataRoutine());
+        string tempPath = System.IO.Path.Combine(levelDestination, $"{tempContainer.sceneName}.json");
+        string jsonData = JsonUtility.ToJson(tempContainer);
+        print("Saving Object Data:" + jsonData);
+        File.WriteAllText(tempPath, jsonData);
+        //StartCoroutine(SaveObjectDataRoutine());
     }
 
     IEnumerator SaveObjectDataRoutine()

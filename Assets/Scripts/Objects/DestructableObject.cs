@@ -17,7 +17,6 @@ public class DestructableObject : SaveObject
 
     private void Update()
     {
-        print($"{health.currentHealth} :: {hasActivated}");
         if (health.currentHealth <= 0 && !hasActivated)
         {
             SetHasActivated();
