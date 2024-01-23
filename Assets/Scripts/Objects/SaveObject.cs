@@ -36,6 +36,7 @@ public class SaveObject : MonoBehaviour
 
     public virtual void Activate()
     {
+        print($"Activating: {gameObject.name}");
         active = !active;
 
         if (active && !gameObject.activeSelf)

@@ -42,7 +42,7 @@ public class SceneInitController : MonoBehaviour
         if (PlayerController.instance.dead)
         {
             if (!FadeController.instance.isFading)
-                FadeController.instance.StartFade(1.0f, 0.5f);
+                FadeController.instance.StartFade(1.0f, fadeTime - 0.25f);
 
             fadeTime -= Time.deltaTime;
             if (fadeTime < 0)

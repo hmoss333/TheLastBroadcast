@@ -2765,10 +2765,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3b0c891667c4a3a974d9c69edc3457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: d4782fe3-b1b4-4f36-a87a-7ce3a37f3de7
+  id: 
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1479216529078504610
 GameObject:
   m_ObjectHideFlags: 0
@@ -5847,13 +5853,10 @@ MonoBehaviour:
   id: 
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
-  interacting: 0
-  inactiveText: It's a valve
-  focusPoint: {fileID: 0}
-  objectsToActivate: []
-  triggerText: Turned off the valve
-  activateDelay: 0
+  needItem: 0
+  inventoryItemID: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -5905,6 +5908,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interacting: 0
+  inactiveText: It's a valve
+  focusOnInteract: 0
+  focusPoint: {fileID: 0}
+  triggerText: Turned off the valve
+  activateDelay: 0
 --- !u!114 &1479216529317487918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16955,16 +16964,22 @@ MonoBehaviour:
   id: 
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 1
-  interacting: 0
-  inactiveText: 
-  focusPoint: {fileID: 0}
-  talkOnce: 0
-  lines:
-  - '"Finish the work."'
+  needItem: 0
+  inventoryItemID: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls: []
+  interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 0}
+  talkOnce: 0
+  quoteMarks: 0
+  speakerName: 
+  lines:
+  - '"Finish the work."'
 --- !u!65 &1479216530330014488
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17805,11 +17820,20 @@ MonoBehaviour:
   id: 
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - You... you're not supposed to be here
   - How did you get here? To this place?
@@ -17821,9 +17845,6 @@ MonoBehaviour:
   - Let us stay lost
   - The work... the work...
   - '"Finish the work."'
-  m_OnTrigger:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1479216530378677983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17836,7 +17857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a0befd7b5554da79b464e7748a29f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueObj: {fileID: 1479216530378677976}
+  setFocusPointRot: 1
 --- !u!1 &1479216530388323005
 GameObject:
   m_ObjectHideFlags: 0
@@ -24102,7 +24123,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1479216530846421415
 Transform:
   m_ObjectHideFlags: 0
@@ -24144,8 +24165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d4e3bba048840a89c05c3b80413d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  backgroundAudioClip: {fileID: 8300000, guid: eb29ec8c0a880404892288540b14b73d, type: 3}
 --- !u!1 &1479216530847350161
 GameObject:
   m_ObjectHideFlags: 0
@@ -26831,7 +26850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: 61357d1f-97c0-4bd0-ba37-8ed36d3ea500
+      value: f5ea5d92-333b-4eef-a98c-1ac20da80abc
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: active
@@ -27247,7 +27266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: 151b401a-3056-479b-b60a-18b29a52a593
+      value: c219d66e-e421-4ef9-b490-5a776410f9a8
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: exitPoint
@@ -27449,7 +27468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802622, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: id
-      value: e0f4171e-c330-49a2-996a-e0b5204c6328
+      value: 9eea0839-1dc6-4624-b6a9-f1105edf4ee4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39e71155a41b64740b341995cacafc81, type: 3}

@@ -478,7 +478,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c599f47c46b74221a110a4155db0ede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 2300763460265255663}
   minIntensity: 0
   maxIntensity: 1
   smoothing: 50
@@ -710,13 +709,20 @@ MonoBehaviour:
   id: 
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 1
   needItem: 0
   inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 3605106205514699735}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - Broadcasting on all frequencies
   - Unfortunately this communication is one-way
@@ -726,10 +732,6 @@ MonoBehaviour:
     the Facility
   - You will need to locate a generator and restore power
   - Once that is done I will give you more instructions
-  index: 0
-  m_OnTrigger:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3605106204358456258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,6 +744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a0befd7b5554da79b464e7748a29f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setFocusPointRot: 1
 --- !u!1 &3605106204627183999
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,8 +849,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d4e3bba048840a89c05c3b80413d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  backgroundAudioClip: {fileID: 8300000, guid: b2047cf533edc4c95b2c02b39ae143e2, type: 3}
 --- !u!1 &3605106205152253362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1511,20 +1512,23 @@ MonoBehaviour:
   id: 
   active: 1
   hasActivated: 0
+  focusOnActivate: 0
   hideOnLoad: 0
   needItem: 0
   inventoryItemID: 0
-  interacting: 0
-  inactiveText: 
-  focusPoint: {fileID: 0}
-  talkOnce: 0
-  lines:
-  - It looks like an old Radio Transciever
-  - It doesn't seem to work anymore
-  index: 0
   m_OnTrigger:
     m_PersistentCalls:
       m_Calls: []
+  interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 0}
+  talkOnce: 0
+  quoteMarks: 0
+  speakerName: 
+  lines:
+  - It looks like an old Radio Transciever
+  - It doesn't seem to work anymore
 --- !u!1 &6156599185568352809
 GameObject:
   m_ObjectHideFlags: 0
@@ -2056,7 +2060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379827518471802622, guid: 39e71155a41b64740b341995cacafc81, type: 3}
       propertyPath: id
-      value: 7ff01a03-6d0b-476c-a5e2-ddcb29d7548c
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39e71155a41b64740b341995cacafc81, type: 3}
@@ -2506,7 +2510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: id
-      value: 8e2a0acd-bfc5-4695-a801-97fad5c3749b
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4579179299346143658, guid: de1b9288a5367499f9556e1559c59193, type: 3}
       propertyPath: exitPoint

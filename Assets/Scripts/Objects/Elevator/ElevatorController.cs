@@ -116,23 +116,26 @@ public class ElevatorController : DoorController
         while (FadeController.instance.isFading)
             yield return null;
 
-        PlayerController.instance.transform.position = exitPoint.position;
-        PlayerController.instance.SetLastDir(exitPoint.transform.forward);
-        CameraController.instance.transform.position = exitPoint.position;
-        CameraController.instance.SetRotation(false);
-        transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
-
-        if (exitRoom)
-            exitRoom.gameObject.SetActive(true);
-
-        foreach (Animator anim in anims)
+        if (exitPoint)
         {
-            anim.SetTrigger("activate");
-        }
+            PlayerController.instance.transform.position = exitPoint.position;
+            PlayerController.instance.SetLastDir(exitPoint.transform.forward);
+            CameraController.instance.transform.position = exitPoint.position;
+            CameraController.instance.SetRotation(false);
+            transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
 
-        FadeController.instance.StartFade(0.0f, 1f);
-        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
-        CameraController.instance.SetLastTarget(PlayerController.instance.lookTransform);
-        PlayerController.instance.SetState(PlayerController.States.idle);
+            if (exitRoom)
+                exitRoom.gameObject.SetActive(true);
+
+            foreach (Animator anim in anims)
+            {
+                anim.SetTrigger("activate");
+            }
+
+            FadeController.instance.StartFade(0.0f, 1f);
+            CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+            CameraController.instance.SetLastTarget(PlayerController.instance.lookTransform);
+            PlayerController.instance.SetState(PlayerController.States.idle);
+        }
     }
 }

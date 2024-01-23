@@ -14,7 +14,7 @@ public class TriggerSceneChange : MonoBehaviour
 
     private void Start()
     {
-        musicSource = SaveDataController.instance.gameObject.GetComponent<AudioSource>();
+        musicSource = AudioController.instance.audioSource;
     }
 
     private void Update()

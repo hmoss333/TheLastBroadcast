@@ -293,6 +293,7 @@ public class PlayerController : CharacterController
                 RadioController.instance.SetActive(false);
                 break;
             case States.dead:
+                CamEffectController.instance.ForceEffect();
                 if (health.currentHealth >= 0)
                     health.SetHealth(0);
                 break;
