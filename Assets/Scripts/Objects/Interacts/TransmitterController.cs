@@ -21,7 +21,7 @@ public class TransmitterController : InteractObject
     [Header("UI Values")]
     [SerializeField] TextMeshPro frequencyText;
     [SerializeField] MeshRenderer lightMesh;
-    [SerializeField] GameObject dialObj;
+    [SerializeField] GameObject dialObj, arrowObj;
     [SerializeField] Color stationColor;
     [SerializeField] Color presetColor;
 
@@ -40,6 +40,7 @@ public class TransmitterController : InteractObject
     {
         lightMesh.material.color = active ? Color.green : Color.red;
         staticSource.mute = !active || hasActivated;
+        arrowObj.SetActive(interacting);
 
         //Lock rotation once the player reaches either end of frequency spectrum
         float tempSpeed = rotSpeed;
