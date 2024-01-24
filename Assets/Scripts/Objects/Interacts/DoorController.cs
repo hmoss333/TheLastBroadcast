@@ -53,6 +53,7 @@ public class DoorController : InteractObject
         PlayerController.instance.SetLastDir(exitPoint.transform.forward);
         CameraController.instance.transform.position = exitPoint.position;
         CameraController.instance.SetRotation(false);
+        CameraController.instance.SetTriggerState(false);
         transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
 
         if (exitRoom)
