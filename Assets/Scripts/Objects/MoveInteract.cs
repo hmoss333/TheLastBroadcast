@@ -13,8 +13,10 @@ public class MoveInteract : InteractObject
     Coroutine moveObjRout;
 
 
-    private void Start()
+    public override void InitializeObject()
     {
+        base.InitializeObject();
+
         if (hasActivated)
             transform.localPosition = positions[positions.Length - 1];
     }
