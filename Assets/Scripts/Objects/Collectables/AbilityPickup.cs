@@ -79,7 +79,6 @@ public class AbilityPickup : InteractObject
         InputAction inputAction = PlayerController.instance.inputMaster.FindAction(inputName);
         PlayerInput input = FindObjectOfType<PlayerInput>();
         string currentDevice = input.currentControlScheme;
-        print(currentDevice);
         int bindingVal;
 
         //Set binding based on current device

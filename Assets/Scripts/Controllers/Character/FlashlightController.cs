@@ -16,6 +16,7 @@ public class FlashlightController : MonoBehaviour
     [SerializeField] float flashlightTime;
     [SerializeField] float flickerVal, rechargeRate;
     Coroutine flickerRoutine;
+    AudioSource audioSource;
 
 
     private void Awake()
@@ -27,6 +28,7 @@ public class FlashlightController : MonoBehaviour
     private void Start()
     {
         isOn = false;
+        audioSource = GetComponent<AudioSource>();
         lightSource = GetComponent<Light>();
         lightSource.enabled = false;
         flashlightObj.SetActive(false);
@@ -35,6 +37,12 @@ public class FlashlightController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PlayerController.instance.inputMaster.Player.Flashlight.triggered)
+        {
+            audioSource.Stop();
+            audioSource.Play();
+        }
+
         if (SaveDataController.instance.saveData.abilities.flashlight
             && (PlayerController.instance.state == PlayerController.States.idle || PlayerController.instance.state == PlayerController.States.moving)
             && PlayerController.instance.abilityState == PlayerController.AbilityStates.none)

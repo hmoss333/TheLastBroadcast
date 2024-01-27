@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
 
+[RequireComponent(typeof(AudioSource))]
 public class RadioLockController : SaveObject
 {
     private bool interacting;
@@ -12,6 +13,8 @@ public class RadioLockController : SaveObject
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private float unlockTime = 0.5f;
     [SerializeField] private MeshRenderer mesh;
+    public AudioClip interactClip;
+    AudioSource interactSource;
 
     float tempTime = 0f;
     Coroutine unlockRoutine;
@@ -20,6 +23,8 @@ public class RadioLockController : SaveObject
     {
         mesh.material.color = Color.red;
         checkFrequency = Random.Range(1f, 7.5f);
+        interactSource = GetComponent<AudioSource>();
+        interactSource.clip = interactClip;
     }
 
     void Update()
@@ -81,6 +86,8 @@ public class RadioLockController : SaveObject
     IEnumerator UnlockObjects()
     {
         SetHasActivated();
+
+        interactSource.Play();
 
         yield return new WaitForSeconds(unlockTime);
 

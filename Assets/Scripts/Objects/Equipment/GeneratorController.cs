@@ -14,8 +14,17 @@ public class GeneratorController : InteractObject
     private bool playing = false;
     [SerializeField] private float turnSpeed, angle = 0, radius = 7.5f;
     private Coroutine resetColor;
+    AudioSource audioSource;
+    [SerializeField] AudioSource hitSource;
+    [SerializeField] AudioClip hitClip, missCLip;
 
 
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.loop = true;
+        audioSource.mute = true;
+    }
 
     private void Update()
     {
@@ -28,6 +37,7 @@ public class GeneratorController : InteractObject
 
         activeLight.color = active && !hasActivated ? Color.yellow : !active && !hasActivated ? Color.red : Color.green; //hasActivated ? Color.green : Color.red;
         miniGameUI.SetActive(playing);//interacting && active);
+        audioSource.mute = !hasActivated;
     }
 
     public override void Interact()
@@ -56,6 +66,9 @@ public class GeneratorController : InteractObject
     {
         buttonIcon.color = Color.green;
         hitCount++;
+        hitSource.Stop();
+        hitSource.clip = hitClip;
+        hitSource.Play();
 
         if (hitCount >= 3)
         {
@@ -70,6 +83,9 @@ public class GeneratorController : InteractObject
     {
         buttonIcon.color = Color.red;
         hitCount = 0;
+        hitSource.Stop();
+        hitSource.clip = missCLip;
+        hitSource.Play();
 
         ResetColor();
     }

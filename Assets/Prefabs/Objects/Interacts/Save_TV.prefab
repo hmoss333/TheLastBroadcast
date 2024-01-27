@@ -123,7 +123,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7071566074641426662}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &7071566074641331398
 GameObject:
@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 7071566074643324102}
   - component: {fileID: 8249195583572684093}
   - component: {fileID: 1392858588413077762}
+  - component: {fileID: 7191682594281437911}
   m_Layer: 8
   m_Name: Save_TV
   m_TagString: SavePoint
@@ -159,7 +160,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7071566073517853456}
-  - {fileID: 7071566075041458057}
   - {fileID: 7071566074336192281}
   - {fileID: 6933094770528217856}
   m_Father: {fileID: 0}
@@ -255,6 +255,7 @@ MonoBehaviour:
   inactiveText: It's a TV. Doesn't seem like it will turn on
   focusOnInteract: 0
   focusPoint: {fileID: 7071566074336192281}
+  interactClip: {fileID: 0}
   ID: 0
   initPoint: {fileID: 6933094770528217856}
   tvMat: {fileID: 2100000, guid: fdb95a21c7c5c4723854c5dada70c663, type: 2}
@@ -273,49 +274,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id:
     Value: 
---- !u!1 &7071566075041458056
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7071566075041458057}
-  - component: {fileID: 7071566075041458058}
-  m_Layer: 8
-  m_Name: AudioSource
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7071566075041458057
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7071566075041458056}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7071566074641426662}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &7071566075041458058
+--- !u!82 &7191682594281437911
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7071566075041458056}
+  m_GameObject: {fileID: 7071566074641331398}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 900f14f6cb2a8453397afddaefbc3400, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1127f0a9e3fb04de698ebf0c81048f58, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.25
   m_Pitch: 1
@@ -430,5 +399,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7071566074641426662}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}

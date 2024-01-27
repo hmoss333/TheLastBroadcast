@@ -21,7 +21,7 @@ public class SaveObject : MonoBehaviour
 
 
     //Called when a scene is loaded after the object's active and hasActivated values have been loaded from file 
-    public void InitializeObject()
+    public virtual void InitializeObject()
     {
         if ((hasActivated || !active) && hideOnLoad)
         {

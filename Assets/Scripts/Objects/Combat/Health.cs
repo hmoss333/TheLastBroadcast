@@ -14,6 +14,9 @@ public class Health : MonoBehaviour
     CharacterController character;
     [SerializeField] Transform bloodTransform;
     [SerializeField] GameObject bloodPrefab;
+    AudioSource audioSource;
+    [SerializeField] AudioClip hitClip;
+
 
     [FormerlySerializedAs("onTrigger")]
     [SerializeField]
@@ -22,6 +25,7 @@ public class Health : MonoBehaviour
     private void Start()
     {
         character = GetComponent<CharacterController>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Hurt(int value, bool stagger)
@@ -32,6 +36,7 @@ public class Health : MonoBehaviour
             currentHealth -= value;
             m_OnTrigger.Invoke();
 
+            if (hitClip != null) { audioSource.Stop(); audioSource.clip = hitClip; audioSource.Play(); }
             if (shockEffect) { CamEffectController.instance.ShockEffect(0.25f); }
 
             if (currentHealth <= 0)
