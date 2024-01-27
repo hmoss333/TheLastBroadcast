@@ -11,7 +11,16 @@ public class MoveInteract : InteractObject
     [SerializeField] float moveSpeed;
     [SerializeField] string triggerText;
     Coroutine moveObjRout;
+    AudioSource audioSource;
+    [SerializeField] AudioClip audioClip;
 
+
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = audioClip;
+    }
 
     public override void InitializeObject()
     {
@@ -58,6 +67,7 @@ public class MoveInteract : InteractObject
     {
         SetHasActivated();
         m_OnTrigger.Invoke();
+        audioSource.Play();
 
         for (int i = 0; i < positions.Length; i++)
         {
@@ -80,6 +90,7 @@ public class MoveInteract : InteractObject
     {
         SetHasActivated();
         m_OnTrigger.Invoke();
+        audioSource.Play();
 
         while (true)
         {

@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
+
 public class InteractObject : SaveObject
 {
     [HideInInspector] public bool interacting;
