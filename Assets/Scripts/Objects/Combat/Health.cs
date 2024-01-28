@@ -15,7 +15,7 @@ public class Health : MonoBehaviour
     [SerializeField] Transform bloodTransform;
     [SerializeField] GameObject bloodPrefab;
     AudioSource audioSource;
-    [SerializeField] AudioClip hitClip;
+    [SerializeField] AudioClip hitClip, deathClip;
 
 
     [FormerlySerializedAs("onTrigger")]
@@ -43,6 +43,9 @@ public class Health : MonoBehaviour
             {
                 if (character != null)
                     character.dead = true;
+
+                AudioController.instance.LoopClip(false);
+                AudioController.instance.PlayClip(deathClip);
             }
             else
             {
