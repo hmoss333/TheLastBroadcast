@@ -14,16 +14,20 @@ public class GeneratorController : InteractObject
     private bool playing = false;
     [SerializeField] private float turnSpeed, angle = 0, radius = 7.5f;
     private Coroutine resetColor;
-    AudioSource audioSource;
+
+    [NaughtyAttributes.HorizontalLine]
+    [Header("Audio Variables")]
     [SerializeField] AudioSource hitSource;
-    [SerializeField] AudioClip hitClip, missCLip;
+    AudioSource audioSource;
+    [SerializeField] AudioClip hitClip, missCLip, offBackground, onBackground;
 
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        audioSource.clip = hasActivated ? onBackground : offBackground;
         audioSource.loop = true;
-        audioSource.mute = true;
+        audioSource.Play();
     }
 
     private void Update()
@@ -35,9 +39,8 @@ public class GeneratorController : InteractObject
             miniGameRotObj.transform.rotation = Quaternion.Euler(0, 0, angle * radius);
         }
 
-        activeLight.color = active && !hasActivated ? Color.yellow : !active && !hasActivated ? Color.red : Color.green; //hasActivated ? Color.green : Color.red;
-        miniGameUI.SetActive(playing);//interacting && active);
-        audioSource.mute = !hasActivated;
+        activeLight.color = active && !hasActivated ? Color.yellow : !active && !hasActivated ? Color.red : Color.green;
+        miniGameUI.SetActive(playing);
     }
 
     public override void Interact()
@@ -114,6 +117,9 @@ public class GeneratorController : InteractObject
 
         SetHasActivated();
         playing = false;
+        audioSource.Stop();
+        audioSource.clip = onBackground;
+        audioSource.Play();
 
         PlayerController.instance.ToggleAvatar();
         CameraController.instance.SetTarget(CameraController.instance.GetLastTarget());
