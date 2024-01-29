@@ -4,18 +4,24 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-//[RequireComponent(typeof(ParticleSystem))]
+[RequireComponent(typeof(AudioSource))]
 public class Health : MonoBehaviour
 {
+    [Header("Health Variables")]
     public int currentHealth;// { get; private set; }
-    [SerializeField] bool shockEffect;
     public bool isHit { get; private set; }
     [SerializeField] float cooldownTime = 1f;
     CharacterController character;
+
+    [Header("Hit Effects")]
+    [SerializeField] bool shockEffect;
     [SerializeField] Transform bloodTransform;
     [SerializeField] GameObject bloodPrefab;
-    AudioSource audioSource;
+
+    [Header("Audio Variables")]
     [SerializeField] AudioClip hitClip;
+    [SerializeField] AudioClip deathClip;
+    AudioSource audioSource;
 
 
     [FormerlySerializedAs("onTrigger")]
@@ -43,6 +49,9 @@ public class Health : MonoBehaviour
             {
                 if (character != null)
                     character.dead = true;
+
+                AudioController.instance.LoopClip(false);
+                AudioController.instance.PlayClip(deathClip);
             }
             else
             {

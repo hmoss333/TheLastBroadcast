@@ -6,14 +6,14 @@ using UnityEngine;
 public class DestructableObject : SaveObject
 {
     private Health health;
-    AudioSource audioSource;
+    //AudioSource audioSource;
     [SerializeField] AudioClip deathClip;
     
 
     private void Start()
     {
         health = GetComponent<Health>();
-        audioSource = GetComponent<AudioSource>();
+        //audioSource = GetComponent<AudioSource>();
 
         gameObject.SetActive(!hasActivated);
     }
@@ -22,10 +22,6 @@ public class DestructableObject : SaveObject
     {
         if (health.currentHealth <= 0 && !hasActivated)
         {
-            audioSource.Stop();
-            audioSource.clip = deathClip;
-            audioSource.Play();
-
             SetHasActivated();
             m_OnTrigger.Invoke();
         }
