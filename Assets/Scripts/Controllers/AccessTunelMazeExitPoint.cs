@@ -7,6 +7,7 @@ public class AccessTunelMazeExitPoint : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] bool isExit;
     [SerializeField] Transform initPoint;
+    [SerializeField] AccessTunelMazeController mazeController;
 
 
     private void Awake()
@@ -33,11 +34,11 @@ public class AccessTunelMazeExitPoint : MonoBehaviour
         {
             if (isExit)
             {
-                AccessTunelMazeController.instance.Correct(initPoint);
+                mazeController.Correct(initPoint);
             }
             else
             {
-                AccessTunelMazeController.instance.Incorrect(initPoint);
+                mazeController.Incorrect(initPoint);
             }
         }
     }

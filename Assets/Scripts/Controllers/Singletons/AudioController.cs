@@ -120,8 +120,9 @@ public class AudioController : MonoBehaviour
         {
             AudioSource source = layer.audioSource;
             Destroy(source);
-            audioLayers.Remove(layer);
         }
+
+        audioLayers.Clear();
     }
 
     public void RemoveLayer(int layerID)

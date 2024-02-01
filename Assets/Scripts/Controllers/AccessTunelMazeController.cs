@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AccessTunelMazeController : MonoBehaviour
 {
-    public static AccessTunelMazeController instance;
+    //public static AccessTunelMazeController instance;
 
     [SerializeField] int correctCount;
     [SerializeField] int goalCount;
@@ -13,13 +13,13 @@ public class AccessTunelMazeController : MonoBehaviour
     Coroutine initRoutine;
 
 
-    private void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this);
-    }
+    //private void Awake()
+    //{
+    //    if (instance == null)
+    //        instance = this;
+    //    else
+    //        Destroy(this);
+    //}
 
     private void Start()
     {
