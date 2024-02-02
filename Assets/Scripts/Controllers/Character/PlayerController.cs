@@ -231,11 +231,10 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.radio:
-                if (inputMaster.Player.Radio.ReadValue<float>() <= 0
-                    //&& !CameraController.instance.GetCamLockState()
+                if (inputMaster.Player.Radio.ReadValue<float>() <= 0                
                     && abilityState != AbilityStates.isRat || abilityState == AbilityStates.invisible)
                 {
-                    CameraController.instance.LoadLastTarget();
+                    if (!CameraController.instance.GetRotState() || !CameraController.instance.GetTriggerState()) { CameraController.instance.LoadLastTarget(); }
                     SetState(States.idle);
                 }
                 break;
