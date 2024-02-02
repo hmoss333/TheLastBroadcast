@@ -53,12 +53,12 @@ public class RadioLockController : SaveObject
                 if (tempTime >= checkTime)
                 {
                     SetHasActivated();
-                    Unlock();
+                    Unlock();                   
                 }
             }
             else if (interacting)
             {
-                if (!CameraController.instance.GetRotState())
+                if (!CameraController.instance.GetRotState() || !CameraController.instance.GetTriggerState())
                     CameraController.instance.LoadLastTarget(); //If the radio is set to the correct station, focus on tunable object
 
                 interacting = false;
@@ -93,8 +93,8 @@ public class RadioLockController : SaveObject
 
         m_OnTrigger.Invoke();
        
-        if (!CameraController.instance.GetRotState())
-            CameraController.instance.LoadLastTarget(); //If the radio is set to the correct station, focus on tunable object
+        if (!CameraController.instance.GetRotState() || !CameraController.instance.GetTriggerState())
+            CameraController.instance.LoadLastTarget();
 
         unlockRoutine = null;
     }

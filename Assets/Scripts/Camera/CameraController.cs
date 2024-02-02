@@ -200,6 +200,8 @@ public class CameraController : MonoBehaviour
         setRot = false;
         inTrigger = false;
 
+        PlayerController.instance.SetState(PlayerController.States.listening);
+
         for (int i = 0; i < objsToFocus.Count; i++)
         {
             CameraController.instance.SetTarget(objsToFocus[i].transform);
@@ -210,6 +212,7 @@ public class CameraController : MonoBehaviour
         setRot = tempRotSet;
         inTrigger = tempTriggerState;
         CameraController.instance.LoadLastTarget();
+        PlayerController.instance.SetState(PlayerController.States.idle);
 
         objsToFocus.Clear();
         focusObjsRoutine = null;
