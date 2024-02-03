@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class TVController : SavePointController
 {
-    [SerializeField] Material tvMat;
+    [SerializeField] Material tvMat, renderMat;
     MeshRenderer meshRenderer;
     GameObject tvLight;
     [SerializeField] AudioSource audioSource;
@@ -80,17 +80,51 @@ public class TVController : SavePointController
             CameraController.instance.FocusTarget();
 
             //Display 'Saving...' text
-            UIController.instance.SetDialogueText("Saving...", true);
-            UIController.instance.ToggleDialogueUI(interacting);
+            //UIController.instance.SetDialogueText("Saving...", true);
+            //UIController.instance.ToggleDialogueUI(interacting);
+            
 
             if (interacting)
             {
                 Debug.Log("Saving game");
+                AddMat(renderMat, meshRenderer);
                 SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);
                 SaveDataController.instance.SaveFile();
                 SaveDataController.instance.SaveObjectData();
                 InventoryController.instance.SaveItemData();
             }
+            else
+            {
+                RemoveMat(renderMat, meshRenderer);
+            }
         }
+    }
+
+
+    //Add/Remove Materials from Renderer
+    //Used to show/hide the "Saving..." text
+    void AddMat(Material matToAdd, Renderer renderer)
+    {
+        Material[] tempMats = renderer.materials;
+        List<Material> returnMats = new List<Material>();
+        returnMats = tempMats.ToList<Material>();
+        returnMats.Add(matToAdd);
+        renderer.materials = returnMats.ToArray();
+    }
+
+    void RemoveMat(Material matToRemove, Renderer renderer)
+    {
+        Material[] tempMats = renderer.materials;
+        List<Material> returnMats = new List<Material>();
+
+        foreach (Material mat in tempMats)
+        {
+            if (!mat.name.Contains(matToRemove.name))
+            {
+                returnMats.Add(mat);
+            }
+        }
+
+        renderer.materials = returnMats.ToArray();
     }
 }
