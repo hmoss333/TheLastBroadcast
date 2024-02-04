@@ -59,6 +59,11 @@ public class SceneInitController : MonoBehaviour
         savePoints = tempArray;
     }
 
+    public List<string> GetScenesToIgnore()
+    {
+        return scenesToIgnore;
+    }
+
     void HideAllRooms()
     {
         RoomController[] tempRooms = FindObjectsOfType<RoomController>();

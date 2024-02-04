@@ -53,7 +53,7 @@ public class TriggerSceneChange : MonoBehaviour
 
         targetVolume = 0;
 
-        if (sceneToLoad != "MainMenu" && sceneToLoad != "Intro")
+        if (!SceneInitController.instance.GetScenesToIgnore().Contains(sceneToLoad))
         {
             try { SaveDataController.instance.SetSavePoint(sceneToLoad, 0); } catch { };
             try { PlayerController.instance.ToggleAvatar(); } catch { };
