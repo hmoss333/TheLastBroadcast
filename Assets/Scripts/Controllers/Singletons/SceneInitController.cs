@@ -15,8 +15,9 @@ public class SceneInitController : MonoBehaviour
     [SerializeField] private RoomController[] rooms;
     public RoomController currentRoom { get; private set; }
     [SerializeField] private float fadeInTime = 1.5f;
-
+    [SerializeField] private List<string> scenesToIgnore;
     [SerializeField] private SceneObjectsContainer currentScenario;
+
 
 
     float fadeTime = 3f;
@@ -77,7 +78,7 @@ public class SceneInitController : MonoBehaviour
     public void InitializeGame()
     {
         currentScene = SceneManager.GetActiveScene().name;
-        if (currentScene != "MainMenu" && currentScene != "Intro") { SaveDataController.instance.SetSavePoint(currentScene); }
+        if (!scenesToIgnore.Contains(currentScene)) { SaveDataController.instance.SetSavePoint(currentScene); }
         SaveDataController.instance.LoadObjectData(currentScene);
         currentScenario = SaveDataController.instance.sceneObjectContainer;
 

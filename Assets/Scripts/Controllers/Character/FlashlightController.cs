@@ -37,7 +37,8 @@ public class FlashlightController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerController.instance.inputMaster.Player.Flashlight.triggered)
+        if (SaveDataController.instance.saveData.abilities.flashlight
+            && PlayerController.instance.inputMaster.Player.Flashlight.triggered)
         {
             audioSource.Stop();
             audioSource.Play();

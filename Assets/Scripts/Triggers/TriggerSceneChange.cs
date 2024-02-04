@@ -58,6 +58,7 @@ public class TriggerSceneChange : MonoBehaviour
             try { SaveDataController.instance.SetSavePoint(sceneToLoad, 0); } catch { };
             try { PlayerController.instance.ToggleAvatar(); } catch { };
         }
+
         SceneManager.LoadSceneAsync(sceneToLoad);
     }
 }

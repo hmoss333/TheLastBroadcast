@@ -16,6 +16,7 @@ public class AudioController : MonoBehaviour
     public static AudioController instance;
 
     public AudioSource audioSource;
+    [SerializeField] private List<AudioLayer> backgrounds;
     [SerializeField] private List<AudioLayer> audioLayers;
 
 
@@ -30,6 +31,25 @@ public class AudioController : MonoBehaviour
 
     private void Update()
     {
+        foreach (AudioLayer layer in backgrounds)
+        {
+            if (layer.audioSource == null)
+            {
+                AudioSource newSource = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+                newSource.spatialBlend = 0;
+                layer.audioSource = newSource;
+            }
+
+            layer.audioSource.clip = layer.audioClip;
+            layer.audioSource.volume = layer.volume;
+            layer.audioSource.mute = layer.mute;
+            layer.audioSource.loop = layer.loop;
+
+            //Start audio playback if layer has been added to the loop
+            if (!layer.audioSource.isPlaying)
+                layer.audioSource.Play();
+        }
+
         foreach (AudioLayer layer in audioLayers)
         {
             if (layer.audioSource == null)
@@ -146,6 +166,7 @@ public class AudioController : MonoBehaviour
         AudioSource[] sources = gameObject.GetComponentsInChildren<AudioSource>();
         List<AudioSource> validAudio = new List<AudioSource>();
         validAudio.Add(audioSource);
+        foreach (AudioLayer layer in backgrounds) { validAudio.Add(layer.audioSource); }
 
         for (int i = 0; i < audioLayers.Count; i++)
         {
@@ -165,6 +186,19 @@ public class AudioController : MonoBehaviour
                 Destroy(source);
         }
     }
+
+    public List<AudioClip> GetLayerClips()
+    {
+        List<AudioClip> returnList = new List<AudioClip>();
+
+        for (int i = 0; i < audioLayers.Count; i++)
+        {
+            returnList.Add(audioLayers[i].audioClip);
+        }
+
+        return returnList;
+    }
+
 }
 
 
