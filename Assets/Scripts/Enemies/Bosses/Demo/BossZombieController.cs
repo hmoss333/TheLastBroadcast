@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
 public class BossZombieController : SaveObject
@@ -27,6 +28,11 @@ public class BossZombieController : SaveObject
     bool attackLeft;
     [SerializeField] GameObject handLeft, handRight;
 
+    [NaughtyAttributes.HorizontalLine]
+    [Header("Boss UI Variables")]
+    [SerializeField] GameObject healthBarObj;
+    [SerializeField] Image healthBar;
+
 
     private void Start()
     {
@@ -41,6 +47,8 @@ public class BossZombieController : SaveObject
     {
         if (bossState != BossState.dead && bossState != BossState.idle) { PlayerController.instance.SeePlayer(); }
         tulpaBody.gameObject.SetActive(bossState != BossState.idle && !hasActivated);
+        healthBarObj.SetActive(active && !hasActivated);
+        //healthBar.fillAmount = health.currentHealth / 4f;
 
 
         if (active && !hasActivated)
@@ -99,6 +107,12 @@ public class BossZombieController : SaveObject
                     break;
             }
         }
+
+        if (bossState != BossState.aggro)
+        {
+            handLeft.SetActive(false);
+            handRight.SetActive(false);
+        }
     }
 
     public void SetState(BossState stateToSet)
@@ -112,8 +126,6 @@ public class BossZombieController : SaveObject
         if (towerNum >= bossStage)
         {
             towerNum = 0;
-            //handLeft.SetActive(false);
-            //handRight.SetActive(false);
             health.Hurt(1, true);
 
             StartCoroutine(SetTowerStun());
@@ -130,6 +142,15 @@ public class BossZombieController : SaveObject
 
         CameraController.instance.SetTarget(camTarget);
 
+        float targetFillAmount = health.currentHealth / 4f;
+        while (healthBar.fillAmount > targetFillAmount)
+        {
+            healthBar.fillAmount -= Time.deltaTime * 0.25f;
+            yield return null;
+        }
+
+
+        //Check current health to determine state
         if (health.currentHealth <= 0)
         {
             SetState(BossState.dead);
