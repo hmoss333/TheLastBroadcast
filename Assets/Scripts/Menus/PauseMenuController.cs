@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -34,6 +35,16 @@ public class PauseMenuController : MonoBehaviour
             && PlayerController.instance.state != PlayerController.States.listening
             && PlayerController.instance.state != PlayerController.States.wakeUp)
         {
+            //If a SceneToIgnore is loaded, disable pause
+            List<Scene> activeScenes = SceneManager.GetAllScenes().ToList();
+            for (int i = 0; i < activeScenes.Count; i++)
+            {
+                if (SceneInitController.instance.GetScenesToIgnore().Contains(activeScenes[i].name))
+                {
+                    return;
+                }
+            }
+
             isPaused = !isPaused;
 
             PauseGame(isPaused);

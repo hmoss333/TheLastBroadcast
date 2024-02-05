@@ -5,16 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class CreditsController : MonoBehaviour
 {
-    private InputMaster inputMaster;
-    [SerializeField] public float fadeInTime = 10f;
-    [SerializeField] public float fadeOutTime = 2.5f;
+    InputMaster inputMaster;
 
+    [SerializeField] private float fadeInTime = 10f;
+    [SerializeField] private float fadeOutTime = 2.5f;
 
-    private void Start()
+    Coroutine unloadSceneRoutine;
+
+    private void Awake()
     {
         inputMaster = new InputMaster();
         inputMaster.Enable();
+    }
 
+    private void Start()
+    {
         FadeController.instance.StartFade(0.0f, fadeInTime);
     }
 

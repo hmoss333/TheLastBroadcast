@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class TriggerSceneChange : MonoBehaviour
 {
     [SerializeField] string sceneToLoad;
+    [SerializeField] bool additive;
     [SerializeField] float fadeTime = 1f, transitionDelay = 0f;
     Coroutine changeScene;
     AudioSource musicSource;
@@ -59,6 +60,6 @@ public class TriggerSceneChange : MonoBehaviour
             try { PlayerController.instance.ToggleAvatar(); } catch { };
         }
 
-        SceneManager.LoadSceneAsync(sceneToLoad);
+        SceneManager.LoadSceneAsync(sceneToLoad, additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
     }
 }
