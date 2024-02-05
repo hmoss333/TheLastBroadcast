@@ -25,7 +25,7 @@ public class CreditsController : MonoBehaviour
 
     private void Update()
     {
-        if (inputMaster.Player.Pause.triggered)
+        if (inputMaster.Player.Pause.triggered || inputMaster.Player.Interact.triggered)
         {
             SceneManager.LoadSceneAsync("MainMenu");
             FadeController.instance.StartFade(1.0f, fadeOutTime);
