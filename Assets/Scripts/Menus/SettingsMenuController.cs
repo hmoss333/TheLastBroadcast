@@ -56,8 +56,8 @@ public class SettingsMenuController : MonoBehaviour
     {
         screenVal = PlayerPrefs.GetInt("screenVal", 0);
         brightnessVal = PlayerPrefs.GetFloat("brightnessVal", 0.5f);
-        masterVol = PlayerPrefs.GetFloat("masterVol", 0.25f);
-        musicVol = PlayerPrefs.GetFloat("musicVol", 0.25f);
+        masterVol = PlayerPrefs.GetFloat("masterVol", 1.0f);
+        musicVol = PlayerPrefs.GetFloat("musicVol", 1.0f);
 
         SetScreenName();
         brightnessSlider.value = brightnessVal;
@@ -94,8 +94,10 @@ public class SettingsMenuController : MonoBehaviour
         PlayerPrefs.SetFloat("brightnessVal", brightnessVal);
 
         //Music Settings
-        PlayerPrefs.SetFloat("masterVol", masterVol);
-        PlayerPrefs.SetFloat("musicVol", musicVol);
+        //PlayerPrefs.SetFloat("masterVol", masterVol);
+        //PlayerPrefs.SetFloat("musicVol", musicVol);
+
+        //AudioListener.volume = masterVol;
     }
 
 
@@ -147,10 +149,13 @@ public class SettingsMenuController : MonoBehaviour
     public void SetMaxVolume()
     {
         masterVol = masterVolSlider.value;
+        PlayerPrefs.SetFloat("masterVol", masterVol);
+        AudioListener.volume = masterVol;
     }
 
     public void SetMusicVolume()
     {
         musicVol = musicVolSlider.value;
+        PlayerPrefs.SetFloat("musicVol", musicVol);
     }
 }

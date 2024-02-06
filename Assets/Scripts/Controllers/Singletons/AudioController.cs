@@ -25,12 +25,16 @@ public class AudioController : MonoBehaviour
         if (instance == null)
             instance = this;
         else
-            Destroy(this);        
+            Destroy(this);
     }
 
 
     private void Update()
     {
+        //Update Master Volume
+        AudioListener.volume = PlayerPrefs.GetFloat("masterVol", 1.0f);
+
+        //Update Background Audio Tracks
         foreach (AudioLayer layer in backgrounds)
         {
             if (layer.audioSource == null)
@@ -41,7 +45,7 @@ public class AudioController : MonoBehaviour
             }
 
             layer.audioSource.clip = layer.audioClip;
-            layer.audioSource.volume = layer.volume;
+            layer.audioSource.volume = PlayerPrefs.GetFloat("musicVol", 1.0f); //layer.volume;
             layer.audioSource.mute = layer.mute;
             layer.audioSource.loop = layer.loop;
 
@@ -50,6 +54,7 @@ public class AudioController : MonoBehaviour
                 layer.audioSource.Play();
         }
 
+        //Update Music Layer Audio Tracks
         foreach (AudioLayer layer in audioLayers)
         {
             if (layer.audioSource == null)
@@ -60,7 +65,7 @@ public class AudioController : MonoBehaviour
             }
 
             layer.audioSource.clip = layer.audioClip;
-            layer.audioSource.volume = layer.volume;
+            layer.audioSource.volume = PlayerPrefs.GetFloat("musicVol", 1.0f); //layer.volume;
             layer.audioSource.mute = layer.mute;
             layer.audioSource.loop = layer.loop;
 
@@ -105,7 +110,7 @@ public class AudioController : MonoBehaviour
         AudioLayer newLayer = new AudioLayer();
         newLayer.ID = audioLayers.Count;
         newLayer.audioClip = clip;
-        newLayer.volume = 1f;
+        newLayer.volume = PlayerPrefs.GetFloat("musicVol", 1.0f); //1f;
         newLayer.mute = false;
         newLayer.loop = true;
 
