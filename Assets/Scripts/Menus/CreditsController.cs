@@ -10,7 +10,7 @@ public class CreditsController : MonoBehaviour
     [SerializeField] private float fadeInTime = 10f;
     [SerializeField] private float fadeOutTime = 2.5f;
 
-    Coroutine unloadSceneRoutine;
+    Coroutine fadeSceneRoutine;
 
     private void Awake()
     {
@@ -27,8 +27,20 @@ public class CreditsController : MonoBehaviour
     {
         if (inputMaster.Player.Pause.triggered || inputMaster.Player.Interact.triggered)
         {
-            SceneManager.LoadSceneAsync("MainMenu");
-            FadeController.instance.StartFade(1.0f, fadeOutTime);
+            if (fadeSceneRoutine == null)
+                fadeSceneRoutine = StartCoroutine(FadeScene(fadeOutTime));
         }
+    }
+
+    IEnumerator FadeScene(float fadeTime)
+    {
+        FadeController.instance.StartFade(1.0f, fadeOutTime);
+
+        while (FadeController.instance.isFading)
+            yield return null;
+
+        SceneManager.LoadSceneAsync("MainMenu");
+
+        fadeSceneRoutine = null;
     }
 }

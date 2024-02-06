@@ -10,7 +10,7 @@ public class FadeController : MonoBehaviour
 
     [SerializeField] Image objectToFade;
     public bool isFading { get; private set; }
-    Coroutine fadeRoutine, fadeTextRoutine;
+    public Coroutine fadeRoutine, fadeTextRoutine;
 
 
     private void Awake()
