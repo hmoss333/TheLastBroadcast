@@ -115,8 +115,14 @@ public class PlayerController : CharacterController
 
         //Hit wall check
         //Used to stop the camera from poking outside of bounds
-        if (Physics.Raycast(ray, out hit, checkDist) && !CameraController.instance.GetRotState())
+        if (Physics.Raycast(ray, out hit, checkDist)
+            //&& !CameraController.instance.GetRotState()
+            && !CameraController.instance.GetTriggerState())
         {
+            //reset state in case there is an update before a hit can be identified
+            CameraController.instance.HittingWall(false);
+
+            //If the raycastHit identifies an object on the Wall layer, set HittingWall = true
             RaycastHit[] hits = Physics.RaycastAll(ray, checkDist, 1 << 10);
             foreach (RaycastHit r_hit in hits)
             {
@@ -129,6 +135,7 @@ public class PlayerController : CharacterController
         }
         else
         {
+            //Set player to not be hitting a wall
             CameraController.instance.HittingWall(false);
         }
 

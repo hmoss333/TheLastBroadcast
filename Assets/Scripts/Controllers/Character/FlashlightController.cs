@@ -37,56 +37,59 @@ public class FlashlightController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SaveDataController.instance.saveData.abilities.flashlight
-            && PlayerController.instance.inputMaster.Player.Flashlight.triggered)
+        if (!PauseMenuController.instance.isPaused)
         {
-            audioSource.Stop();
-            audioSource.Play();
-        }
-
-        if (SaveDataController.instance.saveData.abilities.flashlight
-            && (PlayerController.instance.state == PlayerController.States.idle || PlayerController.instance.state == PlayerController.States.moving)
-            && PlayerController.instance.abilityState == PlayerController.AbilityStates.none)
-        {
-            isOn = PlayerController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0
-                && !PlayerController.instance.running
-                && flashlightTime > 0f
-                && !isCharging
-                    ? true
-                    : false;
-
-            if (isOn)
+            if (SaveDataController.instance.saveData.abilities.flashlight
+                && PlayerController.instance.inputMaster.Player.Flashlight.triggered)
             {
-                flashlightTime -= 0.65f * Time.deltaTime;
-                if (flashlightTime <= flickerVal)
-                {
-                    //Start randomly flickering flashlight
-                    if (flickerRoutine == null)
-                        flickerRoutine = StartCoroutine(FlickerLight());
-                }
+                audioSource.Stop();
+                audioSource.Play();
+            }
 
-                if (flashlightTime <= 0f)
+            if (SaveDataController.instance.saveData.abilities.flashlight
+                && (PlayerController.instance.state == PlayerController.States.idle || PlayerController.instance.state == PlayerController.States.moving)
+                && PlayerController.instance.abilityState == PlayerController.AbilityStates.none)
+            {
+                isOn = PlayerController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0
+                    && !PlayerController.instance.running
+                    && flashlightTime > 0f
+                    && !isCharging
+                        ? true
+                        : false;
+
+                if (isOn)
                 {
-                    isCharging = true;
-                    isOn = false;
+                    flashlightTime -= 0.65f * Time.deltaTime;
+                    if (flashlightTime <= flickerVal)
+                    {
+                        //Start randomly flickering flashlight
+                        if (flickerRoutine == null)
+                            flickerRoutine = StartCoroutine(FlickerLight());
+                    }
+
+                    if (flashlightTime <= 0f)
+                    {
+                        isCharging = true;
+                        isOn = false;
+                    }
+                }
+                else
+                {
+                    flashlightTime += rechargeRate * Time.deltaTime;
+
+                    if (flashlightTime > 15f)
+                    {
+                        flashlightTime = 15f;
+                        isCharging = false;
+                    }
                 }
             }
-            else
-            {
-                flashlightTime += rechargeRate * Time.deltaTime;
 
-                if (flashlightTime > 15f)
-                {
-                    flashlightTime = 15f;
-                    isCharging = false;
-                }
-            }
+            lightSource.enabled = isOn && flashlightTime >= flickerVal;
+            flashlightObj.SetActive(isOn);
+            flashlightTrigger.SetActive(isOn);
+            PlayerController.instance.animator.SetBool("flashlight", isOn);
         }
-
-        lightSource.enabled = isOn && flashlightTime >= flickerVal;
-        flashlightObj.SetActive(isOn);
-        flashlightTrigger.SetActive(isOn);
-        PlayerController.instance.animator.SetBool("flashlight", isOn);
     }
 
     IEnumerator FlickerLight()
