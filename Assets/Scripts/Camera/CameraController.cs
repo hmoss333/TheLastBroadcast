@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
     private float xTemp;
     Quaternion baseRot;
 
-    //[SerializeField] //useful for debugging
+    [SerializeField] //useful for debugging
     private bool focus, setRot, inTrigger, hitWall;
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
@@ -24,10 +24,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] float rotRate;
     [SerializeField] float focusRotRate;
 
-    private bool focusingOnObjs;
+    //private bool focusingOnObjs;
     [SerializeField] private List<SaveObject> objsToFocus;
 
-    Coroutine resetRot;
+    //Coroutine resetRot;
     Coroutine focusObjsRoutine;
 
 
@@ -91,7 +91,7 @@ public class CameraController : MonoBehaviour
                     : camOffset.z + offset.z;
         }
 
-        if (hitWall)
+        if (hitWall && focusObjsRoutine == null)
         {
             pos = new Vector3(transform.position.x, pos.y, pos.z);
         }
@@ -197,21 +197,24 @@ public class CameraController : MonoBehaviour
     {
         bool tempRotSet = setRot;
         bool tempTriggerState = inTrigger;
+        bool tempHitWall = hitWall;
         setRot = false;
         inTrigger = false;
+        hitWall = false;
 
         PlayerController.instance.SetState(PlayerController.States.listening);
 
         for (int i = 0; i < objsToFocus.Count; i++)
         {
-            CameraController.instance.SetTarget(objsToFocus[i].transform);
+            SetTarget(objsToFocus[i].transform);
 
             yield return new WaitForSeconds(2f);
         }
 
         setRot = tempRotSet;
         inTrigger = tempTriggerState;
-        CameraController.instance.LoadLastTarget();
+        hitWall = tempHitWall;
+        LoadLastTarget();
         PlayerController.instance.SetState(PlayerController.States.idle);
 
         objsToFocus.Clear();
