@@ -4,18 +4,37 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-//[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AudioSource))]
 public class DoorController : InteractObject
 {
     public Transform exitPoint;
     [HideInInspector] public RoomController exitRoom;
     [SerializeField] float triggerDelay = 0.5f, triggerTime = 1f;
+    [SerializeField] private AudioClip useClip, unlockClip;
+    private AudioSource audioSource;
     Coroutine doorRoutine;
 
 
     private void Awake()
     {
         if (exitPoint) { exitRoom = exitPoint.GetComponentInParent<RoomController>(); }
+    }
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    public override void Activate()
+    {
+        base.Activate();
+
+        if (active)
+        {
+            audioSource.Stop();
+            audioSource.clip = unlockClip;
+            audioSource.Play();
+        }
     }
 
     public override void Interact()
@@ -37,7 +56,9 @@ public class DoorController : InteractObject
             CameraController.instance.SetRotation(true);
         }
 
-        GetComponent<AudioSource>().Play();
+        audioSource.Stop();
+        audioSource.clip = useClip;
+        audioSource.Play();
 
         yield return new WaitForSeconds(triggerDelay);
 
