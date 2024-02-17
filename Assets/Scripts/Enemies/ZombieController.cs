@@ -113,6 +113,9 @@ public class ZombieController : CharacterController
                 stunned = false;
                 tempStunTime = stunTime;
             }
+
+            if (hurt || dead)
+                stunned = false;
         }
 
 
