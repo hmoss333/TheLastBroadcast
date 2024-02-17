@@ -12,6 +12,8 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] public bool isPaused;
     [SerializeField] List<GameObject> menuPanels;
     int menuIndex = 0;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip openMenu, closeMenu;
 
     Coroutine ls;
 
@@ -24,7 +26,7 @@ public class PauseMenuController : MonoBehaviour
     private void Start()
     {
         isPaused = false;
-        PauseGame(isPaused);
+        pauseMenu.SetActive(false);
         ToggleMenu(0);
     }
 
@@ -74,6 +76,7 @@ public class PauseMenuController : MonoBehaviour
     public void PauseGame(bool paused)
     {
         pauseMenu.SetActive(paused);
+        PlayClip(paused ? openMenu : closeMenu);
         Time.timeScale = paused ? 0f : 1f;
     }
 
@@ -100,5 +103,13 @@ public class PauseMenuController : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadSceneAsync("MainMenu");
+    }
+
+
+    private void PlayClip(AudioClip clip)
+    {
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }

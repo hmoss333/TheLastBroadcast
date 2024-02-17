@@ -21,6 +21,8 @@ public class InventoryController : MonoBehaviour
     [SerializeField] InventoryItem inventoryItemPrefab;
     [SerializeField] TMP_Text inventoryTitle, inventoryDesc;
     [SerializeField] Image itemImage;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip equipClip, moveClip;
 
     //[NaughtyAttributes.HorizontalLine]
 
@@ -57,6 +59,8 @@ public class InventoryController : MonoBehaviour
             //Use directional input to navigate inventory menu
             if (PlayerController.instance.inputMaster.Player.Move.triggered)
             {
+                PlayClip(moveClip);
+
                 Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
                 if (move.x > 0)
                 {
@@ -125,6 +129,8 @@ public class InventoryController : MonoBehaviour
             if (PlayerController.instance.inputMaster.Player.Interact.triggered
                 && inventoryItems.Count > 0)
             {
+                PlayClip(equipClip);
+
                 if (selectedItem != inventoryObjs[itemPosVal])
                 {
                     SelectItem(inventoryObjs[itemPosVal]);
@@ -280,6 +286,14 @@ public class InventoryController : MonoBehaviour
         }
 
         RefreshInventory();
+    }
+
+
+    public void PlayClip(AudioClip clip)
+    {
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }
 
