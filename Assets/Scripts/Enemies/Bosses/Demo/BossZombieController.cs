@@ -140,6 +140,7 @@ public class BossZombieController : SaveObject
         handLeft.SetActive(false);
         handRight.SetActive(false);
 
+        CameraController.instance.SetRotation(false);
         CameraController.instance.SetTarget(camTarget);
 
         float targetFillAmount = health.currentHealth / 4f;
@@ -177,6 +178,7 @@ public class BossZombieController : SaveObject
         {
             tower.DeActivate();
         }
+        CameraController.instance.SetRotation(false);
         CameraController.instance.SetTarget(camTarget);
 
         yield return new WaitForSeconds(3.0f);
@@ -194,7 +196,16 @@ public class BossZombieController : SaveObject
             else { i--; }
         }
 
-        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+
+        if (CameraController.instance.GetTriggerState())
+        {
+            CameraController.instance.SetRotation(true);
+            CameraController.instance.LoadLastTarget();
+        }
+        else
+        {
+            CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+        }
 
         yield return new WaitForSeconds(0.5f);
 
