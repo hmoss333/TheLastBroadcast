@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Health))]
 public class OnDeathTrigger : MonoBehaviour
 {
-    [SerializeField] private bool triggered;
+    [SerializeField] public bool triggered;
     [SerializeField] private float activateTime;
     Health objHealth;
 
@@ -29,9 +29,4 @@ public class OnDeathTrigger : MonoBehaviour
             this.enabled = false;
         }
     }
-
-    //public void InstantiateObj(GameObject obj)
-    //{
-    //    GameObject tempObj = Instantiate(obj, transform.position, Quaternion.identity);
-    //}
 }

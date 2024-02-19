@@ -1,22 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
+
+[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(OnDeathTrigger))]
 public class BossRadioTower : MonoBehaviour
 {
-    [SerializeField] private bool active, interacting, triggered;
+    //[SerializeField]
+    private bool active, interacting, triggered, hit;
     [SerializeField] private float checkRadius = 5.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
     [SerializeField] private float checkTime = 1.5f; //time the radio must stay within the frequency range to activate
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private MeshRenderer mesh;
+    [SerializeField] private GameObject barrier;
+    private Collider col;
+    private Health health;
+    private OnDeathTrigger onDeathTrigger;
     float tempTime = 0f;
     [SerializeField] BossZombieController bossController;
+
+
+    Coroutine hitRoutine;
 
 
     private void Start()
     {
         bossController = GameObject.FindObjectOfType<BossZombieController>();
+        col = GetComponent<Collider>();
+        health = GetComponent<Health>();
+        onDeathTrigger = GetComponent<OnDeathTrigger>();
         mesh.material.color = Color.black;
     }
 
@@ -40,7 +55,8 @@ public class BossRadioTower : MonoBehaviour
                 if (tempTime >= checkTime)
                 {
                     triggered = true;
-                    bossController.SetTower();
+                    //bossController.SetTower();
+                    barrier.SetActive(false);
                 }
             }
             else if (interacting)
@@ -51,7 +67,15 @@ public class BossRadioTower : MonoBehaviour
             }
         }
 
-        mesh.material.color = triggered ? Color.green : active ? interacting ? Color.yellow : Color.red : Color.black;
+        mesh.material.color = triggered ? hit ? Color.red
+                                            : Color.green
+                                        : active ? interacting
+                                                ? Color.yellow
+                                                : Color.red
+                                        : Color.black;
+
+        if (health.currentHealth <= 0) { mesh.material.color = Color.black; }
+        col.enabled = !barrier.activeSelf;
     }
 
     public bool GetActiveState()
@@ -62,12 +86,33 @@ public class BossRadioTower : MonoBehaviour
     public void Activate()
     {
         active = true;
+        barrier.SetActive(true);
+        health.SetHealth(2);
+        health.isHit = false;
+        onDeathTrigger.enabled = true;
+        onDeathTrigger.triggered = false;
         checkFrequency = Random.Range(1.5f, 9f);
     }
 
     public void DeActivate()
     {
         active = false;
+        barrier.SetActive(false);
         triggered = false;
+    }
+
+    public void OnHit(float time)
+    {
+        if (hitRoutine == null)
+            hitRoutine = StartCoroutine(OnHitRoutine(time));
+    }
+
+    IEnumerator OnHitRoutine(float time)
+    {
+        hit = true;
+        yield return new WaitForSeconds(time);
+        hit = false;
+
+        hitRoutine = null;
     }
 }
