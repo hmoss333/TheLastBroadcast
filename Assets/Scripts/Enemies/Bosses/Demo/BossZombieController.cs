@@ -189,7 +189,7 @@ public class BossZombieController : SaveObject
             if (!radioTowers[randVal].GetActiveState())
             {
                 radioTowers[randVal].Activate();
-                CameraController.instance.SetTarget(radioTowers[randVal].transform);
+                CameraController.instance.SetTarget(radioTowers[randVal].focusPoint);//.transform);
 
                 yield return new WaitForSeconds(1.75f);
             }

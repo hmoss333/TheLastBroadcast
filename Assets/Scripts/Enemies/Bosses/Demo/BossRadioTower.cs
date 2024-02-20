@@ -15,7 +15,10 @@ public class BossRadioTower : MonoBehaviour
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     [SerializeField] private MeshRenderer mesh;
+    public Transform focusPoint;
     [SerializeField] private GameObject barrier;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip barrierOnClip, barrierOffClip;
     private Collider col;
     private Health health;
     private OnDeathTrigger onDeathTrigger;
@@ -32,6 +35,7 @@ public class BossRadioTower : MonoBehaviour
         col = GetComponent<Collider>();
         health = GetComponent<Health>();
         onDeathTrigger = GetComponent<OnDeathTrigger>();
+        //audioSource.GetComponent<AudioSource>();
         mesh.material.color = Color.black;
     }
 
@@ -57,6 +61,7 @@ public class BossRadioTower : MonoBehaviour
                     triggered = true;
                     //bossController.SetTower();
                     barrier.SetActive(false);
+                    PlayClip(barrierOffClip);
                 }
             }
             else if (interacting)
@@ -67,7 +72,7 @@ public class BossRadioTower : MonoBehaviour
             }
         }
 
-        mesh.material.color = triggered ? hit ? Color.red
+        mesh.material.color = triggered ? hit ? Color.black
                                             : Color.green
                                         : active ? interacting
                                                 ? Color.yellow
@@ -87,6 +92,7 @@ public class BossRadioTower : MonoBehaviour
     {
         active = true;
         barrier.SetActive(true);
+        PlayClip(barrierOnClip);
         health.SetHealth(2);
         health.isHit = false;
         onDeathTrigger.enabled = true;
@@ -114,5 +120,12 @@ public class BossRadioTower : MonoBehaviour
         hit = false;
 
         hitRoutine = null;
+    }
+
+    void PlayClip(AudioClip clip)
+    {
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }
