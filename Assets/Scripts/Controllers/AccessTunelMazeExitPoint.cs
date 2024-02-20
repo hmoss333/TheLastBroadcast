@@ -8,7 +8,8 @@ public class AccessTunelMazeExitPoint : MonoBehaviour
     [SerializeField] bool isExit;
     [SerializeField] Transform initPoint;
     [SerializeField] AccessTunelMazeController mazeController;
-    [SerializeField] Light correctLight;
+    [SerializeField] Light correctLight, correctLight2;
+    public GameObject entrancePipe, exitPipe;
 
 
     private void Awake()
@@ -22,6 +23,9 @@ public class AccessTunelMazeExitPoint : MonoBehaviour
         isExit = true;
         audioSource.mute = false;
         correctLight.enabled = false;
+        correctLight2.enabled = false;
+        //exitPipe.SetActive(true);
+        entrancePipe.SetActive(true);
     }
 
     public void SetFalse()
@@ -29,6 +33,9 @@ public class AccessTunelMazeExitPoint : MonoBehaviour
         isExit = false;
         audioSource.mute = true;
         correctLight.enabled = true;
+        correctLight2.enabled = true;
+        //exitPipe.SetActive(false);
+        entrancePipe.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)

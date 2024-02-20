@@ -25,6 +25,12 @@ public class AccessTunelMazeController : MonoBehaviour
     {
         correctCount = 0;
         RefreshMaze();
+
+        //Clear all exit pipes
+        for (int i = 0; i < exitTriggers.Count; i++)
+        {
+            exitTriggers[i].exitPipe.SetActive(false);
+        }
     }
 
     private void RefreshMaze()
@@ -69,6 +75,7 @@ public class AccessTunelMazeController : MonoBehaviour
         PlayerController.instance.SetLastDir(initPoint.forward);
 
         RefreshMaze();
+        try { initPoint.GetComponentInParent<AccessTunelMazeExitPoint>().exitPipe.SetActive(true); } catch { }
 
         FadeController.instance.StartFade(0.0f, 1.0f);
         while (FadeController.instance.isFading) { yield return null; }
