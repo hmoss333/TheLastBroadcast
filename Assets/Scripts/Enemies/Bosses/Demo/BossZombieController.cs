@@ -9,8 +9,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public class BossZombieController : SaveObject
 {
-    [NaughtyAttributes.HorizontalLine]
     [Header("Boss State Variables")]
+    [NaughtyAttributes.HorizontalLine]
     [SerializeField] private int bossStage = 1;
     private float countDownTime = 15f;
     private int towerNum = 0;
@@ -19,17 +19,17 @@ public class BossZombieController : SaveObject
     [SerializeField] BossState bossState;
     Health health;
 
+    [Header("Boss Object References")]
     [NaughtyAttributes.HorizontalLine]
-    [Header("Boss Prefab Variables")]
     [SerializeField] Animator avatarBody;
     [SerializeField] Animator tulpaBody;
-    [SerializeField] Transform camTarget;
-    [SerializeField] BossRadioTower[] radioTowers;
     bool attackLeft;
     [SerializeField] GameObject handLeft, handRight;
+    [SerializeField] Transform camTarget;
+    [SerializeField] BossRadioTower[] radioTowers;
 
+    [Header("Boss UI References")]
     [NaughtyAttributes.HorizontalLine]
-    [Header("Boss UI Variables")]
     [SerializeField] GameObject healthBarObj;
     [SerializeField] Image healthBar;
 

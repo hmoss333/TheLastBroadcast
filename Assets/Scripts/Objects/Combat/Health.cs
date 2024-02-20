@@ -8,17 +8,20 @@ using UnityEngine.Serialization;
 public class Health : MonoBehaviour
 {
     [Header("Health Variables")]
+    [NaughtyAttributes.HorizontalLine]
     public int currentHealth;// { get; private set; }
     public bool isHit;// { get; private set; }
     [SerializeField] float cooldownTime = 1f;
     CharacterController character;
 
     [Header("Hit Effects")]
+    [NaughtyAttributes.HorizontalLine]
     [SerializeField] bool shockEffect;
     [SerializeField] Transform bloodTransform;
     [SerializeField] GameObject bloodPrefab;
 
     [Header("Audio Variables")]
+    [NaughtyAttributes.HorizontalLine]
     [SerializeField] AudioClip hitClip;
     [SerializeField] AudioClip deathClip;
     AudioSource audioSource;

@@ -10,6 +10,8 @@ public class PlayerController : CharacterController
 {
     public static PlayerController instance;
 
+    [Header("Player Movement Variables")]
+    [NaughtyAttributes.HorizontalLine]
     [SerializeField] float runSpeed;
     [SerializeField] float rotSpeed;
     private float horizontal, vertical;
@@ -18,8 +20,8 @@ public class PlayerController : CharacterController
     [SerializeField] private float lookOffset;
 
 
-    [NaughtyAttributes.HorizontalLine]
     [Header("Player State Variables")]
+    [NaughtyAttributes.HorizontalLine]
     private bool isSeen;// { get; private set; }
     public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, movingObj, consuming, stunned, hurt, dead }
     public States state;// { get; private set; }
@@ -30,8 +32,8 @@ public class PlayerController : CharacterController
     public float stamina { get; private set; }
     public bool running { get; private set; }
 
+    [Header("Player Interact Variables")]
     [NaughtyAttributes.HorizontalLine]
-    [Header("Interact Variables")]
     [SerializeField] private InteractIcon_Controller interactIcon;
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
@@ -40,8 +42,8 @@ public class PlayerController : CharacterController
     [SerializeField] Image useIcon;
     [SerializeField] Image useHighlight;
 
+    [Header("Player Object References")]
     [NaughtyAttributes.HorizontalLine]
-    [Header("Player Avatar Variables")]
     [SerializeField] private GameObject playerAvatar;
     [SerializeField] private GameObject bagObj;
     [SerializeField] private GameObject radioObj;

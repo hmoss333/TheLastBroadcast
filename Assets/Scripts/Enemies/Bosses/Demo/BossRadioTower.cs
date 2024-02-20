@@ -2,27 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using NaughtyAttributes;
 
 
-[RequireComponent(typeof(Health))]
-[RequireComponent(typeof(OnDeathTrigger))]
 public class BossRadioTower : MonoBehaviour
 {
-    //[SerializeField]
-    private bool active, interacting, triggered, hit;
+    [Header("Radio Values")]
+    [NaughtyAttributes.HorizontalLine]
     [SerializeField] private float checkRadius = 5.0f; //how far away the player needs to be in order for the door control to recognize the radio signal
     [SerializeField] private float checkTime = 1.5f; //time the radio must stay within the frequency range to activate
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
+    //[SerializeField]
+    private bool active, interacting, triggered, hit;
+
+    [Header("Object References")]
+    [NaughtyAttributes.HorizontalLine]
     [SerializeField] private MeshRenderer mesh;
-    public Transform focusPoint;
     [SerializeField] private GameObject barrier;
+    [SerializeField] private Collider hurtBox;
+    public Transform focusPoint;
+
+    [Header("Audio Values")]
+    [NaughtyAttributes.HorizontalLine]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip barrierOnClip, barrierOffClip;
-    private Collider col;
+
     private Health health;
     private OnDeathTrigger onDeathTrigger;
     float tempTime = 0f;
+
+    [Header("Boss Controller")]
+    [NaughtyAttributes.HorizontalLine]
     [SerializeField] BossZombieController bossController;
 
 
@@ -32,10 +43,8 @@ public class BossRadioTower : MonoBehaviour
     private void Start()
     {
         bossController = GameObject.FindObjectOfType<BossZombieController>();
-        col = GetComponent<Collider>();
-        health = GetComponent<Health>();
-        onDeathTrigger = GetComponent<OnDeathTrigger>();
-        //audioSource.GetComponent<AudioSource>();
+        health = GetComponentInChildren<Health>();
+        onDeathTrigger = GetComponentInChildren<OnDeathTrigger>();
         mesh.material.color = Color.black;
     }
 
@@ -80,7 +89,7 @@ public class BossRadioTower : MonoBehaviour
                                         : Color.black;
 
         if (health.currentHealth <= 0) { mesh.material.color = Color.black; }
-        col.enabled = !barrier.activeSelf;
+        hurtBox.enabled = active && !barrier.activeSelf;
     }
 
     public bool GetActiveState()

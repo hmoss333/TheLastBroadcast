@@ -10,6 +10,7 @@ public class RadioController : MonoBehaviour
 
 
     [Header("Radio Control Variables")]
+    [NaughtyAttributes.HorizontalLine]
     [SerializeField] private float speed;
     [SerializeField] private float maxVolume;
     [SerializeField] private float volRate;
@@ -21,9 +22,10 @@ public class RadioController : MonoBehaviour
     public bool listening { get; private set; }
     public bool abilityMode { get; private set; }
 
+    [Header("Radio UI Elements")]
     [NaughtyAttributes.HorizontalLine]
-    [Header("UI Elements")]
-    [SerializeField] private GameObject overlayPanel, abilityPanel;
+    [SerializeField] private GameObject overlayPanel;
+    [SerializeField] private GameObject abilityPanel;
     [SerializeField] private GameObject tuneAbility, staticAbility, ratAbility;
     [SerializeField] private Slider radioSlider;
     [SerializeField] private Image stationBackground;
@@ -33,8 +35,8 @@ public class RadioController : MonoBehaviour
     [SerializeField] private float slideSpeed;
     [SerializeField] private Slider chargeSlider;
 
+    [Header("Radio Audio Elements")]
     [NaughtyAttributes.HorizontalLine]
-    [Header("Audio Elements")]
     [SerializeField] public AudioSource staticSource;
 
 
