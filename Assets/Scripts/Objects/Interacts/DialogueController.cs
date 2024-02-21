@@ -15,6 +15,8 @@ public class DialogueController : InteractObject
     private int index;
     private bool canInteract, pauseTyping;
     private float iconTimer = 4f;
+    [SerializeField] AudioClip backgroundClip;
+    bool isPlayingClip = false;
 
 
     private void Update()
@@ -58,6 +60,17 @@ public class DialogueController : InteractObject
 
     public override void Interact()
     {
+        try
+        {
+            if (!isPlayingClip)
+            {
+                isPlayingClip = true;
+                AudioController.instance.PlayClip(backgroundClip);
+                AudioController.instance.LoopClip(true);
+            }
+        }
+        catch { }
+
         if (!canInteract && !TextWriter.instace.isTyping)
         {
             /////Temp
@@ -86,6 +99,8 @@ public class DialogueController : InteractObject
             else
             {
                 interacting = false; //Exited the dialogue tree
+                isPlayingClip = false;
+                try { AudioController.instance.StopClip(); } catch { }
                 if (talkOnce)
                     SetHasActivated(); //Dialogue event has completed
                 else

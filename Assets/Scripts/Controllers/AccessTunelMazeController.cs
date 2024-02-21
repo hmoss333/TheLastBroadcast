@@ -77,7 +77,7 @@ public class AccessTunelMazeController : MonoBehaviour
         RefreshMaze();
         try { initPoint.GetComponentInParent<AccessTunelMazeExitPoint>().exitPipe.SetActive(true); } catch { }
 
-        FadeController.instance.StartFade(0.0f, 1.0f);
+        FadeController.instance.StartFade(0.0f, 1.5f);
         while (FadeController.instance.isFading) { yield return null; }
 
         PlayerController.instance.SetState(PlayerController.States.idle);
