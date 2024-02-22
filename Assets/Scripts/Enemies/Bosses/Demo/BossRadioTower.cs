@@ -20,6 +20,7 @@ public class BossRadioTower : MonoBehaviour
     [NaughtyAttributes.HorizontalLine]
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private GameObject barrier;
+    [SerializeField] private ObjectFlicker flickerController;
     [SerializeField] private Collider hurtBox;
     public Transform focusPoint;
 
@@ -68,9 +69,9 @@ public class BossRadioTower : MonoBehaviour
                 if (tempTime >= checkTime)
                 {
                     triggered = true;
-                    //bossController.SetTower();
-                    barrier.SetActive(false);
+                    //barrier.SetActive(false);
                     PlayClip(barrierOffClip);
+                    flickerController.StartFlicker();
                 }
             }
             else if (interacting)

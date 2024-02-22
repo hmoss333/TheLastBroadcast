@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 7963492817103838230}
   - component: {fileID: 3336708930462962321}
   - component: {fileID: 6555371027242691307}
+  - component: {fileID: 7375624007133139064}
   m_Layer: 7
   m_Name: RadioNode
   m_TagString: Untagged
@@ -153,6 +154,7 @@ MonoBehaviour:
   checkOffset: 0.5
   mesh: {fileID: 5397436540988678135}
   barrier: {fileID: 9113696872706513816}
+  flickerController: {fileID: 7375624007133139064}
   hurtBox: {fileID: 8230396553578377435}
   focusPoint: {fileID: 7095453630663697094}
   audioSource: {fileID: 6555371027242691307}
@@ -255,6 +257,35 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7375624007133139064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3363781252914083034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a67acd9c238943189ae6b4af209c27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  objToFlicker: {fileID: 9113696872706513816}
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9113696872706513816}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4241502146956481237
 GameObject:
   m_ObjectHideFlags: 0
