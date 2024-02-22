@@ -26,6 +26,8 @@ public class UIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI dialogueText;
     [SerializeField] TextMeshProUGUI dialogueSpeakerName;
     [SerializeField] Image inputIcon;
+    [SerializeField] TextMeshProUGUI inputIconText;
+    string inputText;
     float pulseTime = 0.5f;
     float inputAlpha;
 
@@ -46,6 +48,8 @@ public class UIController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 #endif
+
+        inputText = inputIconText.text;
     }
 
     private void Update()
@@ -96,6 +100,11 @@ public class UIController : MonoBehaviour
     public void ToggleDialogueInputIcon(bool value)
     {
         inputIcon.gameObject.SetActive(value);
+        if (value == true)
+        {
+            string inputString = InputTextConverter.instance.GenerateText(inputText);
+            inputIconText.text = inputString;
+        }
     }
 
     IEnumerator FadeTo(float aValue, float aTime)

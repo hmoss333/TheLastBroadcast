@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class CreditsController : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class CreditsController : MonoBehaviour
 
     [SerializeField] private float fadeInTime = 10f;
     [SerializeField] private float fadeOutTime = 2.5f;
+    [SerializeField] TMP_Text inputIconText;
+    string inputText;
 
     Coroutine fadeSceneRoutine;
 
@@ -16,6 +19,8 @@ public class CreditsController : MonoBehaviour
     {
         inputMaster = new InputMaster();
         inputMaster.Enable();
+
+        inputText = inputIconText.text;
     }
 
     private void Start()
@@ -25,6 +30,14 @@ public class CreditsController : MonoBehaviour
 
     private void Update()
     {
+        //If Input text exists, update key reference
+        if (inputIconText)
+        {
+            string returnText = InputTextConverter.instance.GenerateText(inputText);
+            inputIconText.text = returnText;
+        }
+
+        //If input is registered, start scene transition
         if (inputMaster.Player.Pause.triggered || inputMaster.Player.Interact.triggered)
         {
             if (fadeSceneRoutine == null)

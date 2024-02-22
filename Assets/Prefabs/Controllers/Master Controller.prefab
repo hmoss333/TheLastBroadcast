@@ -2280,6 +2280,7 @@ GameObject:
   - component: {fileID: 992467945604532682}
   - component: {fileID: 1156718709818158951}
   - component: {fileID: 6021994559699883162}
+  - component: {fileID: 6875060973895407628}
   m_Layer: 0
   m_Name: Master Controller
   m_TagString: Untagged
@@ -2399,6 +2400,7 @@ MonoBehaviour:
   dialogueText: {fileID: 8442651499941338519}
   dialogueSpeakerName: {fileID: 3294774714540712077}
   inputIcon: {fileID: 6105378610318761551}
+  inputIconText: {fileID: 6131245669540769716}
   currentItem: {fileID: 0}
 --- !u!114 &992467945604532682
 MonoBehaviour:
@@ -2450,6 +2452,18 @@ MonoBehaviour:
   moveClip: {fileID: 8300000, guid: c13dad9e86a054301a673368bdcc919a, type: 3}
   itemPosVal: 0
   inventoryItems: []
+--- !u!114 &6875060973895407628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2870443142821907587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de12fe0ee194b4ed79290065ff6bd005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2962904034435221778
 GameObject:
   m_ObjectHideFlags: 0
@@ -3451,7 +3465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press Z
+  m_text: Press {Interact}
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eb036c193c3c64b8bbd54fd13ff88bbb, type: 2}
   m_sharedMaterial: {fileID: -1099266064948786653, guid: eb036c193c3c64b8bbd54fd13ff88bbb, type: 2}
