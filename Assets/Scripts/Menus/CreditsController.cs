@@ -20,7 +20,8 @@ public class CreditsController : MonoBehaviour
         inputMaster = new InputMaster();
         inputMaster.Enable();
 
-        inputText = inputIconText.text;
+        if (inputIconText)
+            inputText = inputIconText.text;
     }
 
     private void Start()
