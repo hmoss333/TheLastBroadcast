@@ -22,7 +22,7 @@ public class FootstepController : MonoBehaviour
         RaycastHit hit;
         Debug.DrawRay(transform.position, Vector3.down, Color.red);
 
-        if (Physics.Raycast(ray, out hit, 1f, groundLayer))
+        if (Physics.Raycast(ray, out hit, 1.5f, groundLayer))
         {
             LayerMask tempLayer = hit.transform.gameObject.layer;
             switch (tempLayer.value)
