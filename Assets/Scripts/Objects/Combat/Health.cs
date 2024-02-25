@@ -58,12 +58,8 @@ public class Health : MonoBehaviour
             }
             else
             {
-                if (character != null && stagger == true)
-                {
-                    character.hurt = true;
-                    if (bloodPrefab != null) { GameObject bloodInstance = Instantiate(bloodPrefab, bloodTransform.position, gameObject.transform.rotation); }
-                }
-
+                if (character != null && stagger == true) { character.hurt = true; }
+                if (bloodPrefab != null) { GameObject bloodInstance = Instantiate(bloodPrefab, bloodTransform.position, gameObject.transform.rotation); }
                 if (character != null && character.tag == "Player")
                     ScrollHealth.instance.toggled = true;
 
