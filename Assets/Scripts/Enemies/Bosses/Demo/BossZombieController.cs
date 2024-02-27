@@ -34,6 +34,9 @@ public class BossZombieController : SaveObject
     [SerializeField] Image healthBar;
 
 
+    Coroutine flickerCo;
+
+
     private void Start()
     {
         health = GetComponent<Health>();
@@ -56,7 +59,8 @@ public class BossZombieController : SaveObject
             switch (bossState)
             {
                 case BossState.idle:
-                    float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
+                    //float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
+                    Flicker(2f);
                     SetState(BossState.setup);
                     break;
                 case BossState.setup:
@@ -161,6 +165,7 @@ public class BossZombieController : SaveObject
             SetState(BossState.hurt);
 
             CamEffectController.instance.ForceEffect();
+            Flicker(1.25f);
             yield return new WaitForSeconds(1.75f);
             CamEffectController.instance.SetEffectState(false);
 
@@ -168,6 +173,39 @@ public class BossZombieController : SaveObject
            
             PlayerController.instance.SetState(PlayerController.States.idle);
         }
+    }
+
+    public void Flicker(float waitTime)
+    {
+        if (flickerCo == null)
+            flickerCo = StartCoroutine(FlickerRoutine(waitTime));
+    }
+
+    IEnumerator FlickerRoutine(float waitTime)
+    {
+        SkinnedMeshRenderer[] tulpaMeshes = tulpaBody.GetComponentsInChildren<SkinnedMeshRenderer>();
+        print($"Meshes: {tulpaMeshes.Length}");
+        float endTime = Time.time + waitTime;
+        while (Time.time < endTime)
+        {
+            foreach (SkinnedMeshRenderer mesh in tulpaMeshes)
+            {
+                mesh.enabled = false;
+            }
+            yield return new WaitForSeconds(Random.Range(0.0f, 0.1f));
+            foreach (SkinnedMeshRenderer mesh in tulpaMeshes)
+            {
+                mesh.enabled = true;
+            }
+            yield return new WaitForSeconds(Random.Range(0.0f, 0.1f));
+        }
+
+        foreach (SkinnedMeshRenderer mesh in tulpaMeshes)
+        {
+            mesh.enabled = true;
+        }
+
+        flickerCo = null;
     }
 
     IEnumerator Setup()
@@ -225,6 +263,7 @@ public class BossZombieController : SaveObject
         avatarBody.SetTrigger("isDead");
         tulpaBody.SetTrigger("isDead");
 
+        Flicker(8f);
         yield return new WaitForSeconds(8f);
 
         foreach (BossRadioTower tower in radioTowers)
