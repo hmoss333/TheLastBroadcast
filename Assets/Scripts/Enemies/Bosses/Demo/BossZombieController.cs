@@ -37,13 +37,17 @@ public class BossZombieController : SaveObject
     Coroutine flickerCo;
 
 
-    private void Start()
+    private void OnEnable()
     {
-        health = GetComponent<Health>();
         if (hasActivated)
         {
             avatarBody.SetTrigger("isDead");
         }
+    }
+
+    private void Start()
+    {
+        health = GetComponent<Health>();
     }
 
     private void Update()
@@ -51,7 +55,6 @@ public class BossZombieController : SaveObject
         if (bossState != BossState.dead && bossState != BossState.idle) { PlayerController.instance.SeePlayer(); }
         tulpaBody.gameObject.SetActive(bossState != BossState.idle && !hasActivated);
         healthBarObj.SetActive(active && !hasActivated);
-        //healthBar.fillAmount = health.currentHealth / 4f;
 
 
         if (active && !hasActivated)
