@@ -60,7 +60,7 @@ public class BossZombieController : SaveObject
             {
                 case BossState.idle:
                     //float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
-                    Flicker(2f);
+                    Flicker(1.25f);
                     SetState(BossState.setup);
                     break;
                 case BossState.setup:
