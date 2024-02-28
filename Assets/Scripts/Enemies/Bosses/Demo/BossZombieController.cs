@@ -187,7 +187,6 @@ public class BossZombieController : SaveObject
     IEnumerator FlickerRoutine(float waitTime)
     {
         SkinnedMeshRenderer[] tulpaMeshes = tulpaBody.GetComponentsInChildren<SkinnedMeshRenderer>();
-        print($"Meshes: {tulpaMeshes.Length}");
         float endTime = Time.time + waitTime;
         while (Time.time < endTime)
         {

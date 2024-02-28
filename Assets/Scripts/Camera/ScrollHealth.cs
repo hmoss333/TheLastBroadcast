@@ -18,7 +18,7 @@ public class ScrollHealth : MonoBehaviour
     [SerializeField] Sprite deadHealth;
     [SerializeField] Vector2 inactivePos, activePos;
     [SerializeField] float slideSpeed;
-    public bool isActive, toggled;
+    public bool isActive;
 
 
     private void Awake()
@@ -41,20 +41,18 @@ public class ScrollHealth : MonoBehaviour
     {
         if (PlayerController.instance.inputMaster.Player.Health.triggered)
         {
-            toggled = !toggled;
+            isActive = !isActive;
         }
 
         if (PlayerController.instance.state == PlayerController.States.wakeUp
             || PlayerController.instance.state == PlayerController.States.listening
             || PlayerController.instance.state == PlayerController.States.interacting)
         {
-            toggled = false;
             isActive = false;
         }
         else if (PlayerController.instance.IsSeen()
-            || PlayerController.instance.state == PlayerController.States.hurt
-            //|| PlayerController.instance.state == PlayerController.States.consuming
-            || toggled)
+            || PlayerController.instance.state == PlayerController.States.hurt)
+            //|| PlayerController.instance.state == PlayerController.States.consuming)
         {
             isActive = true;
         }

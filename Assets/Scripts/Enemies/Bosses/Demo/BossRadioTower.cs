@@ -69,7 +69,6 @@ public class BossRadioTower : MonoBehaviour
                 if (tempTime >= checkTime)
                 {
                     triggered = true;
-                    //barrier.SetActive(false);
                     PlayClip(barrierOffClip);
                     flickerController.StartFlicker();
                 }

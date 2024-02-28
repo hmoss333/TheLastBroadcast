@@ -38,7 +38,7 @@ public class TitleScreenController : MonoBehaviour
         musicSource.volume = 0;
         musicSource.Play();
         t = 0;
-        targetVolume = 0.5f; //0.15f;
+        targetVolume = 1f;//0.5f; //0.15f;
 
 
         //Fade In Quote/Signature text
@@ -88,16 +88,16 @@ public class TitleScreenController : MonoBehaviour
 
 
         //Audio Pitch Changes
-        while (musicSource.pitch >= 0.25f)
-        {
-            musicSource.pitch -= Time.deltaTime;
-            yield return null;
-        }
-        while (musicSource.pitch <= 1.5f)
-        {
-            musicSource.pitch += Time.deltaTime;
-            yield return null;
-        }
+        //while (musicSource.pitch >= 0.25f)
+        //{
+        //    musicSource.pitch -= Time.deltaTime;
+        //    yield return null;
+        //}
+        //while (musicSource.pitch <= 1.5f)
+        //{
+        //    musicSource.pitch += Time.deltaTime;
+        //    yield return null;
+        //}
 
 
         //Delay and activate glitch effect
@@ -108,7 +108,7 @@ public class TitleScreenController : MonoBehaviour
         //Audio Pitch Down
         while (musicSource.pitch >= 0.125f)
         {
-            musicSource.pitch -= Time.deltaTime;
+            musicSource.pitch -= 0.125f * Time.deltaTime;
             yield return null;
         }
 

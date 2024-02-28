@@ -3106,7 +3106,6 @@ MonoBehaviour:
   activePos: {x: 0, y: 5}
   slideSpeed: 5
   isActive: 0
-  toggled: 0
 --- !u!1 &7311062759107285222
 GameObject:
   m_ObjectHideFlags: 0
@@ -3971,6 +3970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
+  isHit: 0
   cooldownTime: 1.25
   shockEffect: 1
   bloodTransform: {fileID: 6364409520866292821}
@@ -4744,8 +4744,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: bfb259949f3c3ca469ddc9df440497d4, type: 3}
   m_PrefabInstance: {fileID: 2635801173503622979}
   m_PrefabAsset: {fileID: 0}
---- !u!135 &1388649623
-SphereCollider:
+--- !u!65 &6275466962841282137
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4755,8 +4755,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 0, z: 4}
+  m_Size: {x: 2.004793, y: 1, z: 5}
+  m_Center: {x: 0.75, y: 0, z: 3}
 --- !u!114 &6571086900046981951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6365,7 +6365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8161b5318966494bbcfc41bb4a271e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  col: {fileID: 1388649623}
+  col: {fileID: 6275466962841282137}
 --- !u!4 &6505645541204122002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7676374533066227881, guid: e0aaf5dfb20564dac89baaf04bf5deee, type: 3}

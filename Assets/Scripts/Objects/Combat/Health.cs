@@ -61,7 +61,7 @@ public class Health : MonoBehaviour
                 if (character != null && stagger == true) { character.hurt = true; }
                 if (bloodPrefab != null) { GameObject bloodInstance = Instantiate(bloodPrefab, bloodTransform.position, gameObject.transform.rotation); }
                 if (character != null && character.tag == "Player")
-                    ScrollHealth.instance.toggled = true;
+                    ScrollHealth.instance.isActive = true;
 
                 StartCoroutine(HitCooldown(cooldownTime));
             }
