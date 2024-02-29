@@ -14,7 +14,7 @@ public class BossZombieController : SaveObject
     [SerializeField] private int bossStage = 1;
     private float countDownTime = 15f;
     private int towerNum = 0;
-    bool settingUp, isDead;
+    bool settingUp, isDead, playIntro;
     public enum BossState { idle, setup, aggro, hurt, dead }
     [SerializeField] BossState bossState;
     Health health;
@@ -27,6 +27,7 @@ public class BossZombieController : SaveObject
     [SerializeField] GameObject handLeft, handRight;
     [SerializeField] Transform camTarget;
     [SerializeField] BossRadioTower[] radioTowers;
+    [SerializeField] Transform[] initHandPos;
 
     [Header("Boss UI References")]
     [NaughtyAttributes.HorizontalLine]
@@ -48,6 +49,7 @@ public class BossZombieController : SaveObject
     private void Start()
     {
         health = GetComponent<Health>();
+        playIntro = true;
     }
 
     private void Update()
@@ -62,7 +64,7 @@ public class BossZombieController : SaveObject
             switch (bossState)
             {
                 case BossState.idle:
-                    //float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
+                    //float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position)
                     Flicker(1.25f);
                     SetState(BossState.setup);
                     break;
@@ -81,12 +83,14 @@ public class BossZombieController : SaveObject
 
                         if (attackLeft)
                         {
+                            handLeft.GetComponent<BossHandController>().SetTarget(PlayerController.instance.transform);
                             handLeft.SetActive(true);
                             if (!isPlaying(tulpaBody, "Attack_Left"))
                                 tulpaBody.SetTrigger("attack_L");
                         }
                         else
                         {
+                            handRight.GetComponent<BossHandController>().SetTarget(PlayerController.instance.transform);
                             handRight.SetActive(true);
                             if (!isPlaying(tulpaBody, "Attack_Right"))
                                 tulpaBody.SetTrigger("attack_R");
@@ -115,7 +119,7 @@ public class BossZombieController : SaveObject
             }
         }
 
-        if (bossState != BossState.aggro)
+        if (bossState != BossState.aggro && !playIntro)
         {
             handLeft.SetActive(false);
             handRight.SetActive(false);
@@ -218,6 +222,7 @@ public class BossZombieController : SaveObject
         {
             tower.DeActivate();
         }
+
         CameraController.instance.SetRotation(false);
         CameraController.instance.SetTarget(camTarget);
 
@@ -244,6 +249,31 @@ public class BossZombieController : SaveObject
         }
         else
         {
+            if (playIntro)
+            {
+                handLeft.GetComponent<BossHandController>().SetTarget(initHandPos[0]);
+                handLeft.SetActive(true);
+                if (!isPlaying(tulpaBody, "Attack_Left"))
+                    tulpaBody.SetTrigger("attack_L");
+
+                yield return new WaitForSeconds(0.25f);
+
+                handRight.GetComponent<BossHandController>().SetTarget(initHandPos[1]);
+                handRight.SetActive(true);
+                if (!isPlaying(tulpaBody, "Attack_Right"))
+                    tulpaBody.SetTrigger("attack_R");
+
+                CameraController.instance.SetTarget(handLeft.transform);
+
+                yield return new WaitForSeconds(2f);
+
+                CameraController.instance.SetTarget(handRight.transform);
+
+                yield return new WaitForSeconds(2f);
+
+                playIntro = false;
+            }
+
             CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         }
 

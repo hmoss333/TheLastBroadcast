@@ -11,6 +11,7 @@ public class BossHandController : MonoBehaviour
     [SerializeField] int damage;
     private Vector3 handPos;
     [SerializeField] GameObject shadowObj;
+    [SerializeField] Transform target;
 
     float tempDelay = 0f;
 
@@ -26,7 +27,7 @@ public class BossHandController : MonoBehaviour
         switch (bossState)
         {
             case State.idle:
-                handPos = new Vector3(PlayerController.instance.transform.position.x, yOff, PlayerController.instance.transform.position.z);
+                handPos = new Vector3(target.position.x, yOff, target.position.z);
                 transform.position = handPos;
 
                 tempDelay += attackSpeed * Time.deltaTime;
@@ -70,6 +71,11 @@ public class BossHandController : MonoBehaviour
     void SetState(State stateToSet)
     {
         bossState = stateToSet;
+    }
+
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
     }
 
     private void OnTriggerEnter(Collider other)
