@@ -62,7 +62,7 @@ Transform:
   m_GameObject: {fileID: 3363781252914083034}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -11.25, y: 0, z: 11.118437}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5995190631561123111}
@@ -70,6 +70,7 @@ Transform:
   - {fileID: 481699046527120716}
   - {fileID: 9160497168862543735}
   - {fileID: 7095453630663697094}
+  - {fileID: 8666534069135878371}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -152,12 +153,19 @@ MonoBehaviour:
   checkTime: 1.5
   checkFrequency: 0
   checkOffset: 0.5
+  activateCount: 2
   mesh: {fileID: 5397436540988678135}
   barrier: {fileID: 9113696872706513816}
-  staticEffect: {fileID: 8555753037479845130}
   flickerController: {fileID: 7375624007133139064}
-  hurtBox: {fileID: 8230396553578377435}
   focusPoint: {fileID: 7095453630663697094}
+  debrisObjs:
+  - {fileID: 1099969958754452, guid: beb1209dae88dcc4a9da4ca4497f31e2, type: 3}
+  - {fileID: 1365750134971964, guid: 32e86a5934547c0428446036d364031e, type: 3}
+  - {fileID: 1233206190303042, guid: 7c99f10e97fc6b2478676f7eb40164a0, type: 3}
+  - {fileID: 1511045377031856, guid: 5d8f84a8e6a30234594dda28c03f704f, type: 3}
+  - {fileID: 1049867351234054, guid: bf60693a83773344585f3a613bf039ff, type: 3}
+  debrisPoint: {fileID: 8666534069135878371}
+  electricParticles: {fileID: 8555753037479845130}
   audioSource: {fileID: 6555371027242691307}
   barrierOnClip: {fileID: 8300000, guid: b4dd2310a58c84b4586e3dbcef3363ec, type: 3}
   barrierOffClip: {fileID: 8300000, guid: b4dd2310a58c84b4586e3dbcef3363ec, type: 3}
@@ -306,7 +314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5995190631561123111
 Transform:
   m_ObjectHideFlags: 0
@@ -673,6 +681,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8898080892398213747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8666534069135878371}
+  m_Layer: 7
+  m_Name: DebrisPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8666534069135878371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8898080892398213747}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3360588322931670694}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9113696872706513816
 GameObject:
   m_ObjectHideFlags: 0

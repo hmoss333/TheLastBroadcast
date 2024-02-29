@@ -28,6 +28,7 @@ public class BossZombieController : SaveObject
     [SerializeField] Transform camTarget;
     [SerializeField] BossRadioTower[] radioTowers;
     [SerializeField] Transform[] initHandPos;
+    [SerializeField] Transform[] debrisPoints;
 
     [Header("Boss UI References")]
     [NaughtyAttributes.HorizontalLine]
@@ -72,6 +73,7 @@ public class BossZombieController : SaveObject
                     if (!settingUp)
                     {
                         settingUp = true;
+                        playIntro = true;
                         StartCoroutine(Setup());
                     }
                     break;
@@ -234,13 +236,45 @@ public class BossZombieController : SaveObject
             if (!radioTowers[randVal].GetActiveState())
             {
                 radioTowers[randVal].Activate();
-                CameraController.instance.SetTarget(radioTowers[randVal].focusPoint);//.transform);
+                CameraController.instance.SetTarget(radioTowers[randVal].focusPoint);
 
                 yield return new WaitForSeconds(1.75f);
             }
             else { i--; }
         }
 
+        if (playIntro)
+        {
+            handLeft.GetComponent<BossHandController>().SetTarget(initHandPos[0]);
+            handLeft.SetActive(true);
+            if (!isPlaying(tulpaBody, "Attack_Left"))
+                tulpaBody.SetTrigger("attack_L");
+
+            yield return new WaitForSeconds(0.125f);
+
+            handRight.GetComponent<BossHandController>().SetTarget(initHandPos[1]);
+            handRight.SetActive(true);
+            if (!isPlaying(tulpaBody, "Attack_Right"))
+                tulpaBody.SetTrigger("attack_R");
+
+            CameraController.instance.SetTarget(handLeft.transform);
+
+            yield return new WaitForSeconds(2f);
+
+            CameraController.instance.SetTarget(handRight.transform);
+
+            yield return new WaitForSeconds(2f);
+
+            int randNum = Random.Range(2, 4);
+            for (int i = 0; i < randNum; i++)
+            {
+                int randPoint = Random.Range(0, debrisPoints.Length);
+                debrisPoints[randPoint].GetComponent<SaveObject>().hasActivated = false;
+                debrisPoints[randPoint].GetComponent<SaveObject>().Activate();
+            }
+
+            playIntro = false;
+        }
 
         if (CameraController.instance.GetTriggerState())
         {
@@ -249,31 +283,6 @@ public class BossZombieController : SaveObject
         }
         else
         {
-            if (playIntro)
-            {
-                handLeft.GetComponent<BossHandController>().SetTarget(initHandPos[0]);
-                handLeft.SetActive(true);
-                if (!isPlaying(tulpaBody, "Attack_Left"))
-                    tulpaBody.SetTrigger("attack_L");
-
-                yield return new WaitForSeconds(0.25f);
-
-                handRight.GetComponent<BossHandController>().SetTarget(initHandPos[1]);
-                handRight.SetActive(true);
-                if (!isPlaying(tulpaBody, "Attack_Right"))
-                    tulpaBody.SetTrigger("attack_R");
-
-                CameraController.instance.SetTarget(handLeft.transform);
-
-                yield return new WaitForSeconds(2f);
-
-                CameraController.instance.SetTarget(handRight.transform);
-
-                yield return new WaitForSeconds(2f);
-
-                playIntro = false;
-            }
-
             CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         }
 

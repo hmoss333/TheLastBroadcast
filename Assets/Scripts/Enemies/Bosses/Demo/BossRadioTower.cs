@@ -15,22 +15,23 @@ public class BossRadioTower : MonoBehaviour
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     //[SerializeField]
     private bool active, interacting, triggered, hit;
+    [SerializeField] int activateCount = 2;
 
     [Header("Object References")]
     [NaughtyAttributes.HorizontalLine]
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private GameObject barrier;
     [SerializeField] private ObjectFlicker flickerController;
-    [SerializeField] private Collider hurtBox;
     public Transform focusPoint;
+    [SerializeField] GameObject[] debrisObjs;
+    [SerializeField] Transform debrisPoint;
+    [SerializeField] ParticleSystem electricParticles;
 
     [Header("Audio Values")]
     [NaughtyAttributes.HorizontalLine]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip barrierOnClip, barrierOffClip;
 
-    private Health health;
-    private OnDeathTrigger onDeathTrigger;
     float tempTime = 0f;
 
     [Header("Boss Controller")]
@@ -44,8 +45,6 @@ public class BossRadioTower : MonoBehaviour
     private void Start()
     {
         bossController = GameObject.FindObjectOfType<BossZombieController>();
-        health = GetComponentInChildren<Health>();
-        onDeathTrigger = GetComponentInChildren<OnDeathTrigger>();
         mesh.material.color = Color.black;
     }
 
@@ -70,7 +69,27 @@ public class BossRadioTower : MonoBehaviour
                 {
                     triggered = true;
                     PlayClip(barrierOffClip);
-                    flickerController.StartFlicker();
+                    electricParticles.Play();
+                    activateCount--;
+
+                    if (activateCount > 0)
+                    {
+                        checkFrequency = Random.Range(1.5f, 9f);
+                        triggered = false;
+                    }
+                    else
+                    {
+                        flickerController.StartFlicker();
+
+                        int randNum = Random.Range(3, 5);
+                        for (int i = 0; i < randNum; i++)
+                        {
+                            int randObj = Random.Range(0, debrisObjs.Length - 1);
+                            GameObject debrisPrefab = Instantiate(debrisObjs[randObj], debrisPoint.position, Quaternion.identity);
+                        }
+
+                        bossController.SetTower();
+                    }
                 }
             }
             else if (interacting)
@@ -81,15 +100,11 @@ public class BossRadioTower : MonoBehaviour
             }
         }
 
-        mesh.material.color = triggered ? hit ? Color.black
-                                            : Color.green
+        mesh.material.color = triggered ? Color.green
                                         : active ? interacting
                                                 ? Color.yellow
                                                 : Color.red
                                         : Color.black;
-
-        if (health.currentHealth <= 0) { mesh.material.color = Color.black; }
-        hurtBox.enabled = active && !barrier.activeSelf;
     }
 
     public bool GetActiveState()
@@ -100,19 +115,16 @@ public class BossRadioTower : MonoBehaviour
     public void Activate()
     {
         active = true;
+        activateCount = 2;
         barrier.SetActive(true);
         PlayClip(barrierOnClip);
-        health.SetHealth(2);
-        health.isHit = false;
-        onDeathTrigger.enabled = true;
-        onDeathTrigger.triggered = false;
         checkFrequency = Random.Range(1.5f, 9f);
     }
 
     public void DeActivate()
     {
         active = false;
-        barrier.SetActive(false);
+        barrier.SetActive(true);
         triggered = false;
     }
 

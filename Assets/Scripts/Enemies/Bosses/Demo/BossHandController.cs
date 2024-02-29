@@ -51,7 +51,7 @@ public class BossHandController : MonoBehaviour
             case State.reset:
                 handPos = new Vector3(handPos.x, handPos.y += resetSpeed * Time.deltaTime, handPos.z);
                 transform.position = handPos;
-                shadowObj.transform.localScale = Vector3.Lerp(shadowObj.transform.localScale, new Vector3(0f, 0.01f, 0f), (resetSpeed / 2f) * Time.deltaTime);
+                shadowObj.transform.localScale = Vector3.Lerp(shadowObj.transform.localScale, new Vector3(0f, 0.01f, 0f), resetSpeed * Time.deltaTime);
 
                 if (transform.position.y >= yOff)
                 {
