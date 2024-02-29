@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Light))]
 public class FlashlightController : MonoBehaviour
@@ -10,6 +11,7 @@ public class FlashlightController : MonoBehaviour
     public bool isOn, isCharging;// { get; private set; }
     Light lightSource;
     [SerializeField] GameObject flashlightObj, flashlightTrigger;
+    [SerializeField] Image flashlightOverlay, flashlightIcon;
     [SerializeField] private LayerMask layer;
     [SerializeField] float checkDist;
     [Range(0, 15f)]
@@ -89,6 +91,8 @@ public class FlashlightController : MonoBehaviour
             flashlightObj.SetActive(isOn);
             flashlightTrigger.SetActive(isOn);
             PlayerController.instance.animator.SetBool("flashlight", isOn);
+            flashlightOverlay.gameObject.SetActive(SaveDataController.instance.saveData.abilities.flashlight);
+            flashlightIcon.fillAmount = flashlightTime / 15f;
         }
     }
 

@@ -10,7 +10,7 @@ public class BossHandController : MonoBehaviour
     [SerializeField] float yOff;
     [SerializeField] int damage;
     private Vector3 handPos;
-    //[SerializeField] GameObject partnerHand;
+    [SerializeField] GameObject shadowObj;
 
     float tempDelay = 0f;
 
@@ -18,6 +18,7 @@ public class BossHandController : MonoBehaviour
     private void OnEnable()
     {
         SetState(State.idle);
+        shadowObj.transform.localScale = new Vector3(0f, 0.01f, 0f); //set default scale
     }
 
     private void FixedUpdate()
@@ -38,6 +39,7 @@ public class BossHandController : MonoBehaviour
             case State.attacking:
                 handPos = new Vector3(handPos.x, handPos.y -= attackSpeed * Time.deltaTime, handPos.z);
                 transform.position = handPos;
+                shadowObj.transform.localScale = Vector3.Lerp(shadowObj.transform.localScale, new Vector3(1f, 0.01f, 1f), (attackSpeed / 2f) * Time.deltaTime);
 
                 if (transform.position.y <= 0.05f)
                 {
@@ -48,6 +50,7 @@ public class BossHandController : MonoBehaviour
             case State.reset:
                 handPos = new Vector3(handPos.x, handPos.y += resetSpeed * Time.deltaTime, handPos.z);
                 transform.position = handPos;
+                shadowObj.transform.localScale = Vector3.Lerp(shadowObj.transform.localScale, new Vector3(0f, 0.01f, 0f), (resetSpeed / 2f) * Time.deltaTime);
 
                 if (transform.position.y >= yOff)
                 {
@@ -60,6 +63,8 @@ public class BossHandController : MonoBehaviour
             default:
                 break;
         }
+
+        shadowObj.transform.position = new Vector3(handPos.x, 0, handPos.z);
     }
 
     void SetState(State stateToSet)
