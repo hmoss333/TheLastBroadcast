@@ -21,13 +21,13 @@ public class SettingsMenuController : MonoBehaviour
     [Range(0.0f, 1.0f)] private float masterVol;
     [Range(0.0f, 1.0f)] private float musicVol;
 
-    MainMenuController mainMenuController;
+    //MainMenuController mainMenuController;
     EventSystem eventSystem;
 
 
     private void Start()
     {
-        mainMenuController = GetComponent<MainMenuController>();
+        //mainMenuController = GetComponent<MainMenuController>();
         eventSystem = FindObjectOfType<EventSystem>();
         updatingSettings = false;
 

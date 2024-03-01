@@ -12,9 +12,15 @@ public class BossHandController : MonoBehaviour
     private Vector3 handPos;
     [SerializeField] GameObject shadowObj;
     [SerializeField] Transform target;
+    BossZombieController bossController;
 
     float tempDelay = 0f;
 
+
+    private void Start()
+    {
+        bossController = FindObjectOfType<BossZombieController>();
+    }
 
     private void OnEnable()
     {
@@ -24,6 +30,9 @@ public class BossHandController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        float tempAttackDelay = attackDelay - (float)bossController.GetBossStage();
+
+
         switch (bossState)
         {
             case State.idle:
@@ -31,7 +40,7 @@ public class BossHandController : MonoBehaviour
                 transform.position = handPos;
 
                 tempDelay += attackSpeed * Time.deltaTime;
-                if (tempDelay >= attackDelay)
+                if (tempDelay >= tempAttackDelay)//attackDelay)
                 {
                     tempDelay = 0;
                     SetState(State.attacking);

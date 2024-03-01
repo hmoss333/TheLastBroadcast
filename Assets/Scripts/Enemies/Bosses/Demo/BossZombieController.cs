@@ -12,9 +12,10 @@ public class BossZombieController : SaveObject
     [Header("Boss State Variables")]
     [NaughtyAttributes.HorizontalLine]
     [SerializeField] private int bossStage = 1;
+    [SerializeField] private int maxHealth;
     private float countDownTime = 15f;
     private int towerNum = 0;
-    bool settingUp, isDead, playIntro;
+    bool isDead;
     public enum BossState { idle, setup, aggro, hurt, dead }
     [SerializeField] BossState bossState;
     Health health;
@@ -27,16 +28,14 @@ public class BossZombieController : SaveObject
     [SerializeField] GameObject handLeft, handRight;
     [SerializeField] Transform camTarget;
     [SerializeField] BossRadioTower[] radioTowers;
-    [SerializeField] Transform[] initHandPos;
-    [SerializeField] Transform[] debrisPoints;
 
     [Header("Boss UI References")]
     [NaughtyAttributes.HorizontalLine]
     [SerializeField] GameObject healthBarObj;
     [SerializeField] Image healthBar;
 
-
-    Coroutine flickerCo;
+    Coroutine setupRoutine;
+    Coroutine flickerRoutine;
 
 
     private void OnEnable()
@@ -50,7 +49,7 @@ public class BossZombieController : SaveObject
     private void Start()
     {
         health = GetComponent<Health>();
-        playIntro = true;
+        maxHealth = health.currentHealth;
     }
 
     private void Update()
@@ -70,11 +69,9 @@ public class BossZombieController : SaveObject
                     SetState(BossState.setup);
                     break;
                 case BossState.setup:
-                    if (!settingUp)
+                    if (setupRoutine == null)
                     {
-                        settingUp = true;
-                        playIntro = true;
-                        StartCoroutine(Setup());
+                        setupRoutine = StartCoroutine(Setup());
                     }
                     break;
                 case BossState.aggro:
@@ -97,6 +94,11 @@ public class BossZombieController : SaveObject
                             if (!isPlaying(tulpaBody, "Attack_Right"))
                                 tulpaBody.SetTrigger("attack_R");
                         }
+                    }
+
+                    if (bossStage > 2)
+                    {
+                        print("TODO: Fire projectiles");
                     }
                     break;
                 case BossState.hurt:
@@ -121,7 +123,7 @@ public class BossZombieController : SaveObject
             }
         }
 
-        if (bossState != BossState.aggro && !playIntro)
+        if (bossState != BossState.aggro)
         {
             handLeft.SetActive(false);
             handRight.SetActive(false);
@@ -131,6 +133,11 @@ public class BossZombieController : SaveObject
     public void SetState(BossState stateToSet)
     {
         bossState = stateToSet;
+    }
+
+    public int GetBossStage()
+    {
+        return bossStage;
     }
 
     public void SetTower()
@@ -156,7 +163,7 @@ public class BossZombieController : SaveObject
         CameraController.instance.SetRotation(false);
         CameraController.instance.SetTarget(camTarget);
 
-        float targetFillAmount = health.currentHealth / 4f;
+        float targetFillAmount = health.currentHealth / (float)maxHealth;
         while (healthBar.fillAmount > targetFillAmount)
         {
             healthBar.fillAmount -= Time.deltaTime * 0.25f;
@@ -186,8 +193,8 @@ public class BossZombieController : SaveObject
 
     public void Flicker(float waitTime)
     {
-        if (flickerCo == null)
-            flickerCo = StartCoroutine(FlickerRoutine(waitTime));
+        if (flickerRoutine == null)
+            flickerRoutine = StartCoroutine(FlickerRoutine(waitTime));
     }
 
     IEnumerator FlickerRoutine(float waitTime)
@@ -213,7 +220,7 @@ public class BossZombieController : SaveObject
             mesh.enabled = true;
         }
 
-        flickerCo = null;
+        flickerRoutine = null;
     }
 
     IEnumerator Setup()
@@ -243,39 +250,6 @@ public class BossZombieController : SaveObject
             else { i--; }
         }
 
-        if (playIntro)
-        {
-            handLeft.GetComponent<BossHandController>().SetTarget(initHandPos[0]);
-            handLeft.SetActive(true);
-            if (!isPlaying(tulpaBody, "Attack_Left"))
-                tulpaBody.SetTrigger("attack_L");
-
-            yield return new WaitForSeconds(0.125f);
-
-            handRight.GetComponent<BossHandController>().SetTarget(initHandPos[1]);
-            handRight.SetActive(true);
-            if (!isPlaying(tulpaBody, "Attack_Right"))
-                tulpaBody.SetTrigger("attack_R");
-
-            CameraController.instance.SetTarget(handLeft.transform);
-
-            yield return new WaitForSeconds(2f);
-
-            CameraController.instance.SetTarget(handRight.transform);
-
-            yield return new WaitForSeconds(2f);
-
-            int randNum = Random.Range(2, 4);
-            for (int i = 0; i < randNum; i++)
-            {
-                int randPoint = Random.Range(0, debrisPoints.Length);
-                debrisPoints[randPoint].GetComponent<SaveObject>().hasActivated = false;
-                debrisPoints[randPoint].GetComponent<SaveObject>().Activate();
-            }
-
-            playIntro = false;
-        }
-
         if (CameraController.instance.GetTriggerState())
         {
             CameraController.instance.SetRotation(true);
@@ -286,12 +260,12 @@ public class BossZombieController : SaveObject
             CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        PlayerController.instance.SetState(PlayerController.States.idle);
+
+        yield return new WaitForSeconds(1.5f);
 
         SetState(BossState.aggro);
-        settingUp = false;
-
-        PlayerController.instance.SetState(PlayerController.States.idle);
+        setupRoutine = null;
     }
 
     IEnumerator Death()

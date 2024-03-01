@@ -15,7 +15,7 @@ public class BossRadioTower : MonoBehaviour
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     //[SerializeField]
     private bool active, interacting, triggered, hit;
-    [SerializeField] int activateCount = 2;
+    [SerializeField] int activateCount = 3;
 
     [Header("Object References")]
     [NaughtyAttributes.HorizontalLine]
@@ -23,9 +23,7 @@ public class BossRadioTower : MonoBehaviour
     [SerializeField] private GameObject barrier;
     [SerializeField] private ObjectFlicker flickerController;
     public Transform focusPoint;
-    [SerializeField] GameObject[] debrisObjs;
-    [SerializeField] Transform debrisPoint;
-    [SerializeField] ParticleSystem electricParticles;
+    [SerializeField] ParticleSystem electricParticles, sparkParticles;
 
     [Header("Audio Values")]
     [NaughtyAttributes.HorizontalLine]
@@ -63,14 +61,15 @@ public class BossRadioTower : MonoBehaviour
             {
                 interacting = true;
                 mesh.material.color = Color.yellow;
-                //CamEffectController.instance.SetEffectState(true);
                 tempTime += Time.deltaTime;
                 if (tempTime >= checkTime)
                 {
                     triggered = true;
+                    activateCount--;
+                    tempTime = 0f;
+
                     PlayClip(barrierOffClip);
                     electricParticles.Play();
-                    activateCount--;
 
                     if (activateCount > 0)
                     {
@@ -80,14 +79,7 @@ public class BossRadioTower : MonoBehaviour
                     else
                     {
                         flickerController.StartFlicker();
-
-                        int randNum = Random.Range(3, 5);
-                        for (int i = 0; i < randNum; i++)
-                        {
-                            int randObj = Random.Range(0, debrisObjs.Length - 1);
-                            GameObject debrisPrefab = Instantiate(debrisObjs[randObj], debrisPoint.position, Quaternion.identity);
-                        }
-
+                        sparkParticles.Play();
                         bossController.SetTower();
                     }
                 }
@@ -115,7 +107,7 @@ public class BossRadioTower : MonoBehaviour
     public void Activate()
     {
         active = true;
-        activateCount = 2;
+        activateCount = 3;
         barrier.SetActive(true);
         PlayClip(barrierOnClip);
         checkFrequency = Random.Range(1.5f, 9f);
@@ -126,21 +118,6 @@ public class BossRadioTower : MonoBehaviour
         active = false;
         barrier.SetActive(true);
         triggered = false;
-    }
-
-    public void OnHit(float time)
-    {
-        if (hitRoutine == null)
-            hitRoutine = StartCoroutine(OnHitRoutine(time));
-    }
-
-    IEnumerator OnHitRoutine(float time)
-    {
-        hit = true;
-        yield return new WaitForSeconds(time);
-        hit = false;
-
-        hitRoutine = null;
     }
 
     void PlayClip(AudioClip clip)
