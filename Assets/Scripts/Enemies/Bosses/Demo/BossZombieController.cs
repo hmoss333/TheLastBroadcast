@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
+
 
 public class BossZombieController : SaveObject
 {
@@ -13,10 +13,9 @@ public class BossZombieController : SaveObject
     [NaughtyAttributes.HorizontalLine]
     [SerializeField] private int bossStage = 1;
     [SerializeField] private int maxHealth;
-    private float countDownTime = 15f;
     private int towerNum = 0;
     bool isDead;
-    public enum BossState { idle, setup, aggro, hurt, dead }
+    public enum BossState { idle, setup, aggro, hurt, dead, waiting }
     [SerializeField] BossState bossState;
     Health health;
 
@@ -26,6 +25,7 @@ public class BossZombieController : SaveObject
     [SerializeField] Animator tulpaBody;
     bool attackLeft;
     [SerializeField] GameObject handLeft, handRight;
+    [SerializeField] float attackDelay = 2f;
     [SerializeField] Transform camTarget;
     [SerializeField] BossRadioTower[] radioTowers;
 
@@ -98,7 +98,22 @@ public class BossZombieController : SaveObject
 
                     if (bossStage > 2)
                     {
-                        print("TODO: Fire projectiles");
+                        attackDelay -= Time.deltaTime;
+                        if (attackDelay < 0)
+                        {
+                            attackDelay = bossStage == 2 ? 2.5f : 1.75f;
+
+                            if (attackLeft)
+                            {
+                                handRight.GetComponent<BossHandController>().SetTarget(PlayerController.instance.transform);
+                                handRight.SetActive(true);
+                            }
+                            else
+                            {
+                                handLeft.GetComponent<BossHandController>().SetTarget(PlayerController.instance.transform);
+                                handLeft.SetActive(true);
+                            }
+                        }
                     }
                     break;
                 case BossState.hurt:
@@ -110,6 +125,9 @@ public class BossZombieController : SaveObject
                     bossStage++;
 
                     SetState(BossState.setup);
+                    break;
+                case BossState.waiting:
+
                     break;
                 case BossState.dead:
                     if (!isDead)

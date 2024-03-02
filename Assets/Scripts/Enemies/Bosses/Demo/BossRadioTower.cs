@@ -14,7 +14,7 @@ public class BossRadioTower : MonoBehaviour
     [SerializeField] private float checkFrequency; //frequency that must be matched on field radio
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     //[SerializeField]
-    private bool active, interacting, triggered, hit;
+    private bool active, interacting, triggered;
     [SerializeField] int activateCount = 3;
 
     [Header("Object References")]
@@ -42,7 +42,7 @@ public class BossRadioTower : MonoBehaviour
 
     private void Start()
     {
-        bossController = GameObject.FindObjectOfType<BossZombieController>();
+        bossController = FindObjectOfType<BossZombieController>();
         mesh.material.color = Color.black;
     }
 
@@ -107,7 +107,7 @@ public class BossRadioTower : MonoBehaviour
     public void Activate()
     {
         active = true;
-        activateCount = 3;
+        activateCount = 2;
         barrier.SetActive(true);
         PlayClip(barrierOnClip);
         checkFrequency = Random.Range(1.5f, 9f);

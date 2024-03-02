@@ -46,9 +46,6 @@ public class InventoryController : MonoBehaviour
 
         LoadItemFile();
         RefreshInventory();
-
-        if (inventoryObjs.Count > 0)
-            inventoryObjs[itemPosVal].ToggleHighlight(true); //highlight the currently displayed item position
     }
 
     private void Update()
@@ -56,6 +53,9 @@ public class InventoryController : MonoBehaviour
         if (PauseMenuController.instance.isPaused
             && PauseMenuController.instance.CurrentPanel().name.ToLower() == "inventory")           
         {
+            if (inventoryObjs.Count > 0)
+                inventoryObjs[itemPosVal].ToggleHighlight(true); //highlight the currently displayed item position
+
             //Use directional input to navigate inventory menu
             if (PlayerController.instance.inputMaster.Player.Move.triggered)
             {
