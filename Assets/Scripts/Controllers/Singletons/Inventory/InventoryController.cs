@@ -7,8 +7,7 @@ using UnityEngine.UI;
 using System.IO;
 using TMPro;
 using UnityEngine.UI.Extensions;
-using static UnityEngine.GraphicsBuffer;
-//using static UnityEditor.Progress;
+
 
 public class InventoryController : MonoBehaviour
 {

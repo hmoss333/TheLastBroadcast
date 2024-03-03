@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using NaughtyAttributes;
 
+
 [RequireComponent(typeof(IDGenerator))]
 public class SaveObject : MonoBehaviour
 {
