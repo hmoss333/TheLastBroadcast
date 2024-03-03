@@ -12,6 +12,7 @@ public class PlayerItemUI : MonoBehaviour
     [SerializeField] TMP_Text countText;
     public InventoryItem currentItem { get; private set; }
     [SerializeField] RectTransform itemPanel;
+    [SerializeField] GameObject useMeter;
     [SerializeField] Vector2 inactivePos, activePos;
     [SerializeField] float slideSpeed;
 
@@ -43,6 +44,8 @@ public class PlayerItemUI : MonoBehaviour
             int count = currentItem.itemInstance.count;
             countText.gameObject.SetActive(count > 1);
             countText.text = count.ToString();
+
+            useMeter.SetActive(currentItem.itemInstance.consumable);
         }
         catch
         {
