@@ -15,16 +15,24 @@ public class TriggerSceneChange : MonoBehaviour
 
     private void Start()
     {
-        musicSource = AudioController.instance.audioSource;
+        try
+        {
+            musicSource = AudioController.instance.audioSource;
+        }
+        catch { print($"Unable to locate {AudioController.instance}"); }
     }
 
     private void Update()
     {
-        if (changeScene != null)
+        try
         {
-            t += Time.deltaTime / 100f;
-            musicSource.volume = Mathf.Lerp(musicSource.volume, targetVolume, t);
+            if (changeScene != null)
+            {
+                t += Time.deltaTime / 100f;
+                musicSource.volume = Mathf.Lerp(musicSource.volume, targetVolume, t);
+            }
         }
+        catch { }
     }
 
     private void OnTriggerEnter(Collider other)
