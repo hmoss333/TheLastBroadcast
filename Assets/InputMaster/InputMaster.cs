@@ -901,12 +901,24 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         {
             ""name"": ""XBox Controller"",
             ""bindingGroup"": ""XBox Controller"",
-            ""devices"": []
+            ""devices"": [
+                {
+                    ""devicePath"": ""<XInputController>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         },
         {
             ""name"": ""PlayStation Controller"",
             ""bindingGroup"": ""PlayStation Controller"",
-            ""devices"": []
+            ""devices"": [
+                {
+                    ""devicePath"": ""<DualShockGamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
