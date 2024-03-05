@@ -13,6 +13,8 @@ public class BossHandController : MonoBehaviour
     [SerializeField] GameObject shadowObj;
     [SerializeField] Transform target;
     BossZombieController bossController;
+    AudioSource audioSource;
+    [SerializeField] AudioClip attackClip, platformClip;
 
     float tempDelay = 0f;
 
@@ -20,6 +22,8 @@ public class BossHandController : MonoBehaviour
     private void Start()
     {
         bossController = FindObjectOfType<BossZombieController>();
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     private void OnEnable()
@@ -40,13 +44,16 @@ public class BossHandController : MonoBehaviour
                 transform.position = handPos;
 
                 tempDelay += attackSpeed * Time.deltaTime;
-                if (tempDelay >= tempAttackDelay)//attackDelay)
+                if (tempDelay >= tempAttackDelay)
                 {
                     tempDelay = 0;
                     SetState(State.attacking);
                 }
                 break;
             case State.attacking:
+                if (!audioSource.isPlaying)
+                    PlayClip(attackClip);
+
                 handPos = new Vector3(handPos.x, handPos.y -= attackSpeed * Time.deltaTime, handPos.z);
                 transform.position = handPos;
                 shadowObj.transform.localScale = Vector3.Lerp(shadowObj.transform.localScale, new Vector3(1f, 0.01f, 1f), (attackSpeed / 2f) * Time.deltaTime);
@@ -54,6 +61,7 @@ public class BossHandController : MonoBehaviour
                 if (transform.position.y <= 0.05f)
                 {
                     //partnerHand.SetActive(true);
+                    PlayClip(platformClip);
                     SetState(State.reset);
                 }
                 break;
@@ -93,5 +101,12 @@ public class BossHandController : MonoBehaviour
         {
             other.GetComponent<Health>().Hurt(damage, true);
         }
+    }
+
+    private void PlayClip(AudioClip clip)
+    {
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }
