@@ -32,10 +32,11 @@ public class PauseMenuController : MonoBehaviour
 
     public void Update()
     {
-        if (InputController.instance.inputMaster.Player.Pause.triggered || InputController.instance.inputMaster.Player.Run.triggered
+        if (InputController.instance.inputMaster.Player.Pause.triggered
             && PlayerController.instance.state != PlayerController.States.interacting
             && PlayerController.instance.state != PlayerController.States.listening
-            && PlayerController.instance.state != PlayerController.States.wakeUp)
+            && PlayerController.instance.state != PlayerController.States.wakeUp
+            || (isPaused && InputController.instance.inputMaster.Player.Run.triggered))
         {
             //If a SceneToIgnore is loaded, disable pause
             List<Scene> activeScenes = SceneManager.GetAllScenes().ToList();
