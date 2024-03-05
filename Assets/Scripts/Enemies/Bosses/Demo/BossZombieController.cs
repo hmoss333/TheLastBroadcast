@@ -28,11 +28,18 @@ public class BossZombieController : SaveObject
     [SerializeField] float attackDelay = 2f;
     [SerializeField] Transform camTarget;
     [SerializeField] BossRadioTower[] radioTowers;
+    [SerializeField] ParticleSystem electricParticles;
 
     [Header("Boss UI References")]
     [NaughtyAttributes.HorizontalLine]
     [SerializeField] GameObject healthBarObj;
     [SerializeField] Image healthBar;
+
+    [Header("Boss Audio References")]
+    [NaughtyAttributes.HorizontalLine]
+    [SerializeField] AudioClip stage1;
+    [SerializeField] AudioClip stage2;
+    [SerializeField] AudioClip stage3;
 
     Coroutine setupRoutine;
     Coroutine flickerRoutine;
@@ -124,6 +131,22 @@ public class BossZombieController : SaveObject
                     tulpaBody.SetTrigger("isHurt");
                     bossStage++;
 
+                    //Add audio layer
+                    switch (bossStage)
+                    {
+                        case 2:
+                            AudioController.instance.AddLayer(stage1);
+                            break;
+                        case 3:
+                            AudioController.instance.AddLayer(stage2);
+                            break;
+                        case 4:
+                            AudioController.instance.AddLayer(stage3);
+                            break;
+                        default:
+                            print($"Boss stage: {bossStage}");
+                            break;
+                    }
                     SetState(BossState.setup);
                     break;
                 case BossState.waiting:
@@ -198,6 +221,7 @@ public class BossZombieController : SaveObject
         {
             SetState(BossState.hurt);
 
+            electricParticles.Play();
             CamEffectController.instance.ForceEffect();
             Flicker(1.25f);
             yield return new WaitForSeconds(1.75f);
@@ -309,6 +333,8 @@ public class BossZombieController : SaveObject
 
         PlayerController.instance.SetState(PlayerController.States.idle);
         CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
+        if (CameraController.instance.GetTriggerState())
+            CameraController.instance.SetRotation(true);
     }
 
     public bool isPlaying(Animator animator, string stateName)
