@@ -7,8 +7,6 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
-//using static UnityEditor.PlayerSettings;
-//using static UnityEngine.GraphicsBuffer;
 
 
 public class MainMenuController : MonoBehaviour
@@ -20,7 +18,6 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] Transform loadCamPos;
     [SerializeField] float camSpeed;
     private int index;
-    public InputMaster inputMaster;
     public CanvasGroup settingsCanvas, loadGameCanvas;
     [SerializeField] Button loadGameButton;
     [SerializeField] TextMeshProUGUI loadGameText, versionText;
@@ -42,8 +39,6 @@ public class MainMenuController : MonoBehaviour
     private void Start()
     {
         settingsMenu = GetComponent<SettingsMenuController>();
-        inputMaster = new InputMaster();
-        inputMaster.Enable();
 
         loadGameCanvas.gameObject.SetActive(false);
         index = 0;
@@ -74,19 +69,19 @@ public class MainMenuController : MonoBehaviour
         {
             if (loadGameCanvas.gameObject.activeSelf)
             {
-                if (inputMaster.Player.Interact.triggered)
+                if (InputController.instance.inputMaster.Player.Interact.triggered)
                 {                   
                     loadGameButton.onClick.Invoke();
                 }
-                else if (inputMaster.Player.Melee.triggered)
+                else if (InputController.instance.inputMaster.Player.Melee.triggered)
                 {
                     loadGameCanvas.gameObject.SetActive(false);
                 }
             }
             else if (!settingsMenu.updatingSettings)
             {
-                Vector2 inputVal = inputMaster.Player.Move.ReadValue<Vector2>();
-                bool inputCheck = inputMaster.Player.Move.WasPressedThisFrame();
+                Vector2 inputVal = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
+                bool inputCheck = InputController.instance.inputMaster.Player.Move.WasPressedThisFrame();
                 if (Mathf.RoundToInt(inputVal.x) < 0 && inputCheck)
                 {
                     index--;
@@ -104,7 +99,7 @@ public class MainMenuController : MonoBehaviour
                     settingsMenu.GetSettings();
                 }
 
-                if (inputMaster.Player.Interact.triggered)
+                if (InputController.instance.inputMaster.Player.Interact.triggered)
                 {
                     audioSource.Stop();
                     audioSource.clip = currentElement.clip;

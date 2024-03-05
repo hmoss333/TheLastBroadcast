@@ -42,7 +42,7 @@ public class FlashlightController : MonoBehaviour
         if (!PauseMenuController.instance.isPaused)
         {
             if (SaveDataController.instance.saveData.abilities.flashlight
-                && PlayerController.instance.inputMaster.Player.Flashlight.triggered)
+                && InputController.instance.inputMaster.Player.Flashlight.triggered)
             {
                 audioSource.Stop();
                 audioSource.Play();
@@ -52,7 +52,7 @@ public class FlashlightController : MonoBehaviour
                 && (PlayerController.instance.state == PlayerController.States.idle || PlayerController.instance.state == PlayerController.States.moving)
                 && PlayerController.instance.abilityState == PlayerController.AbilityStates.none)
             {
-                isOn = PlayerController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0
+                isOn = InputController.instance.inputMaster.Player.Flashlight.ReadValue<float>() > 0
                     && !PlayerController.instance.running
                     && flashlightTime > 0f
                     && !isCharging

@@ -40,11 +40,11 @@ public class DialogueController : InteractObject
 
 
             //On button up, reset interact state
-            if (!PlayerController.instance.inputMaster.Player.Interact.IsPressed())
+            if (!InputController.instance.inputMaster.Player.Interact.IsPressed())
             {
                 canInteract = false;
             }
-            else if (!canInteract && PlayerController.instance.inputMaster.Player.Interact.triggered)
+            else if (!canInteract && InputController.instance.inputMaster.Player.Interact.triggered)
             {
                 if (TextWriter.instace.isTyping)
                 {

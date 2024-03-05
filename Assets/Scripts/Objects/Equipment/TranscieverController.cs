@@ -72,7 +72,7 @@ public class TranscieverController : InteractObject
         if (interacting && !gaveAbility)
         {
             frequencyText.color = stationColor;
-            xInput = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x;
+            xInput = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x;
             dialObj.transform.Rotate(0.0f, xInput * tempSpeed, 0.0f);
             currentFrequency += (float)(xInput * Time.deltaTime);
 

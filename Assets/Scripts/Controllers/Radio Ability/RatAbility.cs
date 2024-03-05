@@ -65,7 +65,7 @@ public class RatAbility : RadioAbilityController
             PlayerController.instance.SetAbilityState(PlayerController.AbilityStates.isRat);
             PlayerController.instance.GetComponent<Rigidbody>().useGravity = false;
 
-            if (PlayerController.instance.inputMaster.Player.RadioSpecial.triggered) { EndAbility(); }
+            if (InputController.instance.inputMaster.Player.RadioSpecial.triggered) { EndAbility(); }
         }
 
         ratObj.SetActive(isRat); //Toggle rat prefab based on isRat state

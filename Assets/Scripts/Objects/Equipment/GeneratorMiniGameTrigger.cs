@@ -9,12 +9,12 @@ public class GeneratorMiniGameTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (inTrigger && !hasHit && PlayerController.instance.inputMaster.Player.Interact.triggered)
+        if (inTrigger && !hasHit && InputController.instance.inputMaster.Player.Interact.triggered)
         {
             hasHit = true;
             generator.Hit();
         }
-        else if (PlayerController.instance.inputMaster.Player.Interact.triggered)
+        else if (InputController.instance.inputMaster.Player.Interact.triggered)
         {
             generator.Miss();
         }

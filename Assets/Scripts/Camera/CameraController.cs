@@ -50,7 +50,7 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         //Manualy shift xOff with button press
-        //if (PlayerController.instance.inputMaster.Player.ShiftCamera.triggered)
+        //if (InputController.instance.inputMaster.Player.ShiftCamera.triggered)
         //{
         //    offset.x = offset.x * -1f;
         //}
@@ -58,9 +58,9 @@ public class CameraController : MonoBehaviour
         //Shift zOff based on forward/backwards movement
         if (PlayerController.instance.state == PlayerController.States.moving)
         {
-            if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y < 0)
+            if (InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y < 0)
                 offset.z = zOffMin;
-            else if (PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y > 0)
+            else if (InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y > 0)
                 offset.z = zOffMax;
         }
     }

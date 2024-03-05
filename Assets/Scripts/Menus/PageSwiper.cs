@@ -25,7 +25,7 @@ public class PageSwiper : MonoBehaviour
     {
         if (PauseMenuController.instance.isPaused && !changingPanel)
         {
-            if (PlayerController.instance.inputMaster.Player.MenuRight.triggered && currentChild < transform.childCount - 1)
+            if (InputController.instance.inputMaster.Player.MenuRight.triggered && currentChild < transform.childCount - 1)
             {
                 //currentChild++;
                 //panelLocation -= new Vector3(Screen.width, 0, 0);
@@ -33,7 +33,7 @@ public class PageSwiper : MonoBehaviour
                 RightButton();
             }
 
-            if (PlayerController.instance.inputMaster.Player.MenuLeft.triggered && currentChild > 0)
+            if (InputController.instance.inputMaster.Player.MenuLeft.triggered && currentChild > 0)
             {
                 //currentChild--;
                 //panelLocation += new Vector3(Screen.width, 0, 0);

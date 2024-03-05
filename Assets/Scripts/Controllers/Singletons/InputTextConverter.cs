@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 public class InputTextConverter : MonoBehaviour
 {
     public static InputTextConverter instance;
-    InputMaster inputMaster;
 
     private void Awake()
     {
@@ -15,9 +14,6 @@ public class InputTextConverter : MonoBehaviour
             instance = this;
         else
             Destroy(this);
-
-        inputMaster = new InputMaster();
-        inputMaster.Enable();
     }
 
 
@@ -36,7 +32,7 @@ public class InputTextConverter : MonoBehaviour
 
     string GetButtonName(string inputName)
     {
-        InputAction inputAction = inputMaster.FindAction(inputName);
+        InputAction inputAction = InputController.instance.inputMaster.FindAction(inputName);
         PlayerInput input = FindObjectOfType<PlayerInput>();
         string currentDevice = input.currentControlScheme;
         int bindingVal;

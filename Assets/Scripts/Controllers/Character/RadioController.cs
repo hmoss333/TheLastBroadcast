@@ -80,7 +80,7 @@ public class RadioController : MonoBehaviour
         if (isActive)
         {
             //Get input values
-            xInput = PlayerController.instance.inputMaster.Player.TuneRadio.ReadValue<Vector2>().x;
+            xInput = InputController.instance.inputMaster.Player.TuneRadio.ReadValue<Vector2>().x;
             currentFrequency += (float)(xInput * speed * Time.deltaTime);
 
 
@@ -89,7 +89,7 @@ public class RadioController : MonoBehaviour
 
 
             if (SaveDataController.instance.saveData.abilities.radio_special)
-                abilityMode = PlayerController.instance.inputMaster.Player.RadioSpecial.ReadValue<float>() > 0 ? true : false;
+                abilityMode = InputController.instance.inputMaster.Player.RadioSpecial.ReadValue<float>() > 0 ? true : false;
 
             if (staticSource.volume <= maxVolume)
             {

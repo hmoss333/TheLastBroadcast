@@ -56,11 +56,11 @@ public class InventoryController : MonoBehaviour
                 inventoryObjs[itemPosVal].ToggleHighlight(true); //highlight the currently displayed item position
 
             //Use directional input to navigate inventory menu
-            if (PlayerController.instance.inputMaster.Player.Move.triggered)
+            if (InputController.instance.inputMaster.Player.Move.triggered)
             {
                 PlayClip(moveClip);
 
-                Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
+                Vector2 move = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
                 if (move.x > 0)
                 {
                     itemPosVal++;
@@ -125,7 +125,7 @@ public class InventoryController : MonoBehaviour
 
 
             //Select current item
-            if (PlayerController.instance.inputMaster.Player.Interact.triggered
+            if (InputController.instance.inputMaster.Player.Interact.triggered
                 && inventoryItems.Count > 0)
             {
                 PlayClip(equipClip);

@@ -82,12 +82,12 @@ public class RatController : MonoBehaviour
 
 
         //Player input controls
-        if (PlayerController.instance.inputMaster.Player.Interact.triggered && interactObj != null && interactObj.active)
+        if (InputController.instance.inputMaster.Player.Interact.triggered && interactObj != null && interactObj.active)
         {
             interactObj.Interact();
         }
 
-        if (PlayerController.instance.inputMaster.Player.Melee.triggered && !interacting)
+        if (InputController.instance.inputMaster.Player.Melee.triggered && !interacting)
         {
             attacking = true;
             animator.SetTrigger("isMelee");
@@ -118,7 +118,7 @@ public class RatController : MonoBehaviour
         }
         else
         {
-            Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
+            Vector2 move = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
             horizontal = Mathf.Round(move.x * 10f) * 0.1f;
             vertical = Mathf.Round(move.y * 10f) * 0.1f;
 

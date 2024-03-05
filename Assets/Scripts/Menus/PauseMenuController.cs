@@ -32,7 +32,7 @@ public class PauseMenuController : MonoBehaviour
 
     public void Update()
     {
-        if (PlayerController.instance.inputMaster.Player.Pause.triggered
+        if (InputController.instance.inputMaster.Player.Pause.triggered
             && PlayerController.instance.state != PlayerController.States.interacting
             && PlayerController.instance.state != PlayerController.States.listening
             && PlayerController.instance.state != PlayerController.States.wakeUp)
@@ -54,7 +54,7 @@ public class PauseMenuController : MonoBehaviour
 
         if (isPaused)
         {           
-            if (PlayerController.instance.inputMaster.Player.MenuLeft.triggered)
+            if (InputController.instance.inputMaster.Player.MenuLeft.triggered)
             {
                 menuIndex--;
                 if (menuIndex < 0)
@@ -62,7 +62,7 @@ public class PauseMenuController : MonoBehaviour
 
                 ToggleMenu(menuIndex);
             }
-            if (PlayerController.instance.inputMaster.Player.MenuRight.triggered)
+            if (InputController.instance.inputMaster.Player.MenuRight.triggered)
             {
                 menuIndex++;
                 if (menuIndex > menuPanels.Count - 1)

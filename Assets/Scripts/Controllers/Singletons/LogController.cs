@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class LogController : MonoBehaviour
 {
+    [SerializeField] List<string> filterWords;
+
     string filename = "";
     void OnEnable() { Application.logMessageReceived += Log; }
     void OnDisable() { Application.logMessageReceived -= Log; }
@@ -21,6 +23,12 @@ public class LogController : MonoBehaviour
 
         try
         {
+            foreach (string word in filterWords)
+            {
+                if (logString.Contains(word))
+                    return;
+            }
+
             System.IO.File.AppendAllText(filename, DateTime.Now + " " + logString + "\n");
         }
         catch { }

@@ -39,7 +39,7 @@ public class ScrollHealth : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerController.instance.inputMaster.Player.Health.triggered)
+        if (InputController.instance.inputMaster.Player.Health.triggered)
         {
             isActive = !isActive;
         }

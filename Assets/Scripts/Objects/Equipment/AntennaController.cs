@@ -22,7 +22,7 @@ public class AntennaController : InteractObject
     {
         if (interacting && !hasActivated)//turnedOn)
         {
-            float antennaValue = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y;
+            float antennaValue = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y;
             currentValue += antennaValue * speed * Time.deltaTime;
             miniGameSlider.value = currentValue;
             if (currentValue <= targetValue + offset && currentValue >= targetValue - offset)

@@ -63,7 +63,7 @@ public class TransmitterController : InteractObject
         if (interacting && !hasActivated)
         {
             frequencyText.color = stationColor;
-            xInput = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x;
+            xInput = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>().x;
             dialObj.transform.Rotate(0.0f, xInput * tempSpeed, 0.0f);
             currentFrequency += (float)(xInput * Time.deltaTime);
             arrowLeft.color = xInput < 0 ? arrowActive : arrowDefault;

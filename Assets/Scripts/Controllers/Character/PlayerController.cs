@@ -51,7 +51,6 @@ public class PlayerController : CharacterController
     [SerializeField] private GameObject gasMaskOverlay;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
-    public InputMaster inputMaster { get; private set; }
     private InputControlScheme controlScheme;
 
 
@@ -61,9 +60,6 @@ public class PlayerController : CharacterController
             instance = this;
         else
             Destroy(this.gameObject);
-
-        inputMaster = new InputMaster();
-        inputMaster.Enable();
     }
 
     override public void Start()
@@ -154,14 +150,14 @@ public class PlayerController : CharacterController
             && state != States.hurt)
         {
             if (SaveDataController.instance.saveData.abilities.crowbar == true
-                && PlayerController.instance.inputMaster.Player.Melee.triggered)
+                && InputController.instance.inputMaster.Player.Melee.triggered)
             {
                 animator.SetTrigger("isMelee");
                 SetState(States.attacking);
             }
 
             if (SaveDataController.instance.saveData.abilities.radio == true
-                && PlayerController.instance.inputMaster.Player.Radio.ReadValue<float>() > 0)
+                && InputController.instance.inputMaster.Player.Radio.ReadValue<float>() > 0)
             {
                 SetState(States.radio);
             }
@@ -170,7 +166,7 @@ public class PlayerController : CharacterController
 
         //Store player move values
         //Used in FixedUpdate for correct timing with animation flags
-        Vector2 move = PlayerController.instance.inputMaster.Player.Move.ReadValue<Vector2>().normalized;     
+        Vector2 move = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>().normalized;     
         switch (state)
         {
             case States.wakeUp:
@@ -184,7 +180,7 @@ public class PlayerController : CharacterController
                     && InventoryController.instance.selectedItem != null
                     && InventoryController.instance.selectedItem.itemInstance.consumable == true
                     && !PauseMenuController.instance.isPaused //if the game is not paused
-                    && inputMaster.Player.Interact.IsPressed()
+                    && InputController.instance.inputMaster.Player.Interact.IsPressed()
                     && (health.currentHealth < maxHealth
                     || RadioController.instance.currentCharge < RadioController.instance.maxCharge))
                 {
@@ -202,7 +198,7 @@ public class PlayerController : CharacterController
             case States.moving:
                 if (!PauseMenuController.instance.isPaused)
                 {
-                    if (inputMaster.Player.Run.ReadValue<float>() > 0 && stamina > 0)
+                    if (InputController.instance.inputMaster.Player.Run.ReadValue<float>() > 0 && stamina > 0)
                     {
                         running = true;
                         stamina -= (isSeen ? 2f : 1f) * Time.deltaTime;
@@ -240,7 +236,7 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.radio:
-                if (inputMaster.Player.Radio.ReadValue<float>() <= 0                
+                if (InputController.instance.inputMaster.Player.Radio.ReadValue<float>() <= 0                
                     && abilityState != AbilityStates.isRat || abilityState == AbilityStates.invisible)
                 {
                     if (!CameraController.instance.GetRotState() || !CameraController.instance.GetTriggerState()) { CameraController.instance.LoadLastTarget(); }
@@ -254,7 +250,7 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.consuming:
-                if (inputMaster.Player.Interact.IsPressed()
+                if (InputController.instance.inputMaster.Player.Interact.IsPressed()
                     && InventoryController.instance.selectedItem != null
                     && InventoryController.instance.selectedItem.itemInstance.count > 0
                     && InventoryController.instance.selectedItem.itemInstance.consumable)
@@ -329,8 +325,9 @@ public class PlayerController : CharacterController
         //Handle player interaction inputs
         if (interactObj != null
             && !PauseMenuController.instance.isPaused
-            && PlayerController.instance.inputMaster.Player.Interact.triggered)
+            && InputController.instance.inputMaster.Player.Interact.triggered)
         {
+            print("Pressed interact");
             interactObj.Interact();
             if (!interactObj.hasActivated && interactObj.interacting)
                 SetState(States.interacting);

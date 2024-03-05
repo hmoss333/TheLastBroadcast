@@ -6,8 +6,6 @@ using TMPro;
 
 public class CreditsController : MonoBehaviour
 {
-    InputMaster inputMaster;
-
     [SerializeField] private float fadeInTime = 10f;
     [SerializeField] private float fadeOutTime = 2.5f;
     [SerializeField] TMP_Text inputIconText;
@@ -17,9 +15,6 @@ public class CreditsController : MonoBehaviour
 
     private void Awake()
     {
-        inputMaster = new InputMaster();
-        inputMaster.Enable();
-
         if (inputIconText)
             inputText = inputIconText.text;
     }
@@ -39,7 +34,7 @@ public class CreditsController : MonoBehaviour
         }
 
         //If input is registered, start scene transition
-        if (inputMaster.Player.Pause.triggered || inputMaster.Player.Interact.triggered)
+        if (InputController.instance.inputMaster.Player.Pause.triggered || InputController.instance.inputMaster.Player.Interact.triggered)
         {
             if (fadeSceneRoutine == null)
                 fadeSceneRoutine = StartCoroutine(FadeScene(fadeOutTime));

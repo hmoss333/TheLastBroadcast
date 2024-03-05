@@ -48,7 +48,7 @@ public class PlayerHealthUI : MonoBehaviour
         //    isActive = false; //hide health UI if interacting
         //}
         //else
-        //if (PlayerController.instance.inputMaster.Player.Health.triggered)
+        //if (InputController.instance.inputMaster.Player.Health.triggered)
         //{
         //    isActive = !isActive; //toggle health UI on button press
         //}
