@@ -14,6 +14,8 @@ public class InventoryController : MonoBehaviour
     public static InventoryController instance;
 
     private string inventoryDest, storageDest;
+    private bool moved = false;
+    private float inputDelay = 0f;
     [Header("UI Elements")]
     [SerializeField] RectTransform inventoryContent;
     [SerializeField] ScrollRect scrollRect;
@@ -56,8 +58,9 @@ public class InventoryController : MonoBehaviour
                 inventoryObjs[itemPosVal].ToggleHighlight(true); //highlight the currently displayed item position
 
             //Use directional input to navigate inventory menu
-            if (InputController.instance.inputMaster.Player.Move.triggered)
+            if (InputController.instance.inputMaster.Player.Move.triggered && !moved)
             {
+                moved = true;
                 PlayClip(moveClip);
 
                 Vector2 move = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
@@ -71,7 +74,7 @@ public class InventoryController : MonoBehaviour
                             + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
                     }
                 }
-                //else
+                else
                 if (move.x < 0)
                 {
                     itemPosVal--;
@@ -82,22 +85,22 @@ public class InventoryController : MonoBehaviour
                             - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
                     }
                 }
+                
+                //if (move.y > 0)
+                //{
+                //    itemPosVal -= 3;
+                //    inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
+                //        - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
+                //        - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
+                //}
                 //else
-                if (move.y > 0)
-                {
-                    itemPosVal -= 3;
-                    inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
-                        - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
-                        - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
-                }
-                //else
-                if (move.y < 0)
-                {
-                    itemPosVal += 3;
-                    inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
-                        + inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
-                        + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
-                }
+                //if (move.y < 0)
+                //{
+                //    itemPosVal += 3;
+                //    inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
+                //        + inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
+                //        + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
+                //}
 
                 //Keep value inside of the inventoryItems array
                 try
@@ -123,6 +126,16 @@ public class InventoryController : MonoBehaviour
                 catch { }
             }
 
+            //Add input delay
+            if (moved)
+            {
+                inputDelay += Time.unscaledDeltaTime;
+                if (inputDelay >= 0.25f)
+                {
+                    inputDelay = 0;
+                    moved = false;
+                }
+            }
 
             //Select current item
             if (InputController.instance.inputMaster.Player.Interact.triggered

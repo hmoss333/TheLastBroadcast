@@ -32,7 +32,7 @@ public class PauseMenuController : MonoBehaviour
 
     public void Update()
     {
-        if (InputController.instance.inputMaster.Player.Pause.triggered
+        if (InputController.instance.inputMaster.Player.Pause.triggered || InputController.instance.inputMaster.Player.Run.triggered
             && PlayerController.instance.state != PlayerController.States.interacting
             && PlayerController.instance.state != PlayerController.States.listening
             && PlayerController.instance.state != PlayerController.States.wakeUp)
