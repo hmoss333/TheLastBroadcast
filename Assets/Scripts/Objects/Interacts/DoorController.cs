@@ -9,7 +9,7 @@ public class DoorController : InteractObject
 {
     public Transform exitPoint;
     [HideInInspector] public RoomController exitRoom;
-    [SerializeField] float triggerDelay = 0.5f, triggerTime = 1f;
+    [SerializeField] float triggerDelay = 0.5f, triggerTime = 1f, exitDelay = 0f;
     [SerializeField] private AudioClip useClip, unlockClip;
     private AudioSource audioSource;
     Coroutine doorRoutine;
@@ -66,6 +66,8 @@ public class DoorController : InteractObject
 
         while (FadeController.instance.isFading)
             yield return null;
+
+        yield return new WaitForSeconds(exitDelay);
 
         m_OnTrigger.Invoke();
 
