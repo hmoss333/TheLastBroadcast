@@ -59,9 +59,8 @@ public class MainMenuController : MonoBehaviour
         {
             loadGameCanvas.gameObject.SetActive(false);
 
-            if (!FadeController.instance.isFading)
+            if (!FadeController.instance.isFading && sceneToLoad != "Intro")
             {
-                //SceneManager.LoadScene(sceneToLoad);
                 loadingScreen.LoadScene(sceneToLoad);
             }
         }

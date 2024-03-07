@@ -14,6 +14,7 @@ public class TitleScreenController : MonoBehaviour
     [SerializeField] float fadeSpeed, startDelayTime, quoteDelayTime, glitchDelayTime, titleDelayTime, titleDisplayTime, sceneDelayTime;
     private float targetVolume, t = 0f;
     [SerializeField] string sceneToLoad;
+    [SerializeField] LoadingScene loadingScreen;
 
 
     // Start is called before the first frame update
@@ -126,6 +127,7 @@ public class TitleScreenController : MonoBehaviour
         yield return new WaitForSeconds(sceneDelayTime);
 
         //Load next scene
-        SceneManager.LoadSceneAsync(sceneToLoad);
+        //SceneManager.LoadSceneAsync(sceneToLoad);
+        loadingScreen.LoadScene(sceneToLoad);
     }
 }
