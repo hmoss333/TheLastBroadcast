@@ -61,7 +61,6 @@ public class MainMenuController : MonoBehaviour
 
             if (!FadeController.instance.isFading)
             {
-                print("Change scene");
                 //SceneManager.LoadScene(sceneToLoad);
                 loadingScreen.LoadScene(sceneToLoad);
             }

@@ -33,16 +33,29 @@ public class InputTextConverter : MonoBehaviour
     string GetButtonName(string inputName)
     {
         InputAction inputAction = InputController.instance.inputMaster.FindAction(inputName);
-        PlayerInput input = FindObjectOfType<PlayerInput>();
-        string currentDevice = input.currentControlScheme;
-        int bindingVal;
+        string currentDevice = InputController.instance.currentInputDevice;
+        int bindingVal = 1; //default Keyboard
 
         //Set binding based on current device
         //Fill this in with more devices as needed
-        if (currentDevice == "Keyboard")
-            bindingVal = 1;
-        else
-            bindingVal = 0;
+        switch (currentDevice)
+        {
+            case "Switch Pro Controller":
+                bindingVal = 0;
+                break;
+            case "Keyboard":
+                bindingVal = 1;
+                break;
+            case "XBox Controller":
+                bindingVal = 2;
+                break;
+            case "PlayStation Controller":
+                bindingVal = 3;
+                break;
+            default:
+                print($"Current device not found: {currentDevice}");
+                break;
+        }
 
         string tempString = inputAction.bindings[bindingVal].ToDisplayString();
         return tempString;
