@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -23,9 +23,10 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] TextMeshProUGUI loadGameText, versionText;
     [SerializeField] AudioSource audioSource;
     [SerializeField] float maxAudioVolume;
-    bool loadingScene;
+    [SerializeField] bool loadingScene;
     string sceneToLoad;
     SettingsMenuController settingsMenu;
+    [SerializeField] LoadingScene loadingScreen;
 
 
     private void Awake()
@@ -61,7 +62,8 @@ public class MainMenuController : MonoBehaviour
             if (!FadeController.instance.isFading)
             {
                 print("Change scene");
-                SceneManager.LoadScene(sceneToLoad);
+                //SceneManager.LoadScene(sceneToLoad);
+                loadingScreen.LoadScene(sceneToLoad);
             }
         }
         //Menu controls
