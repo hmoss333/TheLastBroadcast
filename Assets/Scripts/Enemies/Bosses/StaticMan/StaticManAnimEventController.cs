@@ -3,10 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class StaticManAnimEventController : MonoBehaviour
 {
     Coroutine killPlayer;
+
+    [Header("Event Triggers")]
+    [FormerlySerializedAs("onTrigger")]
+    public UnityEvent m_OnTrigger = new UnityEvent();
 
 
     //Spawn Animation Logic
@@ -52,5 +58,11 @@ public class StaticManAnimEventController : MonoBehaviour
     {
         GetComponentInParent<SaveObject>().SetHasActivated();
         CamEffectController.instance.SetEffectState(false);//.ForceEffect(false);
+    }
+
+
+    public void TriggerEvents()
+    {
+        m_OnTrigger.Invoke();
     }
 }

@@ -126,6 +126,7 @@ public class CameraController : MonoBehaviour
     //Target Get/Sets
     public void SetTarget(Transform newTargetObj)
     {
+        print($"Set Cam Target: {newTargetObj.name}");
         target = newTargetObj;
     }
 
@@ -136,6 +137,7 @@ public class CameraController : MonoBehaviour
 
     public void SetLastTarget(Transform newLastTarget)
     {
+        print($"Set Last Cam Target: {newLastTarget.name}");
         lastTarget = newLastTarget;
     }
 
@@ -146,6 +148,7 @@ public class CameraController : MonoBehaviour
 
     public void LoadLastTarget()
     {
+        print($"Loading Last Cam Target");
         target = lastTarget;
     }
 

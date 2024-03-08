@@ -26,7 +26,7 @@ public class BossZombieController : SaveObject
     bool attackLeft;
     [SerializeField] GameObject handLeft, handRight;
     [SerializeField] float attackDelay = 2f;
-    [SerializeField] Transform camTarget;
+    [SerializeField] Transform camTarget, deathCamTarget;
     [SerializeField] BossRadioTower[] radioTowers;
     [SerializeField] ParticleSystem electricParticles;
 
@@ -43,6 +43,11 @@ public class BossZombieController : SaveObject
 
     Coroutine setupRoutine;
     Coroutine flickerRoutine;
+    Coroutine healthRoutine;
+
+    [Header("Death Event Triggers")]
+    [FormerlySerializedAs("onTrigger")]
+    public UnityEvent m_DeathOnTrigger = new UnityEvent();
 
 
     private void OnEnable()
@@ -150,7 +155,6 @@ public class BossZombieController : SaveObject
                     SetState(BossState.setup);
                     break;
                 case BossState.waiting:
-
                     break;
                 case BossState.dead:
                     if (!isDead)
@@ -173,12 +177,18 @@ public class BossZombieController : SaveObject
 
     public void SetState(BossState stateToSet)
     {
+        print($"Boss State: {stateToSet}");
         bossState = stateToSet;
     }
 
     public int GetBossStage()
     {
         return bossStage;
+    }
+
+    public void SetDead()
+    {
+        bossState = BossState.dead;
     }
 
     public void SetTower()
@@ -201,29 +211,27 @@ public class BossZombieController : SaveObject
         handLeft.SetActive(false);
         handRight.SetActive(false);
 
-        CameraController.instance.SetRotation(false);
-        CameraController.instance.SetTarget(camTarget);
-
-        float targetFillAmount = health.currentHealth / (float)maxHealth;
-        while (healthBar.fillAmount > targetFillAmount)
-        {
-            healthBar.fillAmount -= Time.deltaTime * 0.25f;
-            yield return null;
-        }
-
+        UpdateHealth();
 
         //Check current health to determine state
         if (health.currentHealth <= 0)
         {
-            SetState(BossState.dead);
+            CameraController.instance.SetRotation(false);
+            CameraController.instance.SetTarget(deathCamTarget);
+            SetState(BossState.waiting);//BossState.dead);
+
+            m_DeathOnTrigger.Invoke();
         }
         else
         {
-            SetState(BossState.hurt);
+            CameraController.instance.SetRotation(false);
+            CameraController.instance.SetTarget(camTarget);
 
+            SetState(BossState.hurt);
             electricParticles.Play();
             CamEffectController.instance.ForceEffect();
             Flicker(1.25f);
+
             yield return new WaitForSeconds(1.75f);
             CamEffectController.instance.SetEffectState(false);
 
@@ -231,6 +239,24 @@ public class BossZombieController : SaveObject
            
             PlayerController.instance.SetState(PlayerController.States.idle);
         }
+    }
+
+    void UpdateHealth()
+    {
+        if (healthRoutine == null)
+            healthRoutine = StartCoroutine(UpdateHealthRoutine());
+    }
+
+    IEnumerator UpdateHealthRoutine()
+    {
+        float targetFillAmount = health.currentHealth / (float)maxHealth;
+        while (healthBar.fillAmount > targetFillAmount)
+        {
+            healthBar.fillAmount -= Time.deltaTime * 0.25f;
+            yield return null;
+        }
+
+        healthRoutine = null;
     }
 
     public void Flicker(float waitTime)
@@ -315,6 +341,7 @@ public class BossZombieController : SaveObject
         handLeft.SetActive(false);
         handRight.SetActive(false);
         PlayerController.instance.SetState(PlayerController.States.listening);
+        //CameraController.instance.SetRotation(true);
         CameraController.instance.SetTarget(camTarget);
 
         avatarBody.SetTrigger("isDead");
