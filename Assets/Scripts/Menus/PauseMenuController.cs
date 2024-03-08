@@ -8,7 +8,7 @@ public class PauseMenuController : MonoBehaviour
 {
     public static PauseMenuController instance;
 
-    [SerializeField] GameObject pauseMenu;//, inventoryMenu, abilityMenu, settingMenu;
+    [SerializeField] GameObject pauseMenu; //settingMenu, inventoryMenu, abilityMenu
     [SerializeField] public bool isPaused;
     [SerializeField] List<GameObject> menuPanels;
     int menuIndex = 0;
@@ -97,12 +97,12 @@ public class PauseMenuController : MonoBehaviour
     public void SettingMenu()
     {
         print("Load setting menu here");
-        //settingMenu.SetActive(!settingMenu.activeSelf);
     }
 
     public void MainMenu()
     {
         Time.timeScale = 1f;
+        menuPanels[menuIndex].SetActive(false);
         SceneManager.LoadSceneAsync("MainMenu");
     }
 
