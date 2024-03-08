@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -59,9 +59,12 @@ public class MainMenuController : MonoBehaviour
         {
             loadGameCanvas.gameObject.SetActive(false);
 
-            if (!FadeController.instance.isFading && sceneToLoad != "Intro")
+            if (!FadeController.instance.isFading)
             {
-                loadingScreen.LoadScene(sceneToLoad);
+                if (sceneToLoad == "Intro")
+                    SceneManager.LoadSceneAsync(sceneToLoad);
+                else
+                    loadingScreen.LoadScene(sceneToLoad);
             }
         }
         //Menu controls
