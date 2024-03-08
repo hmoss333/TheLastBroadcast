@@ -8,7 +8,7 @@ public class PauseMenuController : MonoBehaviour
 {
     public static PauseMenuController instance;
 
-    [SerializeField] GameObject pauseMenu; //settingMenu, inventoryMenu, abilityMenu
+    [SerializeField] GameObject pauseMenu, menuLayer; //settingMenu, inventoryMenu, abilityMenu
     [SerializeField] public bool isPaused;
     [SerializeField] List<GameObject> menuPanels;
     int menuIndex = 0;
@@ -32,46 +32,46 @@ public class PauseMenuController : MonoBehaviour
 
     public void Update()
     {
-        if (InputController.instance.inputMaster.Player.Pause.triggered
-            && PlayerController.instance.state != PlayerController.States.interacting
-            && PlayerController.instance.state != PlayerController.States.listening
-            && PlayerController.instance.state != PlayerController.States.wakeUp
-            || (isPaused && InputController.instance.inputMaster.Player.Run.triggered))
-        {
-            //If a SceneToIgnore is loaded, disable pause
-            List<Scene> activeScenes = SceneManager.GetAllScenes().ToList();
-            for (int i = 0; i < activeScenes.Count; i++)
+            if (InputController.instance.inputMaster.Player.Pause.triggered
+                && PlayerController.instance.state != PlayerController.States.interacting
+                && PlayerController.instance.state != PlayerController.States.listening
+                && PlayerController.instance.state != PlayerController.States.wakeUp
+                || (isPaused && InputController.instance.inputMaster.Player.Run.triggered))
             {
-                if (SceneInitController.instance.GetScenesToIgnore().Contains(activeScenes[i].name))
+                //If a SceneToIgnore is loaded, disable pause
+                List<Scene> activeScenes = SceneManager.GetAllScenes().ToList();
+                for (int i = 0; i < activeScenes.Count; i++)
                 {
-                    return;
+                    if (SceneInitController.instance.GetScenesToIgnore().Contains(activeScenes[i].name))
+                    {
+                        return;
+                    }
+                }
+
+                isPaused = !isPaused;
+
+                PauseGame(isPaused);
+            }
+
+            if (isPaused)
+            {
+                if (InputController.instance.inputMaster.Player.MenuLeft.triggered)
+                {
+                    menuIndex--;
+                    if (menuIndex < 0)
+                        menuIndex = menuPanels.Count - 1;
+
+                    ToggleMenu(menuIndex);
+                }
+                if (InputController.instance.inputMaster.Player.MenuRight.triggered)
+                {
+                    menuIndex++;
+                    if (menuIndex > menuPanels.Count - 1)
+                        menuIndex = 0;
+
+                    ToggleMenu(menuIndex);
                 }
             }
-
-            isPaused = !isPaused;
-
-            PauseGame(isPaused);
-        }
-
-        if (isPaused)
-        {           
-            if (InputController.instance.inputMaster.Player.MenuLeft.triggered)
-            {
-                menuIndex--;
-                if (menuIndex < 0)
-                    menuIndex = menuPanels.Count - 1;
-
-                ToggleMenu(menuIndex);
-            }
-            if (InputController.instance.inputMaster.Player.MenuRight.triggered)
-            {
-                menuIndex++;
-                if (menuIndex > menuPanels.Count - 1)
-                    menuIndex = 0;
-
-                ToggleMenu(menuIndex);
-            }
-        }
     }
 
     public void PauseGame(bool paused)
@@ -102,7 +102,7 @@ public class PauseMenuController : MonoBehaviour
     public void MainMenu()
     {
         Time.timeScale = 1f;
-        menuPanels[menuIndex].SetActive(false);
+        menuLayer.SetActive(false);
         SceneManager.LoadSceneAsync("MainMenu");
     }
 
