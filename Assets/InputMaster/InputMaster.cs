@@ -204,7 +204,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0d67cf9b-16d8-48bc-b5d0-9e6c7b96b7a8"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
