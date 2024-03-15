@@ -192,6 +192,8 @@ GameObject:
   - component: {fileID: 2007366119}
   - component: {fileID: 2007366129}
   - component: {fileID: 2007366128}
+  - component: {fileID: 3066056149464624135}
+  - component: {fileID: 8579659579889458611}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -286,6 +288,10 @@ MonoBehaviour:
   offset: {x: 0, y: -3, z: -3.5}
   zOffMin: -3.5
   zOffMax: -1.5
+  focus: 0
+  setRot: 0
+  inTrigger: 0
+  hitWall: 0
   camFocusSize: 0.725
   camDefaultSize: 4
   focusRate: 2.5
@@ -411,3 +417,36 @@ MonoBehaviour:
   _PostProcessShader: {fileID: 4800000, guid: 56d52fd5b7c6911468179e5a7359ce0e, type: 3}
   _PostProcessShaderAccurate: {fileID: 4800000, guid: 2ebed186567d3c244a87538744a62920, type: 3}
   _InterlacingShader: {fileID: 4800000, guid: 03ebd34214b41ef459d7ee6753b062be, type: 3}
+--- !u!114 &3066056149464624135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593217357095946755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb969a8f062e42819ac299366906a36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  postShader: {fileID: 4800000, guid: ef5d0ce70bdf64409a2ee8ecce3545fe, type: 3}
+  radius: 1
+  feather: 1
+  tintColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &8579659579889458611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593217357095946755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70081bef98ab8dd459e38072395393ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _threshold: 0.5
+  _stretch: 1
+  _intensity: 0.75
+  _tint: {r: 1, g: 1, b: 1, a: 1}
+  _shader: {fileID: 4800000, guid: 10949a53e15fb4a4589953320ecc54b6, type: 3}
