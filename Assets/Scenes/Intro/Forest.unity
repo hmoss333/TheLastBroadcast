@@ -536,7 +536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &42640335
 Transform:
   m_ObjectHideFlags: 0
@@ -1882,6 +1882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a0befd7b5554da79b464e7748a29f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setFocusPointRot: 1
 --- !u!114 &99313909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1903,30 +1904,21 @@ MonoBehaviour:
   inventoryItemID: 0
   m_OnTrigger:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1263304326}
-        m_TargetAssemblyTypeName: TriggerSceneChange, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Maintenance
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 923286492}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - I found myself at the edge of a vast forest
   - Far in the distance I could see the pulsing light of a radio tower shining out
     through the fog
   - In that glow I heard it's call, a voice echoing from somewhere deep and hidden,
   - "\u201CFinish the work.<br>Follow the signal\u201D"
-  index: 0
+  backgroundClip: {fileID: 0}
 --- !u!114 &99313910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2052,7 +2044,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &109888911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2065,8 +2057,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d4e3bba048840a89c05c3b80413d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  backgroundAudioClip: {fileID: 0}
 --- !u!4 &109888912
 Transform:
   m_ObjectHideFlags: 0
@@ -3874,7 +3864,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &233817565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3887,8 +3877,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d4e3bba048840a89c05c3b80413d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  backgroundAudioClip: {fileID: 0}
 --- !u!4 &233817566
 Transform:
   m_ObjectHideFlags: 0
@@ -5092,12 +5080,15 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - The forest seemed to stretch on forever, winding onward through an impossible
     thicket
-  index: 0
+  backgroundClip: {fileID: 0}
 --- !u!114 &329781311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5493,12 +5484,15 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - My way was lit by the glow of mysterious radios
   - Strange guides in an even stranger land
-  index: 0
+  backgroundClip: {fileID: 0}
 --- !u!114 &363586499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11024,7 +11018,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &416428584
 Transform:
   m_ObjectHideFlags: 0
@@ -11888,10 +11882,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 593217357095946753, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
-      propertyPath: far clip plane
-      value: 150
-      objectReference: {fileID: 0}
     - target: {fileID: 593217357095946755, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
       propertyPath: m_Name
       value: Main Camera
@@ -11945,25 +11935,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1198870996}
     - target: {fileID: 593217357095946767, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
-      propertyPath: rotRate
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 593217357095946767, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
-      propertyPath: offset.z
-      value: -7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 593217357095946767, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
       propertyPath: lastTarget
       value: 
       objectReference: {fileID: 1198870996}
-    - target: {fileID: 593217357095946767, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
-      propertyPath: smoothTime
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 593217357095946767, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
-      propertyPath: normalSmoothTime
-      value: 0.25
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78d02df8f38194ca08b10fc79b9f602c, type: 3}
 --- !u!114 &478641341 stripped
@@ -19748,11 +19722,14 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - ..............
-  index: 0
+  backgroundClip: {fileID: 0}
 --- !u!114 &725922066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20181,7 +20158,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &763707701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20194,8 +20171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d4e3bba048840a89c05c3b80413d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  backgroundAudioClip: {fileID: 0}
 --- !u!4 &763707702
 Transform:
   m_ObjectHideFlags: 0
@@ -22152,11 +22127,16 @@ MonoBehaviour:
       m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   exitPoint: {fileID: 416428584}
   exitRoom: {fileID: 0}
   triggerDelay: 0.5
   triggerTime: 0.5
+  exitDelay: 0
+  useClip: {fileID: 0}
+  unlockClip: {fileID: 0}
+  animationTrigger: 
 --- !u!114 &896641442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30825,11 +30805,8 @@ MonoBehaviour:
       m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
-  exitPoint: {fileID: 1080217811}
-  exitRoom: {fileID: 0}
-  triggerDelay: 0.5
-  triggerTime: 0.5
   doorDelay: 2.5
   elevatorLight: {fileID: 1439919350}
   anims:
@@ -32237,8 +32214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d4e3bba048840a89c05c3b80413d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  backgroundAudioClip: {fileID: 8300000, guid: b2282636470474cfe8677e20a698d426, type: 3}
 --- !u!4 &1263304325
 Transform:
   m_ObjectHideFlags: 0
@@ -32289,6 +32264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: 
+  additive: 0
   fadeTime: 2
   transitionDelay: 2
 --- !u!1001 &1271230835
@@ -32420,11 +32396,15 @@ MonoBehaviour:
       m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 1566046834}
   exitPoint: {fileID: 1135430590}
   exitRoom: {fileID: 0}
   triggerDelay: 0.5
   triggerTime: 4.5
+  exitDelay: 0
+  useClip: {fileID: 0}
+  unlockClip: {fileID: 0}
 --- !u!82 &1271230840
 AudioSource:
   m_ObjectHideFlags: 0
@@ -38348,7 +38328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1354015813
 Transform:
   m_ObjectHideFlags: 0
@@ -38493,12 +38473,15 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - Each one of the radios told my story as it was happening, as if the broadcaster
     knew my moves before I did
-  index: 0
+  backgroundClip: {fileID: 0}
 --- !u!114 &1358298291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40209,7 +40192,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1466461430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40222,8 +40205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d4e3bba048840a89c05c3b80413d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  backgroundAudioClip: {fileID: 8300000, guid: eb29ec8c0a880404892288540b14b73d, type: 3}
 --- !u!4 &1466461431
 Transform:
   m_ObjectHideFlags: 0
@@ -40555,7 +40536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1519354293
 Transform:
   m_ObjectHideFlags: 0
@@ -40595,11 +40576,16 @@ MonoBehaviour:
       m_Calls: []
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   exitPoint: {fileID: 1069046073}
   exitRoom: {fileID: 0}
   triggerDelay: 0.5
   triggerTime: 0.5
+  exitDelay: 0
+  useClip: {fileID: 0}
+  unlockClip: {fileID: 0}
+  animationTrigger: 
 --- !u!114 &1519354295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41030,7 +41016,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1553245467
 Transform:
   m_ObjectHideFlags: 0
@@ -41250,7 +41236,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1566046834
 Transform:
   m_ObjectHideFlags: 0
@@ -42520,14 +42506,17 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - The voice from the radio let me know that my journey was almost to an end
   - It had guided me through the fog, but to where I was still uncertain
   - Now there is no going back
   - ..............
-  index: 0
+  backgroundClip: {fileID: 0}
 --- !u!114 &1671434110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44967,11 +44956,14 @@ MonoBehaviour:
         m_CallState: 2
   interacting: 0
   inactiveText: 
+  focusOnInteract: 0
   focusPoint: {fileID: 0}
   talkOnce: 1
+  quoteMarks: 0
+  speakerName: 
   lines:
   - The woods seemed to open before me, revealing a path through the dense trees
-  index: 0
+  backgroundClip: {fileID: 0}
 --- !u!114 &1895758709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45527,7 +45519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1950984432
 Transform:
   m_ObjectHideFlags: 0
@@ -51554,7 +51546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2045694046
 Transform:
   m_ObjectHideFlags: 0
@@ -53162,7 +53154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1150640600295519142, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1150640600295519145, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: m_RootOrder
@@ -53288,6 +53280,10 @@ PrefabInstance:
       propertyPath: _id.Value
       value: b49ad048-2b7b-4c45-a2d8-eddfd5adf842
       objectReference: {fileID: 0}
+    - target: {fileID: 2382521571756373251, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2382521571756373261, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: id
       value: 795a32d3-3057-418f-a4ea-cff3d2373f3d
@@ -53304,6 +53300,10 @@ PrefabInstance:
       propertyPath: exitPoint
       value: 
       objectReference: {fileID: 1743722894}
+    - target: {fileID: 5241998332798604025, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7486389339897736027, guid: 2925723be30c944dfbd5e58bab0c8c29, type: 3}
       propertyPath: id
       value: f1c4d831-949d-4dfc-8c52-563e9fc6fc2c
