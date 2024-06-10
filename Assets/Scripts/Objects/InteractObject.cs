@@ -10,6 +10,8 @@ public class InteractObject : SaveObject
 {
     [HideInInspector] public bool interacting;
     public string inactiveText;
+
+    [Header("Focus Variables")]
     public bool focusOnInteract;
     public Transform focusPoint;
 
@@ -24,7 +26,7 @@ public class InteractObject : SaveObject
         {
             active = true;
             needItem = false;
-            InventoryController.instance.RemoveItem(inventoryItemID);
+            //InventoryController.instance.RemoveItem(inventoryItemID); //Remove item from inventory
             UIController.instance.SetDialogueText($"Used {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}", false);
             UIController.instance.ToggleDialogueUI(interacting);
         }
