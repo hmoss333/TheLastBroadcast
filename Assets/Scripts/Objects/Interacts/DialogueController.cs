@@ -94,6 +94,11 @@ public class DialogueController : InteractObject
                 UIController.instance.SetDialogueText(dialogueLines[index].text, true);
                 if (quoteMarks)
                     UIController.instance.ToggleQuoteMarks(dialogueLines[index].speakerName, true);
+                if (dialogueLines[index].focusPoint != null)
+                {
+                    CameraController.instance.SetTarget(dialogueLines[index].focusPoint);
+                    CameraController.instance.SetRotation(dialogueLines[index].snapFocus);
+                }
             }
             else
             {
@@ -128,4 +133,6 @@ public class DialogueObject
 {
     public string speakerName;
     public string text;
+    public Transform focusPoint;
+    public bool snapFocus;
 }
