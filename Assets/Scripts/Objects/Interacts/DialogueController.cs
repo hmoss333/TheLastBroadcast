@@ -10,8 +10,7 @@ using UnityEngine.Serialization;
 public class DialogueController : InteractObject
 {
     [SerializeField] bool talkOnce, quoteMarks;
-    [SerializeField] private string speakerName;
-    [SerializeField] private string[] lines;
+    [SerializeField] private DialogueObject[] dialogueLines;
     private int index;
     private bool canInteract, pauseTyping;
     private float iconTimer = 4f;
@@ -74,7 +73,7 @@ public class DialogueController : InteractObject
         if (!canInteract && !TextWriter.instace.isTyping)
         {
             /////Temp
-            if ((index < 1 || index > lines.Length - 1)
+            if ((index < 1 || index > dialogueLines.Length - 1)
                 && focusPoint != null)
             {
                 print("Focus camera");
@@ -88,13 +87,13 @@ public class DialogueController : InteractObject
             
 
 
-            if (index < lines.Length)
+            if (index < dialogueLines.Length)
             {
                 interacting = true; //Still in the dialogue tree
                 canInteract = true; //Ready for next input
-                UIController.instance.SetDialogueText(lines[index], true);
+                UIController.instance.SetDialogueText(dialogueLines[index].text, true);
                 if (quoteMarks)
-                    UIController.instance.ToggleQuoteMarks(speakerName, true);
+                    UIController.instance.ToggleQuoteMarks(dialogueLines[index].speakerName, true);
             }
             else
             {
@@ -112,7 +111,7 @@ public class DialogueController : InteractObject
 
                 PlayerController.instance.SetState(PlayerController.States.idle); //Release player from interact state
                 UIController.instance.ToggleDialogueInputIcon(false); //Force disable Input Icon
-                UIController.instance.ToggleQuoteMarks(speakerName, false); //Disable quotation marks
+                UIController.instance.ToggleQuoteMarks("", false); //Disable quotation marks
 
                 m_OnTrigger.Invoke();
             }
@@ -121,4 +120,12 @@ public class DialogueController : InteractObject
             index++;
         }
     }
+}
+
+
+[System.Serializable]
+public class DialogueObject
+{
+    public string speakerName;
+    public string text;
 }
