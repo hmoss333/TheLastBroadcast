@@ -98,6 +98,7 @@ public class DialogueController : InteractObject
                 {
                     CameraController.instance.SetTarget(dialogueLines[index].focusPoint);
                     CameraController.instance.SetRotation(dialogueLines[index].snapFocus);
+                    if (dialogueLines[index].snapFocus) { CameraController.instance.transform.position = dialogueLines[index].focusPoint.position; }
                 }
             }
             else
