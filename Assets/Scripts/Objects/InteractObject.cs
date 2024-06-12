@@ -10,23 +10,30 @@ public class InteractObject : SaveObject
 {
     [HideInInspector] public bool interacting;
     public string inactiveText;
+
+    [Header("Focus Variables")]
     public bool focusOnInteract;
     public Transform focusPoint;
+
+
+    Coroutine selectItemRoutine;
 
 
     public virtual void Interact()
     {
         interacting = !interacting;
 
-        if (InventoryController.instance.selectedItem != null
-            && InventoryController.instance.selectedItem.itemInstance.id == inventoryItemID
-            && needItem)
+        if (needItem
+            && InventoryController.instance.selectedItem != null
+            && InventoryController.instance.selectedItem.itemInstance.id == inventoryItemID)
         {
             active = true;
             needItem = false;
-            InventoryController.instance.RemoveItem(inventoryItemID);
             UIController.instance.SetDialogueText($"Used {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}", false);
             UIController.instance.ToggleDialogueUI(interacting);
+
+            //if (selectItemRoutine == null)
+            //    selectItemRoutine = StartCoroutine(SelectItem());
         }
 
         if (active && !needItem)
@@ -64,5 +71,34 @@ public class InteractObject : SaveObject
     public virtual void EndInteract()
     {
         //Used for logic at end of interaction
+    }
+
+    IEnumerator SelectItem()
+    {
+        //Open inventory sceen
+
+        while (true)
+        {
+            yield return null;
+
+            if (InputController.instance.inputMaster.Player.Interact.triggered)
+            {
+                if (InventoryController.instance.selectedItem != null
+                    && InventoryController.instance.selectedItem.itemInstance.id == inventoryItemID)
+                {
+                    active = true;
+                    needItem = false;
+                    UIController.instance.SetDialogueText($"Used {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}", false);
+                    UIController.instance.ToggleDialogueUI(interacting);
+                    break;
+                }
+                else
+                {
+                    interacting = !interacting;
+                }
+            }
+        }
+
+        selectItemRoutine = null;
     }
 }
