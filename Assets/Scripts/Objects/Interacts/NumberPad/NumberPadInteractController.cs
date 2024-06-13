@@ -13,6 +13,22 @@ public class NumberPadInteractController : InteractObject
 
     Coroutine checkCodeRoutine;
 
+
+    private void Update()
+    {
+        if (interacting && !unlocked)
+        {
+            if (InputController.instance.inputMaster.Player.Melee.triggered)
+            {
+                interacting = false;
+                NumberPadController.instance.ToggleNumPad(interacting);
+                PlayerController.instance.SetState(PlayerController.States.idle);
+                if (CameraController.instance.GetTriggerState())
+                    CameraController.instance.SetRotation(true);
+            }
+        }
+    }
+
     public override void Interact()
     {
         if (!unlocked)
@@ -49,7 +65,7 @@ public class NumberPadInteractController : InteractObject
 
     IEnumerator CheckCode()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.75f);
 
         //Code is correct
         if (inputCode == code)
