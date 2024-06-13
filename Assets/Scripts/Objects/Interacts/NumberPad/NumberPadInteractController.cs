@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class NumberPadInteractController : InteractObject
 {
-    [SerializeField] string code;
-    [SerializeField] string inputCode;
-    [SerializeField] bool unlocked;
+    [NaughtyAttributes.HorizontalLine]
 
+    [Header("Code Variables")]
+    [SerializeField] private string code;
+    private string inputCode = "";
+    [SerializeField] private bool unlocked;
+
+    [NaughtyAttributes.HorizontalLine]
+
+    [Header("Audio Elements")]
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip selectClip, correctClip, incorrectClip;
 
