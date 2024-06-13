@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class NumberPadController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class NumberPadController : MonoBehaviour
 
     string tempCode;
     [SerializeField] GameObject numPadObj;
+    public TextMeshProUGUI numberText;
     [SerializeField] Button[] numberButtons;
     int numberVal;
     public Button currentButton;
@@ -27,6 +29,7 @@ public class NumberPadController : MonoBehaviour
         numberVal = 0;
         currentButton = numberButtons[numberVal];
         currentButton.transform.Find("Highlight").gameObject.SetActive(true);
+        tempCode = "";
     }
 
 
@@ -55,12 +58,19 @@ public class NumberPadController : MonoBehaviour
             currentButton = numberButtons[numberVal];
             currentButton.transform.Find("Highlight").gameObject.SetActive(true);
         }
+
+        numberText.text = tempCode;
     }
 
 
     public void ToggleNumPad(bool numPadState)
     {
         numPadObj.SetActive(numPadState);
+        numberVal = 0;
+        currentButton = numberButtons[numberVal];
+        foreach (Button button in numberButtons) { button.transform.Find("Highlight").gameObject.SetActive(false); }
+        currentButton.transform.Find("Highlight").gameObject.SetActive(true);
+        tempCode = "";
     }
 
     public void ButtonClick(int number)
