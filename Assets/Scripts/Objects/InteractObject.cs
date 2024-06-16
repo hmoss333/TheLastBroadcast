@@ -4,6 +4,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using System.Linq;
 
 
 public class InteractObject : SaveObject
@@ -23,14 +24,14 @@ public class InteractObject : SaveObject
     {
         interacting = !interacting;
 
-        if (needItem
-            && InventoryController.instance.selectedItem != null
-            && InventoryController.instance.selectedItem.itemInstance.id == inventoryItemID)
+        if (needItem && InventoryController.instance.itemDict.ContainsKey(inventoryItemID))
+            //&& InventoryController.instance.selectedItem != null && InventoryController.instance.selectedItem.ID == inventoryItemID)
         {
             active = true;
             needItem = false;
-            UIController.instance.SetDialogueText($"Used {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}", false);
+            UIController.instance.SetDialogueText($"Used {InventoryController.instance.itemDict.GetValueOrDefault(inventoryItemID).itemName}", false);
             UIController.instance.ToggleDialogueUI(interacting);
+            InventoryController.instance.RemoveItem(inventoryItemID);
 
             //if (selectItemRoutine == null)
             //    selectItemRoutine = StartCoroutine(SelectItem());
@@ -73,32 +74,32 @@ public class InteractObject : SaveObject
         //Used for logic at end of interaction
     }
 
-    IEnumerator SelectItem()
-    {
-        //Open inventory sceen
+    //IEnumerator SelectItem()
+    //{
+    //    //Open inventory sceen
 
-        while (true)
-        {
-            yield return null;
+    //    while (true)
+    //    {
+    //        yield return null;
 
-            if (InputController.instance.inputMaster.Player.Interact.triggered)
-            {
-                if (InventoryController.instance.selectedItem != null
-                    && InventoryController.instance.selectedItem.itemInstance.id == inventoryItemID)
-                {
-                    active = true;
-                    needItem = false;
-                    UIController.instance.SetDialogueText($"Used {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}", false);
-                    UIController.instance.ToggleDialogueUI(interacting);
-                    break;
-                }
-                else
-                {
-                    interacting = !interacting;
-                }
-            }
-        }
+    //        if (InputController.instance.inputMaster.Player.Interact.triggered)
+    //        {
+    //            if (InventoryController.instance.selectedItem != null
+    //                && InventoryController.instance.selectedItem.itemInstance.id == inventoryItemID)
+    //            {
+    //                active = true;
+    //                needItem = false;
+    //                UIController.instance.SetDialogueText($"Used {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}", false);
+    //                UIController.instance.ToggleDialogueUI(interacting);
+    //                break;
+    //            }
+    //            else
+    //            {
+    //                interacting = !interacting;
+    //            }
+    //        }
+    //    }
 
-        selectItemRoutine = null;
-    }
+    //    selectItemRoutine = null;
+    //}
 }

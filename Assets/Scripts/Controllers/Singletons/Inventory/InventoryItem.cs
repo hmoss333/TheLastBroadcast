@@ -8,7 +8,7 @@ using TMPro;
 public class InventoryItem : MonoBehaviour
 {
     public int ID;
-    public ItemInstance itemInstance;
+    public ItemData itemInstance;
     [SerializeField] SpriteAtlas atlas;
     [SerializeField] public Sprite icon; //{ get; private set; }
     [SerializeField] Image image;
@@ -19,7 +19,7 @@ public class InventoryItem : MonoBehaviour
     private void Start()
     {
         icon = GetComponent<Image>().sprite;
-        SetIcon(itemInstance.itemData.itemName);
+        SetIcon(itemInstance.itemName);
     }
 
     public void SetIcon(string itemName)

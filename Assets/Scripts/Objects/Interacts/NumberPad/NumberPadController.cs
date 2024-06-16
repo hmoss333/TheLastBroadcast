@@ -13,7 +13,7 @@ public class NumberPadController : MonoBehaviour
     public TextMeshProUGUI numberText;
     [SerializeField] Button[] numberButtons;
     int numberVal;
-    public Button currentButton;
+    public Button currentButton { get; private set; }
 
 
     private void Awake()

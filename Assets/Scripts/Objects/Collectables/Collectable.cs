@@ -12,7 +12,7 @@ public class Collectable : InteractObject
 
     public override void StartInteract()
     {
-        string collectText = $"Found a {InventoryController.instance.itemDict[inventoryItemID].itemData.itemName}";
+        string collectText = $"Found a {InventoryController.instance.itemDict[inventoryItemID].itemName}";
         UIController.instance.SetDialogueText(collectText, false);
         UIController.instance.ToggleDialogueUI(true);
         InventoryController.instance.AddItem(inventoryItemID);

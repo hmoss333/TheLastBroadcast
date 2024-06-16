@@ -9,6 +9,15 @@ using TMPro;
 using UnityEngine.UI.Extensions;
 
 
+//TODO
+//Create ItemBox json object (should use similar structure to inventory)
+//Add logic to transfer items between local and box inventories
+//Update local inventory to be a limited amount of items (6 total)
+//If local inventory is full, do not pick up any new items UNLESS the same ID already exists, then add to stack
+//Remove auto scroll to inventory view (is no longer necessary with the limited local inventory)
+//Review implementing the "select item" popup when interacting with an object that requires an item to activate
+
+
 public class InventoryController : MonoBehaviour
 {
     public static InventoryController instance;
@@ -25,13 +34,14 @@ public class InventoryController : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip equipClip, moveClip;
 
-    //[NaughtyAttributes.HorizontalLine]
-
-    public InventoryItem selectedItem { get; private set; }
+    [NaughtyAttributes.HorizontalLine]
+    [Header("Inventory Data")]
+    [SerializeField] private List<ItemData> inventoryItems = new List<ItemData>(); //Current Inventory
+    public Dictionary<int, ItemData> itemDict { get; private set; } //Holds references from streaming item file for all possible items; can probably refactor this to just use a direct check to the file when adding a new item
     [SerializeField] private int itemPosVal;
-    public Dictionary<int, ItemInstance> itemDict { get; private set; } //Reference for all possible items
-    private List<InventoryItem> inventoryObjs = new List<InventoryItem>(); //Item prefabs
-    [SerializeField] private List<ItemInstance> inventoryItems = new List<ItemInstance>(); //Current Inventory
+    public InventoryItem selectedItem { get; private set; }
+
+    private List<InventoryItem> inventoryObjs = new List<InventoryItem>(); //Item prefabs; redundant, can eventually be consolidated into this class
 
 
     private void Awake()
@@ -41,7 +51,7 @@ public class InventoryController : MonoBehaviour
         else
             Destroy(this);
 
-        itemDict = new Dictionary<int, ItemInstance>();
+        itemDict = new Dictionary<int, ItemData>();
         inventoryDest = System.IO.Path.Combine(Application.persistentDataPath, "Items", "items.json");
         storageDest = System.IO.Path.Combine(Application.persistentDataPath, "Items", "itembox.json");
 
@@ -218,7 +228,7 @@ public class InventoryController : MonoBehaviour
             InventoryItem itemPrefab = Instantiate(inventoryItemPrefab, inventoryContent);
             itemPrefab.ID = i;
             itemPrefab.itemInstance = inventoryItems[i];
-            itemPrefab.SetIcon(inventoryItems[i].itemData.itemName);
+            itemPrefab.SetIcon(inventoryItems[i].itemName);
             inventoryObjs.Add(itemPrefab);
 
             if (firstItem)
@@ -260,17 +270,17 @@ public class InventoryController : MonoBehaviour
         PlayerItemUI.instance.UpdateCurrentItem(item);
     }
 
-    public void ShowItemData(ItemInstance item)
+    public void ShowItemData(ItemData item)
     {
-        inventoryTitle.text = item.itemData.itemName;
-        inventoryDesc.text = item.itemData.description;
+        inventoryTitle.text = item.itemName;
+        inventoryDesc.text = item.description;
         itemImage.sprite = inventoryObjs[itemPosVal].icon;
     }
 
 
     public void AddItem(int itemID)
     {
-        ItemInstance result = inventoryItems.Find(x => x.id == itemID);
+        ItemData result = inventoryItems.Find(x => x.id == itemID);
         if (result != null)
         {
             result.count++;
@@ -289,7 +299,7 @@ public class InventoryController : MonoBehaviour
     public void RemoveItem(int itemID)
     {
         print("Removing item");
-        ItemInstance result = inventoryItems.Find(x => x.id == itemID);
+        ItemData result = inventoryItems.Find(x => x.id == itemID);
         if (result != null)
         {
             result.count--;
@@ -313,22 +323,16 @@ public class InventoryController : MonoBehaviour
 [System.Serializable]
 public class InventoryWrapper
 {
-    public List<ItemInstance> items = new List<ItemInstance>();
+    public List<ItemData> items = new List<ItemData>();
 }
 
 [System.Serializable]
 public class ItemData
-{   
-    public string itemName;
-    [TextArea]
-    public string description;
-}
-
-[System.Serializable]
-public class ItemInstance
 {
     public int id;
     public int count;
     public bool consumable;
-    public ItemData itemData;
+    public string itemName;
+    [TextArea]
+    public string description;
 }
