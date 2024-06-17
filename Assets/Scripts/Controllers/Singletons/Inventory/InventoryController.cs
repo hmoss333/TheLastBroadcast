@@ -266,6 +266,17 @@ public class InventoryController : MonoBehaviour
         return inventoryItems.Count;
     }
 
+    public bool ItemInInventory(int itemID)
+    {
+        for (int i = 0; i < inventoryItems.Count; i++)
+        {
+            if (inventoryItems[i].id == itemID)
+                return true;
+        }
+
+        return false;
+    }
+
 
     //Item Inventory Functions
     public void AddItem(int itemID)
