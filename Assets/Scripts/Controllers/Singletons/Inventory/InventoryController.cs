@@ -7,14 +7,10 @@ using UnityEngine.UI;
 using System.IO;
 using TMPro;
 using UnityEngine.UI.Extensions;
+using UnityEngine.U2D;
 
 
 //TODO
-//Create ItemBox json object (should use similar structure to inventory)
-//Add logic to transfer items between local and box inventories
-//Update local inventory to be a limited amount of items (6 total)
-//If local inventory is full, do not pick up any new items UNLESS the same ID already exists, then add to stack
-//Remove auto scroll to inventory view (is no longer necessary with the limited local inventory)
 //Review implementing the "select item" popup when interacting with an object that requires an item to activate
 
 
@@ -22,26 +18,28 @@ public class InventoryController : MonoBehaviour
 {
     public static InventoryController instance;
 
-    private string inventoryDest, storageDest;
-    private bool moved = false;
+    private string inventoryDest, storageDest; //save file destinations
+    private bool moved = false; //needed to add delay for controller input
     private float inputDelay = 0f;
+
     [Header("UI Elements")]
     [SerializeField] RectTransform inventoryContent;
     [SerializeField] ScrollRect scrollRect;
     [SerializeField] InventoryItem inventoryItemPrefab;
     [SerializeField] TMP_Text inventoryTitle, inventoryDesc;
     [SerializeField] Image itemImage;
-    [SerializeField] AudioSource audioSource;
+    //[SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip equipClip, moveClip;
 
     [NaughtyAttributes.HorizontalLine]
     [Header("Inventory Data")]
-    [SerializeField] private List<ItemData> inventoryItems = new List<ItemData>(); //Current Inventory
+    [SerializeField] private List<ItemData> inventoryItems = new List<ItemData>(); //Player Inventory
+    [SerializeField] private List<ItemData> storedItems = new List<ItemData>(); //Storage inventory
     public Dictionary<int, ItemData> itemDict { get; private set; } //Holds references from streaming item file for all possible items; can probably refactor this to just use a direct check to the file when adding a new item
-    [SerializeField] private int itemPosVal;
-    public InventoryItem selectedItem { get; private set; }
+    private int itemPosVal;
+    public InventoryItem selectedItem { get; private set; } //May not be actually necessary; consider removing this and just checking if itemID is in the inventory list
 
-    private List<InventoryItem> inventoryObjs = new List<InventoryItem>(); //Item prefabs; redundant, can eventually be consolidated into this class
+    private List<InventoryItem> inventoryObjs = new List<InventoryItem>(); //Item prefabs, used for populating the Unity scrollview system
 
 
     private void Awake()
@@ -71,58 +69,18 @@ public class InventoryController : MonoBehaviour
             if (InputController.instance.inputMaster.Player.Move.triggered && !moved)
             {
                 moved = true;
-                PlayClip(moveClip);
+                AudioController.instance.LoopClip(false);
+                AudioController.instance.PlayClip(moveClip);
 
-                Vector2 move = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
-                if (move.x > 0)
-                {
-                    itemPosVal++;
-                    if (itemPosVal % 3 == 0)
-                    {
-                        inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
-                            + inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
-                            + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
-                    }
-                }
-                else
-                if (move.x < 0)
-                {
-                    itemPosVal--;
-                    if (itemPosVal % 3 == 2) //columnCount - 1
-                    {
-                        inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
-                            - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
-                            - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
-                    }
-                }
-                
-                //if (move.y > 0)
-                //{
-                //    itemPosVal -= 3;
-                //    inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
-                //        - inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
-                //        - inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
-                //}
-                //else
-                //if (move.y < 0)
-                //{
-                //    itemPosVal += 3;
-                //    inventoryContent.anchoredPosition = new Vector2(0, inventoryContent.anchoredPosition.y
-                //        + inventoryContent.GetComponent<GridLayoutGroup>().cellSize.y
-                //        + inventoryContent.GetComponent<GridLayoutGroup>().spacing.y);
-                //}
+                Vector2 inputVal = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
+                if (inputVal.x > 0) { itemPosVal++; }
+                else if (inputVal.x < -0) { itemPosVal--; }
 
                 //Keep value inside of the inventoryItems array
                 try
                 {
-                    if (itemPosVal <= 0)
-                    {
-                        itemPosVal = 0;
-                    }
-                    if (itemPosVal >= inventoryObjs.Count - 1)
-                    {
-                        itemPosVal = inventoryObjs.Count - 1;
-                    }
+                    if (itemPosVal <= 0) { itemPosVal = 0; }
+                    if (itemPosVal >= inventoryObjs.Count - 1) { itemPosVal = inventoryObjs.Count - 1; }
 
                     //Refresh highlights to only show last highlighted item
                     for (int i = 0; i < inventoryObjs.Count; i++)
@@ -151,7 +109,8 @@ public class InventoryController : MonoBehaviour
             if (InputController.instance.inputMaster.Player.Interact.triggered
                 && inventoryItems.Count > 0)
             {
-                PlayClip(equipClip);
+                AudioController.instance.LoopClip(false);
+                AudioController.instance.PlayClip(equipClip);
 
                 if (selectedItem != inventoryObjs[itemPosVal])
                 {
@@ -195,17 +154,42 @@ public class InventoryController : MonoBehaviour
             Directory.CreateDirectory(System.IO.Path.Combine(Application.persistentDataPath, "Items"));
             SaveItemData();
         }
+
+
+        //Check if saved storage file exists
+        if (File.Exists(storageDest))
+        {
+            print("Loading Inventory Data");
+            string jsonData = File.ReadAllText(storageDest);
+            InventoryWrapper i_Items = JsonUtility.FromJson<InventoryWrapper>(jsonData);
+            storedItems = i_Items.items;
+        }
+        //If not, create new inventory save file
+        else
+        {
+            print("Creating new item file");
+            Directory.CreateDirectory(System.IO.Path.Combine(Application.persistentDataPath, "Items"));
+            SaveItemData();
+        }
     }
 
     public void SaveItemData()
     {
-        //Serialize Inventory Data
+        //Serialize Item Data
         InventoryWrapper inventoryData = new InventoryWrapper();
+        InventoryWrapper storageData = new InventoryWrapper();
         inventoryData.items = inventoryItems;
+        storageData.items = storedItems;
 
+        //Write Inventory Data to JSON file
         string jsonData = JsonUtility.ToJson(inventoryData);
         print("Saving Inventory Data:" + jsonData);
-        File.WriteAllText(inventoryDest, jsonData);  
+        File.WriteAllText(inventoryDest, jsonData);
+
+        //Write Storage Data to JSON File
+        string jsonStorageData = JsonUtility.ToJson(storageData);
+        print("Saving Storage Data:" + jsonStorageData);
+        File.WriteAllText(storageDest, jsonStorageData);
     }
 
 
@@ -277,7 +261,13 @@ public class InventoryController : MonoBehaviour
         itemImage.sprite = inventoryObjs[itemPosVal].icon;
     }
 
+    public int GetInventorySize()
+    {
+        return inventoryItems.Count;
+    }
 
+
+    //Item Inventory Functions
     public void AddItem(int itemID)
     {
         ItemData result = inventoryItems.Find(x => x.id == itemID);
@@ -311,11 +301,38 @@ public class InventoryController : MonoBehaviour
     }
 
 
-    public void PlayClip(AudioClip clip)
+    //Item Storage Functions
+    public void StoreItem(ItemData itemData)
     {
-        audioSource.Stop();
-        audioSource.clip = clip;
-        audioSource.Play();
+        if (!storedItems.Contains(itemData))
+        {
+            storedItems.Add(itemData);
+        }
+        else
+        {
+            ItemData item = storedItems.Find(x => x == itemData);
+            item.count++;
+        }
+
+        RemoveItem(itemData.id);
+    }
+
+    public void TakeItem(ItemData itemData)
+    {
+        if (inventoryItems.Count < 6)
+        {
+            ItemData item = storedItems.Find(x => x == itemData);
+            if (item.count > 1)
+            {
+                item.count--;
+            }
+            else
+            {
+                storedItems.Remove(item);
+            }
+
+            AddItem(itemData.id);
+        }
     }
 }
 
