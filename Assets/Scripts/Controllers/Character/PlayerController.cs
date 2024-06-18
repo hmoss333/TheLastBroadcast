@@ -327,7 +327,6 @@ public class PlayerController : CharacterController
             && !PauseMenuController.instance.isPaused
             && InputController.instance.inputMaster.Player.Interact.triggered)
         {
-            print("Pressed interact");
             interactObj.Interact();
             if (!interactObj.hasActivated && interactObj.interacting)
                 SetState(States.interacting);
