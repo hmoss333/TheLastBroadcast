@@ -23,8 +23,9 @@ public class InteractObject : SaveObject
     public virtual void Interact()
     {
         interacting = !interacting;
-     
-        if (needItem && InventoryController.instance.ItemInInventory(inventoryItemID))
+
+        ItemData tempItem = InventoryController.instance.inventoryItems.Find(x => x.id == inventoryItemID); //Check if itemID exist in current inventory
+        if (needItem && tempItem != null)
         {
             active = true;
             needItem = false;

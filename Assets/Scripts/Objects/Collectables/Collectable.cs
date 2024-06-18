@@ -14,19 +14,17 @@ public class Collectable : InteractObject
 
     public override void StartInteract()
     {
-        if (InventoryController.instance.GetInventorySize() < 6)
+        bool inventoryNotFull = InventoryController.instance.inventoryItems.Count < 6;
+        string collectText = inventoryNotFull
+            ? $"Found a {InventoryController.instance.itemDict[inventoryItemID].itemName}"
+            : $"Inventory is full";
+        UIController.instance.SetDialogueText(collectText, false);
+        UIController.instance.ToggleDialogueUI(true);
+
+        if (inventoryNotFull)
         {
-            string collectText = $"Found a {InventoryController.instance.itemDict[inventoryItemID].itemName}";
-            UIController.instance.SetDialogueText(collectText, false);
-            UIController.instance.ToggleDialogueUI(true);
             InventoryController.instance.AddItem(inventoryItemID);
             collected = true;
-        }
-        else
-        {
-            string collectText = $"Inventory is full";
-            UIController.instance.SetDialogueText(collectText, false);
-            UIController.instance.ToggleDialogueUI(true);
         }
     }
 
