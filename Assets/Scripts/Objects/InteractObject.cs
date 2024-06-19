@@ -4,6 +4,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using System.Linq;
 
 
 public class InteractObject : SaveObject
@@ -23,17 +24,14 @@ public class InteractObject : SaveObject
     {
         interacting = !interacting;
 
-        if (needItem
-            && InventoryController.instance.selectedItem != null
-            && InventoryController.instance.selectedItem.itemInstance.id == inventoryItemID)
+        ItemData tempItem = InventoryController.instance.inventoryItems.Find(x => x.id == inventoryItemID); //Check if itemID exist in current inventory
+        if (needItem && tempItem != null)
         {
             active = true;
             needItem = false;
-            UIController.instance.SetDialogueText($"Used {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}", false);
+            UIController.instance.SetDialogueText($"Used {InventoryController.instance.itemDict.GetValueOrDefault(inventoryItemID).itemName}", false);
             UIController.instance.ToggleDialogueUI(interacting);
-
-            //if (selectItemRoutine == null)
-            //    selectItemRoutine = StartCoroutine(SelectItem());
+            InventoryController.instance.RemoveItem(inventoryItemID);
         }
 
         if (active && !needItem)
@@ -49,7 +47,7 @@ public class InteractObject : SaveObject
         }
         else
         {
-            UIController.instance.SetDialogueText(inactiveText, false);
+            UIController.instance.SetDialogueText(needItem ? $"Needs a {InventoryController.instance.itemDict.GetValueOrDefault(inventoryItemID).itemName}" : inactiveText, false);
             UIController.instance.ToggleDialogueUI(interacting);
         }
 
@@ -71,34 +69,5 @@ public class InteractObject : SaveObject
     public virtual void EndInteract()
     {
         //Used for logic at end of interaction
-    }
-
-    IEnumerator SelectItem()
-    {
-        //Open inventory sceen
-
-        while (true)
-        {
-            yield return null;
-
-            if (InputController.instance.inputMaster.Player.Interact.triggered)
-            {
-                if (InventoryController.instance.selectedItem != null
-                    && InventoryController.instance.selectedItem.itemInstance.id == inventoryItemID)
-                {
-                    active = true;
-                    needItem = false;
-                    UIController.instance.SetDialogueText($"Used {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}", false);
-                    UIController.instance.ToggleDialogueUI(interacting);
-                    break;
-                }
-                else
-                {
-                    interacting = !interacting;
-                }
-            }
-        }
-
-        selectItemRoutine = null;
     }
 }

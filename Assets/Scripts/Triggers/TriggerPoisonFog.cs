@@ -17,7 +17,7 @@ public class TriggerPoisonFog : SaveObject
         if (other.tag == "Player")
         {
             gasmask = InventoryController.instance.selectedItem != null
-                && InventoryController.instance.selectedItem.itemInstance.itemData.itemName.ToLower() == ("gasmask");
+                && InventoryController.instance.selectedItem.itemInstance.itemName.ToLower() == ("gasmask");
 
             if (!gasmask)
                 other.GetComponent<Health>().Hurt(damage, false);

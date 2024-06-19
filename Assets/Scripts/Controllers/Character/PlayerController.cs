@@ -272,7 +272,7 @@ public class PlayerController : CharacterController
                                 InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
                                 break;
                             default:
-                                print($"Consumed {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}");
+                                print($"Consumed {InventoryController.instance.selectedItem.itemInstance.itemName}");
                                 //TODO add logic here for other consumable items
                                 InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
                                 break;
@@ -327,7 +327,6 @@ public class PlayerController : CharacterController
             && !PauseMenuController.instance.isPaused
             && InputController.instance.inputMaster.Player.Interact.triggered)
         {
-            print("Pressed interact");
             interactObj.Interact();
             if (!interactObj.hasActivated && interactObj.interacting)
                 SetState(States.interacting);
@@ -387,7 +386,7 @@ public class PlayerController : CharacterController
         //Melee
         melee.gameObject.SetActive(state == States.attacking); //toggle melee weapon visibility based on attacking state
         //Gasmask
-        gasMaskObj.SetActive(InventoryController.instance.selectedItem != null && InventoryController.instance.selectedItem.itemInstance.itemData.itemName.ToLower() == "gasmask"); //toggle gasmask model if the item is equiped
+        gasMaskObj.SetActive(InventoryController.instance.selectedItem != null && InventoryController.instance.selectedItem.itemInstance.itemName.ToLower() == "gasmask"); //toggle gasmask model if the item is equiped
         gasMaskOverlay.SetActive(gasMaskObj.activeSelf);
         //Listening
         animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value

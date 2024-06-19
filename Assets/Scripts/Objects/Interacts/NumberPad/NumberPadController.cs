@@ -13,7 +13,10 @@ public class NumberPadController : MonoBehaviour
     public TextMeshProUGUI numberText;
     [SerializeField] Button[] numberButtons;
     int numberVal;
-    public Button currentButton;
+    public Button currentButton { get; private set; }
+
+    private bool moved;
+    private float inputDelay = 0f;
 
 
     private void Awake()
@@ -35,8 +38,10 @@ public class NumberPadController : MonoBehaviour
 
     private void Update()
     {
-        if (numPadObj.activeSelf && InputController.instance.inputMaster.Player.Move.triggered)
+        if (numPadObj.activeSelf && InputController.instance.inputMaster.Player.Move.triggered && !moved)
         {
+            moved = true;
+
             //Refresh all button highlights
             foreach (Button button in numberButtons)
             {
@@ -45,10 +50,10 @@ public class NumberPadController : MonoBehaviour
 
             //Read inputs and update current button value
             Vector2 inputVal = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
-            if (inputVal.x > 0) { numberVal += 1; }
-            else if (inputVal.x < 0) { numberVal -= 1; }
-            else if (inputVal.y > 0) { numberVal -= 3; }
-            else if (inputVal.y < 0) { numberVal += 3; }
+            if (inputVal.x > 0.15) { numberVal += 1; }
+            else if (inputVal.x < -0.15) { numberVal -= 1; }
+            else if (inputVal.y > 0.15) { numberVal -= 3; }
+            else if (inputVal.y < -0.15) { numberVal += 3; }
 
             //Lock currentButton values to always stay within the button array
             if (numberVal < 0) { numberVal = 0; }
@@ -60,6 +65,17 @@ public class NumberPadController : MonoBehaviour
         }
 
         numberText.text = tempCode;
+
+        //Add input delay
+        if (moved)
+        {
+            inputDelay += Time.unscaledDeltaTime;
+            if (inputDelay >= 0.25f)
+            {
+                inputDelay = 0;
+                moved = false;
+            }
+        }
     }
 
 
