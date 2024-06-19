@@ -43,7 +43,6 @@ public class InventoryController : MonoBehaviour
     //To be refactored
     public InventoryItem selectedItem { get; private set; } //Currently selected item; consider removing this and just checking if itemID is in the inventory list
     private List<InventoryItem> inventoryObjs = new List<InventoryItem>(); //Item prefabs, used for populating the Unity scrollview system
-    private List<InventoryItem> storageObjs = new List<InventoryItem>(); //Stored item prefabs, used for populating the Unity scrollview system
 
 
     private void Awake()

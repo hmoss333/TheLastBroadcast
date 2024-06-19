@@ -11,7 +11,7 @@ public class StorageController : InteractObject
     [SerializeField] GameObject storageMenu;
     [SerializeField] RectTransform inventoryContent, storageContent;
     [SerializeField] InventoryItem inventoryItemPrefab;
-    private int itemPosVal;
+    private int itemPosVal = 0;
     private bool moved, inStorageMenu, canInteract = false;
     private float inputDelay = 0;
 
@@ -86,13 +86,13 @@ public class StorageController : InteractObject
             //On input button press
             if (InputController.instance.inputMaster.Player.Interact.triggered && canInteract)
             {
-                if (inStorageMenu)
+                if (inStorageMenu && storageObjs.Count > 0)
                 {
                     TakeItem(storageObjs[itemPosVal].itemInstance);
                     if (storageObjs.Count <= 0)
                         inStorageMenu = false;
                 }
-                else
+                else if (!inStorageMenu && inventoryObjs.Count > 0)
                 {
                     StoreItem(inventoryObjs[itemPosVal].itemInstance);
                     if (inventoryObjs.Count <= 0)
@@ -185,30 +185,36 @@ public class StorageController : InteractObject
 
 
     //Item Storage Functions
-    public void StoreItem(ItemData itemData)
+    public void StoreItem(ItemData item)
     {
-        if (!InventoryController.instance.storedItems.Contains(itemData))
+        if (item.count > 1) { item.count--; }
+        else { InventoryController.instance.inventoryItems.Remove(item); }
+
+
+        if (InventoryController.instance.storedItems.Exists(x => x.id == item.id))
         {
-            InventoryController.instance.storedItems.Add(itemData);
+            InventoryController.instance.storedItems.Find(x => x.id == item.id).count++;
         }
         else
         {
-            ItemData item = InventoryController.instance.storedItems.Find(x => x == itemData);
-            item.count++;
+            InventoryController.instance.storedItems.Add(item);
         }
-
-        InventoryController.instance.RemoveItem(itemData.id);
     }
 
-    public void TakeItem(ItemData itemData)
+    public void TakeItem(ItemData item)
     {
-        if (InventoryController.instance.inventoryItems.Count < 6)
-        {
-            ItemData item = InventoryController.instance.storedItems.Find(x => x == itemData);
-            if (item.count > 1) { item.count--; }
-            else { InventoryController.instance.storedItems.Remove(item); }
+        if (item.count > 1) { item.count--; }
+        else { InventoryController.instance.storedItems.Remove(item); }
 
-            InventoryController.instance.AddItem(itemData.id);
+
+        if (InventoryController.instance.inventoryItems.Exists(x => x.id == item.id))
+        {
+            InventoryController.instance.inventoryItems.Find(x => x.id == item.id).count++;
+        }
+        else
+        {
+            if (InventoryController.instance.inventoryItems.Count < 6)
+                InventoryController.instance.inventoryItems.Add(item);
         }
     }
 }
