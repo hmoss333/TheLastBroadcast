@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using System.Linq;
 
 public class StorageController : InteractObject
 {
@@ -9,9 +10,10 @@ public class StorageController : InteractObject
     [Header("Item Storage Values")]
     [SerializeField] GameObject storageMenu;
     [SerializeField] RectTransform inventoryContent, storageContent;
-    InventoryItem inventoryItemPrefab;
-    [SerializeField] public List<ItemData> storedItems = new List<ItemData>();
-    [SerializeField] InventoryItem selectedItem;
+    [SerializeField] InventoryItem inventoryItemPrefab;
+    private int itemPosVal;
+    private bool moved, inStorageMenu, canInteract = false;
+    private float inputDelay = 0;
 
     private List<InventoryItem> inventoryObjs = new List<InventoryItem>(); //Item prefabs, used for populating the Unity scrollview system
     private List<InventoryItem> storageObjs = new List<InventoryItem>(); //Stored item prefabs, used for populating the Unity scrollview system
@@ -19,33 +21,142 @@ public class StorageController : InteractObject
 
     private void Update()
     {
-        if (interacting && storedItems != InventoryController.instance.storedItems)
+        if (interacting)
         {
-            print($"Updating local storedItem data for {this.gameObject.name}");
-            storedItems.Clear();
-            storedItems = InventoryController.instance.storedItems;
+            //Wait for interact button to no longer be pressed before allowing user to select items
+            //Needed due to the input system registering immediately following starting the interact,
+            //putting the top item in the player inventory into storage
+            if (!canInteract && !InputController.instance.inputMaster.Player.Interact.IsPressed())
+            {
+                canInteract = true;
+            }
+
+            //Clear all highlights, only highlight currently selected item
+            foreach (InventoryItem item in inventoryObjs) { item.ToggleHighlight(false); }
+            foreach (InventoryItem item in storageObjs) { item.ToggleHighlight(false); }
+            try
+            {
+                if (inStorageMenu) { storageObjs[itemPosVal].ToggleHighlight(true); }
+                else { inventoryObjs[itemPosVal].ToggleHighlight(true); }
+            }
+            catch { }
+
+            //Use directional input to navigate inventory menu
+            if (InputController.instance.inputMaster.Player.Move.triggered && !moved)
+            {
+                moved = true;
+                //AudioController.instance.LoopClip(false);
+                //AudioController.instance.PlayClip(moveClip);
+
+                Vector2 inputVal = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
+                if (inputVal.x > 0) { itemPosVal++; }
+                else if (inputVal.x < -0) { itemPosVal--; }
+                //TODO
+                //Figure out best way to read directional inputs from control stick
+                //Currently gives incorrect behaviors/reads multiple direction inputs at once
+
+
+                //Keep value inside of the inventoryItems array
+                try
+                {
+                    if (itemPosVal <= 0) { itemPosVal = 0; }
+                    if (inStorageMenu && itemPosVal >= storageObjs.Count - 1)
+                    {
+                        itemPosVal = storageObjs.Count - 1;
+                    }
+                    else if (!inStorageMenu && itemPosVal >= inventoryObjs.Count - 1)
+                    {
+                        itemPosVal = inventoryObjs.Count - 1;
+                    }
+                }
+                catch { }
+            }
+
+            //Add input delay
+            if (moved)
+            {
+                inputDelay += Time.unscaledDeltaTime;
+                if (inputDelay >= 0.25f)
+                {
+                    inputDelay = 0;
+                    moved = false;
+                }
+            }
+
+            //On input button press
+            if (InputController.instance.inputMaster.Player.Interact.triggered && canInteract)
+            {
+                if (inStorageMenu)
+                {
+                    TakeItem(storageObjs[itemPosVal].itemInstance);
+                    if (storageObjs.Count <= 0)
+                        inStorageMenu = false;
+                }
+                else
+                {
+                    StoreItem(inventoryObjs[itemPosVal].itemInstance);
+                    if (inventoryObjs.Count <= 0)
+                        inStorageMenu = true;
+                }
+
+                PopulateInventoryElements();
+            }
+
+            //Change focus to storage
+            if (InputController.instance.inputMaster.Player.MenuRight.triggered)
+            {
+                itemPosVal = 0;
+                inStorageMenu = true;
+            }
+            //Change focus to inventory
+            if (InputController.instance.inputMaster.Player.MenuLeft.triggered)
+            {
+                itemPosVal = 0;
+                inStorageMenu = false;
+            }
+
+            //Exit storage interact menu
+            if (InputController.instance.inputMaster.Player.Melee.triggered)
+            {
+                interacting = false;
+                ToggleStorageUI(false);
+                PlayerController.instance.SetState(PlayerController.States.idle);
+            }
         }
     }
 
     public override void Interact()
     {
-        base.Interact();
-        PopulateInventoryElements();
-        ToggleStorageUI(interacting);
+        if (!interacting)
+        {
+            base.Interact();
+            if (interacting) { PopulateInventoryElements(); }
+            ToggleStorageUI(interacting);
 
-        //TODO
-        //Bring up inventory UI
-        //Should display current player inventory in one set and stored items in another set
-        //Player can switch between item sets by pressing a button
-        //If selected item is in inventory, StoreItem
-        //If selected item is in storage, TakeItem
-        //Exit menu by pressing melee/back button
+            canInteract = false;
+            itemPosVal = 0;
+            inStorageMenu = storageObjs.Count > 0
+                ? true
+                : false;
+        }
     }
 
 
     //Item UI Functions
+    //TODO REFACTOR THIS, PLEASE!!!
     public void PopulateInventoryElements()
     {
+        foreach (InventoryItem item in inventoryObjs)
+        {
+            Destroy(item.gameObject);
+        }
+        inventoryObjs.Clear();
+        foreach (InventoryItem item in storageObjs)
+        {
+            Destroy(item.gameObject);
+        }
+        storageObjs.Clear();
+
         //Populate inventory rectTransform with InventoryItem objects
         for (int i = 0; i < InventoryController.instance.inventoryItems.Count; i++)
         {
@@ -69,7 +180,7 @@ public class StorageController : InteractObject
 
     public void ToggleStorageUI(bool state)
     {
-        //Used to toggle storage menu UI on/off
+        storageMenu.SetActive(state);
     }
 
 

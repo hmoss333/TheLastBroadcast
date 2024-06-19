@@ -12,7 +12,6 @@ using UnityEditorInternal.VersionControl;
 
 
 //TODO
-//Simplify inventoryObjs to just instantiate a placeholder object using inventoryItems data
 //Possibly remove the selectedItem system and just trigger item usage from the inventory menu
 
 
@@ -36,8 +35,8 @@ public class InventoryController : MonoBehaviour
 
     //[NaughtyAttributes.HorizontalLine]
     //[Header("Inventory Data")]
-    [SerializeField] public List<ItemData> inventoryItems { get; private set; } //Player Inventory
-    [SerializeField] public List<ItemData> storedItems { get; private set; } //Storage inventory
+    public List<ItemData> inventoryItems { get; private set; } //Player Inventory
+    public List<ItemData> storedItems { get; private set; } //Storage inventory
     public Dictionary<int, ItemData> itemDict { get; private set; } //Holds references from streaming item file for all possible items; used for reference when picking up new items
     private int itemPosVal; //Current selected item position in inventory
 
