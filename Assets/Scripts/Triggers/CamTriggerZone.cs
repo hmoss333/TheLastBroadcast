@@ -26,6 +26,14 @@ public class CamTriggerZone : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            CameraController.instance.SetTriggerState(true); //So long as player is in trigger volume, set trigger state to true
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player" && CameraController.instance.GetLastTarget() == camPos.transform)

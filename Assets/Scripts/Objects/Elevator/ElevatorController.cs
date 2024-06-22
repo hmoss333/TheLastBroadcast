@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ElevatorController : InteractObject
 {
-    [SerializeField] private float doorDelay;
+    //[SerializeField] private float doorDelay;
     [SerializeField] Light elevatorLight;
     [SerializeField] Animator[] anims;
 
@@ -46,6 +46,8 @@ public class ElevatorController : InteractObject
             {
                 anim.SetBool("closeDoor", true);
             }
+
+            m_OnTrigger.Invoke();
         }
     }
 
