@@ -143,11 +143,8 @@ public class TransmitterController : InteractObject
     {
         yield return new WaitForSeconds(triggerDelay);
 
-        PlayerController.instance.ToggleAvatar();
         CameraController.instance.LoadLastTarget();
-        CameraController.instance.FocusTarget();
-        if (CameraController.instance.GetTriggerState())
-            CameraController.instance.SetRotation(true);
+        CameraController.instance.SetRotation(CameraController.instance.GetTriggerState() ? true : false);
         PlayerController.instance.SetState(PlayerController.States.idle);
 
         m_OnTrigger.Invoke();
