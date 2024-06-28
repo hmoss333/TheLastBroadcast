@@ -36,7 +36,7 @@ public class NumberPadController : MonoBehaviour
     }
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (numPadObj.activeSelf && InputController.instance.inputMaster.Player.Move.triggered && !moved)
         {
@@ -50,10 +50,17 @@ public class NumberPadController : MonoBehaviour
 
             //Read inputs and update current button value
             Vector2 inputVal = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>();
-            if (inputVal.x > 0.15) { numberVal += 1; }
-            else if (inputVal.x < -0.15) { numberVal -= 1; }
-            else if (inputVal.y > 0.15) { numberVal -= 3; }
-            else if (inputVal.y < -0.15) { numberVal += 3; }
+            if (Mathf.Abs(inputVal.x) > Mathf.Abs(inputVal.y))
+            {
+                if (inputVal.x > 0) { numberVal += 1; }
+                if (inputVal.x < 0) { numberVal -= 1; }
+            }
+            else
+            {
+                if (inputVal.y > 0) { numberVal -= 3; }
+                if (inputVal.y < 0) { numberVal += 3; }
+            }
+
 
             //Lock currentButton values to always stay within the button array
             if (numberVal < 0) { numberVal = 0; }
@@ -70,7 +77,7 @@ public class NumberPadController : MonoBehaviour
         if (moved)
         {
             inputDelay += Time.unscaledDeltaTime;
-            if (inputDelay >= 0.25f)
+            if (inputDelay >= 0.1f)
             {
                 inputDelay = 0;
                 moved = false;

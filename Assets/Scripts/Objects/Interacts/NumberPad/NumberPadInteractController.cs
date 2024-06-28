@@ -25,7 +25,7 @@ public class NumberPadInteractController : InteractObject
     {
         if (interacting && !unlocked)
         {
-            if (InputController.instance.inputMaster.Player.Melee.triggered)
+            if (InputController.instance.inputMaster.Player.Run.triggered)
             {
                 interacting = false;
                 NumberPadController.instance.ToggleNumPad(interacting);
