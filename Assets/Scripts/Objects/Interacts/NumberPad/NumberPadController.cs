@@ -36,7 +36,7 @@ public class NumberPadController : MonoBehaviour
     }
 
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (numPadObj.activeSelf && InputController.instance.inputMaster.Player.Move.triggered && !moved)
         {
