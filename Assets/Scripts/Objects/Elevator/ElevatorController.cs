@@ -25,7 +25,6 @@ public class ElevatorController : InteractObject
     {
         base.Activate();
 
-        elevatorLight.enabled = active;
         if (active)
         {
             foreach (Animator anim in anims)
@@ -33,6 +32,11 @@ public class ElevatorController : InteractObject
                 anim.SetTrigger("activate");
             }
         }
+    }
+
+    private void Update()
+    {
+        elevatorLight.enabled = active;
     }
 
     private void OnTriggerEnter(Collider other)
