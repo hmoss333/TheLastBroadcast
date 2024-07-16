@@ -389,7 +389,7 @@ public class PlayerController : CharacterController
         gasMaskObj.SetActive(InventoryController.instance.selectedItem != null && InventoryController.instance.selectedItem.itemInstance.itemName.ToLower() == "gasmask"); //toggle gasmask model if the item is equiped
         gasMaskOverlay.SetActive(gasMaskObj.activeSelf);
         //Listening
-        animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
+        //animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
         //Moving Object
         if (isPlaying("MoveObj")) { state = States.movingObj; }
         //Healing
