@@ -5,7 +5,6 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using static UnityEngine.UI.Button;
 using UnityEngine.Serialization;
-using static UnityEngine.Rendering.DebugUI;
 
 public class TriggerZone : InteractObject
 {
