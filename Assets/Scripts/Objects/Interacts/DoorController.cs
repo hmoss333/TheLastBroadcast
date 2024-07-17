@@ -72,12 +72,16 @@ public class DoorController : InteractObject
         m_OnTrigger.Invoke();
 
         UIController.instance.ToggleDialogueUI(false);
-        PlayerController.instance.transform.position = exitPoint.position;
-        PlayerController.instance.SetLastDir(exitPoint.transform.forward);
-        CameraController.instance.transform.position = exitPoint.position;
-        CameraController.instance.SetRotation(false);
-        CameraController.instance.SetTriggerState(false);
-        transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
+        try
+        {
+            PlayerController.instance.transform.position = exitPoint.position;
+            PlayerController.instance.SetLastDir(exitPoint.transform.forward);
+            CameraController.instance.transform.position = exitPoint.position;
+            CameraController.instance.SetRotation(false);
+            CameraController.instance.SetTriggerState(false);
+            transform.GetComponentInParent<RoomController>().gameObject.SetActive(false);
+        }
+        catch { Debug.Log("No exitPoint defined"); }
 
         if (exitRoom)
         {
