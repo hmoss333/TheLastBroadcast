@@ -128,12 +128,18 @@ public class TransmitterController : InteractObject
         {
             base.Interact();
 
-            if (active)
+            if (active && interacting)
             {
                 currentFrequency = 0.0f;
                 CameraController.instance.SetTarget(focusPoint);
                 CameraController.instance.SetRotation(true);
                 CameraController.instance.transform.position = focusPoint.position;
+            }
+            else
+            {
+                CameraController.instance.LoadLastTarget();
+                CameraController.instance.SetRotation(CameraController.instance.GetTriggerState() ? true : false);
+                PlayerController.instance.SetState(PlayerController.States.idle);
             }
         }
         staticSource.mute = !interacting;
