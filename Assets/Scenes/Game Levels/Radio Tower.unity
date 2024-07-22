@@ -2132,105 +2132,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &58923223
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 58923224}
-  - component: {fileID: 58923227}
-  - component: {fileID: 58923226}
-  - component: {fileID: 58923225}
-  m_Layer: 0
-  m_Name: Transciever_Dialogue_Off
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &58923224
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 58923223}
-  m_LocalRotation: {x: -0, y: 0.0015858321, z: -0, w: 0.99999875}
-  m_LocalPosition: {x: 4.6, y: 1, z: 6.5289783}
-  m_LocalScale: {x: 1.5, y: 2, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 672288292}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0.182, z: 0}
---- !u!114 &58923225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 58923223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8cca2eeb5315427c907082ed95a74c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 783d6082-213d-488a-8930-0bb937a00996
-  active: 1
-  hasActivated: 0
-  focusOnActivate: 0
-  hideOnLoad: 1
-  needItem: 0
-  inventoryItemID: 0
-  m_OnTrigger:
-    m_PersistentCalls:
-      m_Calls: []
-  interacting: 0
-  inactiveText: 
-  focusOnInteract: 0
-  focusPoint: {fileID: 0}
-  talkOnce: 0
-  quoteMarks: 0
-  dialogueLines:
-  - speakerName: 
-    text: An old radio transmitter
-    focusPoint: {fileID: 1035512683}
-    snapFocus: 1
-  - speakerName: 
-    text: It doesn't seem to be broadcasting at the moment
-    focusPoint: {fileID: 0}
-    snapFocus: 0
-  backgroundClip: {fileID: 0}
---- !u!114 &58923226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 58923223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _id:
-    Value: 783d6082-213d-488a-8930-0bb937a00996
---- !u!65 &58923227
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 58923223}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &64212198
 GameObject:
   m_ObjectHideFlags: 0
@@ -7437,7 +7338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &261389370
 Transform:
   m_ObjectHideFlags: 0
@@ -7454,7 +7355,7 @@ Transform:
   - {fileID: 1907477108}
   - {fileID: 1696099832}
   m_Father: {fileID: 672288292}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0.182, z: 0}
 --- !u!114 &261389371
 MonoBehaviour:
@@ -20031,7 +19932,6 @@ Transform:
   - {fileID: 71808364}
   - {fileID: 2086445682}
   - {fileID: 1035512685}
-  - {fileID: 58923224}
   - {fileID: 261389370}
   - {fileID: 1139661061}
   - {fileID: 798266070}
@@ -23676,6 +23576,7 @@ Transform:
   - {fileID: 1133701703}
   - {fileID: 1153196830}
   - {fileID: 914703656}
+  - {fileID: 1231584411}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -24292,7 +24193,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5609d7bf5350fe649abffe31f391af3c, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5609d7bf5350fe649abffe31f391af3c, type: 3}
       propertyPath: m_LocalScale.x
@@ -30071,7 +29972,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -30079,7 +29980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
@@ -30090,21 +29991,25 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
+      propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2126924943}
+      objectReference: {fileID: 1746082830}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 971639309}
+      objectReference: {fileID: 1231584413}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 332610237}
+      objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 1746082830}
+      objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -30122,20 +30027,24 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
+      propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[4].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Activate
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: MoveObj
+      value: Activate
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: Lock
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: Activate
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -30143,14 +30052,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: MoveInteract, Assembly-CSharp
+      value: SaveObject, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: RadioLockController, Assembly-CSharp
+      value: SaveObject, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: SaveObject, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
+      propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
       value: SaveObject, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
@@ -30163,11 +30076,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8917837546342689582, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
       propertyPath: m_OnTrigger.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 016f2ac4d3f7643529ef84b1f89193fc, type: 3}
@@ -34715,7 +34628,7 @@ Transform:
   m_Children:
   - {fileID: 806125149}
   m_Father: {fileID: 672288292}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1139661062
 AudioSource:
@@ -35276,11 +35189,19 @@ MonoBehaviour:
   quoteMarks: 1
   dialogueLines:
   - speakerName: ???
-    text: '[TODO 1]'
+    text: Hello? Is anyone recieving?
     focusPoint: {fileID: 1292018456}
     snapFocus: 1
   - speakerName: ???
-    text: '[TODO 2]'
+    text: I'm broadcasting this message out on all frequencies
+    focusPoint: {fileID: 0}
+    snapFocus: 0
+  - speakerName: ???
+    text: I'm picking up a new station transmitting from the old radio tower
+    focusPoint: {fileID: 0}
+    snapFocus: 0
+  - speakerName: ???
+    text: If anyone is hearing this, please respond
     focusPoint: {fileID: 0}
     snapFocus: 0
   backgroundClip: {fileID: 0}
@@ -38720,6 +38641,216 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1412061450486695273, guid: 11e52105a6a6d4add9d621b375cff9c2, type: 3}
   m_PrefabInstance: {fileID: 1230682705}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1231584410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1231584411}
+  - component: {fileID: 1231584417}
+  - component: {fileID: 1231584416}
+  - component: {fileID: 1231584415}
+  - component: {fileID: 1231584414}
+  - component: {fileID: 1231584413}
+  - component: {fileID: 1231584412}
+  m_Layer: 15
+  m_Name: DialogueTriggerZone_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1231584411
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231584410}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.5, y: 1.75, z: 4.5}
+  m_LocalScale: {x: 7.5, y: 3.5, z: 3.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 768639799}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1231584412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231584410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a0befd7b5554da79b464e7748a29f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setFocusPointRot: 1
+--- !u!114 &1231584413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231584410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8cca2eeb5315427c907082ed95a74c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 5bf6694a-a02e-436c-9ec6-c5bd183776dc
+  active: 0
+  hasActivated: 0
+  focusOnActivate: 0
+  hideOnLoad: 1
+  needItem: 0
+  inventoryItemID: 0
+  m_OnTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2126924943}
+        m_TargetAssemblyTypeName: SaveObject, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 971639309}
+        m_TargetAssemblyTypeName: MoveInteract, Assembly-CSharp
+        m_MethodName: MoveObj
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 332610237}
+        m_TargetAssemblyTypeName: RadioLockController, Assembly-CSharp
+        m_MethodName: Lock
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  interacting: 0
+  inactiveText: 
+  focusOnInteract: 0
+  focusPoint: {fileID: 0}
+  talkOnce: 1
+  quoteMarks: 1
+  dialogueLines:
+  - speakerName: ???
+    text: To whoever is left in the old Radio Tower basement, I am in desperate need
+      of your assistance
+    focusPoint: {fileID: 0}
+    snapFocus: 0
+  - speakerName: ???
+    text: Please make your way to the Security Office immediately
+    focusPoint: {fileID: 0}
+    snapFocus: 0
+  - speakerName: ???
+    text: The security department is located in the Upper Floor offices
+    focusPoint: {fileID: 0}
+    snapFocus: 0
+  - speakerName: ???
+    text: Please, hurry
+    focusPoint: {fileID: 0}
+    snapFocus: 0
+  backgroundClip: {fileID: 0}
+--- !u!114 &1231584414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231584410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aabc4d29250ed4863aed8c11315dd1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id:
+    Value: 5bf6694a-a02e-436c-9ec6-c5bd183776dc
+--- !u!65 &1231584415
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231584410}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1231584416
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231584410}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1231584417
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231584410}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1232439369
 GameObject:
   m_ObjectHideFlags: 0
@@ -46680,7 +46811,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4313198338139520, guid: 0c8fd08c36c84854791d5de97103b43c, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4313198338139520, guid: 0c8fd08c36c84854791d5de97103b43c, type: 3}
       propertyPath: m_LocalScale.x
@@ -54576,11 +54707,19 @@ MonoBehaviour:
   quoteMarks: 1
   dialogueLines:
   - speakerName: ???
-    text: '[TODO 1]'
+    text: Hello? Can you still hear me?
     focusPoint: {fileID: 905256834}
     snapFocus: 1
   - speakerName: ???
-    text: '[TODO 2]'
+    text: The fastest way to reach the upper floor offices is by using the elevator
+    focusPoint: {fileID: 0}
+    snapFocus: 0
+  - speakerName: ???
+    text: If you can get it activated it will take you right up
+    focusPoint: {fileID: 0}
+    snapFocus: 0
+  - speakerName: ???
+    text: Once you're here we can make this right, again
     focusPoint: {fileID: 0}
     snapFocus: 0
   backgroundClip: {fileID: 0}
@@ -60686,7 +60825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5350265245599731030, guid: 5f831c03562b19aa19aa2c09f0b1247e, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5350265245599731030, guid: 5f831c03562b19aa19aa2c09f0b1247e, type: 3}
       propertyPath: m_LocalScale.y
