@@ -35,14 +35,14 @@ public class InventoryController : MonoBehaviour
 
     //[NaughtyAttributes.HorizontalLine]
     //[Header("Inventory Data")]
-    public List<ItemData> inventoryItems { get; private set; } //Player Inventory
+    public List<ItemData> inventoryItems;// { get; private set; } //Player Inventory
     public List<ItemData> storedItems { get; private set; } //Storage inventory
     public Dictionary<int, ItemData> itemDict { get; private set; } //Holds references from streaming item file for all possible items; used for reference when picking up new items
     private int itemPosVal; //Current selected item position in inventory
 
     //To be refactored
     public InventoryItem selectedItem { get; private set; } //Currently selected item; consider removing this and just checking if itemID is in the inventory list
-    private List<InventoryItem> inventoryObjs = new List<InventoryItem>(); //Item prefabs, used for populating the Unity scrollview system
+    public List<InventoryItem> inventoryObjs = new List<InventoryItem>(); //Item prefabs, used for populating the Unity scrollview system
 
 
     private void Awake()
@@ -283,8 +283,8 @@ public class InventoryController : MonoBehaviour
             if (result.count <= 0)
             {
                 inventoryItems.Remove(result);
-                InventoryItem tempItem = inventoryObjs.Find(x => x.ID == itemID);
-                Destroy(inventoryObjs.Find(x => x.ID == itemID).gameObject);
+                InventoryItem tempItem = inventoryObjs.Find(x => x.itemInstance.id == itemID);
+                Destroy(inventoryObjs.Find(x => x.itemInstance.id == itemID).gameObject);
                 inventoryObjs.Remove(tempItem);
                 itemPosVal = 0;
             }
