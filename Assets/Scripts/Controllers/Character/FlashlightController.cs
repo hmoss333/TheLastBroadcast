@@ -8,15 +8,14 @@ public class FlashlightController : MonoBehaviour
 {
     public static FlashlightController instance;
 
-    public bool isOn;//{ get; private set; }
+    public bool isOn;//, isCharging;//{ get; private set; }
     Light lightSource;
     [SerializeField] GameObject flashlightObj, flashlightTrigger;
     [SerializeField] Image flashlightOverlay, flashlightIcon;
     [SerializeField] private LayerMask layer;
     [SerializeField] float checkDist;
     [Range(0, 15f)]
-    public float flashlightCharge, maxCharge;// { get; private set; }
-    [SerializeField] float flickerVal, rechargeRate;
+    public float flashlightCharge, maxCharge, flickerVal;// { get; private set; }
     Coroutine flickerRoutine;
     AudioSource audioSource;
 
@@ -59,28 +58,38 @@ public class FlashlightController : MonoBehaviour
                     && flashlightCharge > 0f
                         ? true
                         : false;
+            }
+        }
+    }
 
-                if (isOn)
-                {
-                    flashlightCharge -= 0.65f * Time.deltaTime;                   
-                    if (flashlightCharge <= flickerVal)
-                    {
-                        //Start randomly flickering flashlight
-                        if (flickerRoutine == null)
-                            flickerRoutine = StartCoroutine(FlickerLight());
-                    }
-
-                    if (flashlightCharge <= 0f) { isOn = false; }
-                }
+    void FixedUpdate()
+    {
+        if (isOn)
+        {
+            flashlightCharge -= 0.65f * Time.fixedDeltaTime;
+            if (flashlightCharge <= flickerVal)
+            {
+                //Start randomly flickering flashlight
+                if (flickerRoutine == null)
+                    flickerRoutine = StartCoroutine(FlickerLight());
             }
 
-            lightSource.enabled = isOn && flashlightCharge >= flickerVal;
-            flashlightObj.SetActive(isOn);
-            flashlightTrigger.SetActive(isOn);
-            PlayerController.instance.animator.SetBool("flashlight", isOn);
-            flashlightOverlay.gameObject.SetActive(SaveDataController.instance.saveData.abilities.flashlight);
-            flashlightIcon.fillAmount = flashlightCharge / 15f;
+            if (flashlightCharge <= 0f) { isOn = false; }
         }
+        else
+        {
+            if (flashlightCharge <= maxCharge)
+            {
+                flashlightCharge += 0.25f * Time.fixedDeltaTime;
+            }
+        }
+
+        lightSource.enabled = isOn && flashlightCharge >= flickerVal;
+        flashlightObj.SetActive(isOn);
+        flashlightTrigger.SetActive(isOn);
+        PlayerController.instance.animator.SetBool("flashlight", isOn);
+        flashlightOverlay.gameObject.SetActive(SaveDataController.instance.saveData.abilities.flashlight);
+        flashlightIcon.fillAmount = flashlightCharge / 15f;
     }
 
     IEnumerator FlickerLight()
