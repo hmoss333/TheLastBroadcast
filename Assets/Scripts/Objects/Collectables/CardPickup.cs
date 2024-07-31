@@ -16,11 +16,11 @@ public class CardPickup : InteractObject
     public override void StartInteract()
     {
         UIController.instance.ToggleAbilityUI("Security Card", $"Collected Security Card Level {cardLevel}", cardIcon);
-        if (SaveDataController.instance.GetSecurityCardLevel() < cardLevel)
-        {
-            SaveDataController.instance.SetSecurityCardLevel(cardLevel);
-            SaveDataController.instance.SaveFile();
-        }
+        //if (SaveDataController.instance.GetSecurityCardLevel() < cardLevel)
+        //{
+        //    SaveDataController.instance.SetSecurityCardLevel(cardLevel);
+        //    SaveDataController.instance.SaveFile();
+        //}
         print($"Collected Security Card Level {cardLevel}");
     }
 

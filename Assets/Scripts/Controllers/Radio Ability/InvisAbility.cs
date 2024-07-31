@@ -79,8 +79,7 @@ public class InvisAbility : RadioAbilityController
     {
         if (RadioController.instance.abilityMode
             && abilityData.isActive
-            && !isInvis
-            && RadioController.instance.currentCharge > chargeCost)
+            && !isInvis)
         {
             if ((RadioController.instance.currentFrequency < checkFrequency + checkOffset && RadioController.instance.currentFrequency > checkFrequency - checkOffset)
                 && SaveDataController.instance.saveData.abilities.radio == true //does the player have the radio object; useful if the player loses the radio at some point)                                                      
@@ -90,7 +89,7 @@ public class InvisAbility : RadioAbilityController
                 tempCheckTime += Time.deltaTime;
                 if (tempCheckTime >= checkTime)
                 {
-                    RadioController.instance.ModifyCharge(-chargeCost);
+                    //RadioController.instance.ModifyCharge(-chargeCost);
                     AddMaterials();
 
                     isInvis = true;

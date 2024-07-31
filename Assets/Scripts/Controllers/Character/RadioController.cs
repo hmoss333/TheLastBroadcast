@@ -15,8 +15,6 @@ public class RadioController : MonoBehaviour
     [SerializeField] private float maxVolume;
     [SerializeField] private float volRate;
     private float maxFrequency = 10f;
-    public float maxCharge { get; private set; }
-    public float currentCharge { get; private set; }
     public float currentFrequency { get; private set; }
     public bool isActive { get; private set; }
     public bool listening { get; private set; }
@@ -33,7 +31,6 @@ public class RadioController : MonoBehaviour
     [SerializeField] private Color onColor, offColor, abilityColor;
     [SerializeField] private Vector2 inactivePos, activePos, abilityInactivePos, abilityActivePos;
     [SerializeField] private float slideSpeed;
-    [SerializeField] private Slider chargeSlider;
 
     [Header("Radio Audio Elements")]
     [NaughtyAttributes.HorizontalLine]
@@ -47,13 +44,6 @@ public class RadioController : MonoBehaviour
             instance = this;
         else
             Destroy(this);
-    }
-
-    private void Start()
-    {
-        maxCharge = SaveDataController.instance.saveData.maxCharge;
-        currentCharge = maxCharge;
-        chargeSlider.maxValue = maxCharge;       
     }
 
     // Update is called once per frame
@@ -111,10 +101,6 @@ public class RadioController : MonoBehaviour
         else
             stationBackground.color = abilityColor;
 
-        //Modify slider to match charge level
-        chargeSlider.value = currentCharge;
-        chargeSlider.gameObject.SetActive(SaveDataController.instance.saveData.abilities.radio_special);
-
         //Move radio panel into position based on active state
         overlayPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(overlayPanel.GetComponent<RectTransform>().anchoredPosition, isActive || listening ? activePos : inactivePos, slideSpeed * Time.deltaTime);
         abilityPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(abilityPanel.GetComponent<RectTransform>().anchoredPosition, abilityMode ? abilityActivePos : abilityInactivePos, slideSpeed * Time.deltaTime);
@@ -134,15 +120,6 @@ public class RadioController : MonoBehaviour
     {
         listening = activeVal;
         isActive = listening;
-    }
-
-    public void ModifyCharge(float chargeVal)
-    {
-        currentCharge += chargeVal;
-        if (currentCharge >= maxCharge)
-            currentCharge = maxCharge;
-        else if (currentCharge < 0f)
-            currentCharge = 0f;
     }
 
     public void UsingAbility()

@@ -182,7 +182,7 @@ public class PlayerController : CharacterController
                     && !PauseMenuController.instance.isPaused //if the game is not paused
                     && InputController.instance.inputMaster.Player.Interact.IsPressed()
                     && (health.currentHealth < maxHealth
-                    || RadioController.instance.currentCharge < RadioController.instance.maxCharge))
+                    || FlashlightController.instance.flashlightCharge < FlashlightController.instance.maxCharge))
                 {
                     SetState(States.consuming);
                 }
@@ -269,14 +269,20 @@ public class PlayerController : CharacterController
                             case 0: //MedKit
                                 health.ModifyHealth(2); //increase player health by 2
                                 if (health.currentHealth >= maxHealth) { health.SetHealth(maxHealth); SetState(States.idle); }
-                                InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
+                                //InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
+                                break;
+                            case 1: //Flashlight Battery
+                                FlashlightController.instance.ModifyCharge(5);
+                                //InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
                                 break;
                             default:
                                 print($"Consumed {InventoryController.instance.selectedItem.itemInstance.itemName}");
                                 //TODO add logic here for other consumable items
-                                InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
+                                //InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
                                 break;
-                        }                     
+                        }
+
+                        InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
                     }
                 }
                 else

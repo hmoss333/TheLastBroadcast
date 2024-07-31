@@ -349,15 +349,15 @@ public class SaveDataController : MonoBehaviour
         return null;
     }
 
-    public void SetSecurityCardLevel(int levelVal)
-    {
-        saveData.cardLevel = levelVal;
-    }
+    //public void SetSecurityCardLevel(int levelVal)
+    //{
+    //    saveData.cardLevel = levelVal;
+    //}
 
-    public int GetSecurityCardLevel()
-    {
-        return saveData.cardLevel;
-    }
+    //public int GetSecurityCardLevel()
+    //{
+    //    return saveData.cardLevel;
+    //}
 
     public void CollectHealthPart()
     {
@@ -373,19 +373,19 @@ public class SaveDataController : MonoBehaviour
         SaveFile();
     }
 
-    public void CollectChargePart()
-    {
-        saveData.chargeParts++;
-        int currentParts = saveData.chargeParts;
+    //public void CollectChargePart()
+    //{
+    //    saveData.chargeParts++;
+    //    int currentParts = saveData.chargeParts;
 
-        if (currentParts >= 3)
-        {
-            saveData.maxCharge += 10f;
-            saveData.chargeParts = 0;
-        }
+    //    if (currentParts >= 3)
+    //    {
+    //        saveData.maxCharge += 10f;
+    //        saveData.chargeParts = 0;
+    //    }
 
-        SaveFile();
-    }
+    //    SaveFile();
+    //}
 }
 
 
@@ -396,8 +396,7 @@ public class SaveData
     public string currentScene;
     public int maxHealth;
     public float maxCharge;
-    public int cardLevel;
-    public int healthParts, chargeParts;
+    public int healthParts;
     public Abilities abilities;
     public List<RadioAbility> radioAbilities;
 }

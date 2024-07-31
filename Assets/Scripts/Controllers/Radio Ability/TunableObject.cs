@@ -117,7 +117,6 @@ public class TunableObject : MonoBehaviour
                     tempTime += Time.deltaTime;
                     if (tempTime > checkTime)
                     {
-                        RadioController.instance.ModifyCharge(-chargeCost);
                         StartCoroutine(ActivateObject());
                     }
                 }

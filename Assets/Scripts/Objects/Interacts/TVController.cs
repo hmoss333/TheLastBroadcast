@@ -70,7 +70,7 @@ public class TVController : SavePointController
         {
             interacting = !interacting;
             PlayerController.instance.GetComponent<Health>().SetHealth(SaveDataController.instance.saveData.maxHealth); //set health back to max
-            RadioController.instance.ModifyCharge(SaveDataController.instance.saveData.maxCharge); //set charge back to max
+            FlashlightController.instance.ModifyCharge(SaveDataController.instance.saveData.maxCharge); //set charge back to max
 
             //Focus on TV screen
             PlayerController.instance.ToggleAvatar();
