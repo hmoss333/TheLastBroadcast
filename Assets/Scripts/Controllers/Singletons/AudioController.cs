@@ -45,7 +45,7 @@ public class AudioController : MonoBehaviour
             }
 
             layer.audioSource.clip = layer.audioClip;
-            layer.audioSource.volume = PlayerPrefs.GetFloat("musicVol", 1.0f); //layer.volume;
+            layer.audioSource.volume = layer.volume * PlayerPrefs.GetFloat("musicVol", 1.0f); //layer.volume;
             layer.audioSource.mute = layer.mute;
             layer.audioSource.loop = layer.loop;
 
@@ -65,7 +65,7 @@ public class AudioController : MonoBehaviour
             }
 
             layer.audioSource.clip = layer.audioClip;
-            layer.audioSource.volume = PlayerPrefs.GetFloat("musicVol", 1.0f); //layer.volume;
+            layer.audioSource.volume = layer.volume * PlayerPrefs.GetFloat("musicVol", 1.0f); //layer.volume;
             layer.audioSource.mute = layer.mute;
             layer.audioSource.loop = layer.loop;
 
@@ -204,6 +204,10 @@ public class AudioController : MonoBehaviour
         return returnList;
     }
 
+    public List<AudioLayer> GetLayers()
+    {
+        return audioLayers;
+    }
 }
 
 
