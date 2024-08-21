@@ -16,9 +16,6 @@ public class ScrollHealth : MonoBehaviour
     [SerializeField] GameObject healthPanel;
     [SerializeField] Image healthUI;
     [SerializeField] Sprite deadHealth;
-    [SerializeField] Vector2 inactivePos, activePos;
-    [SerializeField] float slideSpeed;
-    public bool isActive;
 
 
     private void Awake()
@@ -34,29 +31,11 @@ public class ScrollHealth : MonoBehaviour
         image = this.GetComponent<Image>();
         image.color = new Color(0, 255f, 0, 255f);
         image.material.mainTextureOffset = new Vector2(0, 0);
-        isActive = false;
+        //isActive = false;
     }
 
     private void Update()
     {
-        if (InputController.instance.inputMaster.Player.Health.triggered)
-        {
-            isActive = !isActive;
-        }
-
-        if (PlayerController.instance.state == PlayerController.States.wakeUp
-            || PlayerController.instance.state == PlayerController.States.listening
-            || PlayerController.instance.state == PlayerController.States.interacting)
-        {
-            isActive = false;
-        }
-        else if (PlayerController.instance.IsSeen()
-            || PlayerController.instance.state == PlayerController.States.hurt)
-            //|| PlayerController.instance.state == PlayerController.States.consuming)
-        {
-            isActive = true;
-        }
-
         int currentHealth = PlayerController.instance.GetComponent<Health>().currentHealth;
         int maxHealth = SaveDataController.instance.saveData.maxHealth;
         float healthRatio = (float)maxHealth / (float)currentHealth;
@@ -83,11 +62,6 @@ public class ScrollHealth : MonoBehaviour
         }
 
         float tempSpeed = healthRatio * scrollSpeed;
-        image.material.mainTextureOffset = image.material.mainTextureOffset + new Vector2(Time.deltaTime * (-tempSpeed / 10f), 0f);
-
-
-        //Move health UI panel into position based on active state
-        healthPanel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(healthPanel.GetComponent<RectTransform>().anchoredPosition,
-            isActive ? activePos : inactivePos, slideSpeed * Time.deltaTime);
+        image.material.mainTextureOffset = image.material.mainTextureOffset + new Vector2(Time.unscaledDeltaTime * (-tempSpeed / 10f), 0f);
     }
 }

@@ -23,7 +23,7 @@ public class PlayerController : CharacterController
     [Header("Player State Variables")]
     [NaughtyAttributes.HorizontalLine]
     private bool isSeen;// { get; private set; }
-    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, movingObj, consuming, stunned, hurt, dead }
+    public enum States { wakeUp, idle, interacting, moving, attacking, listening, radio, movingObj, stunned, hurt, dead } //consuming,
     public States state;// { get; private set; }
     public enum AbilityStates { none, invisible, isRat }
     public AbilityStates abilityState { get; private set; }
@@ -38,9 +38,6 @@ public class PlayerController : CharacterController
     [SerializeField] private LayerMask layer;
     [SerializeField] private float checkDist;
     private InteractObject interactObj;
-    float useItemTime = 0f;
-    [SerializeField] Image useIcon;
-    [SerializeField] Image useHighlight;
 
     [Header("Player Object References")]
     [NaughtyAttributes.HorizontalLine]
@@ -176,17 +173,6 @@ public class PlayerController : CharacterController
                 }
                 break;
             case States.idle:
-                if (interactObj == null //if no object is currently highlighted for interaction
-                    && InventoryController.instance.selectedItem != null
-                    && InventoryController.instance.selectedItem.itemInstance.consumable == true
-                    && !PauseMenuController.instance.isPaused //if the game is not paused
-                    && InputController.instance.inputMaster.Player.Interact.IsPressed()
-                    && (health.currentHealth < maxHealth
-                    || RadioController.instance.currentCharge < RadioController.instance.maxCharge))
-                {
-                    SetState(States.consuming);
-                }
-
                 if (move.x != 0f || move.y != 0f)
                 {
                     SetState(States.moving);
@@ -246,43 +232,6 @@ public class PlayerController : CharacterController
             case States.movingObj:
                 if (!isPlaying("MoveObj"))
                 {
-                    SetState(States.idle);
-                }
-                break;
-            case States.consuming:
-                if (InputController.instance.inputMaster.Player.Interact.IsPressed()
-                    && InventoryController.instance.selectedItem != null
-                    && InventoryController.instance.selectedItem.itemInstance.count > 0
-                    && InventoryController.instance.selectedItem.itemInstance.consumable)
-                //check if new selectedItem is able to be consumed
-                //used if triggering a stack of items to prevent from consuming outside of correct use-case
-                {
-                    useItemTime += Time.deltaTime;
-                    useIcon.fillAmount = useItemTime / 3f;
-                    if (useItemTime >= 3f)
-                    {
-                        useItemTime = 0f;
-                        useIcon.fillAmount = 0f;
-
-                        switch (InventoryController.instance.selectedItem.itemInstance.id)
-                        {
-                            case 0: //MedKit
-                                health.ModifyHealth(2); //increase player health by 2
-                                if (health.currentHealth >= maxHealth) { health.SetHealth(maxHealth); SetState(States.idle); }
-                                InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
-                                break;
-                            default:
-                                print($"Consumed {InventoryController.instance.selectedItem.itemInstance.itemName}");
-                                //TODO add logic here for other consumable items
-                                InventoryController.instance.RemoveItem(InventoryController.instance.selectedItem.itemInstance.id);
-                                break;
-                        }                     
-                    }
-                }
-                else
-                {
-                    useItemTime = 0f;
-                    useIcon.fillAmount = 0f;
                     SetState(States.idle);
                 }
                 break;
@@ -392,9 +341,6 @@ public class PlayerController : CharacterController
         //animator.SetBool("isListening", state == States.listening); //toggle listening animation based on bool value
         //Moving Object
         if (isPlaying("MoveObj")) { state = States.movingObj; }
-        //Healing
-        animator.SetBool("isConsuming", state == States.consuming); //toggle animation if consuming
-        useHighlight.gameObject.SetActive(state == States.consuming);
 
         isSeen = false; //reset seen state if no enemies are currently seeing the player (this is ues for the dynamic camera)
     }
