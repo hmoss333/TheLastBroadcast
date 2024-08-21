@@ -8,6 +8,9 @@ public class InteractIcon_Controller : MonoBehaviour
     bool isActive;
     Image icon;
     [SerializeField] float fadeTime;
+    [SerializeField] Sprite interactIcon;
+    [SerializeField] Sprite lockedIcon;
+    [SerializeField] Sprite unlockedIcon;
 
 
     private void Start()
@@ -28,14 +31,29 @@ public class InteractIcon_Controller : MonoBehaviour
 
     public void UpdateIcon(bool isInteracting, InteractObject interactObject)
     {
+        print("Updating Interact Icon");
         bool canDisplay = false;
         if (interactObject != null)
+        {
             canDisplay = !interactObject.hasActivated;
+
+            //Update icon based on interactObject
+            if (!interactObject.active)
+            {
+                if (interactObject.needItem && InventoryController.instance.inventoryItems.Exists(x => x.id == interactObject.inventoryItemID))
+                    icon.sprite = unlockedIcon;
+                else
+                    icon.sprite = lockedIcon;
+            }
+            else
+                icon.sprite = interactIcon;
+        }
 
         if (!isInteracting && canDisplay)
             isActive = true;
         else
             isActive = false;
+
 
         icon.enabled = isActive;
     }
