@@ -13,7 +13,6 @@ public class SaveDataController : MonoBehaviour
 
     public SaveData saveData; //requires public for serialization
     private string saveDestination, levelDestination, loreDestination;
-    public bool saving { get; private set; }
 
     public LoreSaveData loreSaveData;
     [SerializeField] LorePickup[] lorePickups;
@@ -56,21 +55,21 @@ public class SaveDataController : MonoBehaviour
 
     public void SaveFile()
     {
-        //string jsonData = JsonUtility.ToJson(saveData);
-        //print("Saving Data:" + jsonData);
-        //File.WriteAllText(saveDestination, jsonData);
-        StartCoroutine(SaveFileRoutine());
-    }
-
-    IEnumerator SaveFileRoutine()
-    {
-        saving = true;
         string jsonData = JsonUtility.ToJson(saveData);
         print("Saving Data:" + jsonData);
         File.WriteAllText(saveDestination, jsonData);
-        yield return new WaitForSeconds(0.5f); //trying this
-        saving = false;
+        //StartCoroutine(SaveFileRoutine());
     }
+
+    //IEnumerator SaveFileRoutine()
+    //{
+    //    saving = true;
+    //    string jsonData = JsonUtility.ToJson(saveData);
+    //    print("Saving Data:" + jsonData);
+    //    File.WriteAllText(saveDestination, jsonData);
+    //    yield return new WaitForSeconds(0.5f); //trying this
+    //    saving = false;
+    //}
 
     public SaveData GetSaveData()
     {
@@ -118,36 +117,6 @@ public class SaveDataController : MonoBehaviour
 
     public void SaveObjectData()
     {
-        //SceneObjectsContainer tempContainer = new SceneObjectsContainer();
-        //tempContainer.sceneName = SceneManager.GetActiveScene().name;
-        //tempContainer.savePointID = sceneObjectContainer.savePointID;
-
-        /////TODO as scene sizes get larger this sort will take more time to complete
-        /////May be worth it to change to a per-object system
-        //SaveObject[] sceneObjects = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
-        //for (int i = 0; i < sceneObjects.Length; i++)
-        //{
-        //    SceneInteractObj tempObj = new SceneInteractObj();
-        //    tempObj.id = sceneObjects[i].id;
-        //    //tempObj.name = sceneObjects[i].name;
-        //    tempObj.active = sceneObjects[i].active;
-        //    tempObj.hasActivated = sceneObjects[i].hasActivated;
-        //    tempObj.needItem = sceneObjects[i].needItem;
-        //    tempObj.inventoryItemID = sceneObjects[i].inventoryItemID;
-
-        //    tempContainer.sceneObjects.Add(tempObj);
-        //}
-
-        //string tempPath = System.IO.Path.Combine(levelDestination, $"{tempContainer.sceneName}.json");
-        //string jsonData = JsonUtility.ToJson(tempContainer);
-        //print("Saving Object Data:" + jsonData);
-        //File.WriteAllText(tempPath, jsonData);
-        StartCoroutine(SaveObjectDataRoutine());
-    }
-
-    IEnumerator SaveObjectDataRoutine()
-    {
-        saving = true;
         SceneObjectsContainer tempContainer = new SceneObjectsContainer();
         tempContainer.sceneName = SceneManager.GetActiveScene().name;
         tempContainer.savePointID = sceneObjectContainer.savePointID;
@@ -172,9 +141,39 @@ public class SaveDataController : MonoBehaviour
         string jsonData = JsonUtility.ToJson(tempContainer);
         print("Saving Object Data:" + jsonData);
         File.WriteAllText(tempPath, jsonData);
-        yield return new WaitForSeconds(0.5f);
-        saving = false;
+        //StartCoroutine(SaveObjectDataRoutine());
     }
+
+    //IEnumerator SaveObjectDataRoutine()
+    //{
+    //    saving = true;
+    //    SceneObjectsContainer tempContainer = new SceneObjectsContainer();
+    //    tempContainer.sceneName = SceneManager.GetActiveScene().name;
+    //    tempContainer.savePointID = sceneObjectContainer.savePointID;
+
+    //    ///TODO as scene sizes get larger this sort will take more time to complete
+    //    ///May be worth it to change to a per-object system
+    //    SaveObject[] sceneObjects = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
+    //    for (int i = 0; i < sceneObjects.Length; i++)
+    //    {
+    //        SceneInteractObj tempObj = new SceneInteractObj();
+    //        tempObj.id = sceneObjects[i].id;
+    //        //tempObj.name = sceneObjects[i].name;
+    //        tempObj.active = sceneObjects[i].active;
+    //        tempObj.hasActivated = sceneObjects[i].hasActivated;
+    //        tempObj.needItem = sceneObjects[i].needItem;
+    //        tempObj.inventoryItemID = sceneObjects[i].inventoryItemID;
+
+    //        tempContainer.sceneObjects.Add(tempObj);
+    //    }
+
+    //    string tempPath = System.IO.Path.Combine(levelDestination, $"{tempContainer.sceneName}.json");
+    //    string jsonData = JsonUtility.ToJson(tempContainer);
+    //    print("Saving Object Data:" + jsonData);
+    //    File.WriteAllText(tempPath, jsonData);
+    //    yield return new WaitForSeconds(0.5f);
+    //    saving = false;
+    //}
 
     public void LoadLoreData()
     {

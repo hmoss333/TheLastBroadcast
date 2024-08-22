@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static PlayerController;
+
 
 [RequireComponent(typeof(Health))]
 public class ZombieController : CharacterController
@@ -30,7 +30,7 @@ public class ZombieController : CharacterController
     [SerializeField] private int damage;
 
     [Header("Default Values")]
-    [SerializeField] private bool wakeUp;
+    private bool wakeUp;
     Vector3 initPos;
 
 
@@ -50,9 +50,8 @@ public class ZombieController : CharacterController
 
     public void FixedUpdate()
     {
-        if (SaveDataController.instance.saving)
+        if (IsSaving())
         {
-            print($"Reseting {name}");
             InitializeZombie();
         }
 
@@ -226,9 +225,22 @@ public class ZombieController : CharacterController
         wakeUp = true;
     }
 
+    bool IsSaving()
+    {
+        TVController[] saveTVs = GameObject.FindObjectsOfType<TVController>();
+        foreach (TVController tv in saveTVs)
+        {
+            if (tv.saving)
+                return true;
+        }
+
+        return false;
+    }
+
     public void InitializeZombie()
     {
         health.SetHealth(maxHealth);
+        health.isHit = false;
         hurt = false;
         dead = false;
         seePlayer = false;
