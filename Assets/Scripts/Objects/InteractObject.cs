@@ -4,29 +4,34 @@ using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using System.Linq;
 
 
 public class InteractObject : SaveObject
 {
     [HideInInspector] public bool interacting;
     public string inactiveText;
+
+    [Header("Focus Variables")]
     public bool focusOnInteract;
     public Transform focusPoint;
+
+
+    Coroutine selectItemRoutine;
 
 
     public virtual void Interact()
     {
         interacting = !interacting;
 
-        if (InventoryController.instance.selectedItem != null
-            && InventoryController.instance.selectedItem.itemInstance.id == inventoryItemID
-            && needItem)
+        ItemData tempItem = SaveDataController.instance.saveData.inventory.Find(x => x.id == inventoryItemID); //Check if itemID exist in current inventory
+        if (needItem && tempItem != null)
         {
             active = true;
             needItem = false;
-            InventoryController.instance.RemoveItem(inventoryItemID);
-            UIController.instance.SetDialogueText($"Used {InventoryController.instance.selectedItem.itemInstance.itemData.itemName}", false);
+            UIController.instance.SetDialogueText($"Used {SaveDataController.instance.itemDict.GetValueOrDefault(inventoryItemID).itemName}", false);
             UIController.instance.ToggleDialogueUI(interacting);
+            InventoryController.instance.RemoveItem(inventoryItemID);
         }
 
         if (active && !needItem)
@@ -42,7 +47,7 @@ public class InteractObject : SaveObject
         }
         else
         {
-            UIController.instance.SetDialogueText(inactiveText, false);
+            UIController.instance.SetDialogueText(needItem ? $"Needs a {SaveDataController.instance.itemDict.GetValueOrDefault(inventoryItemID).itemName}" : inactiveText, false);
             UIController.instance.ToggleDialogueUI(interacting);
         }
 

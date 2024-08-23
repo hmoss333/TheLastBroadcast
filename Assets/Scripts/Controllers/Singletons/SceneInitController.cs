@@ -78,6 +78,7 @@ public class SceneInitController : MonoBehaviour
     public void SetCurrentRoom(RoomController room)
     {
         currentRoom = room;
+        Debug.Log($"Current room: {currentRoom.gameObject.name}");
     }
 
     public void InitializeGame()

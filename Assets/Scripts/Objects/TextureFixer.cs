@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TextureFixer : MonoBehaviour
 {
-    Mesh mesh;
+    private Mesh mesh;
     private Material mat;
 
     // Start is called before the first frame update

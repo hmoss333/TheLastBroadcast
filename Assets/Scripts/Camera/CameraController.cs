@@ -85,10 +85,10 @@ public class CameraController : MonoBehaviour
             pos.z +=
                 PlayerController.instance.IsSeen()
                 || PlayerController.instance.state == PlayerController.States.radio
-                    ? camOffset.z + (1.5f * offset.z) :
-                PlayerController.instance.state == PlayerController.States.interacting
-                    ? camOffset.z
-                    : camOffset.z + offset.z;
+                    ? camOffset.z + (1.5f * offset.z) : camOffset.z + offset.z;
+            //PlayerController.instance.state == PlayerController.States.interacting
+            //    ? camOffset.z
+            //    : camOffset.z + offset.z;
         }
 
         if (hitWall && focusObjsRoutine == null)

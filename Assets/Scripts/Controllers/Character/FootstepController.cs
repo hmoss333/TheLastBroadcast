@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FootstepController : MonoBehaviour
 {
+    [SerializeField] float offset;
+
     [Header("Footstep Types")]
     [SerializeField] AudioClip concreteClip;
     [SerializeField] AudioClip glassClip;
@@ -18,7 +20,8 @@ public class FootstepController : MonoBehaviour
 
     private void Update()
     {
-        Ray ray = new Ray(transform.position, Vector3.down);
+        Vector3 checkPos = new Vector3(transform.position.x, transform.position.y - offset, transform.position.z);
+        Ray ray = new Ray(checkPos, Vector3.down);
         RaycastHit hit;
         Debug.DrawRay(transform.position, Vector3.down, Color.red);
 

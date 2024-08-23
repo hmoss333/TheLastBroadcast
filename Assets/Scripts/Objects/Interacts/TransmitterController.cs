@@ -9,9 +9,13 @@ using UnityEngine.Serialization;
 
 public class TransmitterController : InteractObject
 {
+    [Header("Equipment References")]
+    [SerializeField] GeneratorController generator;
+    [SerializeField] AntennaController antenna;
+
     [Header("Transmitter Frequency Values")]
+    [SerializeField][Range(0f, 10f)] float currentFrequency;
     [SerializeField] float targetFrequency;
-    [Range(0f, 10f)] float currentFrequency;
     [SerializeField] float minTarget, maxTarget, rotSpeed, offSet;
     private float xInput;
     private bool startCountdown = false;
@@ -41,7 +45,7 @@ public class TransmitterController : InteractObject
     private void Update()
     {
         lightMesh.material.color = active ? Color.green : Color.red;
-        staticSource.mute = !active || hasActivated;
+        staticSource.volume = Mathf.Lerp(staticSource.volume, interacting ? 0.5f : 0.125f, 10f);
         arrowLeft.gameObject.SetActive(interacting);
         arrowRight.gameObject.SetActive(interacting);
 
@@ -70,7 +74,9 @@ public class TransmitterController : InteractObject
             arrowRight.color = xInput > 0 ? arrowActive : arrowDefault;
 
 
-            if (currentFrequency >= targetFrequency - offSet && currentFrequency <= targetFrequency + offSet)
+            if (currentFrequency >= targetFrequency - offSet && currentFrequency <= targetFrequency + offSet
+                && generator.hasActivated
+                && antenna.hasActivated)
             {
                 frequencyText.color = presetColor;
                 lightMesh.material.color = presetColor;
@@ -122,29 +128,28 @@ public class TransmitterController : InteractObject
         {
             base.Interact();
 
-            if (active)
+            if (active && interacting)
             {
                 currentFrequency = 0.0f;
-                PlayerController.instance.ToggleAvatar();
-                CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
-                CameraController.instance.FocusTarget();
-                if (CameraController.instance.GetTriggerState())
-                    CameraController.instance.SetRotation(true);
+                CameraController.instance.SetTarget(focusPoint);
+                CameraController.instance.SetRotation(true);
+                CameraController.instance.transform.position = focusPoint.position;
+            }
+            else
+            {
+                CameraController.instance.LoadLastTarget();
+                CameraController.instance.SetRotation(CameraController.instance.GetTriggerState() ? true : false);
+                PlayerController.instance.SetState(PlayerController.States.idle);
             }
         }
-
-        staticSource.mute = !interacting;
     }
 
     IEnumerator TurnOnRoutine()
     {
         yield return new WaitForSeconds(triggerDelay);
 
-        PlayerController.instance.ToggleAvatar();
         CameraController.instance.LoadLastTarget();
-        CameraController.instance.FocusTarget();
-        if (CameraController.instance.GetTriggerState())
-            CameraController.instance.SetRotation(true);
+        CameraController.instance.SetRotation(CameraController.instance.GetTriggerState() ? true : false);
         PlayerController.instance.SetState(PlayerController.States.idle);
 
         m_OnTrigger.Invoke();

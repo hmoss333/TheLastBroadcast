@@ -91,7 +91,7 @@ public class TunableObject : MonoBehaviour
     void Update()
     {
         checkFrequency = TuneAbility.instance.abilityData.frequency;
-        chargeCost = SaveDataController.instance.GetRadioAbility("Tune").chargeCost;
+        //chargeCost = SaveDataController.instance.GetRadioAbility("Tune").chargeCost;
 
         if (needsUpdate)
         {

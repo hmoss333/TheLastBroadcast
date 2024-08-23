@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Collectable : InteractObject
 {
+    private bool collected = false;
+
     public override void Interact()
     {
         if (!hasActivated)
@@ -12,18 +14,24 @@ public class Collectable : InteractObject
 
     public override void StartInteract()
     {
-        string collectText = $"Found a {InventoryController.instance.itemDict[inventoryItemID].itemData.itemName}";
+        bool inventoryNotFull = SaveDataController.instance.saveData.inventory.Count < 6;//InventoryController.instance.inventoryItems.Count < 6;
+        string collectText = inventoryNotFull
+            ? $"Found a {SaveDataController.instance.itemDict[inventoryItemID].itemName}"
+            : $"Inventory is full";
         UIController.instance.SetDialogueText(collectText, false);
         UIController.instance.ToggleDialogueUI(true);
-        InventoryController.instance.AddItem(inventoryItemID);
+
+        if (inventoryNotFull)
+        {
+            InventoryController.instance.AddItem(inventoryItemID);
+            collected = true;
+        }
     }
 
     public override void EndInteract()
     {
         base.EndInteract();
         UIController.instance.ToggleDialogueUI(false);
-        SetHasActivated();
-
-        m_OnTrigger.Invoke();
+        if (collected) { SetHasActivated(); m_OnTrigger.Invoke(); }
     }
 }

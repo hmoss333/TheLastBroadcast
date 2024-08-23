@@ -15,7 +15,7 @@ public class LorePickup : InteractObject
     [SerializeField] string loreTitle; //this should be loaded from csv file
     [SerializeField] int loreId;
     [SerializeField] List<string> lines = new List<string>();
-    [SerializeField] int index;
+    private int index;
     private bool canInteract;
     private float iconTimer = 4f;
 

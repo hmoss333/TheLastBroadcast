@@ -9708,7 +9708,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f4cfcc6b57a48cbbb275d8cea40184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 2
+  currentHealth: 6
+  isHit: 0
   cooldownTime: 0.75
   shockEffect: 0
   bloodTransform: {fileID: 563654966817975024}
@@ -9753,7 +9754,9 @@ MonoBehaviour:
   rb: {fileID: 0}
   col: {fileID: 0}
   animator: {fileID: 0}
-  seeDist: 8
+  zombieState: 0
+  maxHealth: 0
+  seeDist: 5
   attackDist: 1.25
   loseDist: 10
   focusTime: 1.5
@@ -9762,6 +9765,7 @@ MonoBehaviour:
     m_Bits: 7617
   melee: {fileID: 8357365104130465571}
   damage: 1
+  respawnTime: 240
 --- !u!114 &1058209874084048618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10534,6 +10538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe3116b46adb44c9a9d2a6fda46763ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offset: 0
   concreteClip: {fileID: 8300000, guid: b27759995f9694ecb8bac288ee4e0814, type: 3}
   glassClip: {fileID: 8300000, guid: 84ba291ecc49a42e699ee9cf019c5764, type: 3}
   metalClip: {fileID: 8300000, guid: d91d13ab5919740999d5ff89ac1547da, type: 3}
