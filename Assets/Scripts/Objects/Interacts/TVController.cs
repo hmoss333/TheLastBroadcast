@@ -11,7 +11,6 @@ public class TVController : SavePointController
     MeshRenderer meshRenderer;
     GameObject tvLight;
     [SerializeField] AudioSource audioSource;
-    public bool saving { get; private set; }
 
 
     private void Awake()
@@ -30,7 +29,6 @@ public class TVController : SavePointController
 
         tvLight.SetActive(active);
         audioSource.mute = !active;
-        saving = false;
     }
 
     void AddMaterial()
@@ -89,7 +87,6 @@ public class TVController : SavePointController
             if (interacting)
             {
                 Debug.Log("Saving game");
-                saving = true;
                 AddMat(renderMat, meshRenderer);
                 SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);
                 SaveDataController.instance.SaveFile();
@@ -99,7 +96,6 @@ public class TVController : SavePointController
             else
             {
                 RemoveMat(renderMat, meshRenderer);
-                saving = false;
             }
         }
     }

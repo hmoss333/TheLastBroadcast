@@ -25,18 +25,20 @@ public class ZombieController : CharacterController
     [SerializeField] private LayerMask layer;
 
     [Header("Melee Values")]
-    private bool attacking;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
+    private bool attacking;
 
     [Header("Default Values")]
     private bool wakeUp;
     Vector3 initPos;
+    TVController[] saveTVs;
 
 
     // Start is called before the first frame update
     override public void Start()
     {
+        saveTVs = GameObject.FindObjectsOfType<TVController>();
         health = GetComponent<Health>();
         maxHealth = health.currentHealth; //Get the current max health when launching the scene
         initPos = transform.position;
@@ -50,11 +52,6 @@ public class ZombieController : CharacterController
 
     public void FixedUpdate()
     {
-        if (IsSaving())
-        {
-            InitializeZombie();
-        }
-
         col.enabled = zombieState != ZombieState.asleep && zombieState != ZombieState.dead;
         rb.useGravity = zombieState != ZombieState.asleep && zombieState != ZombieState.dead;
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
@@ -225,19 +222,7 @@ public class ZombieController : CharacterController
         wakeUp = true;
     }
 
-    bool IsSaving()
-    {
-        TVController[] saveTVs = GameObject.FindObjectsOfType<TVController>();
-        foreach (TVController tv in saveTVs)
-        {
-            if (tv.saving)
-                return true;
-        }
-
-        return false;
-    }
-
-    public void InitializeZombie()
+    void InitializeZombie()
     {
         health.SetHealth(maxHealth);
         health.isHit = false;
