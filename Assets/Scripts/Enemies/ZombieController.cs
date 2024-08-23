@@ -10,10 +10,9 @@ public class ZombieController : CharacterController
     //[Header("Zombie Interact Variables")]
     public enum ZombieState { asleep, idle, following, attacking, stunned, hurt, dead }
     [SerializeField] ZombieState zombieState;
-    ZombieState defaultState;
 
     [Header("Health Values")]
-    [SerializeField] int maxHealth;
+    private int maxHealth;
     Health health;
 
     [Header("Visibility Values")]
@@ -29,23 +28,26 @@ public class ZombieController : CharacterController
     [SerializeField] private int damage;
     private bool attacking;
 
-    [Header("Default Values")]
-    private bool wakeUp;
-    Vector3 initPos;
-    TVController[] saveTVs;
+    [Header("Respawn Values")]
+    [SerializeField] private float respawnTime = 240f;
+    private float tempTime = 0f;
+    public bool wakeUp { get; private set; } //while false, zombie will stay in sleep state
 
+
+    private void OnEnable()
+    {
+        if (dead) { animator.Play("Dead", 0, 1f); } //if returning to a scene where the zombie is already dead, start them at the end of the death animation
+    }
 
     // Start is called before the first frame update
     override public void Start()
     {
-        saveTVs = GameObject.FindObjectsOfType<TVController>();
+        //Default values
         health = GetComponent<Health>();
-        maxHealth = health.currentHealth; //Get the current max health when launching the scene
-        initPos = transform.position;
+        maxHealth = health.currentHealth;
         melee.damage = damage;
         storedSpeed = speed;
         tempFocusTime = focusTime;
-        defaultState = zombieState;
 
         base.Start();
     }
@@ -54,6 +56,7 @@ public class ZombieController : CharacterController
     {
         col.enabled = zombieState != ZombieState.asleep && zombieState != ZombieState.dead;
         rb.useGravity = zombieState != ZombieState.asleep && zombieState != ZombieState.dead;
+        rb.isKinematic = zombieState != ZombieState.asleep && zombieState != ZombieState.dead;
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
         switch (zombieState)
@@ -115,6 +118,12 @@ public class ZombieController : CharacterController
             case ZombieState.hurt:
                 break;
             case ZombieState.dead:
+                tempTime += Time.deltaTime;
+                if (tempTime >= respawnTime)
+                {
+                    tempTime = 0f;
+                    InitializeZombie();
+                }
                 break;
             default:
                 break;
@@ -216,13 +225,7 @@ public class ZombieController : CharacterController
         zombieState = state;
     }
 
-    public void WakeUp()
-    {
-        SetState(ZombieState.asleep);
-        wakeUp = true;
-    }
-
-    void InitializeZombie()
+    public void InitializeZombie()
     {
         health.SetHealth(maxHealth);
         health.isHit = false;
@@ -232,8 +235,7 @@ public class ZombieController : CharacterController
         stunned = false;
         attacking = false;
         wakeUp = false;
-        transform.position = initPos;
-        zombieState = defaultState;
-        animator.Play("Idle");
+        animator.Play("WakeUp");
+        SetState(ZombieState.idle);
     }
 }
