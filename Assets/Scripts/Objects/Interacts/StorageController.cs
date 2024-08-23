@@ -158,22 +158,22 @@ public class StorageController : InteractObject
         storageObjs.Clear();
 
         //Populate inventory rectTransform with InventoryItem objects
-        for (int i = 0; i < InventoryController.instance.inventoryItems.Count; i++)
+        for (int i = 0; i < SaveDataController.instance.saveData.inventory.Count; i++)
         {
             InventoryItem itemPrefab = Instantiate(inventoryItemPrefab, inventoryContent);
             itemPrefab.ID = i;
-            itemPrefab.itemInstance = InventoryController.instance.inventoryItems[i];
-            itemPrefab.SetIcon(InventoryController.instance.inventoryItems[i].itemName);
+            itemPrefab.itemInstance = SaveDataController.instance.saveData.inventory[i];
+            itemPrefab.SetIcon(SaveDataController.instance.saveData.inventory[i].itemName);
             inventoryObjs.Add(itemPrefab);
         }
 
         //Populate storage rectTransform with InventoryItem objects
-        for (int s = 0; s < InventoryController.instance.storedItems.Count; s++)
+        for (int s = 0; s < SaveDataController.instance.saveData.storage.Count; s++)
         {
             InventoryItem itemPrefab = Instantiate(inventoryItemPrefab, storageContent);
             itemPrefab.ID = s;
-            itemPrefab.itemInstance = InventoryController.instance.storedItems[s];
-            itemPrefab.SetIcon(InventoryController.instance.storedItems[s].itemName);
+            itemPrefab.itemInstance = SaveDataController.instance.saveData.storage[s];
+            itemPrefab.SetIcon(SaveDataController.instance.saveData.storage[s].itemName);
             storageObjs.Add(itemPrefab);
         }
     }
@@ -188,33 +188,33 @@ public class StorageController : InteractObject
     public void StoreItem(ItemData item)
     {
         if (item.count > 1) { item.count--; }
-        else { InventoryController.instance.inventoryItems.Remove(item); }
+        else { InventoryController.instance.RemoveItem(item.id); }
 
 
-        if (InventoryController.instance.storedItems.Exists(x => x.id == item.id))
+        if (SaveDataController.instance.saveData.storage.Exists(x => x.id == item.id))
         {
-            InventoryController.instance.storedItems.Find(x => x.id == item.id).count++;
+            SaveDataController.instance.saveData.storage.Find(x => x.id == item.id).count++;
         }
         else
         {
-            InventoryController.instance.storedItems.Add(item);
+            SaveDataController.instance.saveData.storage.Add(item);
         }
     }
 
     public void TakeItem(ItemData item)
     {
         if (item.count > 1) { item.count--; }
-        else { InventoryController.instance.storedItems.Remove(item); }
+        else { SaveDataController.instance.saveData.storage.Remove(item); }
 
 
-        if (InventoryController.instance.inventoryItems.Exists(x => x.id == item.id))
+        if (SaveDataController.instance.saveData.inventory.Exists(x => x.id == item.id))
         {
-            InventoryController.instance.inventoryItems.Find(x => x.id == item.id).count++;
+            SaveDataController.instance.saveData.inventory.Find(x => x.id == item.id).count++;
         }
         else
         {
-            if (InventoryController.instance.inventoryItems.Count < 6)
-                InventoryController.instance.inventoryItems.Add(item);
+            if (SaveDataController.instance.saveData.inventory.Count < 6)
+                InventoryController.instance.AddItem(item.id);
         }
     }
 }

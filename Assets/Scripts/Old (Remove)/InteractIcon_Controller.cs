@@ -40,7 +40,7 @@ public class InteractIcon_Controller : MonoBehaviour
             //Update icon based on interactObject
             if (!interactObject.active)
             {
-                if (interactObject.needItem && InventoryController.instance.inventoryItems.Exists(x => x.id == interactObject.inventoryItemID))
+                if (interactObject.needItem && SaveDataController.instance.saveData.inventory.Exists(x => x.id == interactObject.inventoryItemID))
                     icon.sprite = unlockedIcon;
                 else
                     icon.sprite = lockedIcon;

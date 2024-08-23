@@ -11,12 +11,13 @@ public class SaveDataController : MonoBehaviour
 {
     public static SaveDataController instance;
 
-    public SaveData saveData; //requires public for serialization
+    public SaveData saveData;// { get; private set; } //requires public for serialization
     private string saveDestination, levelDestination, loreDestination;
 
     public LoreSaveData loreSaveData;
     [SerializeField] LorePickup[] lorePickups;
     public SceneObjectsContainer sceneObjectContainer;
+    public Dictionary<int, ItemData> itemDict { get; private set; }
 
 
     private void Awake()
@@ -30,10 +31,21 @@ public class SaveDataController : MonoBehaviour
         levelDestination = System.IO.Path.Combine(Application.persistentDataPath, "LevelData");
         loreDestination = System.IO.Path.Combine(Application.streamingAssetsPath, "loreData.json");
         saveData = new SaveData();
+        itemDict = new Dictionary<int, ItemData>();
+
+        //Populate item dictionary
+        string resourcesPath = System.IO.Path.Combine(Application.streamingAssetsPath, "items.json");
+        string r_jsonData = File.ReadAllText(resourcesPath);
+        InventoryWrapper r_Items = JsonUtility.FromJson<InventoryWrapper>("{\"items\":" + r_jsonData + "}");
+        for (int i = 0; i < r_Items.items.Count; i++)
+        {
+            itemDict.Add(r_Items.items[i].id, r_Items.items[i]);
+        }
 
         LoadFile();
         LoadLoreData();
     }
+
 
     //File Save/Load functions
     public void LoadFile()
@@ -60,16 +72,6 @@ public class SaveDataController : MonoBehaviour
         File.WriteAllText(saveDestination, jsonData);
         //StartCoroutine(SaveFileRoutine());
     }
-
-    //IEnumerator SaveFileRoutine()
-    //{
-    //    saving = true;
-    //    string jsonData = JsonUtility.ToJson(saveData);
-    //    print("Saving Data:" + jsonData);
-    //    File.WriteAllText(saveDestination, jsonData);
-    //    yield return new WaitForSeconds(0.5f); //trying this
-    //    saving = false;
-    //}
 
     public SaveData GetSaveData()
     {
@@ -144,37 +146,6 @@ public class SaveDataController : MonoBehaviour
         //StartCoroutine(SaveObjectDataRoutine());
     }
 
-    //IEnumerator SaveObjectDataRoutine()
-    //{
-    //    saving = true;
-    //    SceneObjectsContainer tempContainer = new SceneObjectsContainer();
-    //    tempContainer.sceneName = SceneManager.GetActiveScene().name;
-    //    tempContainer.savePointID = sceneObjectContainer.savePointID;
-
-    //    ///TODO as scene sizes get larger this sort will take more time to complete
-    //    ///May be worth it to change to a per-object system
-    //    SaveObject[] sceneObjects = (SaveObject[])FindObjectsOfType(typeof(SaveObject), true);
-    //    for (int i = 0; i < sceneObjects.Length; i++)
-    //    {
-    //        SceneInteractObj tempObj = new SceneInteractObj();
-    //        tempObj.id = sceneObjects[i].id;
-    //        //tempObj.name = sceneObjects[i].name;
-    //        tempObj.active = sceneObjects[i].active;
-    //        tempObj.hasActivated = sceneObjects[i].hasActivated;
-    //        tempObj.needItem = sceneObjects[i].needItem;
-    //        tempObj.inventoryItemID = sceneObjects[i].inventoryItemID;
-
-    //        tempContainer.sceneObjects.Add(tempObj);
-    //    }
-
-    //    string tempPath = System.IO.Path.Combine(levelDestination, $"{tempContainer.sceneName}.json");
-    //    string jsonData = JsonUtility.ToJson(tempContainer);
-    //    print("Saving Object Data:" + jsonData);
-    //    File.WriteAllText(tempPath, jsonData);
-    //    yield return new WaitForSeconds(0.5f);
-    //    saving = false;
-    //}
-
     public void LoadLoreData()
     {
         //Load lore data from streamingassets location
@@ -194,23 +165,36 @@ public class SaveDataController : MonoBehaviour
         }
     }
 
-    //Pulling for now as we are not supporting re-reading lore from the menu at the moment
-    //public void SaveLoreData(int id)
-    //{
-    //    for (int i = 0; i < loreSaveData.loreData.Count; i++)
-    //    {
-    //        if (loreSaveData.loreData[i].id == id)
-    //        {
-    //            loreSaveData.loreData[i].collected = true;
-    //            break;
-    //        }
-    //    }
 
-    //    //TODO save lore data for specified ID
-    //    string jsonData = JsonUtility.ToJson(loreSaveData);
-    //    print("Saving Lore Data:" + jsonData);
-    //    File.WriteAllText(loreDestination, jsonData);
-    //}
+    //Item Inventory Functions
+    public void AddItem(int itemID)
+    {
+        ItemData result = saveData.inventory.Find(x => x.id == itemID);
+        if (result != null)
+        {
+            result.count++;
+        }
+        else
+        {
+            result = itemDict[itemID];
+            result.count++;
+            saveData.inventory.Add(result);
+        }
+    }
+
+    public void RemoveItem(int itemID)
+    {
+        print($"Removed {itemDict[itemID].itemName}");
+        ItemData result = saveData.inventory.Find(x => x.id == itemID);
+        if (result != null)
+        {
+            result.count--;
+            if (result.count <= 0)
+            {
+                saveData.inventory.Remove(result);
+            }
+        }
+    }
 
 
     //Initialize save file with correct formatting/values
@@ -278,24 +262,24 @@ public class SaveDataController : MonoBehaviour
             case "radio_special":
                 saveData.abilities.radio_special = true;
                 break;
-            case "crowbar":
-                saveData.abilities.crowbar = true;
-                break;
-            //case "gasmask":
-            //    saveData.abilities.gasmask = true;
-            //    break;
             case "flashlight":
                 saveData.abilities.flashlight = true;
+                break;
+            case "crowbar":
+                saveData.abilities.crowbar = true;
                 break;
             case "mirror":
                 saveData.abilities.mirror = true;
                 break;
-            case "book":
-                saveData.abilities.book = true;
-                break;
-            case "hand":
-                saveData.abilities.hand = true;
-                break;
+            //case "gasmask":
+            //    saveData.abilities.gasmask = true;
+            //    break;
+            //case "book":
+            //    saveData.abilities.book = true;
+            //    break;
+            //case "hand":
+            //    saveData.abilities.hand = true;
+            //    break;
             default:
                 Debug.Log($"Ability not found: {abilityName}");
                 break;
@@ -313,24 +297,24 @@ public class SaveDataController : MonoBehaviour
             case "radio_special":
                 saveData.abilities.radio_special = false;
                 break;
-            case "crowbar":
-                saveData.abilities.crowbar = false;
-                break;
-            //case "gasmask":
-            //    saveData.abilities.gasmask = true;
-            //    break;
             case "flashlight":
                 saveData.abilities.flashlight = false;
+                break;
+            case "crowbar":
+                saveData.abilities.crowbar = false;
                 break;
             case "mirror":
                 saveData.abilities.mirror = false;
                 break;
-            case "book":
-                saveData.abilities.book = false;
-                break;
-            case "hand":
-                saveData.abilities.hand = false;
-                break;
+            //case "gasmask":
+            //    saveData.abilities.gasmask = true;
+            //    break;
+            //case "book":
+            //    saveData.abilities.book = false;
+            //    break;
+            //case "hand":
+            //    saveData.abilities.hand = false;
+            //    break;
             default:
                 Debug.Log($"Ability not found: {abilityName}");
                 break;
@@ -350,16 +334,6 @@ public class SaveDataController : MonoBehaviour
 
         print("No matching ability found for " + abilityName);
         return null;
-    }
-
-    public void SetSecurityCardLevel(int levelVal)
-    {
-        saveData.cardLevel = levelVal;
-    }
-
-    public int GetSecurityCardLevel()
-    {
-        return saveData.cardLevel;
     }
 
     public void CollectHealthPart()
@@ -399,10 +373,11 @@ public class SaveData
     public string currentScene;
     public int maxHealth;
     public float maxCharge;
-    public int cardLevel;
     public int healthParts, chargeParts;
     public Abilities abilities;
     public List<RadioAbility> radioAbilities;
+    public List<ItemData> inventory;
+    public List<ItemData> storage;
 }
 
 [System.Serializable]
@@ -410,12 +385,12 @@ public class Abilities
 {
     public bool radio;
     public bool radio_special;
-    public bool crowbar;
-    //public bool gasmask;
     public bool flashlight;
+    public bool crowbar;
     public bool mirror;
-    public bool book;
-    public bool hand;
+    //public bool gasmask;
+    //public bool book;
+    //public bool hand;
 }
 
 [System.Serializable]
@@ -423,7 +398,6 @@ public class RadioAbility
 {
     public string name;
     public float frequency;
-    public float chargeCost;
     public bool isActive;
 }
 

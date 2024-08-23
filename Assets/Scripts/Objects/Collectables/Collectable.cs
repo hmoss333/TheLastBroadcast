@@ -14,9 +14,9 @@ public class Collectable : InteractObject
 
     public override void StartInteract()
     {
-        bool inventoryNotFull = InventoryController.instance.inventoryItems.Count < 6;
+        bool inventoryNotFull = SaveDataController.instance.saveData.inventory.Count < 6;//InventoryController.instance.inventoryItems.Count < 6;
         string collectText = inventoryNotFull
-            ? $"Found a {InventoryController.instance.itemDict[inventoryItemID].itemName}"
+            ? $"Found a {SaveDataController.instance.itemDict[inventoryItemID].itemName}"
             : $"Inventory is full";
         UIController.instance.SetDialogueText(collectText, false);
         UIController.instance.ToggleDialogueUI(true);

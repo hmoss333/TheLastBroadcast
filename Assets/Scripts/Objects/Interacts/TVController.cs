@@ -91,7 +91,7 @@ public class TVController : SavePointController
                 SaveDataController.instance.SetSavePoint(SceneManager.GetActiveScene().name, ID);
                 SaveDataController.instance.SaveFile();
                 SaveDataController.instance.SaveObjectData();
-                InventoryController.instance.SaveItemData();
+                //InventoryController.instance.SaveItemData();
             }
             else
             {

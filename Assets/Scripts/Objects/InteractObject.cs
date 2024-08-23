@@ -24,12 +24,12 @@ public class InteractObject : SaveObject
     {
         interacting = !interacting;
 
-        ItemData tempItem = InventoryController.instance.inventoryItems.Find(x => x.id == inventoryItemID); //Check if itemID exist in current inventory
+        ItemData tempItem = SaveDataController.instance.saveData.inventory.Find(x => x.id == inventoryItemID); //Check if itemID exist in current inventory
         if (needItem && tempItem != null)
         {
             active = true;
             needItem = false;
-            UIController.instance.SetDialogueText($"Used {InventoryController.instance.itemDict.GetValueOrDefault(inventoryItemID).itemName}", false);
+            UIController.instance.SetDialogueText($"Used {SaveDataController.instance.itemDict.GetValueOrDefault(inventoryItemID).itemName}", false);
             UIController.instance.ToggleDialogueUI(interacting);
             InventoryController.instance.RemoveItem(inventoryItemID);
         }
@@ -47,7 +47,7 @@ public class InteractObject : SaveObject
         }
         else
         {
-            UIController.instance.SetDialogueText(needItem ? $"Needs a {InventoryController.instance.itemDict.GetValueOrDefault(inventoryItemID).itemName}" : inactiveText, false);
+            UIController.instance.SetDialogueText(needItem ? $"Needs a {SaveDataController.instance.itemDict.GetValueOrDefault(inventoryItemID).itemName}" : inactiveText, false);
             UIController.instance.ToggleDialogueUI(interacting);
         }
 

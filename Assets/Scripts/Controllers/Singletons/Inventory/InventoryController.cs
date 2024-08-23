@@ -7,20 +7,11 @@ using UnityEngine.UI;
 using System.IO;
 using TMPro;
 using UnityEngine.UI.Extensions;
-using UnityEngine.U2D;
-//using UnityEditorInternal.VersionControl;
-
-
-//TODO
-//Possibly remove the selectedItem system and just trigger item usage from the inventory menu
 
 
 public class InventoryController : MonoBehaviour
 {
     public static InventoryController instance;
-
-    //Save file paths
-    private string inventoryDest, storageDest; //save file destinations
 
     //Input delay variables
     private bool moved = false;
@@ -33,11 +24,6 @@ public class InventoryController : MonoBehaviour
     [SerializeField] Image itemImage;
     [SerializeField] AudioClip equipClip, moveClip;
 
-    //[NaughtyAttributes.HorizontalLine]
-    //[Header("Inventory Data")]
-    public List<ItemData> inventoryItems;// { get; private set; } //Player Inventory
-    public List<ItemData> storedItems { get; private set; } //Storage inventory
-    public Dictionary<int, ItemData> itemDict { get; private set; } //Holds references from streaming item file for all possible items; used for reference when picking up new items
     private int itemPosVal; //Current selected item position in inventory
 
     //To be refactored
@@ -51,23 +37,18 @@ public class InventoryController : MonoBehaviour
             instance = this;
         else
             Destroy(this);
+    }
 
-        inventoryItems = new List<ItemData>();
-        storedItems = new List<ItemData>();
-        itemDict = new Dictionary<int, ItemData>();
-        inventoryDest = System.IO.Path.Combine(Application.persistentDataPath, "Items", "items.json");
-        storageDest = System.IO.Path.Combine(Application.persistentDataPath, "Items", "itembox.json");
-
-        LoadItemFile();
-
+    private void Start()
+    {
         //Populate Inventory UI Elements
         inventoryObjs.Clear();
-        for (int i = 0; i < inventoryItems.Count; i++)
+        for (int i = 0; i < SaveDataController.instance.saveData.inventory.Count; i++)
         {
             InventoryItem itemPrefab = Instantiate(inventoryItemPrefab, inventoryContent);
             itemPrefab.ID = i;
-            itemPrefab.itemInstance = inventoryItems[i];
-            itemPrefab.SetIcon(inventoryItems[i].itemName);
+            itemPrefab.itemInstance = SaveDataController.instance.saveData.inventory[i];
+            itemPrefab.SetIcon(SaveDataController.instance.saveData.inventory[i].itemName);
             inventoryObjs.Add(itemPrefab);
 
             if (i == 0)
@@ -82,9 +63,17 @@ public class InventoryController : MonoBehaviour
         if (PauseMenuController.instance.isPaused
             && PauseMenuController.instance.CurrentPanel().name.ToLower() == "inventory")           
         {
+            //Update UI for all inventory items
+            foreach (InventoryItem item in inventoryObjs)
+            {
+                item.SetIcon(item.itemInstance.itemName);
+            }
+
+            //Set item highlight
             if (inventoryObjs.Count > 0) { inventoryObjs[itemPosVal].ToggleHighlight(true); ShowItemData(inventoryObjs[itemPosVal].itemInstance); }
             else { inventoryTitle.text = ""; inventoryDesc.text = ""; }
 
+            //Toggle itemImage if inventory is not empty
             itemImage.gameObject.SetActive(inventoryObjs.Count > 0 ? true : false);
 
             //Use directional input to navigate inventory menu
@@ -133,7 +122,7 @@ public class InventoryController : MonoBehaviour
 
             //Select current item
             if (InputController.instance.inputMaster.Player.Interact.triggered
-                && inventoryItems.Count > 0)
+                && SaveDataController.instance.saveData.inventory.Count > 0)
             {
                 AudioController.instance.LoopClip(false);
                 AudioController.instance.PlayClip(equipClip);
@@ -149,74 +138,6 @@ public class InventoryController : MonoBehaviour
                 }
             }
         }
-    }
-
-
-    //Save/Load inventory data
-    public void LoadItemFile()
-    {
-        //Get base item data and load into dictionary
-        string resourcesPath = System.IO.Path.Combine(Application.streamingAssetsPath, "items.json");
-        string r_jsonData = File.ReadAllText(resourcesPath);
-
-        InventoryWrapper r_Items = JsonUtility.FromJson<InventoryWrapper>("{\"items\":" + r_jsonData + "}");
-        for (int i = 0; i < r_Items.items.Count; i++)
-        {
-            itemDict.Add(r_Items.items[i].id, r_Items.items[i]);
-        }
-
-
-        //Check if saved inventory file exists
-        if (File.Exists(inventoryDest))
-        {
-            print("Loading Inventory Data");
-            string jsonData = File.ReadAllText(inventoryDest);
-            InventoryWrapper i_Items = JsonUtility.FromJson<InventoryWrapper>(jsonData);
-            inventoryItems = i_Items.items;
-        }
-        //If not, create new inventory save file
-        else
-        {
-            print("Creating new item file");
-            Directory.CreateDirectory(System.IO.Path.Combine(Application.persistentDataPath, "Items"));
-            SaveItemData();
-        }
-
-
-        //Check if saved storage file exists
-        if (File.Exists(storageDest))
-        {
-            print("Loading Inventory Data");
-            string jsonData = File.ReadAllText(storageDest);
-            InventoryWrapper i_Items = JsonUtility.FromJson<InventoryWrapper>(jsonData);
-            storedItems = i_Items.items;
-        }
-        //If not, create new inventory save file
-        else
-        {
-            print("Creating new item file");
-            Directory.CreateDirectory(System.IO.Path.Combine(Application.persistentDataPath, "Items"));
-            SaveItemData();
-        }
-    }
-
-    public void SaveItemData()
-    {
-        //Serialize Item Data
-        InventoryWrapper inventoryData = new InventoryWrapper();
-        InventoryWrapper storageData = new InventoryWrapper();
-        inventoryData.items = inventoryItems;
-        storageData.items = storedItems;
-
-        //Write Inventory Data to JSON file
-        string jsonData = JsonUtility.ToJson(inventoryData);
-        print("Saving Inventory Data:" + jsonData);
-        File.WriteAllText(inventoryDest, jsonData);
-
-        //Write Storage Data to JSON File
-        string jsonStorageData = JsonUtility.ToJson(storageData);
-        print("Saving Storage Data:" + jsonStorageData);
-        File.WriteAllText(storageDest, jsonStorageData);
     }
 
 
@@ -252,22 +173,22 @@ public class InventoryController : MonoBehaviour
     //Item Inventory Functions
     public void AddItem(int itemID)
     {
-        ItemData result = inventoryItems.Find(x => x.id == itemID);
+        SaveDataController.instance.AddItem(itemID);
+
+        ItemData result = SaveDataController.instance.saveData.inventory.Find(x => x.id == itemID);
         if (result != null)
         {
-            result.count++;
-        }
-        else
-        {
-            result = itemDict[itemID];
-            result.count++;
-            inventoryItems.Add(result);
+            InventoryItem checkItem = inventoryObjs.Find(x => x.itemInstance.id == itemID);
 
-            InventoryItem tempItem = Instantiate(inventoryItemPrefab, inventoryContent);
-            tempItem.ID = result.id;
-            tempItem.itemInstance = result;
-            tempItem.SetIcon(result.itemName);
-            inventoryObjs.Add(tempItem);
+            //If the inventoryObj does already NOT exist
+            if (checkItem == null)
+            {
+                InventoryItem tempItem = Instantiate(inventoryItemPrefab, inventoryContent);
+                tempItem.ID = result.id;
+                tempItem.itemInstance = result;
+                tempItem.SetIcon(result.itemName);
+                inventoryObjs.Add(tempItem);
+            }
         }
 
         itemPosVal = 0;
@@ -275,19 +196,16 @@ public class InventoryController : MonoBehaviour
 
     public void RemoveItem(int itemID)
     {
-        print($"Removed {itemDict[itemID].itemName}");
-        ItemData result = inventoryItems.Find(x => x.id == itemID);
-        if (result != null)
+        SaveDataController.instance.RemoveItem(itemID);
+
+        ItemData result = SaveDataController.instance.saveData.inventory.Find(x => x.id == itemID);
+        //If the item has been removed from the inventory
+        if (result == null)
         {
-            result.count--;
-            if (result.count <= 0)
-            {
-                inventoryItems.Remove(result);
-                InventoryItem tempItem = inventoryObjs.Find(x => x.itemInstance.id == itemID);
-                Destroy(inventoryObjs.Find(x => x.itemInstance.id == itemID).gameObject);
-                inventoryObjs.Remove(tempItem);
-                itemPosVal = 0;
-            }
+            InventoryItem tempItem = inventoryObjs.Find(x => x.itemInstance.id == itemID);
+            Destroy(inventoryObjs.Find(x => x.itemInstance.id == itemID).gameObject);
+            inventoryObjs.Remove(tempItem);
+            itemPosVal = 0;
         }
     }
 }

@@ -376,9 +376,4 @@ public class PlayerController : CharacterController
     {
         return isSeen;
     }
-
-    public void SeePlayer()
-    {
-        isSeen = true;
-    }
 }
