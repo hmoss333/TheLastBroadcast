@@ -9,6 +9,7 @@ public class InteractIcon_Controller : MonoBehaviour
     Image icon;
     [SerializeField] float fadeTime;
     [SerializeField] Sprite interactIcon;
+    [SerializeField] Sprite inactiveIcon;
     [SerializeField] Sprite lockedIcon;
     [SerializeField] Sprite unlockedIcon;
 
@@ -24,7 +25,7 @@ public class InteractIcon_Controller : MonoBehaviour
         try
         {
             icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, Mathf.PingPong(Time.time, fadeTime) / fadeTime);
-            transform.LookAt(Camera.main.transform);
+            transform.LookAt(Camera.main.transform, Vector3.up);
         }
         catch { }
     }
@@ -40,10 +41,17 @@ public class InteractIcon_Controller : MonoBehaviour
             //Update icon based on interactObject
             if (!interactObject.active)
             {
-                if (interactObject.needItem && SaveDataController.instance.saveData.inventory.Exists(x => x.id == interactObject.inventoryItemID))
-                    icon.sprite = unlockedIcon;
+                if (interactObject.needItem)
+                {
+                    if (SaveDataController.instance.saveData.inventory.Exists(x => x.id == interactObject.inventoryItemID))
+                        icon.sprite = unlockedIcon;
+                    else
+                        icon.sprite = lockedIcon;
+                }
                 else
-                    icon.sprite = lockedIcon;
+                {
+                    icon.sprite = inactiveIcon;
+                }
             }
             else
                 icon.sprite = interactIcon;
