@@ -25,7 +25,8 @@ public class InteractIcon_Controller : MonoBehaviour
         try
         {
             icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, Mathf.PingPong(Time.time, fadeTime) / fadeTime);
-            transform.LookAt(Camera.main.transform, Vector3.up);
+            //transform.LookAt(Camera.main.transform, PlayerController.instance.transform.up); //displaying icons reversed
+            transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
         }
         catch { }
     }
