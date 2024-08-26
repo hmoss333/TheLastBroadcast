@@ -45,6 +45,7 @@ public class TransmitterController : InteractObject
     private void Update()
     {
         lightMesh.material.color = active ? Color.green : Color.red;
+        staticSource.mute = !active || hasActivated;
         staticSource.volume = Mathf.Lerp(staticSource.volume, interacting ? 0.5f : 0.125f, 10f);
         arrowLeft.gameObject.SetActive(interacting);
         arrowRight.gameObject.SetActive(interacting);
@@ -128,6 +129,8 @@ public class TransmitterController : InteractObject
         {
             base.Interact();
 
+            PlayerController.instance.ToggleAvatar();
+
             if (active && interacting)
             {
                 currentFrequency = 0.0f;
@@ -148,6 +151,7 @@ public class TransmitterController : InteractObject
     {
         yield return new WaitForSeconds(triggerDelay);
 
+        PlayerController.instance.ToggleAvatar();
         CameraController.instance.LoadLastTarget();
         CameraController.instance.SetRotation(CameraController.instance.GetTriggerState() ? true : false);
         PlayerController.instance.SetState(PlayerController.States.idle);
