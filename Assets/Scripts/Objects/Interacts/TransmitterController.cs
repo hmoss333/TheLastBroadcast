@@ -129,11 +129,10 @@ public class TransmitterController : InteractObject
         {
             base.Interact();
 
-            PlayerController.instance.ToggleAvatar();
-
             if (active && interacting)
             {
                 currentFrequency = 0.0f;
+                PlayerController.instance.ToggleAvatar();
                 CameraController.instance.SetTarget(focusPoint);
                 CameraController.instance.SetRotation(true);
                 CameraController.instance.transform.position = focusPoint.position;
