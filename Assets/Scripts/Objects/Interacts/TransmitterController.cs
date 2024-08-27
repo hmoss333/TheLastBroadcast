@@ -131,8 +131,7 @@ public class TransmitterController : InteractObject
 
             if (active && interacting)
             {
-                currentFrequency = 0.0f;
-                PlayerController.instance.ToggleAvatar();
+                currentFrequency = 0.0f;      
                 CameraController.instance.SetTarget(focusPoint);
                 CameraController.instance.SetRotation(true);
                 CameraController.instance.transform.position = focusPoint.position;
@@ -144,6 +143,18 @@ public class TransmitterController : InteractObject
                 PlayerController.instance.SetState(PlayerController.States.idle);
             }
         }
+    }
+
+    public override void StartInteract()
+    {
+        if (active && !hasActivated)
+            PlayerController.instance.ToggleAvatar();
+    }
+
+    public override void EndInteract()
+    {
+        if (active && !hasActivated)
+            PlayerController.instance.ToggleAvatar();
     }
 
     IEnumerator TurnOnRoutine()
