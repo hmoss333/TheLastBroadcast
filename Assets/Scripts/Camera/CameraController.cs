@@ -18,6 +18,7 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] //useful for debugging
     private bool focus, setRot, inTrigger, hitWall;
+    public bool isFocusing { get; private set; }
     [SerializeField] float camFocusSize;
     [SerializeField] float camDefaultSize;
     [SerializeField] float focusRate;
@@ -164,6 +165,7 @@ public class CameraController : MonoBehaviour
     public void FocusTarget()
     {
         focus = !focus;
+        isFocusing = focus;
         SetRotation(focus);
     }
 
@@ -204,6 +206,7 @@ public class CameraController : MonoBehaviour
         setRot = false;
         inTrigger = false;
         hitWall = false;
+        isFocusing = true;
 
         PlayerController.instance.SetState(PlayerController.States.listening);
 
@@ -221,6 +224,7 @@ public class CameraController : MonoBehaviour
         PlayerController.instance.SetState(PlayerController.States.idle);
 
         objsToFocus.Clear();
+        isFocusing = false;
         focusObjsRoutine = null;
     }
 

@@ -35,6 +35,7 @@ public class CamTriggerZone : MonoBehaviour
             //Covers for fringe cases for if the player walks into an adjacent cam triggerZone and then immediately exits back into the first zone
             //Previously would cause the camera to revert back to focusing on the player even though they would technically be in an active triggerZone
             if (CameraController.instance.GetTarget() != camPos.transform
+                && !CameraController.instance.isFocusing
                 && PlayerController.instance.state != PlayerController.States.interacting)
             {
                 OnTriggerEnter(other);
