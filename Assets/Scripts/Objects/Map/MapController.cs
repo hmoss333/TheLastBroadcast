@@ -2,17 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class MapController : InteractObject
 {
-    [SerializeField] List<ObjectiveContainer> objectives;
+    [NaughtyAttributes.HorizontalLine]
+
     [SerializeField] private int progress;
+    [SerializeField] List<ObjectiveContainer> objectives;
 
 
     private void Update()
     {
-        if (progress > objectives.Count)
-            progress = objectives.Count;
+        if (progress >= objectives.Count)
+            progress = objectives.Count - 1;
 
         //Hide all objectives
         for (int i = 0; i < objectives.Count; i++)
@@ -20,7 +23,7 @@ public class MapController : InteractObject
             objectives[i].HideObjectives();
         }
 
-        //Toggle all MabObjectives to only display the current progress level
+        //Toggle all MapObjectives to only display the current progress level
         for (int j = 0; j < objectives[progress].objectiveObjs.Count; j++)
         {
             objectives[progress].objectiveObjs[j].gameObject.SetActive(true);
@@ -38,7 +41,6 @@ public class MapController : InteractObject
 public class ObjectiveContainer
 {
     public List<MapObjective> objectiveObjs; //Container for multiple MapObjective instances
-    public bool completed;
 
     public void HideObjectives()
     {
