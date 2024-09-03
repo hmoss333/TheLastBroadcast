@@ -31,6 +31,7 @@ public class ClearSight : MonoBehaviour
                 AutoTransparent AT = R.GetComponent<AutoTransparent>();
                 if (AT == null) // if no script is attached, attach one
                 {
+                    print($"Adding autotransparent from {this.name}");
                     AT = R.gameObject.AddComponent<AutoTransparent>();
                 }
                 AT.BeTransparent(); // get called every frame to reset the falloff
