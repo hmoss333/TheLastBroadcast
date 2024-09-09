@@ -46,8 +46,8 @@ public class ViewInteractObject : InteractObject
         base.StartInteract();
         PlayerController.instance.animator.SetBool("isInspecting", true);
 
-        UIController.instance.SetDialogueText(string.Empty, false);
-        UIController.instance.ToggleDialogueUI(true);
+        //UIController.instance.SetDialogueText(string.Empty, false);
+        //UIController.instance.ToggleDialogueUI(true);
 
         if (vrRoutine == null)
             vrRoutine = StartCoroutine(ViewRoom());
@@ -59,7 +59,7 @@ public class ViewInteractObject : InteractObject
         PlayerController.instance.animator.SetBool("isInspecting", false);
         m_OnTrigger.Invoke();
 
-        UIController.instance.ToggleDialogueUI(false);
+        //UIController.instance.ToggleDialogueUI(false);
 
         if (vrRoutine == null)
             vrRoutine = StartCoroutine(ViewRoom());
