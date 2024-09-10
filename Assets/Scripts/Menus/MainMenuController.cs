@@ -28,6 +28,8 @@ public class MainMenuController : MonoBehaviour
     SettingsMenuController settingsMenu;
     [SerializeField] LoadingScene loadingScreen;
 
+    Coroutine newGameRoutine;
+
 
     private void Awake()
     {
@@ -48,8 +50,6 @@ public class MainMenuController : MonoBehaviour
         versionText.text = $"Version: {Application.version}";
 
         FadeController.instance.StartFade(0f, 1f);
-
-        //StartCoroutine(FadeAudio(backgroundAudio, maxAudioVolume, 10f));
     }
 
     private void Update()
@@ -62,7 +62,7 @@ public class MainMenuController : MonoBehaviour
             if (!FadeController.instance.isFading)
             {
                 if (sceneToLoad == "Intro")
-                    SceneManager.LoadSceneAsync(sceneToLoad);
+                    SceneManager.LoadScene(sceneToLoad);
                 else
                     loadingScreen.LoadScene(sceneToLoad);
             }
@@ -155,15 +155,16 @@ public class MainMenuController : MonoBehaviour
             Directory.Delete(System.IO.Path.Combine(Application.persistentDataPath, "LevelData"), true);
         }
 
-        if (Directory.Exists(System.IO.Path.Combine(Application.persistentDataPath, "Items")))
-        {
-            print("Deleting old item data");
-            Directory.Delete(System.IO.Path.Combine(Application.persistentDataPath, "Items"), true);
-        }
+        //Depreciated
+        //if (Directory.Exists(System.IO.Path.Combine(Application.persistentDataPath, "Items")))
+        //{
+        //    print("Deleting old item data");
+        //    Directory.Delete(System.IO.Path.Combine(Application.persistentDataPath, "Items"), true);
+        //}
 
         SaveDataController.instance.CreateNewSaveFile();
         FadeController.instance.StartFade(1, 1.5f);
-        sceneToLoad = "Intro"; 
+        sceneToLoad = "Intro";
         loadingScene = true;
     }
 
