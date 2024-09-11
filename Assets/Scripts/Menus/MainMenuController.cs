@@ -155,16 +155,9 @@ public class MainMenuController : MonoBehaviour
             Directory.Delete(System.IO.Path.Combine(Application.persistentDataPath, "LevelData"), true);
         }
 
-        //Depreciated
-        //if (Directory.Exists(System.IO.Path.Combine(Application.persistentDataPath, "Items")))
-        //{
-        //    print("Deleting old item data");
-        //    Directory.Delete(System.IO.Path.Combine(Application.persistentDataPath, "Items"), true);
-        //}
-
         SaveDataController.instance.CreateNewSaveFile();
         FadeController.instance.StartFade(1, 1.5f);
-        sceneToLoad = "Intro";
+        sceneToLoad = "Maintenance"; //"Intro";
         loadingScene = true;
     }
 
