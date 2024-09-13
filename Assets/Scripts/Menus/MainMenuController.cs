@@ -157,7 +157,7 @@ public class MainMenuController : MonoBehaviour
 
         SaveDataController.instance.CreateNewSaveFile();
         FadeController.instance.StartFade(1, 1.5f);
-        sceneToLoad = "Maintenance"; //"Intro";
+        sceneToLoad = "Intro";
         loadingScene = true;
     }
 
