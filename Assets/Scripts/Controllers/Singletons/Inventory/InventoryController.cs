@@ -131,10 +131,10 @@ public class InventoryController : MonoBehaviour
                 {
                     SelectItem(inventoryObjs[itemPosVal]);
                 }
-                else
+
+                if (selectedItem.itemInstance.consumable)
                 {
-                    selectedItem = null;
-                    PlayerItemUI.instance.UpdateCurrentItem(selectedItem);
+                    ConsumeItem();            
                 }
             }
         }
@@ -159,6 +159,38 @@ public class InventoryController : MonoBehaviour
         //Display item name/description
         ShowItemData(item.itemInstance);
         PlayerItemUI.instance.UpdateCurrentItem(item);
+    }
+
+    public void ConsumeItem()
+    {
+        bool canConsume = false;
+        switch (selectedItem.itemInstance.id)
+        {
+            case 0:
+                Health playerHealth = PlayerController.instance.GetComponent<Health>();
+                if (playerHealth.currentHealth < PlayerController.instance.maxHealth)
+                {
+                    canConsume = true;
+                    PlayerController.instance.GetComponent<Health>().ModifyHealth(1);
+                }
+                break;
+            default:
+                print($"Item ID not recognized: {1}");
+                break;
+        }
+
+        //Consume Item
+        if (canConsume)
+        {
+            if (selectedItem.itemInstance.count > 1)
+            {
+                selectedItem.itemInstance.count--;
+            }
+            else
+            {
+                RemoveItem(selectedItem.itemInstance.id);
+            }
+        }
     }
 
     public void ShowItemData(ItemData item)

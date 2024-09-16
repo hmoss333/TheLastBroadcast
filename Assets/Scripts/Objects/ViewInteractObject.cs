@@ -11,8 +11,8 @@ public class ViewInteractObject : InteractObject
     [SerializeField] Camera mainCam;
     bool viewing;
 
-    [SerializeField] RoomController viewRoom;
-    [SerializeField] RoomController currentRoom;
+    RoomController viewRoom;
+    RoomController currentRoom;
 
     Coroutine vrRoutine;
 
@@ -49,8 +49,6 @@ public class ViewInteractObject : InteractObject
         //UIController.instance.SetDialogueText(string.Empty, false);
         //UIController.instance.ToggleDialogueUI(true);
 
-        viewRoom.gameObject.SetActive(true);
-
         if (vrRoutine == null)
             vrRoutine = StartCoroutine(ViewRoom());
     }
@@ -62,9 +60,6 @@ public class ViewInteractObject : InteractObject
         m_OnTrigger.Invoke();
 
         //UIController.instance.ToggleDialogueUI(false);
-
-        if (viewRoom != currentRoom)
-            viewRoom.gameObject.SetActive(false);
 
         if (vrRoutine == null)
             vrRoutine = StartCoroutine(ViewRoom());
@@ -80,13 +75,13 @@ public class ViewInteractObject : InteractObject
         mainCam.enabled = !mainCam.enabled;
         viewCam.enabled = !viewCam.enabled;
 
-        //if (!viewRoom.gameObject.activeSelf)
-        //    viewRoom.gameObject.SetActive(true);
-        //else
-        //{
-        //    if (viewRoom != currentRoom)
-        //        viewRoom.gameObject.SetActive(false);
-        //}
+        if (!viewRoom.gameObject.activeSelf)
+            viewRoom.gameObject.SetActive(true);
+        else
+        {
+            if (viewRoom != currentRoom)
+                viewRoom.gameObject.SetActive(false);
+        }
 
         FadeController.instance.StartFade(0f, 0.25f);
 

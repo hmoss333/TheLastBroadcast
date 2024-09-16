@@ -33,7 +33,7 @@ public class InteractIcon_Controller : MonoBehaviour
 
     public void UpdateIcon(bool isInteracting, InteractObject interactObject)
     {
-        print("Updating Interact Icon");
+        //print("Updating Interact Icon");
         bool canDisplay = false;
         if (interactObject != null)
         {

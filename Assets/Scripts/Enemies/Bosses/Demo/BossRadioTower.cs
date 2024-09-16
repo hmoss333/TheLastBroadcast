@@ -5,6 +5,8 @@ using UnityEngine;
 using NaughtyAttributes;
 
 
+[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(OnDeathTrigger))]
 public class BossRadioTower : MonoBehaviour
 {
     [Header("Radio Values")]
@@ -15,11 +17,13 @@ public class BossRadioTower : MonoBehaviour
     [SerializeField] private float checkOffset = 0.5f; //offset amount for matching with the current field radio frequency
     //[SerializeField]
     private bool active, interacting, triggered;
-    [SerializeField] int activateCount = 3;
 
     [Header("Object References")]
     [NaughtyAttributes.HorizontalLine]
     [SerializeField] private MeshRenderer mesh;
+    private Collider collider;
+    [SerializeField] private Health health;
+    private OnDeathTrigger onDeathTrigger;
     [SerializeField] private GameObject barrier;
     [SerializeField] private ObjectFlicker flickerController;
     public Transform focusPoint;
@@ -44,6 +48,9 @@ public class BossRadioTower : MonoBehaviour
     {
         bossController = FindObjectOfType<BossZombieController>();
         mesh.material.color = Color.black;
+        health = GetComponent<Health>();
+        onDeathTrigger = GetComponent<OnDeathTrigger>();
+        collider = GetComponent<Collider>();
     }
 
     // Update is called once per frame
@@ -65,23 +72,11 @@ public class BossRadioTower : MonoBehaviour
                 if (tempTime >= checkTime)
                 {
                     triggered = true;
-                    activateCount--;
                     tempTime = 0f;
 
                     PlayClip(barrierOffClip);
                     electricParticles.Play();
-
-                    if (activateCount > 0)
-                    {
-                        checkFrequency = Random.Range(1.5f, 9f);
-                        triggered = false;
-                    }
-                    else
-                    {
-                        flickerController.StartFlicker();
-                        sparkParticles.Play();
-                        bossController.SetTower();
-                    }
+                    flickerController.StartFlicker();
                 }
             }
             else if (interacting)
@@ -92,11 +87,20 @@ public class BossRadioTower : MonoBehaviour
             }
         }
 
-        mesh.material.color = triggered ? Color.green
-                                        : active ? interacting
-                                                ? Color.yellow
-                                                : Color.red
+        collider.enabled = !barrier.activeSelf;
+        if (hitRoutine == null)
+        {
+            mesh.material.color = triggered
+                                    ? Color.green
+                                    : active
+                                        ? interacting
+                                            ? Color.yellow
+                                            : Color.red
                                         : Color.black;
+
+            if (health.currentHealth == 0)
+                mesh.material.color = Color.black;
+        }
     }
 
     public bool GetActiveState()
@@ -107,8 +111,11 @@ public class BossRadioTower : MonoBehaviour
     public void Activate()
     {
         active = true;
-        activateCount = 2;
         barrier.SetActive(true);
+        health.SetHealth(2);
+        onDeathTrigger.enabled = true;
+        onDeathTrigger.triggered = false;
+        health.isHit = false;
         PlayClip(barrierOnClip);
         checkFrequency = Random.Range(1.5f, 9f);
     }
@@ -117,7 +124,14 @@ public class BossRadioTower : MonoBehaviour
     {
         active = false;
         barrier.SetActive(true);
+        collider.enabled = false;
         triggered = false;
+    }
+
+    public void TowerHit()
+    {
+        sparkParticles.Play();
+        bossController.SetTower();
     }
 
     void PlayClip(AudioClip clip)
@@ -125,5 +139,22 @@ public class BossRadioTower : MonoBehaviour
         audioSource.Stop();
         audioSource.clip = clip;
         audioSource.Play();
+    }
+
+    public void FlashHit(float waitTime)
+    {
+        if (hitRoutine == null)
+            hitRoutine = StartCoroutine(FlashHitRoutine(waitTime));
+    }
+
+    IEnumerator FlashHitRoutine(float waitTime)
+    {
+        mesh.material.color = Color.red;
+
+        yield return new WaitForSeconds(waitTime);
+
+        mesh.material.color = Color.green;
+
+        hitRoutine = null;
     }
 }
