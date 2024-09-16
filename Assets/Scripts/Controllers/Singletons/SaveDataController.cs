@@ -68,7 +68,7 @@ public class SaveDataController : MonoBehaviour
     public void SaveFile()
     {
         string jsonData = JsonUtility.ToJson(saveData);
-        print("Saving Data:" + jsonData);
+        print("Saving Data");//:" + jsonData);
         File.WriteAllText(saveDestination, jsonData);
         //StartCoroutine(SaveFileRoutine());
     }
@@ -141,7 +141,7 @@ public class SaveDataController : MonoBehaviour
 
         string tempPath = System.IO.Path.Combine(levelDestination, $"{tempContainer.sceneName}.json");
         string jsonData = JsonUtility.ToJson(tempContainer);
-        print("Saving Object Data:" + jsonData);
+        print("Saving Object Data");//:" + jsonData);
         File.WriteAllText(tempPath, jsonData);
         //StartCoroutine(SaveObjectDataRoutine());
     }
@@ -228,7 +228,7 @@ public class SaveDataController : MonoBehaviour
         //Update savePoint ID in level file
         string tempPath = System.IO.Path.Combine(levelDestination, $"{sceneName}.json");
         string jsonData = JsonUtility.ToJson(sceneObjectContainer);
-        print("Updating Save Point:" + jsonData);
+        print("Updating Save Point");//:" + jsonData);
         File.WriteAllText(tempPath, jsonData);
 
         //Update currentScene value in save file

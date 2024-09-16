@@ -28,6 +28,7 @@ public class BossZombieController : SaveObject
     [SerializeField] float attackDelay = 2f;
     [SerializeField] Transform camTarget, deathCamTarget;
     [SerializeField] BossRadioTower[] radioTowers;
+    [SerializeField] CamTriggerZone[] camTriggers;
     [SerializeField] ParticleSystem electricParticles;
 
     [Header("Boss UI References")]
@@ -108,7 +109,7 @@ public class BossZombieController : SaveObject
                         }
                     }
 
-                    if (bossStage > 2)
+                    if (bossStage > 1)
                     {
                         attackDelay -= Time.deltaTime;
                         if (attackDelay < 0)
@@ -129,6 +130,11 @@ public class BossZombieController : SaveObject
                     }
                     break;
                 case BossState.hurt:
+                    foreach (CamTriggerZone zone in camTriggers)
+                    {
+                        zone.gameObject.SetActive(false);
+                    }
+
                     CameraController.instance.SetTarget(camTarget);
                     CamEffectController.instance.ForceEffect();
 
@@ -145,9 +151,9 @@ public class BossZombieController : SaveObject
                         case 3:
                             AudioController.instance.AddLayer(stage2);
                             break;
-                        case 4:
-                            AudioController.instance.AddLayer(stage3);
-                            break;
+                        //case 4:
+                        //    AudioController.instance.AddLayer(stage3);
+                        //    break;
                         default:
                             print($"Boss stage: {bossStage}");
                             break;
@@ -216,6 +222,11 @@ public class BossZombieController : SaveObject
         //Check current health to determine state
         if (health.currentHealth <= 0)
         {
+            foreach (CamTriggerZone zone in camTriggers)
+            {
+                zone.gameObject.SetActive(false);
+            }
+
             CameraController.instance.SetRotation(false);
             CameraController.instance.SetTarget(deathCamTarget);
             SetState(BossState.waiting);//BossState.dead);
@@ -318,19 +329,15 @@ public class BossZombieController : SaveObject
             else { i--; }
         }
 
-        if (CameraController.instance.GetTriggerState())
-        {
-            CameraController.instance.SetRotation(true);
-            CameraController.instance.LoadLastTarget();
-        }
-        else
-        {
-            CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
-        }
-
+        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
         PlayerController.instance.SetState(PlayerController.States.idle);
 
         yield return new WaitForSeconds(1.5f);
+
+        foreach (CamTriggerZone zone in camTriggers)
+        {
+            zone.gameObject.SetActive(true);
+        }
 
         SetState(BossState.aggro);
         setupRoutine = null;
@@ -342,7 +349,7 @@ public class BossZombieController : SaveObject
         handRight.SetActive(false);
         PlayerController.instance.SetState(PlayerController.States.listening);
         //CameraController.instance.SetRotation(true);
-        CameraController.instance.SetTarget(camTarget);
+        CameraController.instance.SetTarget(PlayerController.instance.lookTransform);
 
         avatarBody.SetTrigger("isDead");
         tulpaBody.SetTrigger("isDead");
