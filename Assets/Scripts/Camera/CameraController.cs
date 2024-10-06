@@ -92,10 +92,10 @@ public class CameraController : MonoBehaviour
             //    : camOffset.z + offset.z;
         }
 
-        if (hitWall && focusObjsRoutine == null)
-        {
-            pos = new Vector3(transform.position.x, pos.y, pos.z);
-        }
+        //if (hitWall && focusObjsRoutine == null)
+        //{
+        //    pos = new Vector3(transform.position.x, pos.y, pos.z);
+        //}
 
 
         //Force camera to be centered behind target, uniformly
