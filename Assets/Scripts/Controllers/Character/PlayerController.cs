@@ -191,7 +191,25 @@ public class PlayerController : CharacterController
                     }
                     else { running = false; }
 
-                    speed = running ? runSpeed : storedSpeed;
+                    if (!running)
+                    {
+                        if (speed < storedSpeed)
+                        {
+                            speed += Time.deltaTime * 5f;
+                            animator.speed = speed / storedSpeed;
+                        }
+                        else
+                        {
+                            speed = storedSpeed;
+                            animator.speed = 1f;
+                        }
+                    }
+                    else
+                    {
+                        speed = runSpeed;
+                        animator.speed = 1f;
+                    }
+                    //speed = running ? runSpeed : storedSpeed;
 
                     horizontal = Mathf.Round(move.x * 10f) * 0.1f;
                     vertical = Mathf.Round(move.y * 10f) * 0.1f;

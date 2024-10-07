@@ -158,7 +158,7 @@ public class InventoryController : MonoBehaviour
 
         //Display item name/description
         ShowItemData(item.itemInstance);
-        PlayerItemUI.instance.UpdateCurrentItem(item);
+        //PlayerItemUI.instance.UpdateCurrentItem(item); //Depreciated
     }
 
     public void ConsumeItem()
