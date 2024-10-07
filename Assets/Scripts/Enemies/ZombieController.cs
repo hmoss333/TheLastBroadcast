@@ -56,7 +56,7 @@ public class ZombieController : CharacterController
     {
         col.enabled = zombieState != ZombieState.asleep && zombieState != ZombieState.dead;
         rb.useGravity = zombieState != ZombieState.asleep && zombieState != ZombieState.dead;
-        rb.isKinematic = zombieState != ZombieState.asleep && zombieState != ZombieState.dead;
+        rb.isKinematic = zombieState == ZombieState.asleep || zombieState == ZombieState.dead;
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
         switch (zombieState)
@@ -236,6 +236,11 @@ public class ZombieController : CharacterController
         attacking = false;
         wakeUp = false;
         animator.Play("WakeUp");
+        SetState(ZombieState.idle);
+    }
+
+    public void WakeUp()
+    {
         SetState(ZombieState.idle);
     }
 }
