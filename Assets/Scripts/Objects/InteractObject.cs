@@ -55,7 +55,7 @@ public class InteractObject : SaveObject
         {
             PlayerController.instance.ToggleAvatar();
             CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
-            CameraController.instance.FocusTarget();
+            CameraController.instance.SetFocus(interacting ? true : false);
             if (CameraController.instance.GetTriggerState())
                 CameraController.instance.SetRotation(true);
         }
