@@ -5,6 +5,7 @@ using UnityEngine;
 public class Collectable : InteractObject
 {
     private bool collected = false;
+    [SerializeField] AudioClip collectClip;
 
     public override void Interact()
     {
@@ -32,6 +33,11 @@ public class Collectable : InteractObject
     {
         base.EndInteract();
         UIController.instance.ToggleDialogueUI(false);
-        if (collected) { SetHasActivated(); m_OnTrigger.Invoke(); }
+        if (collected) {
+            SetHasActivated();
+            m_OnTrigger.Invoke();
+            try { AudioController.instance.LoopClip(false); AudioController.instance.PlayClip(collectClip); }
+            catch { Debug.Log("No AudioController in current scene"); }
+        }
     }
 }
