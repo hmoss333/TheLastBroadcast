@@ -3,24 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(AudioSource))]
 public class AntennaController : InteractObject
 {
-    //[SerializeField] private bool turnedOn;
     [SerializeField] private float speed, currentValue, targetValue, offset;
     [SerializeField] float waitTime, checkTime;
     [SerializeField] GameObject miniGameUI, miniGameLight;
     [SerializeField] Slider miniGameSlider;
+    AudioSource audioSource;
+    [SerializeField] AudioClip activateClip;
 
 
     private void Start()
     {
         targetValue = Random.Range(4.5f, 10f);
         miniGameSlider.maxValue = 10f;
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = activateClip;
     }
 
     private void Update()
     {
-        if (interacting && !hasActivated)//turnedOn)
+        if (interacting && !hasActivated)
         {
             float antennaValue = InputController.instance.inputMaster.Player.Move.ReadValue<Vector2>().y;
             currentValue += antennaValue * speed * Time.deltaTime;
@@ -41,12 +45,17 @@ public class AntennaController : InteractObject
                 checkTime = 0f;
             }
         }
+        else
+        {
+            if (!active)
+                miniGameLight.GetComponent<Renderer>().material.color = Color.black;
+            else if (hasActivated)
+                miniGameLight.GetComponent<Renderer>().material.color = Color.green;
+            else
+                miniGameLight.GetComponent<Renderer>().material.color = Color.red;
+        }
 
         miniGameUI.SetActive(active && interacting && !hasActivated);
-        if (!active)
-            miniGameLight.GetComponent<Renderer>().material.color = Color.black;
-        if (hasActivated)
-            miniGameLight.GetComponent<Renderer>().material.color = Color.green;
     }
 
     public override void Interact()
@@ -56,7 +65,7 @@ public class AntennaController : InteractObject
         if (active && !hasActivated)
         {
             PlayerController.instance.ToggleAvatar();
-            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);//.gameObject);
+            CameraController.instance.SetTarget(interacting ? focusPoint : PlayerController.instance.lookTransform);
             CameraController.instance.FocusTarget();
         }
     }
@@ -70,6 +79,7 @@ public class AntennaController : InteractObject
     void TurnOn()
     {
         miniGameLight.GetComponent<Renderer>().material.color = Color.green;
+        audioSource.Play();
         SetHasActivated();
         //SaveDataController.instance.SaveObjectData();
 
@@ -80,7 +90,6 @@ public class AntennaController : InteractObject
     {
         yield return new WaitForSeconds(1.5f);
 
-        //turnedOn = true;
         PlayerController.instance.ToggleAvatar();
         CameraController.instance.SetTarget(interacting ? focusPoint : CameraController.instance.GetLastTarget());
         CameraController.instance.FocusTarget();
