@@ -336,6 +336,8 @@ public class PlayerController : CharacterController
         }
 
 
+        //Injured
+        animator.SetBool("injured", health.currentHealth < maxHealth);
         //Moving
         animator.SetBool("isMoving", state == States.moving);
         animator.SetBool("isRunning", state == States.moving && running);
@@ -380,6 +382,7 @@ public class PlayerController : CharacterController
 
     public void SetState(States stateToSet)
     {
+        animator.speed = 1f;
         state = stateToSet;
     }
 
