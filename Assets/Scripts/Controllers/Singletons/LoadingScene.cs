@@ -13,6 +13,11 @@ public class LoadingScene : MonoBehaviour
 
     Coroutine loadSceneRoutine;
 
+    private void Start()
+    {
+        loadingScreen.SetActive(false);
+    }
+
     public void LoadScene (string sceneName)
     {
         if (loadSceneRoutine == null)
