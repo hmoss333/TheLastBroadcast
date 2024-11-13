@@ -53,12 +53,12 @@ public class TriggerSceneChange : MonoBehaviour
 
     IEnumerator LoadScene(string sceneToLoad)
     {
+        yield return new WaitForSeconds(transitionDelay);
+
         FadeController.instance.StartFade(1.0f, fadeTime);
 
         while (FadeController.instance.isFading)
             yield return null;
-
-        yield return new WaitForSeconds(transitionDelay);
 
         targetVolume = 0;
 
