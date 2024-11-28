@@ -48,7 +48,6 @@ public class PlayerController : CharacterController
     [SerializeField] private GameObject gasMaskOverlay;
     [SerializeField] private MeleeController melee;
     [SerializeField] private int damage;
-    private InputControlScheme controlScheme;
 
 
     private void Awake()
@@ -83,26 +82,31 @@ public class PlayerController : CharacterController
         Ray ray2 = new Ray(transform.position, lastDir2);
         RaycastHit hit, hit1, hit2;
 
-        if (state == States.radio || state == States.attacking || state == States.listening || state == States.wakeUp || state == States.stunned
-            || abilityState == AbilityStates.invisible || abilityState == AbilityStates.isRat)
+        if (state != States.interacting)
+            //Retain interactObj reference during interact state in case user has angled themselves so that the raycasts do not see the selected object
+            //This would previously cause the game to hang so the system would not 'see' the selected object to exit the interact state
         {
-            interactObj = null;
-        }
-        else if (Physics.Raycast(ray, out hit, checkDist, layer))
-        {
-            interactObj = hit.transform.gameObject.GetComponent<InteractObject>();
-        }
-        else if (Physics.Raycast(ray1, out hit1, checkDist, layer))
-        {
-            interactObj = hit1.transform.gameObject.GetComponent<InteractObject>();
-        }
-        else if (Physics.Raycast(ray2, out hit2, checkDist, layer))
-        {
-            interactObj = hit2.transform.gameObject.GetComponent<InteractObject>();
-        }
-        else
-        {
-            interactObj = null;
+            if (state == States.radio || state == States.attacking || state == States.listening || state == States.wakeUp || state == States.stunned
+                || abilityState == AbilityStates.invisible || abilityState == AbilityStates.isRat)
+            {
+                interactObj = null;
+            }
+            else if (Physics.Raycast(ray, out hit, checkDist, layer))
+            {
+                interactObj = hit.transform.gameObject.GetComponent<InteractObject>();
+            }
+            else if (Physics.Raycast(ray1, out hit1, checkDist, layer))
+            {
+                interactObj = hit1.transform.gameObject.GetComponent<InteractObject>();
+            }
+            else if (Physics.Raycast(ray2, out hit2, checkDist, layer))
+            {
+                interactObj = hit2.transform.gameObject.GetComponent<InteractObject>();
+            }
+            else
+            {
+                interactObj = null;
+            }
         }
 
         interactIcon.UpdateIcon(state == States.interacting, interactObj);
