@@ -20,7 +20,7 @@ public class TriggerPoisonFog : SaveObject
                 && InventoryController.instance.selectedItem.itemInstance.itemName.ToLower() == ("gasmask");
 
             if (!gasmask)
-                other.GetComponent<Health>().Hurt(damage, false);
+                other.GetComponent<Health>().Hurt(damage, true);
         }
     }
 }
