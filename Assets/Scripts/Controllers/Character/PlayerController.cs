@@ -266,6 +266,11 @@ public class PlayerController : CharacterController
                 break;
             case States.hurt:
                 RadioController.instance.SetActive(false);
+                if (!isPlaying("Hurt"))
+                {
+                    print("End hurt animation");
+                    SetState(States.idle);
+                }
                 break;
             case States.dead:
                 CamEffectController.instance.ForceEffect();
