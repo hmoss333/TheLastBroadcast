@@ -42,7 +42,7 @@ public class InteractIcon_Controller : MonoBehaviour
             //Update icon based on interactObject
             if (!interactObject.active)
             {
-                if (interactObject.needItem)
+                if (interactObject.needItem || interactObject.GetComponent<DoorController>())
                 {
                     if (SaveDataController.instance.saveData.inventory.Exists(x => x.id == interactObject.inventoryItemID))
                         icon.sprite = unlockedIcon;
