@@ -7,8 +7,10 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Health))]
 public class ZombieController : CharacterController
 {
+    [SerializeField] List<GameObject> hitObjects;
+
     //[Header("Zombie Interact Variables")]
-    public enum ZombieState { asleep, idle, following, attacking, stunned, hurt, dead }
+    public enum ZombieState { asleep, sitting, idle, following, attacking, stunned, hurt, dead }
     [SerializeField] ZombieState zombieState;
 
     [Header("Health Values")]
@@ -54,9 +56,9 @@ public class ZombieController : CharacterController
 
     public void FixedUpdate()
     {
-        col.enabled = zombieState != ZombieState.asleep && zombieState != ZombieState.dead;
-        rb.useGravity = zombieState != ZombieState.asleep && zombieState != ZombieState.dead;
-        rb.isKinematic = zombieState == ZombieState.asleep || zombieState == ZombieState.dead;
+        col.enabled = zombieState != ZombieState.asleep && zombieState != ZombieState.sitting && zombieState != ZombieState.dead;
+        rb.useGravity = zombieState != ZombieState.asleep && zombieState != ZombieState.sitting && zombieState != ZombieState.dead;
+        rb.isKinematic = zombieState == ZombieState.asleep || zombieState == ZombieState.sitting || zombieState == ZombieState.dead;
         dist = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
 
         switch (zombieState)
@@ -66,6 +68,16 @@ public class ZombieController : CharacterController
                 {
                     animator.SetBool("wakeUp", true);
                     if (!isPlaying("Wake Up"))
+                    {
+                        SetState(ZombieState.idle);
+                    }
+                }
+                break;
+            case ZombieState.sitting:
+                if (wakeUp)
+                {
+                    //animator.SetBool("isSitting", false);
+                    if (!isPlaying("Sitting"))
                     {
                         SetState(ZombieState.idle);
                     }
@@ -129,7 +141,7 @@ public class ZombieController : CharacterController
                 break;
         }
 
-        if (zombieState == ZombieState.asleep || isPlaying("WakeUp") || stunned) //|| PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible
+        if (zombieState == ZombieState.asleep || zombieState == ZombieState.sitting || isPlaying("WakeUp") || stunned) //|| PlayerController.instance.abilityState == PlayerController.AbilityStates.invisible
         {
             seePlayer = false;
         }
@@ -138,11 +150,11 @@ public class ZombieController : CharacterController
             RaycastHit[] hits;
             Vector3 forwardDir = PlayerController.instance.transform.position - transform.position;
             float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
-            hits = Physics.RaycastAll(transform.position, forwardDir, distanceToPlayer, layer);
+            hits = Physics.RaycastAll(transform.position, forwardDir, seeDist, layer);
 
             if (dist <= seeDist || (seePlayer && dist <= loseDist))
             {
-                if (hits.Length > 0 && hits[0].collider.gameObject.CompareTag("Player"))
+                if (hits.Length > 0 && hits[hits.Length - 1].collider.gameObject.CompareTag("Player"))
                 {
                     if (!seePlayer)
                     {
@@ -216,6 +228,7 @@ public class ZombieController : CharacterController
         animator.SetBool("isStunning", stunned);
         animator.SetBool("isAttacking", attacking);
         animator.SetBool("isAsleep", zombieState == ZombieState.asleep && !wakeUp);
+        animator.SetBool("isSitting", zombieState == ZombieState.sitting && !wakeUp);
         melee.gameObject.SetActive(isPlaying("Melee"));
     }
 
